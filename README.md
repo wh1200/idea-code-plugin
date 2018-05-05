@@ -27,3 +27,26 @@
 - .vue文件在格式化的时候，模板中的标签属性会重新进行排序，且每个属性占一行
 - .vue文件在格式化的时候，模板中的标签属性以v-或:开头，对属性值进行格式化
 - .vue文件中模板部分（template标签部分）的长度不得超过150行，超过时请进行组件拆分
+
+
+## 构建
+
+复制项目代码到本地，使用idea打开项目，配置IntelliJ Platform Plugin SDK，并在SDK的Classpath配置中增加以下内容：
+/Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/lib/javascript-openapi.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/Kotlin/lib/kotlin-plugin.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/Spring/lib/spring.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/SpringBoot/lib/spring-boot.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/SpringSecurity/lib/SpringSecurity.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/SpringMvc/lib/spring-mvc-api.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/SpringMvc/lib/SpringMvc.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/SpringBoot/lib/spring-boot-cloud.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/SpringBoot/lib/spring-boot-config-yaml.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/SpringBoot/lib/spring-boot-initializr.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/SpringBoot/lib/spring-boot-mvc.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/SpringBoot/lib/spring-boot-run.jar
+/Users/wuhao/Library/Application Support/IntelliJIdea2018.1/vuejs/lib/vuejs.jar
+/Applications/IntelliJ IDEA.app/Contents/plugins/yaml/lib/yaml.jar
+然后选择 Build - Prepare Plugin Module For Deployment，构建完成之后在项目目录下会生成zip文件，该文件即为idea插件的安装文件
+### Spring相关选择
+### Spring相关

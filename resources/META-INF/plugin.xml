@@ -1,0 +1,73 @@
+<!--
+  ~ ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
+  -->
+
+<idea-plugin>
+  <id>com.wuhao.code.check</id>
+  <name>Aegis Code Check Plugin</name>
+  <version>1.2.0</version>
+  <vendor email="wuhao@aegis-data.cn"/>
+
+  <description><![CDATA[
+      擎盾代码检查插件.<br>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      第一个版本<br>
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="145.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <completion.contributor implementationClass="com.wuhao.code.check.completion.CodeCompletion"
+                            language="JSON" order="FIRST"/>
+    <completion.contributor implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
+                            language="JAVA" order="FIRST"/>
+    <completion.contributor implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
+                            language="kotlin" order="FIRST"/>
+    <inspectionToolProvider id="aegis.code.check.inspection"
+                            order="FIRST"
+                            implementation="com.wuhao.code.check.inspection.CheckProvider"/>
+    <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
+    <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyGotoDeclarationHandler2"/>
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.ReorderVueAttributesProcessor"
+                         id="RerangeVueAttributesProcessor" order="first"/>
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueAttributesProcessor"
+                         id="FixVueAttributesProcessor" order="after RerangeVueAttributesProcessor"/>
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueTemplateExpressionProcessor"
+                         id="FixVueTemplateExpressionProcessor" order="first"/>
+    <gutterMarkPreprocessor implementation="com.wuhao.code.check.processors.MyBatisGutterProcessor"/>
+    <codeInsight.lineMarkerProvider implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"
+                                    id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>
+    <codeInsight.lineMarkerProvider implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"
+                                    id="MybatisMapperClassLineMarkerProviderKotlin" language="kotlin"/>
+    <codeInsight.lineMarkerProvider implementationClass="com.wuhao.code.check.processors.MybatisMapperFileLineMarkerProvider"
+                                    id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
+    <applicationConfigurable
+        instance="com.wuhao.code.check.ui.AegisPluginSettingsConfigurable"/>
+    <applicationService
+        serviceImplementation="com.wuhao.code.check.ui.PluginSettings"/>
+  </extensions>
+
+  <actions>
+    <action id="CreateVueProject" class="com.wuhao.code.check.action.CreateVueProjectAction" text="Aegis Vue Project"
+            description="新建Vue项目">
+      <add-to-group group-id="NewGroup" anchor="first"/>
+    </action>
+  </actions>
+
+  <application-components/>
+  <depends>org.jetbrains.kotlin</depends>
+  <depends>com.intellij.modules.json</depends>
+  <depends>com.intellij.spring</depends>
+  <depends>com.intellij.spring.boot</depends>
+  <depends>org.jetbrains.plugins.vue</depends>
+</idea-plugin>

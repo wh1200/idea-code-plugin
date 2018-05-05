@@ -1,0 +1,31 @@
+/*
+ * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
+ */
+
+package com.wuhao.code.check.inspection
+
+import com.intellij.codeInsight.daemon.GroupNames
+import com.intellij.codeInspection.LocalInspectionTool
+
+/**
+ * Created by 吴昊 on 2017/7/19.
+ */
+abstract class BaseInspection(private val display: String, private val short: String) : LocalInspectionTool() {
+
+  override fun getDisplayName(): String {
+    return display
+  }
+
+  override fun getShortName(): String {
+    return short
+  }
+
+  override fun isEnabledByDefault(): Boolean {
+    return true
+  }
+
+  override fun getGroupDisplayName(): String {
+    return GroupNames.ERROR_HANDLING_GROUP_NAME
+  }
+
+}

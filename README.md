@@ -48,5 +48,4 @@
 /Users/wuhao/Library/Application Support/IntelliJIdea2018.1/vuejs/lib/vuejs.jar
 /Applications/IntelliJ IDEA.app/Contents/plugins/yaml/lib/yaml.jar
 然后选择 Build - Prepare Plugin Module For Deployment，构建完成之后在项目目录下会生成zip文件，该文件即为idea插件的安装文件
-### Spring相关选择
-### Spring相关
+

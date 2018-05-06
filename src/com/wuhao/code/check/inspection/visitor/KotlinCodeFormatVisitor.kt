@@ -11,8 +11,14 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
+import com.wuhao.code.check.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
+import com.wuhao.code.check.DEFAULT_INDENT_SPACE_COUNT
+import com.wuhao.code.check.hasDocComment
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.KotlinCommentQuickFix
+import com.wuhao.code.check.isFirstLevelProperty
+import org.jetbrains.kotlin.idea.KotlinFileType
+import org.jetbrains.kotlin.idea.core.formatter.KotlinCodeStyleSettings
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.lexer.KtKeywordToken
@@ -29,16 +35,31 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
 
   private val javaOrKotlinCodeFormatVisitor = JavaOrKotlinCodeFormatVisitor(holder)
 
+
   override fun visitElement(element: PsiElement) {
     javaOrKotlinCodeFormatVisitor.visitElement(element)
     when (element) {
+      is KtFile -> {
+        val styleContainer = KotlinCodeStyleSettings.getInstance(element.project)
+            .container
+        val indent = styleContainer.getIndentSize(KotlinFileType.INSTANCE)
+        val continuationIndent = styleContainer.getContinuationIndentSize(KotlinFileType.INSTANCE)
+        if (indent != DEFAULT_INDENT_SPACE_COUNT) {
+          holder.registerProblem(element, "kt文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
+              ProblemHighlightType.ERROR)
+        }
+        if (continuationIndent != DEFAULT_CONTINUATION_INDENT_SPACE_COUNT) {
+          holder.registerProblem(element, "kt文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格",
+              ProblemHighlightType.ERROR)
+        }
+      }
       is KtClass -> {
         // class必须添加注释
         classCommentChecker.checkKotlin(element)
       }
       is KtProperty -> {
         // 一等属性(非private)必须添加注释
-        if (element.parent is KtFile && element.firstChild !is KDoc
+        if (element.isFirstLevelProperty() && !element.hasDocComment()
             && !element.hasModifier(KtTokens.PRIVATE_KEYWORD)) {
           holder.registerProblem(element, "一等属性必须添加注释", ProblemHighlightType.GENERIC_ERROR, KotlinCommentQuickFix())
         }

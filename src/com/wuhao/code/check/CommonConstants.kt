@@ -27,4 +27,12 @@ const val RESOURCES_PATH = "$BASE_PATH/resources"
  * mybatis的mapper文件存放路径
  */
 const val MAPPER_RELATIVE_PATH = "$RESOURCES_PATH/mapper"
+/**
+ * 默认缩进空格数
+ */
+const val DEFAULT_INDENT_SPACE_COUNT = 2
+/**
+ * 默认持续缩进空格数
+ */
+const val DEFAULT_CONTINUATION_INDENT_SPACE_COUNT = DEFAULT_INDENT_SPACE_COUNT * 2
 

@@ -28,13 +28,14 @@ class PluginSettings : PersistentStateComponent<Element> {
       return if (field.isEmpty()) DEFAULT_VUE_TEMPLATE_URL else field
     }
   var reactTemplateUrl: String = ""
-  var javaTemplateUrl: String = ""
-  var kotlinTemplateUrl: String = ""
   var javaKotlinTemplateUrl: String = ""
 
   override fun getState(): Element? {
     val element = Element(CONFIG_NAME)
     element.setAttribute(GIT_PRIVATE_TOKEN, gitPrivateToken)
+    element.setAttribute(VUE_TEMPLATE_URL, vueTemplateUrl)
+    element.setAttribute(REACT_TEMPLATE_URL, reactTemplateUrl)
+    element.setAttribute(JAVA_KOTLIN_TEMPLATE_URL, javaKotlinTemplateUrl)
     return element
   }
 
@@ -42,12 +43,24 @@ class PluginSettings : PersistentStateComponent<Element> {
     if (state.getAttributeValue(GIT_PRIVATE_TOKEN) != null) {
       this.gitPrivateToken = state.getAttributeValue(GIT_PRIVATE_TOKEN)
     }
+    if (state.getAttributeValue(VUE_TEMPLATE_URL) != null) {
+      this.vueTemplateUrl = state.getAttributeValue(VUE_TEMPLATE_URL)
+    }
+    if (state.getAttributeValue(REACT_TEMPLATE_URL) != null) {
+      this.reactTemplateUrl = state.getAttributeValue(REACT_TEMPLATE_URL)
+    }
+    if (state.getAttributeValue(JAVA_KOTLIN_TEMPLATE_URL) != null) {
+      this.javaKotlinTemplateUrl = state.getAttributeValue(JAVA_KOTLIN_TEMPLATE_URL)
+    }
   }
 
 
   companion object {
     const val CONFIG_NAME = "AegisSettings"
     const val GIT_PRIVATE_TOKEN = "GitPrivateToken"
+    const val VUE_TEMPLATE_URL = "VueTemplateUrl"
+    const val REACT_TEMPLATE_URL = "ReactTemplateUrl"
+    const val JAVA_KOTLIN_TEMPLATE_URL = "JavaKotlinTemplateUrl"
     val instance: PluginSettings
       get() = ServiceManager.getService(PluginSettings::class.java) as PluginSettings
   }

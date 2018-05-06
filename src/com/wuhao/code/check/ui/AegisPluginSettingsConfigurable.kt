@@ -23,8 +23,6 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
         || this.pluginSettings.vueTemplateUrl != aegisPluginSettings?.gitPrivateTokenInput?.text
         || this.pluginSettings.reactTemplateUrl != aegisPluginSettings?.reactTemplateUrlInput?.text
         || this.pluginSettings.javaKotlinTemplateUrl != aegisPluginSettings?.javaKotlinTemplateUrlInput?.text
-        || this.pluginSettings.javaTemplateUrl != aegisPluginSettings?.javaTemplateUrlInput?.text
-        || this.pluginSettings.kotlinTemplateUrl != aegisPluginSettings?.kotlinTemplateUrlInput?.text
   }
 
   override fun getId(): String {
@@ -38,8 +36,6 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
   override fun apply() {
     aegisPluginSettings?.let {
       pluginSettings.javaKotlinTemplateUrl = it.javaKotlinTemplateUrlInput.text
-      pluginSettings.kotlinTemplateUrl = it.kotlinTemplateUrlInput.text
-      pluginSettings.javaTemplateUrl = it.javaTemplateUrlInput.text
       pluginSettings.reactTemplateUrl = it.reactTemplateUrlInput.text
       pluginSettings.gitPrivateToken = it.gitPrivateTokenInput.text
       pluginSettings.vueTemplateUrl = it.vueTemplateUrlInput.text
@@ -54,8 +50,6 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
       it.gitPrivateTokenInput.text = pluginSettings.gitPrivateToken
       it.vueTemplateUrlInput.text = pluginSettings.vueTemplateUrl
       it.reactTemplateUrlInput.text = pluginSettings.reactTemplateUrl
-      it.javaTemplateUrlInput.text = pluginSettings.javaTemplateUrl
-      it.kotlinTemplateUrlInput.text = pluginSettings.kotlinTemplateUrl
       it.javaKotlinTemplateUrlInput.text = pluginSettings.javaKotlinTemplateUrl
     }
     return aegisPluginSettings?.mainPanel

@@ -4,6 +4,7 @@
 
 package com.wuhao.code.check.ui;
 
+import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -14,22 +15,23 @@ import javax.swing.JTextField;
  */
 public class AegisPluginSettings {
 
-  public JPanel      mainPanel;
-  public JPanel      settingsPanel;
+  public JPanel     mainPanel;
+  private JPanel     settingsPanel;
   public JTextField gitPrivateTokenInput;
   public JTextField vueTemplateUrlInput;
   public JTextField reactTemplateUrlInput;
-  public JTextField javaTemplateUrlInput;
-  public JTextField kotlinTemplateUrlInput;
   public JTextField javaKotlinTemplateUrlInput;
-  public JLabel     gitPrivateTokenLabel;
-  public JLabel     vueTemplateUrlLabel;
-  public JLabel     reactTemplateUrlLabel;
-  public JLabel     javaTemplateUrlLabel;
-  public JLabel     javaKotlinTemplateUrlLabel;
-  public JLabel     kotlinTemplateUrlLabel;
+  private JLabel     gitPrivateTokenLabel;
+  private JLabel     vueTemplateUrlLabel;
+  private JLabel     reactTemplateUrlLabel;
+  private JLabel     javaKotlinTemplateUrlLabel;
 
-//  private void createUIComponents() {
-//    gitPrivateTokenLabel.setSize(20,100);
-//  }
+  public AegisPluginSettings() {
+    int width = 200;
+    gitPrivateTokenLabel.setPreferredSize(new Dimension(width, -1));
+    javaKotlinTemplateUrlLabel.setPreferredSize(new Dimension(width, -1));
+    reactTemplateUrlLabel.setPreferredSize(new Dimension(width, -1));
+    vueTemplateUrlLabel.setPreferredSize(new Dimension(width, -1));
+  }
+
 }

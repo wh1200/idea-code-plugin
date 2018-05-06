@@ -4,6 +4,10 @@
 
 package com.wuhao.code.check
 
+import com.intellij.psi.PsiElement
+import com.intellij.psi.impl.PsiElementFactoryImpl
+import com.intellij.psi.impl.PsiManagerEx
+
 /**
  * 默认的vue项目模板git地址
  */
@@ -36,3 +40,12 @@ const val DEFAULT_INDENT_SPACE_COUNT = 2
  */
 const val DEFAULT_CONTINUATION_INDENT_SPACE_COUNT = DEFAULT_INDENT_SPACE_COUNT * 2
 
+
+/**
+ * 获取java psi元素的工厂类
+ * @param element psi元素
+ * @return
+ */
+fun getPsiElementFactory(element: PsiElement): PsiElementFactoryImpl {
+  return PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(element.project))
+}

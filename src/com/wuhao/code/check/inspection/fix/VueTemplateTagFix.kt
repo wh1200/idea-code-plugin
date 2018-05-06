@@ -12,7 +12,7 @@ import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.ancestors
-import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor
+import com.wuhao.code.check.inspection.visitor.BaseCodeFormatVisitor
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
 /**
@@ -85,23 +85,23 @@ class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : Loca
           -1
         } else if (attr2.value == null) {
           1
-        } else if (nameList.any { it.startsWith(VueCodeFormatVisitor.DIRECTIVE_PREFIX) }) {
-          comparePrefix(nameList, VueCodeFormatVisitor.DIRECTIVE_PREFIX)
+        } else if (nameList.any { it.startsWith(BaseCodeFormatVisitor.DIRECTIVE_PREFIX) }) {
+          comparePrefix(nameList, BaseCodeFormatVisitor.DIRECTIVE_PREFIX)
         } else if (nameList.any {
-              !it.startsWith(VueCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !it.startsWith(VueCodeFormatVisitor.ACTION_PREFIX)
+              !it.startsWith(BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !it.startsWith(BaseCodeFormatVisitor.ACTION_PREFIX)
             }) {
-          if (!name1.startsWith(VueCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name1.startsWith(VueCodeFormatVisitor.ACTION_PREFIX)
-              && !name2.startsWith(VueCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name2.startsWith(VueCodeFormatVisitor.ACTION_PREFIX)) {
+          if (!name1.startsWith(BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name1.startsWith(BaseCodeFormatVisitor.ACTION_PREFIX)
+              && !name2.startsWith(BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name2.startsWith(BaseCodeFormatVisitor.ACTION_PREFIX)) {
             name1.compareTo(name2)
-          } else if (!name1.startsWith(VueCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name1.startsWith(VueCodeFormatVisitor.ACTION_PREFIX)) {
+          } else if (!name1.startsWith(BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name1.startsWith(BaseCodeFormatVisitor.ACTION_PREFIX)) {
             -1
           } else {
             1
           }
-        } else if (nameList.any { it.startsWith(VueCodeFormatVisitor.CUSTOM_ATTR_PREFIX) }) {
-          comparePrefix(nameList, VueCodeFormatVisitor.CUSTOM_ATTR_PREFIX)
-        } else if (nameList.any { it.startsWith(VueCodeFormatVisitor.ACTION_PREFIX) }) {
-          comparePrefix(nameList, VueCodeFormatVisitor.ACTION_PREFIX)
+        } else if (nameList.any { it.startsWith(BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX) }) {
+          comparePrefix(nameList, BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX)
+        } else if (nameList.any { it.startsWith(BaseCodeFormatVisitor.ACTION_PREFIX) }) {
+          comparePrefix(nameList, BaseCodeFormatVisitor.ACTION_PREFIX)
         } else {
           0
         }

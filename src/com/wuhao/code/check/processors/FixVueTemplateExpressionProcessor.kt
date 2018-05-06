@@ -15,12 +15,12 @@ import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlTag
+import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.RecursiveVisitor
 import com.wuhao.code.check.insertAfter
 import com.wuhao.code.check.insertBefore
-import com.wuhao.code.check.inspection.CodeFormatVisitor
-import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor.Companion.CUSTOM_ATTR_PREFIX
-import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor.Companion.DIRECTIVE_PREFIX
+import com.wuhao.code.check.inspection.visitor.BaseCodeFormatVisitor.Companion.CUSTOM_ATTR_PREFIX
+import com.wuhao.code.check.inspection.visitor.BaseCodeFormatVisitor.Companion.DIRECTIVE_PREFIX
 import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
@@ -36,7 +36,7 @@ class FixVueTemplateExpressionProcessor : PostFormatProcessor {
   }
 
   override fun processText(file: PsiFile, textRange: TextRange, styleSettings: CodeStyleSettings): TextRange {
-    if (file is HtmlFileImpl && file.language.displayName == CodeFormatVisitor.VUE_LANGUAGE) {
+    if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
         processElements(arrayOf(templateTag))

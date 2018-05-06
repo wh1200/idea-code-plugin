@@ -11,7 +11,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.intellij.psi.xml.XmlTag
-import com.wuhao.code.check.inspection.CodeFormatVisitor
+import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.inspection.fix.VueTemplateTagFix
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
@@ -23,7 +23,7 @@ import org.jetbrains.kotlin.psi.psiUtil.endOffset
 class FixVueAttributesProcessor : PostFormatProcessor {
 
   override fun processElement(el: PsiElement, styleSettings: CodeStyleSettings): PsiElement {
-    if (el.language.displayName == CodeFormatVisitor.VUE_LANGUAGE) {
+    if (el.language.displayName == LanguageNames.vue) {
       if (el is XmlTag) {
         VueTemplateTagFix.fixElement(el)
       }
@@ -32,7 +32,7 @@ class FixVueAttributesProcessor : PostFormatProcessor {
   }
 
   override fun processText(file: PsiFile, textRange: TextRange, styleSettings: CodeStyleSettings): TextRange {
-    if (file is HtmlFileImpl && file.language.displayName == CodeFormatVisitor.VUE_LANGUAGE) {
+    if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
         processElements(arrayOf(templateTag))

@@ -4,31 +4,48 @@
 
 package com.wuhao.code.check.inspection.checker
 
-import com.intellij.codeInspection.ProblemHighlightType
+import com.intellij.codeInspection.LocalQuickFix
+import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiElement
 import com.intellij.psi.javadoc.PsiDocComment
+import com.wuhao.code.check.Messages.classCommentRequired
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
 import com.wuhao.code.check.inspection.fix.KotlinCommentQuickFix
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtEnumEntry
+import org.jetbrains.kotlin.psi.KtObjectDeclaration
 
 /**
  * Created by 吴昊 on 18-4-26.
  */
 class ClassCommentChecker(holder: ProblemsHolder) : BaseChecker(holder) {
 
-
   fun checkJava(element: PsiClass) {
     if (element.firstChild == null || element.firstChild !is PsiDocComment) {
-      holder.registerProblem(element, "缺少类注释", ProblemHighlightType.GENERIC_ERROR, JavaBlockCommentFix())
+      registerProblem(element, JavaBlockCommentFix())
     }
+  }
+
+  private fun registerProblem(element: PsiElement, fix: LocalQuickFix) {
+    holder.registerProblem(element, classCommentRequired, ERROR, fix)
   }
 
   fun checkKotlin(element: KtClass) {
-    if (element.firstChild == null || element.firstChild !is KDoc) {
-      holder.registerProblem(element, "缺少类注释", ProblemHighlightType.GENERIC_ERROR, KotlinCommentQuickFix())
+    if (element !is KtEnumEntry) {
+      checkKotlinClassComment(element)
     }
   }
 
+  fun checkKotlin(element: KtObjectDeclaration) {
+    checkKotlinClassComment(element)
+  }
+
+  private fun checkKotlinClassComment(element: PsiElement) {
+    if (element.firstChild == null || element.firstChild !is KDoc) {
+      registerProblem(element, KotlinCommentQuickFix())
+    }
+  }
 }

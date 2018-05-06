@@ -8,14 +8,15 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.ide.highlighter.JavaFileType
+import com.intellij.lang.Language
+import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.jvm.JvmModifier
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.PsiPrimitiveType.*
-import com.intellij.psi.impl.PsiElementFactoryImpl
-import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.psi.javadoc.PsiDocComment
+import com.wuhao.code.check.Messages
+import com.wuhao.code.check.getPsiElementFactory
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.ExtractToVariableFix
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
@@ -27,23 +28,20 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
  */
 class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
 
-  private val javaOrKotlinCodeFormatVisitor = JavaOrKotlinCodeFormatVisitor(holder)
+  override fun support(language: Language): Boolean {
+    return language == JavaLanguage.INSTANCE
+  }
 
   override fun visitElement(element: PsiElement) {
-    javaOrKotlinCodeFormatVisitor.visitElement(element)
     when (element) {
-      is PsiFile -> {
-        checkIndent(element, JavaFileType.INSTANCE)
-      }
       is PsiClass -> {
-        // 类必须添加注释
-        classCommentChecker.checkJava(element)
         if (element.annotations.any { it.qualifiedName == "Entity" || it.qualifiedName == "Table" }) {
           element.fields.filter {
             !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
                 && it.firstChild !is PsiDocComment
           }.forEach { fieldElement ->
-            holder.registerProblem(fieldElement, "必须添加注释", ProblemHighlightType.GENERIC_ERROR, JavaBlockCommentFix())
+            holder.registerProblem(fieldElement, Messages.commentRequired, ProblemHighlightType.GENERIC_ERROR,
+                JavaBlockCommentFix())
           }
         }
       }
@@ -77,7 +75,7 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
 
             override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
               val el = descriptor.endElement
-              val factory = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(element.project))
+              val factory = getPsiElementFactory(element)
               if (el.firstChild is PsiReferenceExpression) {
                 if (el.firstChild.text.startsWith("System.out.print")) {
                   el.firstChild.replace(factory.createExpressionFromText("LOG.info", null))
@@ -97,7 +95,8 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
         // 接口方法必须包含注释
         val elClass = element.containingClass
         if (elClass != null && elClass.isInterface && element.firstChild !is PsiDocComment) {
-          holder.registerProblem(element, "必须添加注释", ProblemHighlightType.GENERIC_ERROR, JavaBlockCommentFix())
+          holder.registerProblem(element, Messages.commentRequired, ProblemHighlightType.GENERIC_ERROR,
+              JavaBlockCommentFix())
         }
       }
     }

@@ -12,6 +12,7 @@ import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiPrimitiveType
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
+import com.wuhao.code.check.ui.PluginSettings
 
 /**
  * Created by 吴昊 on 18-4-26.
@@ -54,6 +55,7 @@ class JavaBlockCommentFix : LocalQuickFix {
 """
     const val BLOCK_COMMENT_END = "*/"
     const val BLOCK_COMMENT_STRING = BLOCK_COMMENT_START + BLOCK_COMMENT_END
-    const val CLASS_COMMENT = "$BLOCK_COMMENT_START* @author \n* @since \n$BLOCK_COMMENT_END"
+    val CLASS_COMMENT = "$BLOCK_COMMENT_START* @author ${PluginSettings.instance.user} \n* @since " +
+        "\n$BLOCK_COMMENT_END"
   }
 }

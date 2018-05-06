@@ -6,10 +6,12 @@ package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.lang.javascript.JavaScriptFileType
+import com.intellij.lang.Language
+import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.lang.javascript.psi.impl.JSObjectLiteralExpressionImpl
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.inspection.fix.FileNameFix
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
 
@@ -18,10 +20,14 @@ import com.wuhao.code.check.inspection.fix.JsPropertySortFix
  */
 open class JavaScriptCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
 
+  override fun support(language: Language): Boolean {
+    return language == JavascriptLanguage.INSTANCE
+        || language.displayName == LanguageNames.ecma6
+  }
+
   override fun visitElement(element: PsiElement) {
     when (element) {
       is PsiFile -> {
-        checkIndent(element, JavaScriptFileType.INSTANCE)
         checkFileName(element)
       }
       is JSObjectLiteralExpressionImpl -> remindReorderProperties(element)

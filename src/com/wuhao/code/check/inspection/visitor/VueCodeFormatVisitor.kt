@@ -5,24 +5,23 @@
 package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.lang.Language
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
+import com.wuhao.code.check.LanguageNames
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
-import org.jetbrains.vuejs.VueFileType
 
 /**
  * Created by 吴昊 on 18-4-26.
  */
 open class VueCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
 
+  override fun support(language: Language): Boolean {
+    return language.displayName == LanguageNames.vue
+  }
+
   override fun visitElement(element: PsiElement) {
-    when (element) {
-      is PsiFile -> {
-        checkIndent(element, VueFileType.INSTANCE)
-      }
-    }
     checkFileLength(element)
   }
 
@@ -43,13 +42,6 @@ open class VueCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(
       } else {
       }
     }
-  }
-
-  companion object {
-    const val MAX_TEMPLATE_LINES = 150
-    const val DIRECTIVE_PREFIX = "v-"
-    const val ACTION_PREFIX = "@"
-    const val CUSTOM_ATTR_PREFIX = ":"
   }
 }
 

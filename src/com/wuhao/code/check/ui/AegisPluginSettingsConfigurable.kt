@@ -16,13 +16,14 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
 
 
   private var aegisPluginSettings: AegisPluginSettings? = null
-  private var pluginSettings = PluginSettings.instance
+  private var settings = PluginSettings.instance
 
   override fun isModified(): Boolean {
-    return this.pluginSettings.gitPrivateToken != aegisPluginSettings?.gitPrivateTokenInput?.text
-        || this.pluginSettings.vueTemplateUrl != aegisPluginSettings?.gitPrivateTokenInput?.text
-        || this.pluginSettings.reactTemplateUrl != aegisPluginSettings?.reactTemplateUrlInput?.text
-        || this.pluginSettings.javaKotlinTemplateUrl != aegisPluginSettings?.javaKotlinTemplateUrlInput?.text
+    return settings.gitPrivateToken != aegisPluginSettings?.gitPrivateTokenInput?.text
+        || settings.vueTemplateUrl != aegisPluginSettings?.gitPrivateTokenInput?.text
+        || settings.reactTemplateUrl != aegisPluginSettings?.reactTemplateUrlInput?.text
+        || settings.user == aegisPluginSettings?.userInput?.text
+        || settings.javaKotlinTemplateUrl != aegisPluginSettings?.javaKotlinTemplateUrlInput?.text
   }
 
   override fun getId(): String {
@@ -35,10 +36,12 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
 
   override fun apply() {
     aegisPluginSettings?.let {
-      pluginSettings.javaKotlinTemplateUrl = it.javaKotlinTemplateUrlInput.text
-      pluginSettings.reactTemplateUrl = it.reactTemplateUrlInput.text
-      pluginSettings.gitPrivateToken = it.gitPrivateTokenInput.text
-      pluginSettings.vueTemplateUrl = it.vueTemplateUrlInput.text
+      settings.javaKotlinTemplateUrl = it.javaKotlinTemplateUrlInput.text
+      settings.reactTemplateUrl = it.reactTemplateUrlInput.text
+      settings.gitPrivateToken = it.gitPrivateTokenInput.text
+      settings.vueTemplateUrl = it.vueTemplateUrlInput.text
+      settings.user = it.userInput.text
+      settings.email = it.emailInput.text
     }
   }
 
@@ -47,10 +50,12 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
       aegisPluginSettings = AegisPluginSettings()
     }
     aegisPluginSettings?.let {
-      it.gitPrivateTokenInput.text = pluginSettings.gitPrivateToken
-      it.vueTemplateUrlInput.text = pluginSettings.vueTemplateUrl
-      it.reactTemplateUrlInput.text = pluginSettings.reactTemplateUrl
-      it.javaKotlinTemplateUrlInput.text = pluginSettings.javaKotlinTemplateUrl
+      it.gitPrivateTokenInput.text = settings.gitPrivateToken
+      it.vueTemplateUrlInput.text = settings.vueTemplateUrl
+      it.reactTemplateUrlInput.text = settings.reactTemplateUrl
+      it.javaKotlinTemplateUrlInput.text = settings.javaKotlinTemplateUrl
+      it.userInput.text = settings.user
+      it.emailInput.text = settings.email
     }
     return aegisPluginSettings?.mainPanel
   }

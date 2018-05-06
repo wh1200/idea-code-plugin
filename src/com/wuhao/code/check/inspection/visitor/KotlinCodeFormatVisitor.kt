@@ -8,14 +8,16 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.lang.Language
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
+import com.wuhao.code.check.Messages
 import com.wuhao.code.check.hasDocComment
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.KotlinCommentQuickFix
 import com.wuhao.code.check.isFirstLevelProperty
-import org.jetbrains.kotlin.idea.KotlinFileType
+import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.lexer.KtKeywordToken
@@ -30,30 +32,24 @@ import java.util.logging.Logger
  */
 class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
 
-  private val javaOrKotlinCodeFormatVisitor = JavaOrKotlinCodeFormatVisitor(holder)
-
+  override fun support(language: Language): Boolean {
+    return language == KotlinLanguage.INSTANCE
+  }
 
   override fun visitElement(element: PsiElement) {
-    javaOrKotlinCodeFormatVisitor.visitElement(element)
     when (element) {
-      is KtFile -> {
-        checkIndent(element, KotlinFileType.INSTANCE)
-      }
-      is KtClass -> {
-        // class必须添加注释
-        classCommentChecker.checkKotlin(element)
-      }
       is KtProperty -> {
         // 一等属性(非private)必须添加注释
         if (element.isFirstLevelProperty() && !element.hasDocComment()
             && !element.hasModifier(KtTokens.PRIVATE_KEYWORD)) {
-          holder.registerProblem(element, "一等属性必须添加注释", ProblemHighlightType.GENERIC_ERROR, KotlinCommentQuickFix())
+          holder.registerProblem(element, Messages.commentRequired, ProblemHighlightType.GENERIC_ERROR,
+              KotlinCommentQuickFix())
         }
         // data类字段必须添加注释
         if (element.parent != null && element.parent is KtClassBody
             && element.containingClass()!!.isData()
             && element.firstChild !is KDoc) {
-          holder.registerProblem(element, "数据类字段必须添加注释", ProblemHighlightType.GENERIC_ERROR, KotlinCommentQuickFix())
+          holder.registerProblem(element, Messages.commentRequired, ProblemHighlightType.GENERIC_ERROR, KotlinCommentQuickFix())
         }
       }
       is KtFunction -> {

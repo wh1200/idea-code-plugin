@@ -11,6 +11,8 @@ import com.intellij.openapi.components.Storage
 import com.wuhao.code.check.DEFAULT_VUE_TEMPLATE_URL
 import com.wuhao.code.check.ui.PluginSettings.Companion.CONFIG_NAME
 import org.jdom.Element
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.javaField
 
 
 /**
@@ -29,38 +31,29 @@ class PluginSettings : PersistentStateComponent<Element> {
     }
   var reactTemplateUrl: String = ""
   var javaKotlinTemplateUrl: String = ""
+  var user: String = ""
+  var email: String = ""
 
   override fun getState(): Element? {
     val element = Element(CONFIG_NAME)
-    element.setAttribute(GIT_PRIVATE_TOKEN, gitPrivateToken)
-    element.setAttribute(VUE_TEMPLATE_URL, vueTemplateUrl)
-    element.setAttribute(REACT_TEMPLATE_URL, reactTemplateUrl)
-    element.setAttribute(JAVA_KOTLIN_TEMPLATE_URL, javaKotlinTemplateUrl)
+    PluginSettings::class.memberProperties.forEach { property ->
+      element.setAttribute(property.name, property.get(this) as String)
+    }
     return element
   }
 
   override fun loadState(state: Element) {
-    if (state.getAttributeValue(GIT_PRIVATE_TOKEN) != null) {
-      this.gitPrivateToken = state.getAttributeValue(GIT_PRIVATE_TOKEN)
-    }
-    if (state.getAttributeValue(VUE_TEMPLATE_URL) != null) {
-      this.vueTemplateUrl = state.getAttributeValue(VUE_TEMPLATE_URL)
-    }
-    if (state.getAttributeValue(REACT_TEMPLATE_URL) != null) {
-      this.reactTemplateUrl = state.getAttributeValue(REACT_TEMPLATE_URL)
-    }
-    if (state.getAttributeValue(JAVA_KOTLIN_TEMPLATE_URL) != null) {
-      this.javaKotlinTemplateUrl = state.getAttributeValue(JAVA_KOTLIN_TEMPLATE_URL)
+    PluginSettings::class.memberProperties.forEach { property ->
+      val value = state.getAttributeValue(property.name)
+      if (value != null) {
+        property.javaField?.set(this, value)
+      }
     }
   }
 
 
   companion object {
     const val CONFIG_NAME = "AegisSettings"
-    const val GIT_PRIVATE_TOKEN = "GitPrivateToken"
-    const val VUE_TEMPLATE_URL = "VueTemplateUrl"
-    const val REACT_TEMPLATE_URL = "ReactTemplateUrl"
-    const val JAVA_KOTLIN_TEMPLATE_URL = "JavaKotlinTemplateUrl"
     val instance: PluginSettings
       get() = ServiceManager.getService(PluginSettings::class.java) as PluginSettings
   }

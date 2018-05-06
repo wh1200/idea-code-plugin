@@ -15,6 +15,7 @@ import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix.Companion.BLOCK_C
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix.Companion.CLASS_COMMENT
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFunction
+import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
 /**
@@ -34,6 +35,7 @@ class KotlinCommentQuickFix : LocalQuickFix {
       val commentString =
           when (element) {
             is KtClass -> CLASS_COMMENT
+            is KtObjectDeclaration -> CLASS_COMMENT
             is KtFunction -> buildFunctionComment(element)
             else -> BLOCK_COMMENT_STRING
           }

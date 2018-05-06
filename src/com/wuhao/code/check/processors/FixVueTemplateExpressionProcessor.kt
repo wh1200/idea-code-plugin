@@ -17,8 +17,8 @@ import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.RecursiveVisitor
-import com.wuhao.code.check.insertAfter
-import com.wuhao.code.check.insertBefore
+import com.wuhao.code.check.insertElementAfter
+import com.wuhao.code.check.insertElementBefore
 import com.wuhao.code.check.inspection.visitor.BaseCodeFormatVisitor.Companion.CUSTOM_ATTR_PREFIX
 import com.wuhao.code.check.inspection.visitor.BaseCodeFormatVisitor.Companion.DIRECTIVE_PREFIX
 import org.jetbrains.kotlin.psi.KtPsiFactory
@@ -39,48 +39,43 @@ class FixVueTemplateExpressionProcessor : PostFormatProcessor {
     if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
-        processElements(arrayOf(templateTag))
+        object:RecursiveVisitor(templateTag){
+          override fun visit(element: PsiElement) {
+            val parent = element.parent
+            if (element.text != "\"" && element.text != "'" && parent is XmlAttributeValue) {
+              val attr = parent.parent
+              if (attr is XmlAttribute
+                  && (attr.name.startsWith(CUSTOM_ATTR_PREFIX)
+                      || attr.name.startsWith(DIRECTIVE_PREFIX))) {
+                val exp = JSElementFactory.createExpressionCodeFragment(element.project, element.text, null)
+                object : RecursiveVisitor(exp) {
+                  private val factory = KtPsiFactory(exp.project)
+                  override fun visit(element: PsiElement) {
+                    if (element.text in listOf("+", "-", "*", "/", "?", ":", ">", "<", "=", "!=", "===", "==", ">=", "<=", "||", "%",
+                            "&&", "&", "|")) {
+                      if (element.prevSibling !is PsiWhiteSpace) {
+                        element.insertElementBefore(factory.createWhiteSpace(" "))
+                      }
+                      if (element.nextSibling !is PsiWhiteSpace) {
+                        element.insertElementAfter(factory.createWhiteSpace(" "))
+                      }
+                    }
+                    if (element.text in listOf(",")) {
+                      if (element.nextSibling !is PsiWhiteSpace) {
+                        element.insertElementAfter(factory.createWhiteSpace(" "))
+                      }
+                    }
+                  }
+                }.run()
+                attr.value = exp.text
+              }
+            }
+          }
+        }.run()
       }
     }
     return TextRange(0, file.endOffset)
   }
 
-  private fun processElements(children: Array<out PsiElement>) {
-    children.forEach {
-      val parent = it.parent
-      if (it.text != "\"" && it.text != "'" && parent is XmlAttributeValue) {
-        val attr = parent.parent
-        if (attr is XmlAttribute
-            && (attr.name.startsWith(CUSTOM_ATTR_PREFIX)
-                || attr.name.startsWith(DIRECTIVE_PREFIX))) {
-          val exp = JSElementFactory.createExpressionCodeFragment(it.project, it.text, null)
-          object : RecursiveVisitor(exp) {
-            private val factory = KtPsiFactory(exp.project)
-            override fun visit(element: PsiElement) {
-              if (element.text in listOf("+", "-", "*", "/", "?", ":", ">", "<", "=", "!=", "===", "==", ">=", "<=", "||", "%",
-                      "&&", "&", "|")) {
-                if (element.prevSibling !is PsiWhiteSpace) {
-                  element.insertBefore(factory.createWhiteSpace(" "))
-                }
-                if (element.nextSibling !is PsiWhiteSpace) {
-                  element.insertAfter(factory.createWhiteSpace(" "))
-                }
-              }
-              if (element.text in listOf(",")) {
-                if (element.nextSibling !is PsiWhiteSpace) {
-                  element.insertAfter(factory.createWhiteSpace(" "))
-                }
-              }
-            }
-          }.run()
-          attr.value = exp.text
-        }
-      }
-
-      if (it.children.isNotEmpty()) {
-        processElements(it.children)
-      }
-    }
-  }
 }
 

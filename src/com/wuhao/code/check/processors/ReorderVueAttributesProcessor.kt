@@ -12,6 +12,7 @@ import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.LanguageNames
+import com.wuhao.code.check.RecursiveVisitor
 import com.wuhao.code.check.inspection.fix.VueTemplateTagFix
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
@@ -23,9 +24,6 @@ import org.jetbrains.kotlin.psi.psiUtil.endOffset
 class ReorderVueAttributesProcessor : PostFormatProcessor {
 
   override fun processElement(el: PsiElement, styleSettings: CodeStyleSettings): PsiElement {
-    if (el.language.displayName == LanguageNames.vue && el is XmlTag) {
-      VueTemplateTagFix.fixElement(el)
-    }
     return el
   }
 
@@ -33,21 +31,16 @@ class ReorderVueAttributesProcessor : PostFormatProcessor {
     if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
-        processElements(arrayOf(templateTag))
+        object:RecursiveVisitor(templateTag){
+          override fun visit(element: PsiElement) {
+            if (element is XmlTag) {
+              VueTemplateTagFix.reorderAttributes(element)
+            }
+          }
+        }.run()
       }
     }
     return TextRange(0, file.endOffset)
-  }
-
-  private fun processElements(children: Array<out PsiElement>) {
-    children.forEach {
-      if (it is XmlTag) {
-        VueTemplateTagFix.reorderAttributes(it)
-      }
-      if (it.children.isNotEmpty()) {
-        processElements(it.children)
-      }
-    }
   }
 
 }

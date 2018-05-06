@@ -14,7 +14,7 @@ import com.intellij.psi.PsiMethodCallExpression
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.psi.util.parents
-import com.wuhao.code.check.insertBefore
+import com.wuhao.code.check.insertElementBefore
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
 /**
@@ -35,10 +35,10 @@ class ExtractToVariableFix : LocalQuickFix {
       if (statement is PsiField) {
         val newField = factory.createFieldFromText("""${statement.modifiers.joinToString(" ").toLowerCase()} ${el.type!!
             .presentableText} $name = ${el.text};""", null)
-        statement.insertBefore(newField)
+        statement.insertElementBefore(newField)
       } else {
         val declarationStatement = factory.createVariableDeclarationStatement(name, el.type!!, el)
-        statement.insertBefore(declarationStatement)
+        statement.insertElementBefore(declarationStatement)
       }
       el.replace(factory.createIdentifier(name))
     }

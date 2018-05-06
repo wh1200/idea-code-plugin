@@ -15,8 +15,8 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.impl.source.tree.java.PsiJavaTokenImpl
 import com.wuhao.code.check.Messages
-import com.wuhao.code.check.insertAfter
-import com.wuhao.code.check.insertBefore
+import com.wuhao.code.check.insertElementAfter
+import com.wuhao.code.check.insertElementBefore
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
@@ -117,10 +117,10 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
       val element = descriptor.psiElement
       val factory = KtPsiFactory(project)
       if (type in listOf(Type.Both, Type.After) && element.nextSibling !is PsiWhiteSpace) {
-        element.insertAfter(factory.createWhiteSpace(" "))
+        element.insertElementAfter(factory.createWhiteSpace(" "))
       }
       if (type in listOf(Type.Both, Type.Before) && element.prevSibling !is PsiWhiteSpace) {
-        element.insertBefore(factory.createWhiteSpace(" "))
+        element.insertElementBefore(factory.createWhiteSpace(" "))
       }
     }
 

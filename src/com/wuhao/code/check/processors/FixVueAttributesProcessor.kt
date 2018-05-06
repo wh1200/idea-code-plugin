@@ -12,6 +12,7 @@ import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.LanguageNames
+import com.wuhao.code.check.RecursiveVisitor
 import com.wuhao.code.check.inspection.fix.VueTemplateTagFix
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
@@ -35,21 +36,16 @@ class FixVueAttributesProcessor : PostFormatProcessor {
     if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
-        processElements(arrayOf(templateTag))
+        object:RecursiveVisitor(templateTag) {
+          override fun visit(element: PsiElement) {
+            if (element is XmlTag) {
+              VueTemplateTagFix.fixWhitespace(element)
+            }
+          }
+        }.run()
       }
     }
     return TextRange(0, file.endOffset)
-  }
-
-  private fun processElements(children: Array<out PsiElement>) {
-    children.forEach {
-      if (it is XmlTag) {
-        VueTemplateTagFix.fixWhitespace(it)
-      }
-      if (it.children.isNotEmpty()) {
-        processElements(it.children)
-      }
-    }
   }
 
 }

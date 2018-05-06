@@ -42,6 +42,12 @@
                          id="FixVueAttributesProcessor" order="after RerangeVueAttributesProcessor"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueTemplateExpressionProcessor"
                          id="FixVueTemplateExpressionProcessor" order="first"/>
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaElementOrder"
+                         id="FixJavaElementOrder" order="before FixJavaBlankLineProcessor"/>
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaBlankLineProcessor"
+                         id="FixJavaBlankLineProcessor" order="last"/>
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinBlankLineProcessor"
+                         id="FixKotlinBlankLineProcessor" order="last"/>
     <codeInsight.lineMarkerProvider implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"
                                     id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>
     <codeInsight.lineMarkerProvider implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"

@@ -81,18 +81,36 @@ fun PsiElement.getAncestor(level: Int): PsiElement? {
 }
 
 /**
- * 在psi元素前插入元素
+ * 在当前psi元素前插入元素
  * @param element 待插入的元素
  */
-fun PsiElement.insertBefore(element: PsiElement) {
-  this.parent.addBefore(element, this)
+fun PsiElement.insertElementBefore(element: PsiElement): PsiElement {
+  return this.parent.addBefore(element, this)
 }
 
 /**
- * 在psi元素后插入元素
+ * 在当前psi元素后插入元素
  * @param element 待插入的元素
  */
-fun PsiElement.insertAfter(element: PsiElement) {
-  this.parent.addAfter(element, this)
+fun PsiElement.insertElementAfter(element: PsiElement): PsiElement {
+  return this.parent.addAfter(element, this)
 }
+
+/**
+ * 将当前psi元素插入到指定元素后面
+ * @param element 指定的元素
+ */
+fun PsiElement.insertAfter(element: PsiElement): PsiElement {
+  return element.insertElementAfter(this)
+}
+
+/**
+ * 将当前psi元素插入到指定元素前面
+ * @param element 指定的元素
+ */
+fun PsiElement.insertBefore(element: PsiElement): PsiElement {
+  return element.insertElementBefore(this)
+}
+
+
 

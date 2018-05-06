@@ -6,6 +6,7 @@ package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.psi.impl.JSObjectLiteralExpressionImpl
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -19,7 +20,10 @@ open class JavaScriptCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatV
 
   override fun visitElement(element: PsiElement) {
     when (element) {
-      is PsiFile -> checkFileName(element)
+      is PsiFile -> {
+        checkIndent(element, JavaScriptFileType.INSTANCE)
+        checkFileName(element)
+      }
       is JSObjectLiteralExpressionImpl -> remindReorderProperties(element)
     }
   }

@@ -13,12 +13,9 @@ import com.intellij.lang.jvm.JvmModifier
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.PsiPrimitiveType.*
-import com.intellij.psi.codeStyle.JavaCodeStyleSettings
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.psi.javadoc.PsiDocComment
-import com.wuhao.code.check.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
-import com.wuhao.code.check.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.ExtractToVariableFix
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
@@ -36,18 +33,7 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
     javaOrKotlinCodeFormatVisitor.visitElement(element)
     when (element) {
       is PsiFile -> {
-        val styleContainer = JavaCodeStyleSettings.getInstance(element.project)
-            .container
-        val indent = styleContainer.getIndentSize(JavaFileType.INSTANCE)
-        val continuationIndent = styleContainer.getContinuationIndentSize(JavaFileType.INSTANCE)
-        if (indent != DEFAULT_INDENT_SPACE_COUNT) {
-          holder.registerProblem(element, "java文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
-              ProblemHighlightType.ERROR)
-        }
-        if (continuationIndent != DEFAULT_CONTINUATION_INDENT_SPACE_COUNT) {
-          holder.registerProblem(element, "java文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格",
-              ProblemHighlightType.ERROR)
-        }
+        checkIndent(element, JavaFileType.INSTANCE)
       }
       is PsiClass -> {
         // 类必须添加注释

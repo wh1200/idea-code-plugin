@@ -6,9 +6,11 @@ package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
+import org.jetbrains.vuejs.VueFileType
 
 /**
  * Created by 吴昊 on 18-4-26.
@@ -16,6 +18,11 @@ import org.jetbrains.kotlin.idea.refactoring.getLineCount
 open class VueCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
 
   override fun visitElement(element: PsiElement) {
+    when (element) {
+      is PsiFile -> {
+        checkIndent(element, VueFileType.INSTANCE)
+      }
+    }
     checkFileLength(element)
   }
 

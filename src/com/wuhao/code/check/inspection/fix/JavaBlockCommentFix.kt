@@ -15,8 +15,8 @@ import com.intellij.psi.impl.PsiManagerEx
 
 /**
  * Created by 吴昊 on 18-4-26.
- * @author wuhao
- * @since
+ * @author 吴昊
+ * @since 1.1
  */
 class JavaBlockCommentFix : LocalQuickFix {
 

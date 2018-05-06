@@ -101,6 +101,13 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
     return el is XmlTag && el.name == MAPPER_TAG_NAME
   }
 
+  /**
+   * @author 吴昊
+   * @since 1.1
+   * @param isMethod 该元素是否对应一个方法
+   * @param className 对应的Mapper接口类
+   * @param methodName 对应的方法名称
+   */
   private data class MapperInfo(val isMethod: Boolean, val className: String, val methodName: String? = null) {
 
     fun getJavaClasspath(): String {

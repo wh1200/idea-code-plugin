@@ -15,6 +15,11 @@ import com.wuhao.code.check.ancestors
 import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
+/**
+ * vue模板标签属性排序及格式化
+ * @author 吴昊
+ * @since 1.1
+ */
 class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : LocalQuickFix {
 
   override fun getFamilyName(): String {

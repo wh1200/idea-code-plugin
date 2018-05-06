@@ -17,6 +17,11 @@ import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFunction
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
+/**
+ * 注释修复
+ * @author 吴昊
+ * @since 1.1
+ */
 class KotlinCommentQuickFix : LocalQuickFix {
 
   override fun getName(): String {

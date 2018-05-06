@@ -59,6 +59,11 @@ class PropertyClassCreateInspection : LocalInspectionTool() {
     }
   }
 
+  /**
+   *
+   * @author
+   * @since
+   */
   private class MyQuickFix : LocalQuickFix {
 
     override fun getName(): String {

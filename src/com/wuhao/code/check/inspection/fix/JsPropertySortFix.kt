@@ -10,6 +10,11 @@ import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.lang.javascript.psi.impl.JSObjectLiteralExpressionImpl
 import com.intellij.openapi.project.Project
 
+/**
+ * javascript对象属性排序
+ * @author 吴昊
+ * @since 1.1
+ */
 class JsPropertySortFix: LocalQuickFix {
 
   override fun getFamilyName(): String {

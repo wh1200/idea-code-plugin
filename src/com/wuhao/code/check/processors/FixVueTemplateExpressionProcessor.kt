@@ -24,6 +24,11 @@ import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor.Companion.DI
 import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
+/**
+ * 格式化代码时自动修复模板中标签属性的换行
+ * @author
+ * @since
+ */
 class FixVueTemplateExpressionProcessor : PostFormatProcessor {
 
   override fun processElement(el: PsiElement, styleSettings: CodeStyleSettings): PsiElement {

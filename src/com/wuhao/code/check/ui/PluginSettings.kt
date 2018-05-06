@@ -13,16 +13,24 @@ import com.wuhao.code.check.ui.PluginSettings.Companion.CONFIG_NAME
 import org.jdom.Element
 
 
+/**
+ * 配置读取类
+ * @author 吴昊
+ * @since 1.0
+ */
 @State(name = CONFIG_NAME,
     storages = [(Storage(file = "\$APP_CONFIG$/aegis.xml"))])
 class PluginSettings : PersistentStateComponent<Element> {
 
-  private var gitPrivateToken: String = ""
-  private var vueTemplateUrl: String = ""
-  private var reactTemplateUrl: String = ""
-  private var javaTemplateUrl: String = ""
-  private var kotlinTemplateUrl: String = ""
-  private var javaKotlinTemplateUrl: String = ""
+  var gitPrivateToken: String = ""
+  var vueTemplateUrl: String = ""
+    get() {
+      return if (field.isEmpty()) DEFAULT_VUE_TEMPLATE_URL else field
+    }
+  var reactTemplateUrl: String = ""
+  var javaTemplateUrl: String = ""
+  var kotlinTemplateUrl: String = ""
+  var javaKotlinTemplateUrl: String = ""
 
   override fun getState(): Element? {
     val element = Element(CONFIG_NAME)
@@ -36,53 +44,6 @@ class PluginSettings : PersistentStateComponent<Element> {
     }
   }
 
-  fun getGitPrivateToken(): String {
-    return gitPrivateToken
-  }
-
-  fun getVueTemplateUrl(): String {
-    return if(vueTemplateUrl.isEmpty()) DEFAULT_VUE_TEMPLATE_URL else vueTemplateUrl
-  }
-
-  fun getReactTemplateUrl(): String {
-    return reactTemplateUrl
-  }
-
-  fun getJavaTemplateUrl(): String {
-    return javaTemplateUrl
-  }
-
-  fun getKotlinTemplateUrl(): String {
-    return kotlinTemplateUrl
-  }
-
-  fun getJavaKotlinTemplateUrl(): String {
-    return javaKotlinTemplateUrl
-  }
-
-  fun setVueTemplateUrl(vueTemplateUrl: String) {
-    this.vueTemplateUrl = vueTemplateUrl
-  }
-
-  fun setReactTemplateUrl(reactTemplateUrl: String) {
-    this.reactTemplateUrl = reactTemplateUrl
-  }
-
-  fun setJavaTemplateUrl(javaTemplateUrl: String) {
-    this.javaTemplateUrl = javaTemplateUrl
-  }
-
-  fun setKotlinTemplateUrl(kotlinTemplateUrl: String) {
-    this.kotlinTemplateUrl = kotlinTemplateUrl
-  }
-
-  fun setJavaKotlinTemplateUrl(javaKotlinTemplateUrl: String) {
-    this.javaKotlinTemplateUrl = javaKotlinTemplateUrl
-  }
-
-  fun setGitPrivateToken(gitPrivateToken: String) {
-    this.gitPrivateToken = gitPrivateToken
-  }
 
   companion object {
     const val CONFIG_NAME = "AegisSettings"

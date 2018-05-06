@@ -6,6 +6,11 @@ package com.wuhao.code.check
 
 import com.intellij.psi.PsiElement
 
+/**
+ * 递归访问psi元素
+ * @author 吴昊
+ * @since 1.2
+ */
 abstract class RecursiveVisitor(private val element: PsiElement) {
 
   abstract fun visit(element: PsiElement)

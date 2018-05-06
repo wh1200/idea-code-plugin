@@ -8,7 +8,8 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
 
 /**
- * @author max
+ * @author 吴昊
+ * @since 1.0
  */
 class CodeFormatInspection : BaseInspection(
   "擎盾代码格式检查",

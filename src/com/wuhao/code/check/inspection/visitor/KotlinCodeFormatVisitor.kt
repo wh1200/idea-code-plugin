@@ -16,9 +16,11 @@ import com.wuhao.code.check.inspection.fix.KotlinCommentQuickFix
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.lexer.KtKeywordToken
+import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
+import java.util.logging.Logger
 
 /**
  * Created by 吴昊 on 18-4-26.
@@ -35,8 +37,9 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
         classCommentChecker.checkKotlin(element)
       }
       is KtProperty -> {
-        // 一等属性必须添加注释
-        if (element.parent is KtFile && element.firstChild !is KDoc) {
+        // 一等属性(非private)必须添加注释
+        if (element.parent is KtFile && element.firstChild !is KDoc
+            && !element.hasModifier(KtTokens.PRIVATE_KEYWORD)) {
           holder.registerProblem(element, "一等属性必须添加注释", ProblemHighlightType.GENERIC_ERROR, KotlinCommentQuickFix())
         }
         // data类字段必须添加注释
@@ -78,7 +81,7 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
           }
         }
         // Kotlin中不需要使用分号
-        if (element.text == ";") {
+        if (element.text == ";" && element.parent !is KtLiteralStringTemplateEntry) {
           holder.registerProblem(element, "Kotlin中代码不需要以;结尾", ProblemHighlightType.GENERIC_ERROR, object : LocalQuickFix {
 
             override fun getFamilyName(): String {
@@ -96,7 +99,7 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
         // 不能使用未声明的数字作为参数
         if (element.parent is KtValueArgument
             && element.parent.getChildOfType<KtValueArgumentName>() == null
-            && element.text != "0"
+            && element.text !in listOf("0", "1", "2", "3", "4", "5")
             && element.text.matches("\\d+".toRegex())) {
           holder.registerProblem(element, "不得直接使用未经声明的数字作为变量", ProblemHighlightType.ERROR)
         }
@@ -104,4 +107,7 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
     }
   }
 
+  companion object {
+    val LOG: Logger = Logger.getLogger("Inspection")
+  }
 }

@@ -10,6 +10,11 @@ import com.intellij.openapi.project.Project
 import com.intellij.refactoring.rename.RenamePsiFileProcessor
 import org.jetbrains.kotlin.idea.inspections.findExistingEditor
 
+/**
+ * javascript文件名修复
+ * @author 吴昊
+ * @since 1.1
+ */
 class FileNameFix : LocalQuickFix {
 
   override fun getFamilyName(): String {

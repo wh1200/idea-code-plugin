@@ -7,7 +7,8 @@ package com.wuhao.code.check.inspection
 import com.intellij.codeInspection.InspectionToolProvider
 
 /**
- * @author max
+ * @author 吴昊
+ * @since 1.0
  */
 class CheckProvider : InspectionToolProvider {
 

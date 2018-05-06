@@ -47,8 +47,8 @@ class CreateVueProjectAction : AnAction() {
       if (newProjectRoot.exists()) {
         Messages.showErrorDialog("${newProjectRoot.absolutePath}已存在", "错误")
       } else {
-        val httpResult = HttpRequest.newGet(pluginSettings.getVueTemplateUrl())
-            .withHeaaer("Private-Token", pluginSettings.getGitPrivateToken()).execute()
+        val httpResult = HttpRequest.newGet(pluginSettings.vueTemplateUrl)
+            .withHeaaer("Private-Token", pluginSettings.gitPrivateToken).execute()
         if (httpResult.bytes == null) {
           Messages.showErrorDialog(httpResult.response, "下载模板出错")
         } else {

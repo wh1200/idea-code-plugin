@@ -37,7 +37,7 @@
                   <horizontalAlignment value="4"/>
                   <horizontalTextPosition value="0"/>
                   <labelFor value="77388"/>
-                  <preferredSize width="250" height="24"/>
+                  <preferredSize width="250" height="-1"/>
                   <text value="Git Private Token"/>
                   <verticalAlignment value="0"/>
                   <verticalTextPosition value="0"/>

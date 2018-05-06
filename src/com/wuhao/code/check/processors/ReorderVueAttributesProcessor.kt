@@ -15,6 +15,11 @@ import com.wuhao.code.check.inspection.CodeFormatVisitor.Companion.VUE_LANGUAGE
 import com.wuhao.code.check.inspection.fix.VueTemplateTagFix
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
+/**
+ * vue文件中的模板标签属性排序处理
+ * @author 吴昊
+ * @since 1.1
+ */
 class ReorderVueAttributesProcessor : PostFormatProcessor {
 
   override fun processElement(el: PsiElement, styleSettings: CodeStyleSettings): PsiElement {

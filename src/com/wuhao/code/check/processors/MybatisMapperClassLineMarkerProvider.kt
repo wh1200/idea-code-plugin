@@ -53,12 +53,12 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
   private fun findTag(xmlFile: XmlFile, mapperInfo: MybatisMapperClassLineMarkerProvider.MapperInfo): XmlTag? {
     val mapperTag = xmlFile.document!!.getChildOfType<XmlTag>()
-    if (mapperInfo.isMethod) {
-      return mapperTag?.children?.firstOrNull {
+    return if (mapperInfo.isMethod) {
+      mapperTag?.children?.firstOrNull {
         it is XmlTag && it.getAttributeValue(ID_ATTR_NAME) == mapperInfo.methodName
       } as XmlTag?
     } else {
-      return mapperTag
+      mapperTag
     }
   }
 
@@ -95,6 +95,14 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
     return null
   }
 
+  /**
+   * mybatis的Mapper接口中的psi元素与xml配置文件的对应关系
+   * @author 吴昊
+   * @since 1.1
+   * @param isMethod 该元素是否对应一个方法
+   * @param mapperName 对应的mapper名称
+   * @param methodName 对应的方法名称
+   */
   private data class MapperInfo(val isMethod: Boolean, val mapperName: String, val methodName: String? = null)
 
   private fun isMapperInterface(clazz: PsiClass?): Boolean {

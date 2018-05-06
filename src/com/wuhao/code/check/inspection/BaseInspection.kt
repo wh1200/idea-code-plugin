@@ -9,6 +9,8 @@ import com.intellij.codeInspection.LocalInspectionTool
 
 /**
  * Created by 吴昊 on 2017/7/19.
+ * @author 吴昊
+ * @since 1.2
  */
 abstract class BaseInspection(private val display: String, private val short: String) : LocalInspectionTool() {
 

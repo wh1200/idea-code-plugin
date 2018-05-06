@@ -29,7 +29,7 @@ public class AegisPluginSettings {
   public JLabel     javaKotlinTemplateUrlLabel;
   public JLabel     kotlinTemplateUrlLabel;
 
-  private void createUIComponents() {
-    //todo
-  }
+//  private void createUIComponents() {
+//    gitPrivateTokenLabel.setSize(20,100);
+//  }
 }

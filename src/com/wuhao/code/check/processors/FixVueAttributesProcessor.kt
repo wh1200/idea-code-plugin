@@ -15,6 +15,11 @@ import com.wuhao.code.check.inspection.CodeFormatVisitor
 import com.wuhao.code.check.inspection.fix.VueTemplateTagFix
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
+/**
+ * 格式化代码时自动对vue模板中的标签属性进行排序
+ * @author 吴昊
+ * @since 1.1
+ */
 class FixVueAttributesProcessor : PostFormatProcessor {
 
   override fun processElement(el: PsiElement, styleSettings: CodeStyleSettings): PsiElement {

@@ -24,7 +24,7 @@ const val RESOURCES_PATH = "$BASE_PATH/resources"
 //const val SOURCE_PATH = "$BASE_PATH/java"
 
 /**
- * mybaits的mapper文件存放路径
+ * mybatis的mapper文件存放路径
  */
 const val MAPPER_RELATIVE_PATH = "$RESOURCES_PATH/mapper"
 

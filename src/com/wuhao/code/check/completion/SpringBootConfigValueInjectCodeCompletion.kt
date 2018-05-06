@@ -26,6 +26,11 @@ class SpringBootConfigValueInjectCodeCompletion : CompletionContributor() {
     extend(CompletionType.BASIC, KOTLIN_VALUE_ANNOTATION_PATTERN, provider)
   }
 
+  /**
+   *
+   * @author 吴昊
+   * @since 1.2
+   */
   inner class SpringBootConfigPropertiesCompletionProvider : CompletionProvider<CompletionParameters>() {
 
     override fun addCompletions(parameters: CompletionParameters,

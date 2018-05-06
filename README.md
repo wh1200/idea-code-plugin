@@ -11,15 +11,21 @@
 
 ## 功能介绍
 
+### 编码检查
+- 检查文件的编码如果不是UTF-8时，进行错误提示
+
+### 缩进检查
+- 缩减检查为检查ide的code style配置，检查的范围为java、kotlin、javascript、typescript、vue
+
 ### Java&Kotlin相关
 - java文件或kt文件的长度不能超过 800 行，否则提示错误
 - 类方法不得超过 100 行，否则提示错误
 - 类必须添加注释，否则提示错误
 - 接口方法必须添加注释，否则提示错误
 - 直接使用数字作为参数提示错误，提供的代码修正功能可以将参数提取为变量
+- 增加了空格检查以及修复
 
 ### Spring相关
-
 - 在类中使用@Value注解引入spring的环境变量时，对spring boot默认配置文件application.yml(暂不支持properties文件)的内容作了代码提示
 - 在类中使用@Value注解引入spring的环境变量，可以使用查找声明的方式跳转到application.yml中对应的配置项
 

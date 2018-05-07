@@ -24,9 +24,14 @@ import org.jetbrains.kotlin.lexer.KtTokens.*
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtPsiFactory
+import org.jetbrains.kotlin.psi.KtTypeArgumentList
 
 /**
+ * java和kotlin共同的代码格式检查访问器
+ * 主要检查文件长度和类注释
  * Created by 吴昊 on 18-4-26.
+ * @author 吴昊
+ * @since 1.1
  */
 open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
 
@@ -66,7 +71,8 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
   }
 
   private fun shouldHaveSpaceBothBeforeAndAfter(element: PsiElement): Boolean {
-    return (element is LeafPsiElement && element.elementType in shouldHaveSpaceBothBeforeAndAfterElementTypes)
+    return (element is LeafPsiElement && element.elementType in
+        shouldHaveSpaceBothBeforeAndAfterElementTypes)
         || (element is PsiKeyword && element.text in shouldHaveSpaceBothBeforeAndAfterKeywords)
         || (element is PsiJavaTokenImpl && element.text in shouldHaveSpaceBothBeforeAndAfterTokens)
   }

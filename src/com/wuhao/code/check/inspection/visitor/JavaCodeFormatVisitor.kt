@@ -4,26 +4,30 @@
 
 package com.wuhao.code.check.inspection.visitor
 
-import com.intellij.codeInspection.LocalQuickFix
-import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.jvm.JvmModifier
-import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.PsiPrimitiveType.*
 import com.intellij.psi.javadoc.PsiDocComment
-import com.wuhao.code.check.*
+import com.wuhao.code.check.JUNIT_TEST_ANNOTATION_CLASS_NAME
+import com.wuhao.code.check.Messages
+import com.wuhao.code.check.ancestorOfType
+import com.wuhao.code.check.ancestorsOfType
 import com.wuhao.code.check.inspection.CodeFormatInspection
+import com.wuhao.code.check.inspection.fix.ConsolePrintFix
 import com.wuhao.code.check.inspection.fix.ExtractToVariableFix
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 
 /**
+ * Java代码格式检查访问器
  * Created by 吴昊 on 18-4-26.
+ * @author 吴昊
+ * @since 1.1
  */
 class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
 
@@ -56,8 +60,7 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
       is PsiLiteralExpression -> {
         // 检查数字参数
         if (element.parent is PsiExpressionList
-            && element.text != "0"
-            && element.text != "0L" && element.type in PRIMITIVE_TYPES) {
+            && element.text.toUpperCase() !in listOf("0", "0L", "0F") && element.type in PRIMITIVE_TYPES) {
           holder.registerProblem(element, "不允许直接使用数字作为方法参数",
               ProblemHighlightType.GENERIC_ERROR,
               ExtractToVariableFix())
@@ -73,24 +76,7 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
                 }
               }
           ) {
-            holder.registerProblem(element, "使用日志向控制台输出", ProblemHighlightType.GENERIC_ERROR, object : LocalQuickFix {
-
-              override fun getFamilyName(): String {
-                return "替换为日志输出"
-              }
-
-              override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-                val el = descriptor.endElement
-                val factory = getPsiElementFactory(element)
-                if (el.firstChild is PsiReferenceExpression) {
-                  if (el.firstChild.text.startsWith("System.out.print")) {
-                    el.firstChild.replace(factory.createExpressionFromText("LOG.info", null))
-                  } else if (el.firstChild.text.startsWith("System.err.print")) {
-                    el.firstChild.replace(factory.createExpressionFromText("LOG.error", null))
-                  }
-                }
-              }
-            })
+            holder.registerProblem(element, "使用日志向控制台输出", ProblemHighlightType.GENERIC_ERROR, ConsolePrintFix())
           }
         }
       }

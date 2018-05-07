@@ -18,7 +18,10 @@ import com.wuhao.code.check.insertElementBefore
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
 /**
+ * 将方法直接引用的数值或字符串参数提取为变量
  * Created by 吴昊 on 18-4-26.
+ * @author 吴昊
+ * @since 1.1
  */
 class ExtractToVariableFix : LocalQuickFix {
 

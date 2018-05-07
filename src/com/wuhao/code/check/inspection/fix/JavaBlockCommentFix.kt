@@ -15,6 +15,7 @@ import com.intellij.psi.impl.PsiManagerEx
 import com.wuhao.code.check.ui.PluginSettings
 
 /**
+ * java元素添加块注释修复
  * Created by 吴昊 on 18-4-26.
  * @author 吴昊
  * @since 1.1

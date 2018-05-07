@@ -15,6 +15,7 @@ import com.wuhao.code.check.inspection.fix.JsPropertySortFix
 
 /**
  * Created by 吴昊 on 2018/4/28.
+ *
  */
 open class TypeScriptCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
 

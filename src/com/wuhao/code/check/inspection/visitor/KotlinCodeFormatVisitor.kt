@@ -4,16 +4,14 @@
 
 package com.wuhao.code.check.inspection.visitor
 
-import com.intellij.codeInspection.LocalQuickFix
-import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
-import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
 import com.wuhao.code.check.inspection.CodeFormatInspection
+import com.wuhao.code.check.inspection.fix.KotlinCommaFix
 import com.wuhao.code.check.inspection.fix.KotlinCommentQuickFix
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
@@ -95,16 +93,8 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
         }
         // Kotlin中不需要使用分号
         if (element.text == ";" && element.parent !is KtLiteralStringTemplateEntry) {
-          holder.registerProblem(element, "Kotlin中代码不需要以;结尾", ProblemHighlightType.GENERIC_ERROR, object : LocalQuickFix {
-
-            override fun getFamilyName(): String {
-              return "删除分号"
-            }
-
-            override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-              descriptor.psiElement.delete()
-            }
-          })
+          holder.registerProblem(element, "Kotlin中代码不需要以;结尾",
+              ProblemHighlightType.ERROR, KotlinCommaFix())
         }
 
       }

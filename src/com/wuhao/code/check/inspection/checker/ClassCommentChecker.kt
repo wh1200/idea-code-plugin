@@ -9,6 +9,7 @@ import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiTypeParameter
 import com.intellij.psi.javadoc.PsiDocComment
 import com.wuhao.code.check.Messages.classCommentRequired
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
@@ -24,7 +25,7 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 class ClassCommentChecker(holder: ProblemsHolder) : BaseChecker(holder) {
 
   fun checkJava(element: PsiClass) {
-    if (element.firstChild == null || element.firstChild !is PsiDocComment) {
+    if (element !is PsiTypeParameter && element.firstChild == null || element.firstChild !is PsiDocComment) {
       registerProblem(element, JavaBlockCommentFix())
     }
   }

@@ -12,6 +12,7 @@ import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
+import com.intellij.psi.impl.source.PsiClassImpl
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.impl.source.tree.java.PsiJavaTokenImpl
 import com.wuhao.code.check.Messages
@@ -51,7 +52,7 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
       is KtClass -> {
         classCommentChecker.checkKotlin(element)
       }
-      is PsiClass -> {
+      is PsiClassImpl -> {
         classCommentChecker.checkJava(element)
       }
       is KtObjectDeclaration -> {
@@ -71,10 +72,12 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
   }
 
   private fun shouldHaveSpaceBothBeforeAndAfter(element: PsiElement): Boolean {
-    return (element is LeafPsiElement && element.elementType in
+    return (element is LeafPsiElement && element.parent !is KtTypeArgumentList && element.elementType in
         shouldHaveSpaceBothBeforeAndAfterElementTypes)
         || (element is PsiKeyword && element.text in shouldHaveSpaceBothBeforeAndAfterKeywords)
-        || (element is PsiJavaTokenImpl && element.text in shouldHaveSpaceBothBeforeAndAfterTokens)
+        || (element is PsiJavaTokenImpl
+        && element.parent !is PsiTypeParameterList
+        && element.text in shouldHaveSpaceBothBeforeAndAfterTokens)
   }
 
   private fun shouldOnlyHaveSpaceBefore(element: PsiElement): Boolean {

@@ -12,11 +12,10 @@ import com.intellij.lang.Language
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.Messages
-import com.wuhao.code.check.hasDocComment
+import com.wuhao.code.check.*
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.KotlinCommentQuickFix
-import com.wuhao.code.check.isFirstLevelProperty
+import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -70,8 +69,19 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
       }
       is KtReferenceExpression -> {
         // 使用日志输入代替System.out
+
         if (element.text == "println") {
-          holder.registerProblem(element, "使用日志向控制台输出", ProblemHighlightType.GENERIC_ERROR)
+          if (element.ancestorOfType<KtFunction>() == null
+              || !element.ancestorsOfType<KtFunction>().any { func ->
+                func.annotationEntries.map { annoEntry ->
+                  annoEntry.toLightAnnotation()
+                }.any { lightAnnotation ->
+                  lightAnnotation?.qualifiedName == JUNIT_TEST_ANNOTATION_CLASS_NAME
+                }
+              }
+          ) {
+            holder.registerProblem(element, "使用日志向控制台输出", ProblemHighlightType.GENERIC_ERROR)
+          }
         }
       }
       is LeafPsiElement -> {

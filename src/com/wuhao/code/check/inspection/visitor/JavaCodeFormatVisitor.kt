@@ -15,8 +15,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.PsiPrimitiveType.*
 import com.intellij.psi.javadoc.PsiDocComment
-import com.wuhao.code.check.Messages
-import com.wuhao.code.check.getPsiElementFactory
+import com.wuhao.code.check.*
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.ExtractToVariableFix
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
@@ -59,7 +58,7 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
         if (element.parent is PsiExpressionList
             && element.text != "0"
             && element.text != "0L" && element.type in PRIMITIVE_TYPES) {
-          holder.registerProblem(element, "不得直接使用数字作为方法参数",
+          holder.registerProblem(element, "不允许直接使用数字作为方法参数",
               ProblemHighlightType.GENERIC_ERROR,
               ExtractToVariableFix())
         }
@@ -67,24 +66,32 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
       is PsiMethodCallExpression -> {
         // 使用日志输入代替System.out
         if (element.text.startsWith("System.out") || element.text.startsWith("System.err")) {
-          holder.registerProblem(element, "使用日志向控制台输出", ProblemHighlightType.GENERIC_ERROR, object : LocalQuickFix {
-
-            override fun getFamilyName(): String {
-              return "替换为日志输出"
-            }
-
-            override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-              val el = descriptor.endElement
-              val factory = getPsiElementFactory(element)
-              if (el.firstChild is PsiReferenceExpression) {
-                if (el.firstChild.text.startsWith("System.out.print")) {
-                  el.firstChild.replace(factory.createExpressionFromText("LOG.info", null))
-                } else if (el.firstChild.text.startsWith("System.err.print")) {
-                  el.firstChild.replace(factory.createExpressionFromText("LOG.error", null))
+          if (element.ancestorOfType<PsiMethod>() == null
+              || !element.ancestorsOfType<PsiMethod>().any { func ->
+                func.annotations.any { annotation ->
+                  annotation.qualifiedName == JUNIT_TEST_ANNOTATION_CLASS_NAME
                 }
               }
-            }
-          })
+          ) {
+            holder.registerProblem(element, "使用日志向控制台输出", ProblemHighlightType.GENERIC_ERROR, object : LocalQuickFix {
+
+              override fun getFamilyName(): String {
+                return "替换为日志输出"
+              }
+
+              override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+                val el = descriptor.endElement
+                val factory = getPsiElementFactory(element)
+                if (el.firstChild is PsiReferenceExpression) {
+                  if (el.firstChild.text.startsWith("System.out.print")) {
+                    el.firstChild.replace(factory.createExpressionFromText("LOG.info", null))
+                  } else if (el.firstChild.text.startsWith("System.err.print")) {
+                    el.firstChild.replace(factory.createExpressionFromText("LOG.error", null))
+                  }
+                }
+              }
+            })
+          }
         }
       }
       is PsiMethod -> {

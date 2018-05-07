@@ -18,6 +18,21 @@ inline fun <reified T> PsiElement.ancestorOfType(): T? {
 }
 
 /**
+ * 获取指定类型的所有的祖先元素
+ */
+inline fun <reified T> PsiElement.ancestorsOfType(): ArrayList<T> {
+  val result = arrayListOf<T>()
+  var el: PsiElement? = this.parent
+  while (el != null) {
+    if (el is T) {
+      result.add(el)
+    }
+    el = el.parent
+  }
+  return result
+}
+
+/**
  * 获取psi元素的所有祖先元素，按距离从近到远
  */
 val PsiElement.ancestors: List<PsiElement>

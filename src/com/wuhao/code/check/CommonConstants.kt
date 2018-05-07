@@ -8,6 +8,11 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 
+
+/**
+ * junit的Test注解的类名称
+ */
+const val JUNIT_TEST_ANNOTATION_CLASS_NAME = "org.junit.Test"
 /**
  * 默认的vue项目模板git地址
  */

@@ -22,10 +22,7 @@ import com.wuhao.code.check.inspection.CodeFormatInspection
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.lexer.KtTokens.*
-import org.jetbrains.kotlin.psi.KtClass
-import org.jetbrains.kotlin.psi.KtObjectDeclaration
-import org.jetbrains.kotlin.psi.KtPsiFactory
-import org.jetbrains.kotlin.psi.KtTypeArgumentList
+import org.jetbrains.kotlin.psi.*
 
 /**
  * java和kotlin共同的代码格式检查访问器
@@ -72,7 +69,8 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
   }
 
   private fun shouldHaveSpaceBothBeforeAndAfter(element: PsiElement): Boolean {
-    return (element is LeafPsiElement && element.parent !is KtTypeArgumentList && element.elementType in
+    return (element is LeafPsiElement && element.parent !is KtTypeArgumentList
+        && element.parent !is KtTypeParameterList && element.elementType in
         shouldHaveSpaceBothBeforeAndAfterElementTypes)
         || (element is PsiKeyword && element.text in shouldHaveSpaceBothBeforeAndAfterKeywords)
         || (element is PsiJavaTokenImpl

@@ -67,7 +67,6 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
       }
       is KtReferenceExpression -> {
         // 使用日志输入代替System.out
-
         if (element.text == "println") {
           if (element.ancestorOfType<KtFunction>() == null
               || !element.ancestorsOfType<KtFunction>().any { func ->

@@ -41,7 +41,9 @@ class ClassCommentChecker(holder: ProblemsHolder) : BaseChecker(holder) {
   }
 
   fun checkKotlin(element: KtObjectDeclaration) {
-    checkKotlinClassComment(element)
+    if (!element.isCompanion()) {
+      checkKotlinClassComment(element)
+    }
   }
 
   private fun checkKotlinClassComment(element: PsiElement) {

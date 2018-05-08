@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check Plugin</name>
-  <version>1.2.5.001</version>
+  <version>1.2.6</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
@@ -27,33 +27,42 @@
   -->
 
   <extensions defaultExtensionNs="com.intellij">
-    <completion.contributor implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
-                            language="JAVA" order="FIRST"/>
-    <completion.contributor implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
-                            language="kotlin" order="FIRST"/>
+    <postStartupActivity implementation="com.wuhao.code.check.PostStart"/>
+    <completion.contributor
+        implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
+        language="JAVA" order="FIRST"/>
+    <completion.contributor
+        implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
+        language="kotlin" order="FIRST"/>
     <inspectionToolProvider id="aegis.code.check.inspection"
                             order="FIRST"
                             implementation="com.wuhao.code.check.inspection.CheckProvider"/>
-    <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
+    <gotoDeclarationHandler
+        implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyGotoDeclarationHandler2"/>
+    <preFormatProcessor implementation="com.wuhao.code.check.processors.SetStyleProcessor"
+                        id="SetStyleProcessor"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.ReorderVueAttributesProcessor"
                          id="RerangeVueAttributesProcessor" order="first"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueAttributesProcessor"
                          id="FixVueAttributesProcessor" order="after RerangeVueAttributesProcessor"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueTemplateExpressionProcessor"
                          id="FixVueTemplateExpressionProcessor" order="first"/>
-    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaElementOrder"
-                         id="FixJavaElementOrder" order="before FixJavaBlankLineProcessor"/>
+    <!--<postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaElementOrder"-->
+    <!--id="FixJavaElementOrder" order="first"/>-->
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaBlankLineProcessor"
                          id="FixJavaBlankLineProcessor" order="last"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinBlankLineProcessor"
                          id="FixKotlinBlankLineProcessor" order="last"/>
-    <codeInsight.lineMarkerProvider implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"
-                                    id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>
-    <codeInsight.lineMarkerProvider implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"
-                                    id="MybatisMapperClassLineMarkerProviderKotlin" language="kotlin"/>
-    <codeInsight.lineMarkerProvider implementationClass="com.wuhao.code.check.processors.MybatisMapperFileLineMarkerProvider"
-                                    id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
+    <codeInsight.lineMarkerProvider
+        implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"
+        id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>
+    <codeInsight.lineMarkerProvider
+        implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"
+        id="MybatisMapperClassLineMarkerProviderKotlin" language="kotlin"/>
+    <codeInsight.lineMarkerProvider
+        implementationClass="com.wuhao.code.check.processors.MybatisMapperFileLineMarkerProvider"
+        id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
     <applicationConfigurable
         instance="com.wuhao.code.check.ui.AegisPluginSettingsConfigurable"/>
     <applicationService

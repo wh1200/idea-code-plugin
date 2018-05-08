@@ -8,4 +8,6 @@ object Messages {
   const val commentRequired = "必须添加注释"
   const val classCommentRequired = "缺少类注释"
   const val fixSpace = "修复空格"
+  const val jumpToInterface = "跳转至接口"
+
 }

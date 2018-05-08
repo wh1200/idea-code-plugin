@@ -17,6 +17,7 @@ inline fun <reified T> PsiElement.ancestorOfType(): T? {
   return el as T?
 }
 
+
 /**
  * 获取指定类型的所有的祖先元素
  */
@@ -93,6 +94,15 @@ fun PsiElement.getAncestor(level: Int): PsiElement? {
     }
   }
   return el
+}
+
+/**
+ * 选择符合条件的第一个子元素
+ * @param predicate 筛选条件
+ * @return 符合条件的第一个子元素
+ */
+fun PsiElement.firstChild(predicate: (PsiElement) -> Boolean): PsiElement? {
+  return this.children.firstOrNull(predicate)
 }
 
 /**

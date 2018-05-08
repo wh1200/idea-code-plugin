@@ -4,7 +4,8 @@
 
 package com.wuhao.code.check.inspection.visitor
 
-import com.intellij.codeInspection.ProblemHighlightType
+import com.intellij.codeInspection.ProblemHighlightType.ERROR
+import com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.psi.PsiElement
@@ -39,30 +40,35 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
         // 一等属性(非private)必须添加注释
         if (element.isFirstLevelProperty() && !element.hasDocComment()
             && !element.hasModifier(KtTokens.PRIVATE_KEYWORD)) {
-          holder.registerProblem(element, Messages.commentRequired, ProblemHighlightType.GENERIC_ERROR,
+          holder.registerProblem(element, Messages.commentRequired, GENERIC_ERROR,
               KotlinCommentQuickFix())
         }
         // data类字段必须添加注释
         if (element.parent != null && element.parent is KtClassBody
             && element.containingClass()!!.isData()
             && element.firstChild !is KDoc) {
-          holder.registerProblem(element, Messages.commentRequired, ProblemHighlightType.GENERIC_ERROR, KotlinCommentQuickFix())
+          holder.registerProblem(element, Messages.commentRequired, GENERIC_ERROR, KotlinCommentQuickFix())
         }
       }
       is KtFunction -> {
         // 一等方法必须添加注释
         if (element.parent is KtFile && element.firstChild !is KDoc) {
-          holder.registerProblem(element, "一等方法必须添加注释", ProblemHighlightType.GENERIC_ERROR, KotlinCommentQuickFix())
+          holder.registerProblem(element, "一等方法必须添加注释", ERROR, KotlinCommentQuickFix())
         }
         // 接口方法必须添加注释
         val containingClass = element.containingClass()
         if (containingClass != null && containingClass.isInterface()
             && element.firstChild !is KDoc) {
-          holder.registerProblem(element, "接口方法必须添加注释", ProblemHighlightType.GENERIC_ERROR, KotlinCommentQuickFix())
+          holder.registerProblem(if (element.nameIdentifier != null) {
+            element.nameIdentifier!!
+          } else {
+            element
+          }, "接口方法必须添加注释", ERROR,
+              KotlinCommentQuickFix())
         }
         // 方法长度不能超过指定长度
         if (element.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FUNCTION) {
-          holder.registerProblem(element, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", ProblemHighlightType.GENERIC_ERROR)
+          holder.registerProblem(element, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", GENERIC_ERROR)
         }
       }
       is KtReferenceExpression -> {
@@ -77,7 +83,7 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
                 }
               }
           ) {
-            holder.registerProblem(element, "使用日志向控制台输出", ProblemHighlightType.GENERIC_ERROR)
+            holder.registerProblem(element, "使用日志向控制台输出", ERROR)
           }
         }
       }
@@ -93,7 +99,7 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
         // Kotlin中不需要使用分号
         if (element.text == ";" && element.parent !is KtLiteralStringTemplateEntry) {
           holder.registerProblem(element, "Kotlin中代码不需要以;结尾",
-              ProblemHighlightType.ERROR, KotlinCommaFix())
+              ERROR, KotlinCommaFix())
         }
 
       }
@@ -103,7 +109,7 @@ class KotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(ho
             && element.parent.getChildOfType<KtValueArgumentName>() == null
             && element.text !in listOf("0", "1", "2", "3", "4", "5")
             && element.text.matches("\\d+".toRegex())) {
-          holder.registerProblem(element, "不得直接使用未经声明的数字作为变量", ProblemHighlightType.ERROR)
+          holder.registerProblem(element, "不得直接使用未经声明的数字作为变量", ERROR)
         }
       }
     }

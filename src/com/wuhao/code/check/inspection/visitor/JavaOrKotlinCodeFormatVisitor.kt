@@ -13,8 +13,8 @@ import com.intellij.lang.java.JavaLanguage
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassImpl
+import com.intellij.psi.impl.source.tree.ElementType
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.intellij.psi.impl.source.tree.java.PsiJavaTokenImpl
 import com.wuhao.code.check.Messages
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
@@ -59,32 +59,44 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
   }
 
   private fun checkSpace(element: PsiElement) {
-    if (shouldHaveSpaceBothBeforeAndAfter(element)) {
-      checkWhiteSpaceBothBeforeAndAfter(element)
-    } else if (shouldOnlyHaveSpaceBefore(element)) {
-      checkWhiteSpaceBefore(element)
-    } else if (shouldOnlyHaveSpaceAfter(element)) {
-      checkWhiteSpaceAfter(element)
+    when {
+      needSpaceBothBeforeAndAfter(element) -> checkWhiteSpaceBothBeforeAndAfter(element)
+      onlyNeedSpaceBefore(element) -> checkWhiteSpaceBefore(element)
+      onlyNeedSpaceAfter(element) -> checkWhiteSpaceAfter(element)
     }
   }
 
-  private fun shouldHaveSpaceBothBeforeAndAfter(element: PsiElement): Boolean {
-    return (element is LeafPsiElement && element.parent !is KtTypeArgumentList
-        && element.parent !is KtTypeParameterList && element.elementType in
-        shouldHaveSpaceBothBeforeAndAfterElementTypes)
-        || (element is PsiKeyword && element.text in shouldHaveSpaceBothBeforeAndAfterKeywords)
-        || (element is PsiJavaTokenImpl
-        && element.parent !is PsiTypeParameterList
-        && element.text in shouldHaveSpaceBothBeforeAndAfterTokens)
+  private fun needSpaceBothBeforeAndAfter(element: PsiElement): Boolean {
+    if (element.language is KotlinLanguage) {
+      return (element is LeafPsiElement
+          && element.parent !is KtValueArgument
+          && element.parent !is KtImportDirective
+          && (element.parent !is KtOperationReferenceExpression
+          || (element.parent is KtOperationReferenceExpression && element.elementType in listOf(ELVIS)))
+          && element.parent !is KtTypeArgumentList
+          && element.parent !is KtTypeParameterList
+          && ((element.parent !is KtWhenEntry && element.elementType == ELSE_KEYWORD)
+          || element.elementType in shouldHaveSpaceBothBeforeAndAfterElementTypes))
+          && !(element.elementType == MUL && element.parent is KtTypeProjection)
+    } else {
+      return element is PsiJavaToken
+          && element.parent !is PsiReferenceParameterList
+          && element.parent !is PsiTypeParameterList
+          && element.parent !is PsiImportStatement
+          && !(element.tokenType == ElementType.MINUS && element.parent is
+          PsiPrefixExpression)
+          && element.text in shouldHaveSpaceBothBeforeAndAfterTokens
+    }
   }
 
-  private fun shouldOnlyHaveSpaceBefore(element: PsiElement): Boolean {
-    // todo with element
-    return false
+  private fun onlyNeedSpaceBefore(element: PsiElement): Boolean {
+    return element is KtCatchClause
   }
 
-  private fun shouldOnlyHaveSpaceAfter(element: PsiElement): Boolean {
-    return (element is LeafPsiElement && element.elementType in shouldOnlyHaveSpaceAfterElementTypes) || (element is PsiKeyword
+  private fun onlyNeedSpaceAfter(element: PsiElement): Boolean {
+    return (element is LeafPsiElement
+        && element.parent !is KtOperationReferenceExpression
+        && element.elementType in shouldOnlyHaveSpaceAfterElementTypes) || (element is PsiKeyword
         && element.text in shouldOnlyHaveSpaceAfterKeywords)
   }
 
@@ -143,15 +155,15 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
 
   companion object {
     val shouldHaveSpaceBothBeforeAndAfterElementTypes = listOf(
-        ELSE_KEYWORD, CATCH_KEYWORD, PLUSPLUS, MINUSMINUS, MUL, PLUS, MINUS, DIV, PERC,
+        PLUSPLUS, MINUSMINUS, MUL, PLUS, MINUS, DIV, PERC,
         GT, LT, LTEQ, GTEQ, EQEQEQ, ARROW, DOUBLE_ARROW, EXCLEQEQEQ, EQEQ, EXCLEQ,
         EXCLEXCL, ANDAND, OROR, EQ, MULTEQ, DIVEQ, PERCEQ, PLUSEQ, MINUSEQ, NOT_IN, NOT_IS)
     val shouldHaveSpaceBothBeforeAndAfterKeywords = shouldHaveSpaceBothBeforeAndAfterElementTypes
-        .map { it.value }
+        .map { it.value } + listOf("else")
     val shouldHaveSpaceBothBeforeAndAfterTokens = listOf(">", "<", "=", ">=", "<=", "!=", "&&", "||", "&", "|", "==",
         "+", "-", "*", "/", "%", "+=", "-=", "/=", "*=", ">>", "<<", "<>")
     val shouldOnlyHaveSpaceAfterElementTypes = listOf(
-        IF_KEYWORD, TRY_KEYWORD, DO_KEYWORD, WHILE_KEYWORD, WHEN_KEYWORD, ELVIS)
+        CATCH_KEYWORD, IF_KEYWORD, TRY_KEYWORD, DO_KEYWORD, WHILE_KEYWORD, WHEN_KEYWORD, ELVIS)
     val shouldOnlyHaveSpaceAfterKeywords = listOf("if", "for", "try",
         "while", "do", "switch")
   }

@@ -26,7 +26,11 @@ class ClassCommentChecker(holder: ProblemsHolder) : BaseChecker(holder) {
 
   fun checkJava(element: PsiClass) {
     if (element !is PsiTypeParameter && element.firstChild == null || element.firstChild !is PsiDocComment) {
-      registerProblem(element, JavaBlockCommentFix())
+      if (element.nameIdentifier != null) {
+        registerProblem(element.nameIdentifier!!, JavaBlockCommentFix())
+      } else {
+        registerProblem(element, JavaBlockCommentFix())
+      }
     }
   }
 
@@ -36,19 +40,23 @@ class ClassCommentChecker(holder: ProblemsHolder) : BaseChecker(holder) {
 
   fun checkKotlin(element: KtClass) {
     if (element !is KtEnumEntry) {
-      checkKotlinClassComment(element)
+      checkKotlinClassComment(element, element.nameIdentifier)
     }
   }
 
   fun checkKotlin(element: KtObjectDeclaration) {
     if (!element.isCompanion()) {
-      checkKotlinClassComment(element)
+      checkKotlinClassComment(element, element.nameIdentifier)
     }
   }
 
-  private fun checkKotlinClassComment(element: PsiElement) {
+  private fun checkKotlinClassComment(element: PsiElement, nameIdentifier: PsiElement?) {
     if (element.firstChild == null || element.firstChild !is KDoc) {
-      registerProblem(element, KotlinCommentQuickFix())
+      if (nameIdentifier != null) {
+        registerProblem(nameIdentifier, KotlinCommentQuickFix())
+      } else {
+        registerProblem(element, KotlinCommentQuickFix())
+      }
     }
   }
 }

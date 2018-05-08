@@ -8,6 +8,7 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
+import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix.Companion.BLOCK_COMMENT_END
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix.Companion.BLOCK_COMMENT_START
@@ -32,16 +33,25 @@ class KotlinCommentQuickFix : LocalQuickFix {
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     try {
       val element = descriptor.psiElement
+      val measureElement = if (element is LeafPsiElement) {
+        element.parent
+      } else {
+        element
+      }
       val commentString =
-          when (element) {
+          when (measureElement) {
             is KtClass -> CLASS_COMMENT
             is KtObjectDeclaration -> CLASS_COMMENT
-            is KtFunction -> buildFunctionComment(element)
+            is KtFunction -> buildFunctionComment(measureElement)
             else -> BLOCK_COMMENT_STRING
           }
       val factory = KtPsiFactory(project)
       val comment = factory.createComment(commentString)
-      element.addBefore(comment, element.firstChild)
+      if (element is LeafPsiElement) {
+        element.parent.addBefore(comment, element.parent.firstChild)
+      } else {
+        element.addBefore(comment, element.firstChild)
+      }
     } catch (e: IncorrectOperationException) {
       LOG.error(e)
     }

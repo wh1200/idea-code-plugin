@@ -4,7 +4,8 @@
 
 package com.wuhao.code.check.inspection.visitor
 
-import com.intellij.codeInspection.ProblemHighlightType
+import com.intellij.codeInspection.ProblemHighlightType.ERROR
+import com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
@@ -43,13 +44,13 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
             !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
                 && it.firstChild !is PsiDocComment
           }.forEach { fieldElement ->
-            holder.registerProblem(fieldElement, Messages.commentRequired, ProblemHighlightType.GENERIC_ERROR,
+            holder.registerProblem(fieldElement.nameIdentifier, Messages.commentRequired, ERROR,
                 JavaBlockCommentFix())
           }
         }
       }
       is PsiIdentifier -> {
-        //变量名不能少于2个字符
+        // 变量名不能少于2个字符
         if (element.text.length <= 1) {
           if (element.parent.getChildOfType<PsiTypeElement>() == null
               || element.parent.getChildOfType<PsiTypeElement>()!!.text != "Exception") {
@@ -62,7 +63,7 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
         if (element.parent is PsiExpressionList
             && element.text.toUpperCase() !in listOf("0", "0L", "0F") && element.type in PRIMITIVE_TYPES) {
           holder.registerProblem(element, "不允许直接使用数字作为方法参数",
-              ProblemHighlightType.GENERIC_ERROR,
+              GENERIC_ERROR,
               ExtractToVariableFix())
         }
       }
@@ -76,20 +77,25 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
                 }
               }
           ) {
-            holder.registerProblem(element, "使用日志向控制台输出", ProblemHighlightType.GENERIC_ERROR, ConsolePrintFix())
+            holder.registerProblem(element, "使用日志向控制台输出", GENERIC_ERROR, ConsolePrintFix())
           }
         }
       }
       is PsiMethod -> {
         // 方法长度不能超过指定长度
         if (element.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FUNCTION) {
-          holder.registerProblem(element, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", ProblemHighlightType.GENERIC_ERROR)
+          holder.registerProblem(element, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", GENERIC_ERROR)
         }
         // 接口方法必须包含注释
         val elClass = element.containingClass
         if (elClass != null && elClass.isInterface && element.firstChild !is PsiDocComment) {
-          holder.registerProblem(element, Messages.commentRequired, ProblemHighlightType.GENERIC_ERROR,
-              JavaBlockCommentFix())
+          val elementToRegisterProblem = if (element.nameIdentifier != null) {
+            element.nameIdentifier!!
+          } else {
+            element
+          }
+          holder.registerProblem(elementToRegisterProblem,
+              Messages.commentRequired, ERROR, JavaBlockCommentFix())
         }
       }
     }
@@ -98,5 +104,6 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
   companion object {
 
     val PRIMITIVE_TYPES = setOf(LONG, INT, DOUBLE, FLOAT, BYTE, SHORT)
+
   }
 }

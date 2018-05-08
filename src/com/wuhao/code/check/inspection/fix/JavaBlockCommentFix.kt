@@ -8,6 +8,7 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiIdentifier
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiPrimitiveType
 import com.intellij.psi.impl.PsiElementFactoryImpl
@@ -24,14 +25,23 @@ class JavaBlockCommentFix : LocalQuickFix {
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val element = descriptor.psiElement
-    val commentText = when (element) {
+    val measureElement = if (element is PsiIdentifier) {
+      element.parent
+    } else {
+      element
+    }
+    val commentText = when (measureElement) {
       is PsiClass -> CLASS_COMMENT
-      is PsiMethod -> buildMethodComment(element)
+      is PsiMethod -> buildMethodComment(measureElement)
       else -> BLOCK_COMMENT_STRING
     }
     val factory = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(element.project))
     val commentElement = factory.createCommentFromText(commentText, element)
-    element.addBefore(commentElement, element.firstChild)
+    if (element is PsiIdentifier) {
+      element.parent.addBefore(commentElement, element.parent.firstChild)
+    } else {
+      element.addBefore(commentElement, element.firstChild)
+    }
   }
 
   private fun buildMethodComment(element: PsiMethod): String {

@@ -18,7 +18,10 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.xml.XmlTag
+import com.wuhao.code.check.Messages
+import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.idea.refactoring.toPsiFile
+import org.jetbrains.kotlin.psi.KtFile
 import java.io.File
 
 
@@ -45,15 +48,24 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
               val clazz = psiFile.classes[0]
               if (clazz.isInterface) {
                 if (!mapperInfo.isMethod) {
-                  val builder = NavigationGutterIconBuilder.create(FILE).setTargets(listOf(clazz.nameIdentifier))
-                      .setTooltipText("跳转至接口")
-                  result.add(builder.createLineMarkerInfo(element))
+                  result.add(createLineMarkerInfo(element, clazz.nameIdentifier!!))
                 } else {
                   val method = clazz.methods.firstOrNull { it.name == mapperInfo.methodName }
                   if (method != null) {
-                    val builder = NavigationGutterIconBuilder.create(FILE).setTargets(listOf(method.nameIdentifier))
-                        .setTooltipText("跳转至接口")
-                    result.add(builder.createLineMarkerInfo(element))
+                    result.add(createLineMarkerInfo(element, method.nameIdentifier!!))
+                  }
+                }
+              }
+            } else if (psiFile is KtFile && psiFile.classes.size == 1) {
+              val clazz = psiFile.classes[0] as KtLightClass
+              if (clazz.isInterface) {
+                if (!mapperInfo.isMethod) {
+                  result.add(createLineMarkerInfo(element, clazz.nameIdentifier!!))
+                } else {
+                  val function = clazz.methods
+                      .firstOrNull { it.name == mapperInfo.methodName }
+                  if (function != null) {
+                    result.add(createLineMarkerInfo(element, function.nameIdentifier!!))
                   }
                 }
               }
@@ -63,6 +75,12 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
         }
       }
     }
+  }
+
+  private fun createLineMarkerInfo(source: PsiElement, target: PsiElement): RelatedItemLineMarkerInfo<*> {
+    val builder = NavigationGutterIconBuilder.create(FILE).setTargets(listOf(target))
+        .setTooltipText(Messages.jumpToInterface)
+    return builder.createLineMarkerInfo(source)
   }
 
   private fun findSourceFile(

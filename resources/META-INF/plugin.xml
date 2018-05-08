@@ -5,13 +5,23 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check Plugin</name>
-  <version>1.3.0</version>
+  <version>1.3.0.001</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
-      擎盾代码检查插件.<br>
+      This plugin is write for check specific code style for our company.
+      and it supports both java and kotlin.<br>
+      Otherwise, it provided some additional features, such as:
+      <ul>
+        <li>rearrange tag attributes for .vue files when reformatting</li>
+        <li>add gutters for mybatis mapper interfaces and mapping xml files,
+         you can jump from the interface methods to the mapping file tag or the opposite,
+         </li>
+        <li>
+          add code completion when inject property for spring boot applications use the annotation @Value
+        </li>
+      <ul>
     ]]></description>
-
   <change-notes><![CDATA[
       <br>
     ]]>

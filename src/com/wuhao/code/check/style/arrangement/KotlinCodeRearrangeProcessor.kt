@@ -89,14 +89,18 @@ class KotlinCodeRearrangeProcessor : Rearranger<ArrangementEntry> {
       when (target.type) {
         FIELD -> when {
           parent != null && parent.type === INTERFACE -> 2
-          previous!!.type == INIT_BLOCK -> 1
+          previous == null -> 1
+          previous.type == INIT_BLOCK -> 1
+          previous.type == FIELD -> 0
           else -> 0
         }
         METHOD -> when {
           parent != null && parent.type === INTERFACE -> 1
+          previous == null -> 1
+          previous.type == FIELD -> 1
           else -> 1
         }
-        CLASS -> 2
+        CLASS -> 1
         INIT_BLOCK -> 1
         else -> -1
       }

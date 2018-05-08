@@ -20,7 +20,11 @@ open class KotlinElementArrangementEntry(parent: ArrangementEntry?,
                                          endOffset: Int,
                                          val type: ArrangementSettingsToken,
                                          private val myName: String?,
-                                         canBeArranged: Boolean) : DefaultArrangementEntry(parent, startOffset, endOffset, canBeArranged), TypeAwareArrangementEntry, NameAwareArrangementEntry, ModifierAwareArrangementEntry {
+                                         canBeArranged: Boolean)
+  : DefaultArrangementEntry(parent, startOffset, endOffset, canBeArranged),
+    TypeAwareArrangementEntry,
+    NameAwareArrangementEntry,
+    ModifierAwareArrangementEntry {
 
   private val myModifiers = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()
   private val myTypes = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()

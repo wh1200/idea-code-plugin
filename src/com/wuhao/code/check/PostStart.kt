@@ -87,7 +87,7 @@ class PostStart : StartupActivity {
       if (rule.order == null) {
         StdArrangementMatchRule(createMatcher(rule), BY_NAME)
       } else {
-        StdArrangementMatchRule(createMatcher(rule))
+        StdArrangementMatchRule(createMatcher(rule), rule.order!!)
       }
     }.map {
       ArrangementSectionRule.create(it)

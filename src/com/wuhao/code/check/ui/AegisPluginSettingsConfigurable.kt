@@ -7,6 +7,7 @@ package com.wuhao.code.check.ui
 import com.intellij.openapi.options.SearchableConfigurable
 import javax.swing.JComponent
 
+
 /**
  * Created by 吴昊 on 18-4-25.
  * @author 吴昊

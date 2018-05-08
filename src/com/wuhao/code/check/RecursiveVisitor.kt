@@ -5,24 +5,26 @@
 package com.wuhao.code.check
 
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiElementVisitor
 
 /**
  * 递归访问psi元素
  * @author 吴昊
  * @since 1.2
  */
-abstract class RecursiveVisitor(private val element: PsiElement) {
+abstract class RecursiveVisitor : PsiElementVisitor() {
 
-  abstract fun visit(element: PsiElement)
+  abstract override fun visitElement(element: PsiElement)
 
-  fun run() {
+  fun visit(element: PsiElement) {
     recursiveVisit(element)
   }
 
   private fun recursiveVisit(element: PsiElement) {
-    visit(element)
+    visitElement(element)
     element.children.forEach {
       recursiveVisit(it)
     }
   }
 }
+

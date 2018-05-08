@@ -7,6 +7,7 @@ package com.wuhao.code.check.inspection.checker
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.psi.PsiAnonymousClass
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiTypeParameter
@@ -25,7 +26,7 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 class ClassCommentChecker(holder: ProblemsHolder) : BaseChecker(holder) {
 
   fun checkJava(element: PsiClass) {
-    if (element !is PsiTypeParameter && element.firstChild == null || element.firstChild !is PsiDocComment) {
+    if ((element !is PsiTypeParameter && element.firstChild == null || element.firstChild !is PsiDocComment) && element !is PsiAnonymousClass) {
       if (element.nameIdentifier != null) {
         registerProblem(element.nameIdentifier!!, JavaBlockCommentFix())
       } else {
@@ -39,13 +40,13 @@ class ClassCommentChecker(holder: ProblemsHolder) : BaseChecker(holder) {
   }
 
   fun checkKotlin(element: KtClass) {
-    if (element !is KtEnumEntry) {
+    if (element !is KtEnumEntry && element.nameIdentifier != null) {
       checkKotlinClassComment(element, element.nameIdentifier)
     }
   }
 
   fun checkKotlin(element: KtObjectDeclaration) {
-    if (!element.isCompanion()) {
+    if (!element.isCompanion() && element.nameIdentifier != null) {
       checkKotlinClassComment(element, element.nameIdentifier)
     }
   }
@@ -60,3 +61,4 @@ class ClassCommentChecker(holder: ProblemsHolder) : BaseChecker(holder) {
     }
   }
 }
+

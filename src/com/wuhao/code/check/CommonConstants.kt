@@ -7,6 +7,8 @@ package com.wuhao.code.check
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
+import org.jetbrains.kotlin.lexer.KtTokens
+import java.util.logging.Logger
 
 
 /**
@@ -54,3 +56,15 @@ const val DEFAULT_CONTINUATION_INDENT_SPACE_COUNT = DEFAULT_INDENT_SPACE_COUNT *
 fun getPsiElementFactory(element: PsiElement): PsiElementFactoryImpl {
   return PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(element.project))
 }
+
+/**
+ * 全局日志
+ */
+val LOG = Logger.getLogger("plugin")
+
+/**
+ * kotlin的修饰符
+ */
+val KOTLIN_MODIFIERS = listOf(KtTokens.PROTECTED_KEYWORD,
+    KtTokens.PRIVATE_KEYWORD, KtTokens.OPEN_KEYWORD)
+

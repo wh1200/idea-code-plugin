@@ -28,8 +28,8 @@ class FixJavaBlankLineProcessor : PostFormatProcessor {
 
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
     val factory = KtPsiFactory(source)
-    object : RecursiveVisitor(source) {
-      override fun visit(element: PsiElement) {
+    object : RecursiveVisitor() {
+      override fun visitElement(element: PsiElement) {
         if (element is PsiFile && element.firstChild is PsiWhiteSpace) {
           element.firstChild.delete()
         }
@@ -79,7 +79,7 @@ class FixJavaBlankLineProcessor : PostFormatProcessor {
           }
         }
       }
-    }.run()
+    }.visit(source)
     fixWhiteSpace(source.lastChild, 2, factory)
     return TextRange(0, source.endOffset)
   }

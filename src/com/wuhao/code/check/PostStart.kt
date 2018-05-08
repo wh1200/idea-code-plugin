@@ -31,8 +31,8 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.*
 import com.intellij.psi.css.CssFileType
 import org.jetbrains.kotlin.idea.KotlinFileType
+import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueFileType
-import java.util.*
 
 /**
  * 项目启动时运行
@@ -46,14 +46,18 @@ class PostStart : StartupActivity {
     val myLastRunSettings = LastRunReformatCodeOptionsProvider(PropertiesComponent.getInstance())
     myLastRunSettings.saveRearrangeCodeState(true)
     myLastRunSettings.saveRearrangeState(JavaLanguage.INSTANCE, true)
+    myLastRunSettings.saveRearrangeState(KotlinLanguage.INSTANCE, true)
     myLastRunSettings.saveOptimizeImportsState(true)
     // 设定java代码重排规则
     val settings = CodeStyle.getSettings(project)
-    val commonSettings = settings.getCommonSettings(JavaLanguage.INSTANCE)
-    commonSettings.setArrangementSettings(createSettings())
+    settings.getCommonSettings(JavaLanguage.INSTANCE).apply {
+      setArrangementSettings(createSettings())
+    }
+    settings.getCommonSettings(KotlinLanguage.INSTANCE).apply {
+      setArrangementSettings(createSettings())
+    }
     // 设定代码缩进
     setIndent(settings)
-
   }
 
   private fun setIndent(settings: CodeStyleSettings) {
@@ -65,9 +69,9 @@ class PostStart : StartupActivity {
     setIndentFileTypes.forEach { fileType ->
       settings.getIndentOptions(fileType)
           .apply {
-            INDENT_SIZE = 2
-            CONTINUATION_INDENT_SIZE = 4
-            TAB_SIZE = 2
+            INDENT_SIZE = DEFAULT_INDENT_SPACE_COUNT
+            CONTINUATION_INDENT_SIZE = DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
+            TAB_SIZE = DEFAULT_INDENT_SPACE_COUNT
             USE_TAB_CHARACTER = false
           }
     }
@@ -81,51 +85,32 @@ class PostStart : StartupActivity {
     )
     val sections = getRules().map { rule ->
       if (rule.order == null) {
-        StdArrangementMatchRule(StdArrangementEntryMatcher(
-            ArrangementCompositeMatchCondition().apply {
-              rule.template.forEach { token ->
-                this.addOperand(ArrangementAtomMatchCondition(token))
-              }
-            }
-        ), BY_NAME)
+        StdArrangementMatchRule(createMatcher(rule), BY_NAME)
       } else {
-        StdArrangementMatchRule(StdArrangementEntryMatcher(
-            ArrangementCompositeMatchCondition().apply {
-              rule.template.forEach { token ->
-                this.addOperand(ArrangementAtomMatchCondition(token))
-              }
-            }
-        ))
+        StdArrangementMatchRule(createMatcher(rule))
       }
     }.map {
       ArrangementSectionRule.create(it)
     }
     val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
-      definitionRules = ArrayList<StdArrangementMatchRule>().apply {
-        and(this, PUBLIC)
-        and(this, PACKAGE_PRIVATE)
-        and(this, PROTECTED)
-        and(this, PRIVATE)
+      definitionRules = listOf(PUBLIC, PACKAGE_PRIVATE, PROTECTED, PRIVATE).map {
+        StdArrangementMatchRule(
+            StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
+        )
       }
     })
-    return StdArrangementExtendableSettings(groupingRules, sections, tokens!!)
+    return StdArrangementExtendableSettings(groupingRules, sections, tokens)
   }
 
-  private fun and(matchRules: MutableList<StdArrangementMatchRule>, vararg conditions: ArrangementSettingsToken) {
-    if (conditions.size == 1) {
-      matchRules.add(StdArrangementMatchRule(StdArrangementEntryMatcher(ArrangementAtomMatchCondition(
-          conditions[0]
-      ))))
-      return
-    }
-
-    val composite = ArrangementCompositeMatchCondition()
-    for (condition in conditions) {
-      composite.addOperand(ArrangementAtomMatchCondition(condition))
-    }
-    matchRules.add(StdArrangementMatchRule(StdArrangementEntryMatcher(composite)))
+  private fun createMatcher(rule: PostStart.RuleDescription): StdArrangementEntryMatcher {
+    return StdArrangementEntryMatcher(
+        ArrangementCompositeMatchCondition().apply {
+          rule.template.forEach { token ->
+            this.addOperand(ArrangementAtomMatchCondition(token))
+          }
+        }
+    )
   }
-
 
   private fun getRules(): List<RuleDescription> {
     return listOf(
@@ -190,3 +175,4 @@ class PostStart : StartupActivity {
     }
   }
 }
+

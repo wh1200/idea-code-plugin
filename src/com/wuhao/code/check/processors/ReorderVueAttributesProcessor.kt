@@ -31,13 +31,13 @@ class ReorderVueAttributesProcessor : PostFormatProcessor {
     if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
-        object:RecursiveVisitor(templateTag){
-          override fun visit(element: PsiElement) {
+        object:RecursiveVisitor(){
+          override fun visitElement(element: PsiElement) {
             if (element is XmlTag) {
               VueTemplateTagFix.reorderAttributes(element)
             }
           }
-        }.run()
+        }.visit(templateTag)
       }
     }
     return TextRange(0, file.endOffset)

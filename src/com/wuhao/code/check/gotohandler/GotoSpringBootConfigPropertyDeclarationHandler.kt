@@ -39,8 +39,8 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
           .findFileByPath("${project.basePath}/$RESOURCES_PATH/${SpringBootConfigFileConstants.APPLICATION_YML}")?.toPsiFile(project)
       val currentKey = getRealProperty(el.text)
       if (yamlFile != null) {
-        object : RecursiveVisitor(yamlFile) {
-          override fun visit(element: PsiElement) {
+        object : RecursiveVisitor() {
+          override fun visitElement(element: PsiElement) {
             if (element is YAMLKeyValue) {
               val key = element.ancestors.filter { it is YAMLKeyValue }
                   .reversed().joinToString(".") {
@@ -51,7 +51,7 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
               }
             }
           }
-        }.run()
+        }.visit(yamlFile)
       }
     }
     return res.toTypedArray()

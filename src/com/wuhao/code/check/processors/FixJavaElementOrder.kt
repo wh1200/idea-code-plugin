@@ -28,13 +28,13 @@ class FixJavaElementOrder : PostFormatProcessor {
   }
 
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
-    object : RecursiveVisitor(source) {
-      override fun visit(element: PsiElement) {
+    object : RecursiveVisitor() {
+      override fun visitElement(element: PsiElement) {
         if (element is PsiClass) {
           fixElementOrder(element)
         }
       }
-    }.run()
+    }.visit(source)
     return TextRange(0, source.endOffset)
   }
 

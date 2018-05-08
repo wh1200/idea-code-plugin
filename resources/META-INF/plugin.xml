@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check Plugin</name>
-  <version>1.2.6</version>
+  <version>1.2.6.001</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
@@ -28,6 +28,8 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <postStartupActivity implementation="com.wuhao.code.check.PostStart"/>
+    <lang.rearranger language="kotlin"
+                     implementationClass="com.wuhao.code.check.style.arrangement.KotlinCodeRearrangeProcessor"/>
     <completion.contributor
         implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
         language="JAVA" order="FIRST"/>
@@ -83,3 +85,4 @@
   <depends>com.intellij.spring.boot</depends>
   <depends>org.jetbrains.plugins.vue</depends>
 </idea-plugin>
+

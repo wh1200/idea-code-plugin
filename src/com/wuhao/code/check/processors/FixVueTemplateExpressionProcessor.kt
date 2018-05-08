@@ -39,8 +39,8 @@ class FixVueTemplateExpressionProcessor : PostFormatProcessor {
     if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
-        object:RecursiveVisitor(templateTag){
-          override fun visit(element: PsiElement) {
+        object:RecursiveVisitor(){
+          override fun visitElement(element: PsiElement) {
             val parent = element.parent
             if (element.text != "\"" && element.text != "'" && parent is XmlAttributeValue) {
               val attr = parent.parent
@@ -48,9 +48,9 @@ class FixVueTemplateExpressionProcessor : PostFormatProcessor {
                   && (attr.name.startsWith(CUSTOM_ATTR_PREFIX)
                       || attr.name.startsWith(DIRECTIVE_PREFIX))) {
                 val exp = JSElementFactory.createExpressionCodeFragment(element.project, element.text, null)
-                object : RecursiveVisitor(exp) {
+                object : RecursiveVisitor() {
                   private val factory = KtPsiFactory(exp.project)
-                  override fun visit(element: PsiElement) {
+                  override fun visitElement(element: PsiElement) {
                     if (element.text in listOf("+", "-", "*", "/", "?", ":", ">", "<", "=", "!=", "===", "==", ">=", "<=", "||", "%",
                             "&&", "&", "|")) {
                       if (element.prevSibling !is PsiWhiteSpace) {
@@ -66,12 +66,12 @@ class FixVueTemplateExpressionProcessor : PostFormatProcessor {
                       }
                     }
                   }
-                }.run()
+                }.visit(exp)
                 attr.value = exp.text
               }
             }
           }
-        }.run()
+        }.visit(templateTag)
       }
     }
     return TextRange(0, file.endOffset)

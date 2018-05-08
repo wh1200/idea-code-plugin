@@ -68,7 +68,7 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
 
   private fun needSpaceBothBeforeAndAfter(element: PsiElement): Boolean {
     if (element.language is KotlinLanguage) {
-      return ((element is LeafPsiElement
+      val test = ((element is LeafPsiElement
           && element.parent !is KtValueArgument
           && element.parent !is KtImportDirective
           && (element.parent !is KtOperationReferenceExpression
@@ -78,9 +78,10 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
           && ((element.parent !is KtWhenEntry && element.elementType == ELSE_KEYWORD)
           || element.elementType in shouldHaveSpaceBothBeforeAndAfterElementTypes))
           && !(element.elementType == MUL && element.parent is KtTypeProjection))
-          || (element is KtOperationReferenceExpression &&
-          element.firstChild is LeafPsiElement
+          || (element is KtOperationReferenceExpression
+          && element.firstChild is LeafPsiElement
           && (element.firstChild as LeafPsiElement).elementType in shouldHaveSpaceBothBeforeAndAfterElementTypes)
+      return test && notPrefixExpression(element)
     } else {
       return element is PsiJavaToken
           && element.parent !is PsiReferenceParameterList
@@ -92,6 +93,13 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
     }
   }
 
+  private fun notPrefixExpression(element: PsiElement): Boolean {
+    return !(element is LeafPsiElement && element.elementType == MINUS
+        && element.parent is KtOperationReferenceExpression
+        && element.parent.parent is KtPrefixExpression
+        ) && !(element is KtOperationReferenceExpression && element.parent is KtPrefixExpression)
+  }
+
   private fun onlyNeedSpaceBefore(element: PsiElement): Boolean {
     return if (element.language is KotlinLanguage) {
       element is PsiJavaToken
@@ -101,8 +109,6 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
     } else {
       false
     }
-
-
   }
 
   private fun onlyNeedSpaceAfter(element: PsiElement): Boolean {
@@ -167,10 +173,10 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
 
   companion object {
     val shouldHaveSpaceBothBeforeAndAfterElementTypes = listOf(
-        PLUSPLUS, MINUSMINUS, MUL, PLUS, MINUS, DIV, PERC,
+        MUL, PLUS, MINUS, DIV, PERC,
         GT, LT, LTEQ, GTEQ, EQEQEQ, ARROW, DOUBLE_ARROW, EXCLEQEQEQ, EQEQ, EXCLEQ,
         ANDAND, OROR, EQ, MULTEQ, DIVEQ, PERCEQ, PLUSEQ, MINUSEQ, NOT_IN, NOT_IS)
-    val shouldHaveSpaceBothBeforeAndAfterKeywords = shouldHaveSpaceBothBeforeAndAfterElementTypes
+    private val shouldHaveSpaceBothBeforeAndAfterKeywords = shouldHaveSpaceBothBeforeAndAfterElementTypes
         .map { it.value } + listOf("else", "catch")
     val shouldHaveSpaceBothBeforeAndAfterTokens = listOf(">", "<", "=", ">=", "<=", "!=", "&&", "||", "&", "|", "==",
         "+", "-", "*", "/", "%", "+=", "-=", "/=", "*=", ">>", "<<", "<>") + shouldHaveSpaceBothBeforeAndAfterKeywords
@@ -180,3 +186,4 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
         "while", "do", "switch")
   }
 }
+

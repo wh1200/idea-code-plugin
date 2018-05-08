@@ -6,11 +6,15 @@ package com.wuhao.code.check
 
 import com.intellij.application.options.CodeStyle
 import com.intellij.codeInsight.actions.LastRunReformatCodeOptionsProvider
+import com.intellij.ide.highlighter.JavaFileType
+import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.lang.java.JavaLanguage
+import com.intellij.lang.javascript.JavaScriptFileType
+import com.intellij.lang.javascript.TypeScriptFileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.StartupActivity
-import com.intellij.psi.codeStyle.arrangement.Rearranger
+import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.arrangement.group.ArrangementGroupingRule
 import com.intellij.psi.codeStyle.arrangement.match.ArrangementSectionRule
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementEntryMatcher
@@ -25,6 +29,9 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.*
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.*
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.*
+import com.intellij.psi.css.CssFileType
+import org.jetbrains.kotlin.idea.KotlinFileType
+import org.jetbrains.vuejs.VueFileType
 import java.util.*
 
 /**
@@ -35,17 +42,35 @@ import java.util.*
 class PostStart : StartupActivity {
 
   override fun runActivity(project: Project) {
-    val rearrange = Rearranger.EXTENSION.forLanguage(JavaLanguage.INSTANCE)
+    // 强制启用java代码重排和import重新组织的功能
     val myLastRunSettings = LastRunReformatCodeOptionsProvider(PropertiesComponent.getInstance())
     myLastRunSettings.saveRearrangeCodeState(true)
     myLastRunSettings.saveRearrangeState(JavaLanguage.INSTANCE, true)
     myLastRunSettings.saveOptimizeImportsState(true)
-    //    val project = element.psi.project
+    // 设定java代码重排规则
     val settings = CodeStyle.getSettings(project)
     val commonSettings = settings.getCommonSettings(JavaLanguage.INSTANCE)
     commonSettings.setArrangementSettings(createSettings())
+    // 设定代码缩进
+    setIndent(settings)
 
-//    ArrangementGroupingRule(ArrangementSettingsToken(), ArrangementSettingsToken())
+  }
+
+  private fun setIndent(settings: CodeStyleSettings) {
+    val setIndentFileTypes = listOf(
+        JavaFileType.INSTANCE, KotlinFileType.INSTANCE, JavaScriptFileType.INSTANCE,
+        TypeScriptFileType.INSTANCE, VueFileType.INSTANCE,
+        XmlFileType.INSTANCE, CssFileType.INSTANCE
+    )
+    setIndentFileTypes.forEach { fileType ->
+      settings.getIndentOptions(fileType)
+          .apply {
+            INDENT_SIZE = 2
+            CONTINUATION_INDENT_SIZE = 4
+            TAB_SIZE = 2
+            USE_TAB_CHARACTER = false
+          }
+    }
   }
 
   private fun createSettings(): StdArrangementSettings {

@@ -17,24 +17,27 @@ import com.intellij.util.containers.ContainerUtilRt
 import com.intellij.util.containers.Stack
 import com.wuhao.code.check.KOTLIN_MODIFIERS
 import com.wuhao.code.check.processors.EntryType.CLASS
+import com.wuhao.code.check.processors.EntryType.COMPANION_OBJECT
+import com.wuhao.code.check.processors.EntryType.DATA_CLASS
 import com.wuhao.code.check.processors.EntryType.ENUM
-import com.wuhao.code.check.processors.EntryType.FIELD
+import com.wuhao.code.check.processors.EntryType.FUNCTION
 import com.wuhao.code.check.processors.EntryType.INIT_BLOCK
 import com.wuhao.code.check.processors.EntryType.INTERFACE
-import com.wuhao.code.check.processors.EntryType.METHOD
-import com.wuhao.code.check.processors.Modifier.ABSTRACT
-import com.wuhao.code.check.processors.Modifier.CONST
-import com.wuhao.code.check.processors.Modifier.EXTERNAL
-import com.wuhao.code.check.processors.Modifier.FINAL
-import com.wuhao.code.check.processors.Modifier.INLINE
-import com.wuhao.code.check.processors.Modifier.INTERNAL
-import com.wuhao.code.check.processors.Modifier.LATEINIT
-import com.wuhao.code.check.processors.Modifier.OPEN
-import com.wuhao.code.check.processors.Modifier.PACKAGE_PRIVATE
-import com.wuhao.code.check.processors.Modifier.PRIVATE
-import com.wuhao.code.check.processors.Modifier.PROTECTED
-import com.wuhao.code.check.processors.Modifier.PUBLIC
-import com.wuhao.code.check.processors.Modifier.SEALED
+import com.wuhao.code.check.processors.EntryType.OBJECT
+import com.wuhao.code.check.processors.EntryType.PROPERTY
+import com.wuhao.code.check.processors.KotlinModifier.ABSTRACT
+import com.wuhao.code.check.processors.KotlinModifier.CONST
+import com.wuhao.code.check.processors.KotlinModifier.EXTERNAL
+import com.wuhao.code.check.processors.KotlinModifier.FINAL
+import com.wuhao.code.check.processors.KotlinModifier.INLINE
+import com.wuhao.code.check.processors.KotlinModifier.INTERNAL
+import com.wuhao.code.check.processors.KotlinModifier.LATEINIT
+import com.wuhao.code.check.processors.KotlinModifier.OPEN
+import com.wuhao.code.check.processors.KotlinModifier.PACKAGE_PRIVATE
+import com.wuhao.code.check.processors.KotlinModifier.PRIVATE
+import com.wuhao.code.check.processors.KotlinModifier.PROTECTED
+import com.wuhao.code.check.processors.KotlinModifier.PUBLIC
+import com.wuhao.code.check.processors.KotlinModifier.SEALED
 import org.jetbrains.kotlin.lexer.KtModifierKeywordToken
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
@@ -50,34 +53,32 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
                                private val myRanges: Collection<TextRange>,
                                settings: ArrangementSettings) : KotlinRecursiveVisitor() {
 
-  private val myStack = Stack<KotlinElementArrangementEntry>()
+  private val current: DefaultArrangementEntry?
+    get() = if (myStack.isEmpty()) null else myStack.peek()
   private val myEntries = HashMap<PsiElement, KotlinElementArrangementEntry>()
   private val myGroupingRules: Set<ArrangementSettingsToken>
   private val myMethodBodyProcessor: MethodBodyProcessor
-  private val mySectionDetector: ArrangementSectionDetector
+  private val myObjectBodyProcessor: ObjectBodyProcessor
   private val myProcessedSectionsComments = ContainerUtil.newHashSet<PsiComment>()
+  private val mySectionDetector: ArrangementSectionDetector
+  private val myStack = Stack<KotlinElementArrangementEntry>()
 
-  private val current: DefaultArrangementEntry?
-    get() = if (myStack.isEmpty()) null else myStack.peek()
-
-  init {
-    myGroupingRules = getGroupingRules(settings)
-    myMethodBodyProcessor = MethodBodyProcessor()
-    mySectionDetector = ArrangementSectionDetector(myDocument, settings) { data ->
-      val range = data.textRange
-      val entry = KotlinSectionArrangementEntry(current, data.token, range, data.text, true)
-      registerEntry(data.element, entry)
+  override fun visitClass(clazz: KtClass, data: Any?) {
+    val isSectionCommentsDetected = registerSectionComments(clazz)
+    val range = if (isSectionCommentsDetected) getElementRangeWithoutComments(clazz) else clazz.textRange
+    val type = when {
+      clazz.isEnum() -> ENUM
+      clazz.isInterface() -> INTERFACE
+      clazz.isData() -> DATA_CLASS
+      else -> CLASS
     }
+    val entry = createNewEntry(clazz, range, type, clazz.name, true)
+    processEntry(entry, clazz, clazz)
   }
 
-  private fun registerEntry(element: PsiElement, entry: KotlinElementArrangementEntry) {
-    myEntries[element] = entry
-    val current = current
-    if (current == null) {
-      myInfo.addEntry(entry)
-    } else {
-      current.addChild(entry)
-    }
+  override fun visitClassInitializer(initializer: KtClassInitializer, data: Any?) {
+    val entry = createNewEntry(initializer, initializer.textRange, INIT_BLOCK, null, true) ?: return
+    parseModifiers(initializer.modifierList, entry)
   }
 
   override fun visitComment(comment: PsiComment) {
@@ -87,85 +88,50 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     mySectionDetector.processComment(comment)
   }
 
-  override fun visitClass(clazz: KtClass,data:Any?) {
-    val isSectionCommentsDetected = registerSectionComments(clazz)
-    val range = if (isSectionCommentsDetected) getElementRangeWithoutComments(clazz) else clazz.textRange
-    var type = CLASS
-    if (clazz.isEnum()) {
-      type = ENUM
-    } else if (clazz.isInterface()) {
-      type = INTERFACE
-    }
-    val entry = createNewEntry(clazz, range, type, clazz.name, true)
-    processEntry(entry, clazz, clazz)
-  }
-
-  private fun registerSectionComments(element: PsiElement): Boolean {
-    val comments = getComments(element)
-    var isSectionCommentsDetected = false
-    for (comment in comments) {
-      if (mySectionDetector.processComment(comment)) {
-        isSectionCommentsDetected = true
-        myProcessedSectionsComments.add(comment)
-      }
-    }
-    return isSectionCommentsDetected
-  }
-
-  private fun createNewEntry(element: PsiElement,
-                             range: TextRange,
-                             type: ArrangementSettingsToken,
-                             name: String?,
-                             canArrange: Boolean): KotlinElementArrangementEntry? {
-    if (!isWithinBounds(range)) {
-      return null
-    }
-    val current = this.current
-    val entry: KotlinElementArrangementEntry
-    entry = if (canArrange) {
-      val expandedRange = if (myDocument == null) null else ArrangementUtil.expandToLineIfPossible(range, myDocument)
-      val rangeToUse = expandedRange ?: range
-      KotlinElementArrangementEntry(current, rangeToUse, type, name, true)
-    } else {
-      KotlinElementArrangementEntry(current, range, type, name, false)
-    }
-    registerEntry(element, entry)
-    return entry
-  }
-
-  private fun processEntry(entry: KotlinElementArrangementEntry?,
-                           modifier: KtModifierListOwner,
-                           nextPsiRoot: PsiElement?) {
-    if (entry == null) {
+  override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
+    if (function.parent !is KtClassBody) {
       return
     }
-    parseModifiers(modifier.modifierList, entry)
-    if (nextPsiRoot == null) {
-      return
-    }
-    processChildrenWithinEntryScope(entry, Runnable { nextPsiRoot.acceptChildren(this) })
-  }
-
-  private fun isWithinBounds(range: TextRange): Boolean {
-    for (textRange in myRanges) {
-      if (textRange.intersects(range)) {
-        return true
-      }
-    }
-    return false
-  }
-
-  private fun processChildrenWithinEntryScope(entry: KotlinElementArrangementEntry, childrenProcessing: Runnable) {
-    myStack.push(entry)
+    val isSectionCommentsDetected = registerSectionComments(function)
+    val range = if (isSectionCommentsDetected)
+      getElementRangeWithoutComments(function)
+    else
+      function.textRange
+    val type = FUNCTION
+    val entry = createNewEntry(function, range, type, function.name, true) ?: return
+    processEntry(entry, function, function.bodyExpression)
+    myInfo.onMethodEntryCreated(function, entry)
+    val reset = myMethodBodyProcessor.setBaseMethod(function)
     try {
-      childrenProcessing.run()
+      function.accept(myMethodBodyProcessor)
     } finally {
-      myStack.pop()
+      if (reset) {
+        myMethodBodyProcessor.setBaseMethod(null)
+      }
+    }
+  }
+
+  override fun visitObjectDeclaration(declaration: KtObjectDeclaration, data: Any?) {
+    val range = declaration.textRange
+    val type = if (declaration.isCompanion()) {
+      COMPANION_OBJECT
+    } else {
+      OBJECT
+    }
+    val entry = createNewEntry(declaration, range, type, null, true) ?: return
+    processEntry(entry, declaration, declaration.getBody())
+    val reset = myObjectBodyProcessor.setBaseObject(declaration)
+    try {
+      declaration.accept(myObjectBodyProcessor)
+    } finally {
+      if (reset) {
+        myObjectBodyProcessor.setBaseObject(null)
+      }
     }
   }
 
   override fun visitProperty(property: KtProperty, data: Any?) {
-    if (property.parent !is KtClassBody){
+    if (property.parent !is KtClassBody) {
       return
     }
     val isSectionCommentsDetected = registerSectionComments(property)
@@ -224,9 +190,30 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
         break
       }
     }
-    val entry = createNewEntry(property, range, FIELD, property.name, true) ?: return
+    val entry = createNewEntry(property, range, PROPERTY, property.name, true) ?: return
     processEntry(entry, property, property.initializer)
     myInfo.onFieldEntryCreated(property, entry)
+  }
+
+  private fun createNewEntry(element: PsiElement,
+                             range: TextRange,
+                             type: ArrangementSettingsToken,
+                             name: String?,
+                             canArrange: Boolean): KotlinElementArrangementEntry? {
+    if (!isWithinBounds(range)) {
+      return null
+    }
+    val current = this.current
+    val entry: KotlinElementArrangementEntry
+    entry = if (canArrange) {
+      val expandedRange = if (myDocument == null) null else ArrangementUtil.expandToLineIfPossible(range, myDocument)
+      val rangeToUse = expandedRange ?: range
+      KotlinElementArrangementEntry(current, rangeToUse, type, name, true)
+    } else {
+      KotlinElementArrangementEntry(current, range, type, name, false)
+    }
+    registerEntry(element, entry)
+    return entry
   }
 
   private fun expandToCommentIfPossible(element: PsiElement): Int {
@@ -252,41 +239,65 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     return element.textRange.endOffset
   }
 
-  override fun visitClassInitializer(initializer: KtClassInitializer,data: Any?) {
-    val entry = createNewEntry(initializer, initializer.textRange, INIT_BLOCK, null, true) ?: return
-    parseModifiers(initializer.modifierList, entry)
-  }
-
-  override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
-    if (function.parent !is KtClassBody){
-      return
-    }
-    val isSectionCommentsDetected = registerSectionComments(function)
-    val range = if (isSectionCommentsDetected)
-      getElementRangeWithoutComments(function)
-    else
-      function.textRange
-    val type = METHOD
-    val entry = createNewEntry(function, range, type, function.name, true) ?: return
-    processEntry(entry, function, function.bodyExpression)
-    myInfo.onMethodEntryCreated(function, entry)
-    val reset = myMethodBodyProcessor.setBaseMethod(function)
-    try {
-      function.accept(myMethodBodyProcessor)
-    } finally {
-      if (reset) {
-        myMethodBodyProcessor.setBaseMethod(null)
+  private fun isWithinBounds(range: TextRange): Boolean {
+    for (textRange in myRanges) {
+      if (textRange.intersects(range)) {
+        return true
       }
     }
+    return false
   }
 
+  private fun processChildrenWithinEntryScope(entry: KotlinElementArrangementEntry, childrenProcessing: Runnable) {
+    myStack.push(entry)
+    try {
+      childrenProcessing.run()
+    } finally {
+      myStack.pop()
+    }
+  }
+
+  private fun processEntry(entry: KotlinElementArrangementEntry?,
+                           modifier: KtModifierListOwner,
+                           nextPsiRoot: PsiElement?) {
+    if (entry == null) {
+      return
+    }
+    parseModifiers(modifier.modifierList, entry)
+    if (nextPsiRoot == null) {
+      return
+    }
+    processChildrenWithinEntryScope(entry, Runnable { nextPsiRoot.acceptChildren(this) })
+  }
+
+  private fun registerEntry(element: PsiElement, entry: KotlinElementArrangementEntry) {
+    myEntries[element] = entry
+    val current = current
+    if (current == null) {
+      myInfo.addEntry(entry)
+    } else {
+      current.addChild(entry)
+    }
+  }
+
+  private fun registerSectionComments(element: PsiElement): Boolean {
+    val comments = getComments(element)
+    var isSectionCommentsDetected = false
+    for (comment in comments) {
+      if (mySectionDetector.processComment(comment)) {
+        isSectionCommentsDetected = true
+        myProcessedSectionsComments.add(comment)
+      }
+    }
+    return isSectionCommentsDetected
+  }
 
   /**
    * @author 吴昊
    * @since 1.2.6
    */
   private class MethodBodyProcessor internal constructor() :
-      JavaRecursiveElementVisitor() {
+      KotlinRecursiveVisitor() {
     private var myBaseMethod: KtNamedFunction? = null
 
     internal fun setBaseMethod(baseMethod: KtNamedFunction?): Boolean {
@@ -298,31 +309,49 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     }
   }
 
+  /**
+   * @author 吴昊
+   * @since 1.2.6
+   */
+  private class ObjectBodyProcessor internal constructor() :
+      KotlinRecursiveVisitor() {
+    private var myBaseObject: KtObjectDeclaration? = null
+
+    internal fun setBaseObject(baseObject: KtObjectDeclaration?): Boolean {
+      if (baseObject == null || myBaseObject == null) {
+        myBaseObject = baseObject
+        return true
+      }
+      return false
+    }
+  }
+
+  init {
+    myGroupingRules = getGroupingRules(settings)
+    myMethodBodyProcessor = MethodBodyProcessor()
+    myObjectBodyProcessor = ObjectBodyProcessor()
+    mySectionDetector = ArrangementSectionDetector(myDocument, settings) { data ->
+      val range = data.textRange
+      val entry = KotlinSectionArrangementEntry(current, data.token, range, data.text, true)
+      registerEntry(data.element, entry)
+    }
+  }
+
   companion object {
 
     private val MODIFIERS = ContainerUtilRt.newHashMap<KtModifierKeywordToken, ArrangementSettingsToken>()
 
-    init {
-      MODIFIERS[KtTokens.PROTECTED_KEYWORD] = PROTECTED
-      MODIFIERS[KtTokens.PRIVATE_KEYWORD] = PRIVATE
-      MODIFIERS[KtTokens.OPEN_KEYWORD] = OPEN
-      MODIFIERS[KtTokens.LATEINIT_KEYWORD] = LATEINIT
-      MODIFIERS[KtTokens.PUBLIC_KEYWORD] = PUBLIC
-      MODIFIERS[KtTokens.INTERNAL_KEYWORD] = INTERNAL
-      MODIFIERS[KtTokens.INLINE_KEYWORD] = INLINE
-      MODIFIERS[KtTokens.FINAL_KEYWORD] = FINAL
-      MODIFIERS[KtTokens.SEALED_KEYWORD] = SEALED
-      MODIFIERS[KtTokens.ABSTRACT_KEYWORD] = ABSTRACT
-      MODIFIERS[KtTokens.CONST_KEYWORD] = CONST
-      MODIFIERS[KtTokens.EXTERNAL_KEYWORD] = EXTERNAL
-    }
-
-    private fun getGroupingRules(settings: ArrangementSettings): Set<ArrangementSettingsToken> {
-      val groupingRules = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()
-      for (rule in settings.groupings) {
-        groupingRules.add(rule.groupingType)
+    private fun getComments(element: PsiElement): List<PsiComment> {
+      val children = element.children
+      val comments = ContainerUtil.newArrayList<PsiComment>()
+      for (e in children) {
+        if (e is PsiComment) {
+          comments.add(e)
+        } else if (e !is PsiWhiteSpace) {
+          return comments
+        }
       }
-      return groupingRules
+      return comments
     }
 
     private fun getElementRangeWithoutComments(element: PsiElement): TextRange {
@@ -338,19 +367,43 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       return TextRange(child.textRange.startOffset, element.textRange.endOffset)
     }
 
-    private fun getComments(element: PsiElement): List<PsiComment> {
-      val children = element.children
-      val comments = ContainerUtil.newArrayList<PsiComment>()
-
-      for (e in children) {
-        if (e is PsiComment) {
-          comments.add(e)
-        } else if (e !is PsiWhiteSpace) {
-          return comments
-        }
+    private fun getGroupingRules(settings: ArrangementSettings): Set<ArrangementSettingsToken> {
+      val groupingRules = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()
+      for (rule in settings.groupings) {
+        groupingRules.add(rule.groupingType)
       }
+      return groupingRules
+    }
 
-      return comments
+    private fun getPreviousNonWsComment(element: PsiElement?, minOffset: Int): PsiElement? {
+      if (element == null) {
+        return null
+      }
+      var e = element
+      while (e != null && e.textRange.startOffset >= minOffset) {
+        if (e is PsiWhiteSpace || e is PsiComment) {
+          e = e.prevSibling
+          continue
+        }
+        return e
+      }
+      return null
+    }
+
+    private fun hasLineBreak(text: CharSequence, range: TextRange): Boolean {
+      var i = range.startOffset
+      val end = range.endOffset
+      while (i < end) {
+        if (text[i] == '\n') {
+          return true
+        }
+        i++
+      }
+      return false
+    }
+
+    private fun isSemicolon(e: PsiElement?): Boolean {
+      return PsiUtil.isJavaToken(e, JavaTokenType.SEMICOLON)
     }
 
     private fun parseModifiers(modifierList: KtModifierList?, entry: KotlinElementArrangementEntry) {
@@ -370,35 +423,19 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       }
     }
 
-    private fun getPreviousNonWsComment(element: PsiElement?, minOffset: Int): PsiElement? {
-      if (element == null) {
-        return null
-      }
-      var e = element
-      while (e != null && e.textRange.startOffset >= minOffset) {
-        if (e is PsiWhiteSpace || e is PsiComment) {
-          e = e.prevSibling
-          continue
-        }
-        return e
-      }
-      return null
-    }
-
-    private fun isSemicolon(e: PsiElement?): Boolean {
-      return PsiUtil.isJavaToken(e, JavaTokenType.SEMICOLON)
-    }
-
-    private fun hasLineBreak(text: CharSequence, range: TextRange): Boolean {
-      var i = range.startOffset
-      val end = range.endOffset
-      while (i < end) {
-        if (text[i] == '\n') {
-          return true
-        }
-        i++
-      }
-      return false
+    init {
+      MODIFIERS[KtTokens.PROTECTED_KEYWORD] = PROTECTED
+      MODIFIERS[KtTokens.PRIVATE_KEYWORD] = PRIVATE
+      MODIFIERS[KtTokens.OPEN_KEYWORD] = OPEN
+      MODIFIERS[KtTokens.LATEINIT_KEYWORD] = LATEINIT
+      MODIFIERS[KtTokens.PUBLIC_KEYWORD] = PUBLIC
+      MODIFIERS[KtTokens.INTERNAL_KEYWORD] = INTERNAL
+      MODIFIERS[KtTokens.INLINE_KEYWORD] = INLINE
+      MODIFIERS[KtTokens.FINAL_KEYWORD] = FINAL
+      MODIFIERS[KtTokens.SEALED_KEYWORD] = SEALED
+      MODIFIERS[KtTokens.ABSTRACT_KEYWORD] = ABSTRACT
+      MODIFIERS[KtTokens.CONST_KEYWORD] = CONST
+      MODIFIERS[KtTokens.EXTERNAL_KEYWORD] = EXTERNAL
     }
   }
 

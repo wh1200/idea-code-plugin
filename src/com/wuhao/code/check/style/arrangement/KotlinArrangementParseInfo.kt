@@ -15,9 +15,8 @@ import kotlin.collections.LinkedHashMap
 class KotlinArrangementParseInfo {
 
   private val myEntries = ArrayList<KotlinElementArrangementEntry>()
-  private val myMethodEntriesMap = HashMap<KtNamedFunction, KotlinElementArrangementEntry>()
   private val myFields = LinkedHashMap<KtProperty, KotlinElementArrangementEntry>()
-
+  private val myMethodEntriesMap = HashMap<KtNamedFunction, KotlinElementArrangementEntry>()
   val entries: List<KotlinElementArrangementEntry>
     get() = myEntries
 
@@ -25,12 +24,12 @@ class KotlinArrangementParseInfo {
     myEntries.add(entry)
   }
 
-  fun onMethodEntryCreated(method: KtNamedFunction, entry: KotlinElementArrangementEntry) {
-    myMethodEntriesMap[method] = entry
-  }
-
   fun onFieldEntryCreated(field: KtProperty, entry: KotlinElementArrangementEntry) {
     myFields[field] = entry
+  }
+
+  fun onMethodEntryCreated(method: KtNamedFunction, entry: KotlinElementArrangementEntry) {
+    myMethodEntriesMap[method] = entry
   }
 }
 

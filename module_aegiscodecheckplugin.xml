@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_aegiscodecheckplugin" default="compile.module.aegiscodecheckplugin">
+  <dirname property="module.aegiscodecheckplugin.basedir" file="${ant.file.module_aegiscodecheckplugin}"/>
+  
+  <property name="module.jdk.home.aegiscodecheckplugin" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.aegiscodecheckplugin" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.aegiscodecheckplugin" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.aegiscodecheckplugin" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="aegiscodecheckplugin.output.dir" value="${module.aegiscodecheckplugin.basedir}/out/production/AegisCodeCheckPlugin"/>
+  <property name="aegiscodecheckplugin.testoutput.dir" value="${module.aegiscodecheckplugin.basedir}/out/test/AegisCodeCheckPlugin"/>
+  
+  <path id="aegiscodecheckplugin.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="aegiscodecheckplugin.module.production.classpath">
+    <path refid="${module.jdk.classpath.aegiscodecheckplugin}"/>
+    <pathelement location="${idea.home}/plugins/testng/lib/jcommander.jar"/>
+    <pathelement location="${idea.home}/plugins/testng/lib/testng.jar"/>
+    <path refid="library.wuhao-tools-2.5.1.1.classpath"/>
+    <path refid="library.commons-io-2.5.classpath"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+  </path>
+  
+  <path id="aegiscodecheckplugin.runtime.production.module.classpath">
+    <pathelement location="${aegiscodecheckplugin.output.dir}"/>
+    <pathelement location="${idea.home}/plugins/testng/lib/jcommander.jar"/>
+    <pathelement location="${idea.home}/plugins/testng/lib/testng.jar"/>
+    <path refid="library.wuhao-tools-2.5.1.1.classpath"/>
+    <path refid="library.commons-io-2.5.classpath"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+  </path>
+  
+  <path id="aegiscodecheckplugin.module.classpath">
+    <path refid="${module.jdk.classpath.aegiscodecheckplugin}"/>
+    <pathelement location="${aegiscodecheckplugin.output.dir}"/>
+    <pathelement location="${idea.home}/plugins/testng/lib/jcommander.jar"/>
+    <pathelement location="${idea.home}/plugins/testng/lib/testng.jar"/>
+    <path refid="library.wuhao-tools-2.5.1.1.classpath"/>
+    <path refid="library.commons-io-2.5.classpath"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+  </path>
+  
+  <path id="aegiscodecheckplugin.runtime.module.classpath">
+    <pathelement location="${aegiscodecheckplugin.testoutput.dir}"/>
+    <pathelement location="${aegiscodecheckplugin.output.dir}"/>
+    <pathelement location="${idea.home}/plugins/testng/lib/jcommander.jar"/>
+    <pathelement location="${idea.home}/plugins/testng/lib/testng.jar"/>
+    <path refid="library.wuhao-tools-2.5.1.1.classpath"/>
+    <path refid="library.commons-io-2.5.classpath"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.aegiscodecheckplugin">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.aegiscodecheckplugin">
+    <patternset refid="excluded.from.module.aegiscodecheckplugin"/>
+  </patternset>
+  
+  <path id="aegiscodecheckplugin.module.sourcepath">
+    <dirset dir="${module.aegiscodecheckplugin.basedir}">
+      <include name="src"/>
+      <include name="resources"/>
+    </dirset>
+  </path>
+  
+  <path id="aegiscodecheckplugin.module.test.sourcepath">
+    <dirset dir="${module.aegiscodecheckplugin.basedir}">
+      <include name="testData"/>
+      <include name="tests"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.aegiscodecheckplugin" depends="compile.module.aegiscodecheckplugin.production,compile.module.aegiscodecheckplugin.tests" description="Compile module AegisCodeCheckPlugin"/>
+  
+  <target name="compile.module.aegiscodecheckplugin.production" depends="register.custom.compilers" description="Compile module AegisCodeCheckPlugin; production classes">
+    <mkdir dir="${aegiscodecheckplugin.output.dir}"/>
+    <javac2 destdir="${aegiscodecheckplugin.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.aegiscodecheckplugin}/javac">
+      <compilerarg line="${compiler.args.aegiscodecheckplugin}"/>
+      <bootclasspath refid="aegiscodecheckplugin.module.bootclasspath"/>
+      <classpath refid="aegiscodecheckplugin.module.production.classpath"/>
+      <src refid="aegiscodecheckplugin.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.aegiscodecheckplugin"/>
+    </javac2>
+    
+    <copy todir="${aegiscodecheckplugin.output.dir}">
+      <fileset dir="${module.aegiscodecheckplugin.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.aegiscodecheckplugin.basedir}/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.aegiscodecheckplugin.tests" depends="register.custom.compilers,compile.module.aegiscodecheckplugin.production" description="compile module AegisCodeCheckPlugin; test classes" unless="skip.tests">
+    <mkdir dir="${aegiscodecheckplugin.testoutput.dir}"/>
+    <javac2 destdir="${aegiscodecheckplugin.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.aegiscodecheckplugin}/javac">
+      <compilerarg line="${compiler.args.aegiscodecheckplugin}"/>
+      <bootclasspath refid="aegiscodecheckplugin.module.bootclasspath"/>
+      <classpath refid="aegiscodecheckplugin.module.classpath"/>
+      <src refid="aegiscodecheckplugin.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.aegiscodecheckplugin"/>
+    </javac2>
+    
+    <copy todir="${aegiscodecheckplugin.testoutput.dir}">
+      <fileset dir="${module.aegiscodecheckplugin.basedir}/testData">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.aegiscodecheckplugin.basedir}/tests">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.aegiscodecheckplugin" description="cleanup module">
+    <delete dir="${aegiscodecheckplugin.output.dir}"/>
+    <delete dir="${aegiscodecheckplugin.testoutput.dir}"/>
+  </target>
+  
+  <property name="aegiscodecheckplugin.plugin.path.jar" value="${module.aegiscodecheckplugin.basedir}/AegisCodeCheckPlugin.zip"/>
+  
+  <!-- Build archive for plugin 'AegisCodeCheckPlugin' -->
+  <target name="plugin.build.jar.aegiscodecheckplugin" depends="compile.module.aegiscodecheckplugin" description="Build plugin archive for module &#39;AegisCodeCheckPlugin&#39;">
+    <property name="tmp.dir.aegiscodecheckplugin" value="${module.aegiscodecheckplugin.basedir}/../temp"/>
+    <mkdir dir="${tmp.dir.aegiscodecheckplugin}"/>
+    <mkdir dir="${tmp.dir.aegiscodecheckplugin}/lib"/>
+    <jar destfile="${tmp.dir.aegiscodecheckplugin}/lib/AegisCodeCheckPlugin.jar" duplicate="preserve">
+      <zipfileset dir="${module.aegiscodecheckplugin.basedir}/out/production/AegisCodeCheckPlugin"/>
+      <zipfileset file="${module.aegiscodecheckplugin.basedir}/resources/META-INF/plugin.xml" prefix="META-INF"/>
+      <manifest>
+        <attribute name="Created-By" value="IntelliJ IDEA"/>
+        <attribute name="Manifest-Version" value="1.0"/>
+      </manifest>
+    </jar>
+    <copy file="${idea.home}/plugins/testng/lib/testng.jar" tofile="${tmp.dir.aegiscodecheckplugin}/lib/testng.jar"/>
+    <copy file="${idea.home}/plugins/testng/lib/jcommander.jar" tofile="${tmp.dir.aegiscodecheckplugin}/lib/jcommander.jar"/>
+    <copy file="${module.aegiscodecheckplugin.basedir}/lib/kotlin-stdlib.jar" tofile="${tmp.dir.aegiscodecheckplugin}/lib/kotlin-stdlib.jar"/>
+    <copy file="${module.aegiscodecheckplugin.basedir}/lib/kotlin-reflect.jar" tofile="${tmp.dir.aegiscodecheckplugin}/lib/kotlin-reflect.jar"/>
+    <copy file="${module.aegiscodecheckplugin.basedir}/lib/kotlin-test.jar" tofile="${tmp.dir.aegiscodecheckplugin}/lib/kotlin-test.jar"/>
+    <copy file="${module.aegiscodecheckplugin.basedir}/lib/wuhao-tools-2.5.1.1.jar" tofile="${tmp.dir.aegiscodecheckplugin}/lib/wuhao-tools-2.5.1.1.jar"/>
+    <copy file="${module.aegiscodecheckplugin.basedir}/lib/commons-io-2.5.jar" tofile="${tmp.dir.aegiscodecheckplugin}/lib/commons-io-2.5.jar"/>
+    <zip destfile="${aegiscodecheckplugin.plugin.path.jar}">
+      <fileset dir="${module.aegiscodecheckplugin.basedir}/../temp"/>
+    </zip>
+    <delete dir="${tmp.dir.aegiscodecheckplugin}"/>
+  </target>
+</project>

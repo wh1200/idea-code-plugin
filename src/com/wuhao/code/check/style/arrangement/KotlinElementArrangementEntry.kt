@@ -43,10 +43,6 @@ open class KotlinElementArrangementEntry(parent: ArrangementEntry?,
     return myModifiers
   }
 
-  fun addModifier(modifier: ArrangementSettingsToken) {
-    myModifiers.add(modifier)
-  }
-
   override fun getName(): String? {
     return myName
   }
@@ -62,4 +58,9 @@ open class KotlinElementArrangementEntry(parent: ArrangementEntry?,
         myTypes.iterator().next().toString().toLowerCase(), myName ?: "<no name>"
     )
   }
+
+  fun addModifier(modifier: ArrangementSettingsToken) {
+    myModifiers.add(modifier)
+  }
 }
+

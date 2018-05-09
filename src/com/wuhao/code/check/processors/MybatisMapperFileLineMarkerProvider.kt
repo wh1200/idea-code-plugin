@@ -92,6 +92,15 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
         + mapperInfo.getKotlinClasspath())
   }
 
+  private fun isMapperTag(el: PsiElement): Boolean {
+    return el is XmlTag && el.name == MAPPER_TAG_NAME
+  }
+
+  private fun isMethodTag(el: PsiElement): Boolean {
+    return el is XmlTag && isMapperTag(el.parent)
+        && el.name in listOf(UPDATE, INSERT, DELETE, SELECT)
+  }
+
   private fun resolveMapperInfo(el: PsiElement): MapperInfo? {
     if (el is XmlTag) {
       if (isMapperTag(el)) {
@@ -108,15 +117,6 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
       }
     }
     return null
-  }
-
-  private fun isMethodTag(el: PsiElement): Boolean {
-    return el is XmlTag && isMapperTag(el.parent)
-        && el.name in listOf(UPDATE, INSERT, DELETE, SELECT)
-  }
-
-  private fun isMapperTag(el: PsiElement): Boolean {
-    return el is XmlTag && el.name == MAPPER_TAG_NAME
   }
 
   /**
@@ -138,13 +138,14 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
   }
 
   companion object {
-    val FILE = IconLoader.getIcon("/icons/arrow_up.png")
-    const val MAPPER_TAG_NAME = "mapper"
-    const val MAPPER_NAMESPACE_ATTR_NAME = "namespace"
-    const val UPDATE = "update"
-    const val INSERT = "insert"
     const val DELETE = "delete"
-    const val SELECT = "select"
+    val FILE = IconLoader.getIcon("/icons/arrow_up.png")
     const val ID_ATTR_NAME = "id"
+    const val INSERT = "insert"
+    const val MAPPER_NAMESPACE_ATTR_NAME = "namespace"
+    const val MAPPER_TAG_NAME = "mapper"
+    const val SELECT = "select"
+    const val UPDATE = "update"
   }
 }
+

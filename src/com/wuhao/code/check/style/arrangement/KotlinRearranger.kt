@@ -25,10 +25,10 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.GETTERS_AND_SETTERS
 import com.intellij.util.containers.ContainerUtilRt
 import com.wuhao.code.check.processors.EntryType.CLASS
-import com.wuhao.code.check.processors.EntryType.FIELD
+import com.wuhao.code.check.processors.EntryType.FUNCTION
 import com.wuhao.code.check.processors.EntryType.INIT_BLOCK
 import com.wuhao.code.check.processors.EntryType.INTERFACE
-import com.wuhao.code.check.processors.EntryType.METHOD
+import com.wuhao.code.check.processors.EntryType.PROPERTY
 
 /**
  * kotlin代码重排
@@ -38,6 +38,50 @@ import com.wuhao.code.check.processors.EntryType.METHOD
 class KotlinRearranger : Rearranger<ArrangementEntry> {
 
   private val settingsSerializer = DefaultArrangementSettingsSerializer(getDefaultSettings())
+
+  override fun getBlankLines(settings: CodeStyleSettings,
+                             parentEntry: ArrangementEntry?,
+                             previousEntry: ArrangementEntry?,
+                             targetEntry: ArrangementEntry): Int {
+    return if (previousEntry == null) {
+      -1
+    } else {
+      val target = targetEntry as KotlinElementArrangementEntry
+      val parent = parentEntry as KotlinElementArrangementEntry?
+      val previous = previousEntry as KotlinElementArrangementEntry?
+      when (target.type) {
+        PROPERTY -> when {
+          parent != null && parent.type === INTERFACE -> 2
+          previous == null -> 1
+          previous.type == INIT_BLOCK -> 1
+          previous.type == PROPERTY -> 0
+          else -> 0
+        }
+        FUNCTION -> when {
+          parent != null && parent.type === INTERFACE -> 1
+          previous == null -> 1
+          previous.type == PROPERTY -> 1
+          else -> 1
+        }
+        CLASS -> 1
+        INIT_BLOCK -> 1
+        else -> -1
+      }
+    }
+  }
+
+  override fun getSerializer(): ArrangementSettingsSerializer {
+    return settingsSerializer
+  }
+
+  override fun parse(root: PsiElement, document: Document?,
+                     ranges: MutableCollection<TextRange>,
+                     settings: ArrangementSettings): List<ArrangementEntry> {
+    // Following entries are subject to arrangement: class, interface, field, method.
+    val parseInfo = KotlinArrangementParseInfo()
+    root.accept(KotlinArrangementVisitor(parseInfo, document, ranges, settings))
+    return parseInfo.entries
+  }
 
   override fun parseWithNew(
       root: PsiElement, document: Document?,
@@ -55,52 +99,8 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
 
   }
 
-  override fun parse(root: PsiElement, document: Document?,
-                     ranges: MutableCollection<TextRange>,
-                     settings: ArrangementSettings): List<ArrangementEntry> {
-    // Following entries are subject to arrangement: class, interface, field, method.
-    val parseInfo = KotlinArrangementParseInfo()
-    root.accept( KotlinArrangementVisitor(parseInfo, document, ranges, settings))
-    return parseInfo.entries
-  }
-
-
-  override fun getBlankLines(settings: CodeStyleSettings,
-                             parentEntry: ArrangementEntry?,
-                             previousEntry: ArrangementEntry?,
-                             targetEntry: ArrangementEntry): Int {
-    return if (previousEntry == null) {
-      -1
-    } else {
-      val target = targetEntry as KotlinElementArrangementEntry
-      val parent = parentEntry as KotlinElementArrangementEntry?
-      val previous = previousEntry as KotlinElementArrangementEntry?
-      when (target.type) {
-        FIELD -> when {
-          parent != null && parent.type === INTERFACE -> 2
-          previous == null -> 1
-          previous.type == INIT_BLOCK -> 1
-          previous.type == FIELD -> 0
-          else -> 0
-        }
-        METHOD -> when {
-          parent != null && parent.type === INTERFACE -> 1
-          previous == null -> 1
-          previous.type == FIELD -> 1
-          else -> 1
-        }
-        CLASS -> 1
-        INIT_BLOCK -> 1
-        else -> -1
-      }
-    }
-  }
-
-  override fun getSerializer(): ArrangementSettingsSerializer {
-    return settingsSerializer
-  }
-
   companion object {
+
     private fun getDefaultSettings(): StdArrangementSettings {
       val groupingRules = ContainerUtilRt.newArrayList(ArrangementGroupingRule(GETTERS_AND_SETTERS))
       val matchRules = ContainerUtilRt.newArrayList<StdArrangementMatchRule>()

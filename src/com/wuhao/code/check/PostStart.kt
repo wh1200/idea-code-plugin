@@ -30,6 +30,10 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.*
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.*
 import com.intellij.psi.css.CssFileType
+import com.wuhao.code.check.processors.KotlinModifier
+import com.wuhao.code.check.processors.KotlinModifier.LATEINIT
+import com.wuhao.code.check.processors.KotlinModifier.OPEN
+import com.wuhao.code.check.processors.KotlinModifier.getKotlinRules
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueFileType
@@ -54,27 +58,42 @@ class PostStart : StartupActivity {
       setArrangementSettings(createSettings())
     }
     settings.getCommonSettings(KotlinLanguage.INSTANCE).apply {
-      setArrangementSettings(createSettings())
+      setArrangementSettings(createKotlinSettings())
     }
     // 设定代码缩进
     setIndent(settings)
   }
 
-  private fun setIndent(settings: CodeStyleSettings) {
-    val setIndentFileTypes = listOf(
-        JavaFileType.INSTANCE, KotlinFileType.INSTANCE, JavaScriptFileType.INSTANCE,
-        TypeScriptFileType.INSTANCE, VueFileType.INSTANCE,
-        XmlFileType.INSTANCE, CssFileType.INSTANCE
+  private fun createKotlinSettings(): StdArrangementSettings {
+    val groupingRules = listOf<ArrangementGroupingRule>(
     )
-    setIndentFileTypes.forEach { fileType ->
-      settings.getIndentOptions(fileType)
-          .apply {
-            INDENT_SIZE = DEFAULT_INDENT_SPACE_COUNT
-            CONTINUATION_INDENT_SIZE = DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
-            TAB_SIZE = DEFAULT_INDENT_SPACE_COUNT
-            USE_TAB_CHARACTER = false
-          }
+    val sections = getKotlinRules().map { rule ->
+      if (rule.order == null) {
+        StdArrangementMatchRule(createMatcher(rule), BY_NAME)
+      } else {
+        StdArrangementMatchRule(createMatcher(rule), rule.order!!)
+      }
+    }.map {
+      ArrangementSectionRule.create(it)
     }
+    val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
+      definitionRules = listOf(OPEN, PUBLIC, PACKAGE_PRIVATE, PROTECTED, PRIVATE, LATEINIT).map {
+        StdArrangementMatchRule(
+            StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
+        )
+      }
+    })
+    return StdArrangementExtendableSettings(groupingRules, sections, tokens)
+  }
+
+  private fun createMatcher(rule: PostStart.RuleDescription): StdArrangementEntryMatcher {
+    return StdArrangementEntryMatcher(
+        ArrangementCompositeMatchCondition().apply {
+          rule.template.forEach { token ->
+            this.addOperand(ArrangementAtomMatchCondition(token))
+          }
+        }
+    )
   }
 
   private fun createSettings(): StdArrangementSettings {
@@ -93,23 +112,14 @@ class PostStart : StartupActivity {
       ArrangementSectionRule.create(it)
     }
     val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
-      definitionRules = listOf(PUBLIC, PACKAGE_PRIVATE, PROTECTED, PRIVATE).map {
+      definitionRules = listOf(KotlinModifier.PUBLIC, KotlinModifier.PACKAGE_PRIVATE,
+          KotlinModifier.PROTECTED, KotlinModifier.PRIVATE, KotlinModifier.LATEINIT).map {
         StdArrangementMatchRule(
             StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
         )
       }
     })
     return StdArrangementExtendableSettings(groupingRules, sections, tokens)
-  }
-
-  private fun createMatcher(rule: PostStart.RuleDescription): StdArrangementEntryMatcher {
-    return StdArrangementEntryMatcher(
-        ArrangementCompositeMatchCondition().apply {
-          rule.template.forEach { token ->
-            this.addOperand(ArrangementAtomMatchCondition(token))
-          }
-        }
-    )
   }
 
   private fun getRules(): List<RuleDescription> {
@@ -160,12 +170,29 @@ class PostStart : StartupActivity {
         RuleDescription(listOf(CLASS, CLASS), BY_NAME))
   }
 
+  private fun setIndent(settings: CodeStyleSettings) {
+    val setIndentFileTypes = listOf(
+        JavaFileType.INSTANCE, KotlinFileType.INSTANCE, JavaScriptFileType.INSTANCE,
+        TypeScriptFileType.INSTANCE, VueFileType.INSTANCE,
+        XmlFileType.INSTANCE, CssFileType.INSTANCE
+    )
+    setIndentFileTypes.forEach { fileType ->
+      settings.getIndentOptions(fileType)
+          .apply {
+            INDENT_SIZE = DEFAULT_INDENT_SPACE_COUNT
+            CONTINUATION_INDENT_SIZE = DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
+            TAB_SIZE = DEFAULT_INDENT_SPACE_COUNT
+            USE_TAB_CHARACTER = false
+          }
+    }
+  }
+
   /**
    * java代码排序规则描述
    * @author 吴昊
    * @since 1.2.6
    */
-  private class RuleDescription(val template: List<ArrangementSettingsToken>) {
+  class RuleDescription(val template: List<ArrangementSettingsToken>) {
 
     var order: ArrangementSettingsToken? = null
 

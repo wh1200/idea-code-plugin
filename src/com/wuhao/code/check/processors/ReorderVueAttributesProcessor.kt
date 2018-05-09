@@ -31,7 +31,7 @@ class ReorderVueAttributesProcessor : PostFormatProcessor {
     if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
-        object:RecursiveVisitor(){
+        object : RecursiveVisitor() {
           override fun visitElement(element: PsiElement) {
             if (element is XmlTag) {
               VueTemplateTagFix.reorderAttributes(element)
@@ -44,3 +44,4 @@ class ReorderVueAttributesProcessor : PostFormatProcessor {
   }
 
 }
+

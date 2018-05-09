@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check Plugin</name>
-  <version>1.3.0.002</version>
+  <version>1.3.0.004</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
@@ -53,8 +53,6 @@
     <gotoDeclarationHandler
         implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyGotoDeclarationHandler2"/>
-    <preFormatProcessor implementation="com.wuhao.code.check.processors.SetStyleProcessor"
-                        id="SetStyleProcessor"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.ReorderVueAttributesProcessor"
                          id="RerangeVueAttributesProcessor" order="first"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueAttributesProcessor"

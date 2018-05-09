@@ -62,6 +62,16 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
     }
   }
 
+  private fun isMapperInterface(clazz: PsiClass?): Boolean {
+    return clazz != null && clazz.isInterface
+        && clazz.annotations.any { it.qualifiedName == MAPPER_CLASS }
+  }
+
+  private fun isMapperInterface(clazz: KtClass?): Boolean {
+    return clazz != null && clazz.isInterface()
+        && clazz.annotationEntries.any { it.text == MAPPER_ANNOTATION_TEXT }
+  }
+
   private fun resolveMapperInfo(el: PsiElement): MapperInfo? {
     if (el is PsiIdentifier
         || (el is LeafPsiElement
@@ -105,19 +115,10 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
    */
   private data class MapperInfo(val isMethod: Boolean, val mapperName: String, val methodName: String? = null)
 
-  private fun isMapperInterface(clazz: PsiClass?): Boolean {
-    return clazz != null && clazz.isInterface
-        && clazz.annotations.any { it.qualifiedName == MAPPER_CLASS }
-  }
-
-  private fun isMapperInterface(clazz: KtClass?): Boolean {
-    return clazz != null && clazz.isInterface()
-        && clazz.annotationEntries.any { it.text == MAPPER_ANNOTATION_TEXT }
-  }
-
   companion object {
     val FILE = IconLoader.getIcon("/icons/arrow_down.png")
-    const val MAPPER_CLASS = "org.apache.ibatis.annotations.Mapper"
     const val MAPPER_ANNOTATION_TEXT = "@Mapper"
+    const val MAPPER_CLASS = "org.apache.ibatis.annotations.Mapper"
   }
 }
+

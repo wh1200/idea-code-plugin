@@ -5,46 +5,36 @@
 package com.wuhao.code.check.style.arrangement
 
 import com.intellij.psi.PsiElement
-import com.wuhao.code.check.RecursiveVisitor
-import org.jetbrains.kotlin.psi.*
+import com.intellij.psi.PsiRecursiveVisitor
+import com.intellij.util.containers.Stack
+import org.jetbrains.kotlin.psi.KtReferenceExpression
+import org.jetbrains.kotlin.psi.KtVisitor
 
 /**
  * kotlin元素递归访问器
  * @author 吴昊
  * @since
  */
-abstract class KotlinRecursiveVisitor : RecursiveVisitor() {
+abstract class KotlinRecursiveVisitor : KtVisitor<Any, Any>(), PsiRecursiveVisitor {
+
+  private val myRefExprsInVisit = Stack<KtReferenceExpression>()
 
   override fun visitElement(element: PsiElement) {
-    if (element is KtClass) {
-      visitClass(element)
-    }
-    if (element is KtProperty) {
-      visitProperty(element)
-    }
-    if (element is KtNamedFunction) {
-      visitFunction(element)
-    }
-    if (element is KtClassInitializer) {
-      visitClassInitializer(element)
-    }
-    if (element is KtReferenceExpression) {
-      visitReferenceExpression(element)
+    if (!myRefExprsInVisit.isEmpty() && myRefExprsInVisit.peek() === element) {
+      myRefExprsInVisit.pop()
+      myRefExprsInVisit.push(null)
+    } else {
+      element.acceptChildren(this)
     }
   }
 
-  open fun visitFunction(function: KtNamedFunction) {}
-
-  open fun visitProperty(property: KtProperty) {}
-
-  open fun visitClass(clazz: KtClass) {}
-
-  open fun visitClassInitializer(initializer: KtClassInitializer) {
-
-  }
-
-  open fun visitReferenceExpression(expression: KtReferenceExpression){
-
+  override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?): Any? {
+    myRefExprsInVisit.push(expression)
+    try {
+      visitExpression(expression, data)
+    } finally {
+      myRefExprsInVisit.pop()
+    }
+    return super.visitReferenceExpression(expression, data)
   }
 }
-

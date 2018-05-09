@@ -14,31 +14,30 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.arrangement.*
-import com.intellij.psi.codeStyle.arrangement.engine.ArrangementEngine
 import com.intellij.psi.codeStyle.arrangement.group.ArrangementGroupingRule
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementEntryMatcher
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementMatchRule
 import com.intellij.psi.codeStyle.arrangement.model.ArrangementAtomMatchCondition
-import com.intellij.psi.codeStyle.arrangement.std.*
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.*
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.BREADTH_FIRST
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.DEPTH_FIRST
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementExtendableSettings
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementRuleAliasToken
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.GETTERS_AND_SETTERS
 import com.intellij.util.containers.ContainerUtilRt
 import com.wuhao.code.check.processors.EntryType.CLASS
 import com.wuhao.code.check.processors.EntryType.FIELD
 import com.wuhao.code.check.processors.EntryType.INIT_BLOCK
 import com.wuhao.code.check.processors.EntryType.INTERFACE
 import com.wuhao.code.check.processors.EntryType.METHOD
-import java.util.*
 
 /**
  * kotlin代码重排
  * @author 吴昊
  * @since 1.2.7
  */
-class KotlinCodeRearrangeProcessor : Rearranger<ArrangementEntry> {
+class KotlinRearranger : Rearranger<ArrangementEntry> {
 
-  private val SETTINGS_SERIALIZER = DefaultArrangementSettingsSerializer(getDefaultSettings())
+  private val settingsSerializer = DefaultArrangementSettingsSerializer(getDefaultSettings())
 
   override fun parseWithNew(
       root: PsiElement, document: Document?,
@@ -61,17 +60,7 @@ class KotlinCodeRearrangeProcessor : Rearranger<ArrangementEntry> {
                      settings: ArrangementSettings): List<ArrangementEntry> {
     // Following entries are subject to arrangement: class, interface, field, method.
     val parseInfo = KotlinArrangementParseInfo()
-    root.accept(KotlinArrangementVisitor(parseInfo, document, ranges, settings))
-    for (rule in settings.groupings) {
-      when {
-        DEPENDENT_METHODS == rule.groupingType -> setupUtilityMethods(parseInfo, rule.orderType)
-        OVERRIDDEN_METHODS == rule.groupingType -> setupOverriddenMethods(parseInfo)
-      }
-    }
-    val fieldDependencyRoots = parseInfo.fieldDependencyRoots
-    if (!fieldDependencyRoots.isEmpty()) {
-      setupFieldInitializationDependencies(fieldDependencyRoots, settings, parseInfo)
-    }
+    root.accept( KotlinArrangementVisitor(parseInfo, document, ranges, settings))
     return parseInfo.entries
   }
 
@@ -108,77 +97,7 @@ class KotlinCodeRearrangeProcessor : Rearranger<ArrangementEntry> {
   }
 
   override fun getSerializer(): ArrangementSettingsSerializer {
-    return SETTINGS_SERIALIZER
-  }
-
-  private fun setupOverriddenMethods(info: KotlinArrangementParseInfo) {
-    for (methodsInfo in info.overriddenMethods) {
-      var previous: KotlinElementArrangementEntry? = null
-      for (entry in methodsInfo.methodEntries) {
-        if (previous != null && entry.dependencies == null) {
-          entry.addDependency(previous)
-        }
-        previous = entry
-      }
-    }
-  }
-
-  private fun setupFieldInitializationDependencies(fieldDependencyRoots: List<KotlinArrangementEntryDependencyInfo>,
-                                                   settings: ArrangementSettings,
-                                                   parseInfo: KotlinArrangementParseInfo) {
-    val fields = parseInfo.fields
-    val arrangedFields = ArrangementEngine.arrange(fields, settings.sections, settings.rulesSortedByPriority, null)
-
-    for (root in fieldDependencyRoots) {
-      val anchorField = root.anchorEntry
-      val anchorEntryIndex = arrangedFields.indexOf(anchorField)
-
-      for (fieldInInitializerInfo in root.dependentEntriesInfos) {
-        val fieldInInitializer = fieldInInitializerInfo.anchorEntry
-        if (arrangedFields.indexOf(fieldInInitializer) > anchorEntryIndex) {
-          anchorField.addDependency(fieldInInitializer)
-        }
-      }
-    }
-  }
-
-  private fun setupUtilityMethods(info: KotlinArrangementParseInfo, orderType: ArrangementSettingsToken) {
-    when {
-      DEPTH_FIRST == orderType -> for (rootInfo in info.methodDependencyRoots) {
-        setupDepthFirstDependency(rootInfo)
-      }
-      BREADTH_FIRST == orderType -> for (rootInfo in info.methodDependencyRoots) {
-        setupBreadthFirstDependency(rootInfo)
-      }
-      else -> assert(false) { orderType }
-    }
-  }
-
-  private fun setupBreadthFirstDependency(info: KotlinArrangementEntryDependencyInfo) {
-    val toProcess = ArrayDeque<KotlinArrangementEntryDependencyInfo>()
-    toProcess.add(info)
-    var prev = info.anchorEntry
-    while (!toProcess.isEmpty()) {
-      val current = toProcess.removeFirst()
-      for (dependencyInfo in current.dependentEntriesInfos) {
-        val dependencyMethod = dependencyInfo.anchorEntry
-        if (dependencyMethod.dependencies == null) {
-          dependencyMethod.addDependency(prev)
-          prev = dependencyMethod
-        }
-        toProcess.addLast(dependencyInfo)
-      }
-    }
-  }
-
-  private fun setupDepthFirstDependency(info: KotlinArrangementEntryDependencyInfo) {
-    for (dependencyInfo in info.dependentEntriesInfos) {
-      setupDepthFirstDependency(dependencyInfo)
-      val dependentEntry = dependencyInfo.anchorEntry
-      if (dependentEntry.dependencies == null) {
-        dependentEntry.addDependency(info.anchorEntry)
-      }
-    }
+    return settingsSerializer
   }
 
   companion object {

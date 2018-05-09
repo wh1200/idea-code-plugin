@@ -62,7 +62,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
 
   init {
     myGroupingRules = getGroupingRules(settings)
-    myMethodBodyProcessor = MethodBodyProcessor(myInfo)
+    myMethodBodyProcessor = MethodBodyProcessor()
     mySectionDetector = ArrangementSectionDetector(myDocument, settings) { data ->
       val range = data.textRange
       val entry = KotlinSectionArrangementEntry(current, data.token, range, data.text, true)
@@ -87,19 +87,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     mySectionDetector.processComment(comment)
   }
 
-  private val visitCache = arrayListOf<PsiElement>()
-  override fun visitElement(element: PsiElement) {
-    if (visitCache.contains(element)) {
-      return
-    }
-    visitCache.add(element)
-    super.visitElement(element)
-    element.children.forEach { child ->
-      this.visitElement(child)
-    }
-  }
-
-  override fun visitClass(clazz: KtClass) {
+  override fun visitClass(clazz: KtClass,data:Any?) {
     val isSectionCommentsDetected = registerSectionComments(clazz)
     val range = if (isSectionCommentsDetected) getElementRangeWithoutComments(clazz) else clazz.textRange
     var type = CLASS
@@ -176,7 +164,10 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     }
   }
 
-  override fun visitProperty(property: KtProperty) {
+  override fun visitProperty(property: KtProperty, data: Any?) {
+    if (property.parent !is KtClassBody){
+      return
+    }
     val isSectionCommentsDetected = registerSectionComments(property)
     // There is a possible case that more than one field is declared for the same type like 'int i, j;'. We want to process only
     // the first one then.
@@ -261,18 +252,20 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     return element.textRange.endOffset
   }
 
-  override fun visitClassInitializer(initializer: KtClassInitializer) {
+  override fun visitClassInitializer(initializer: KtClassInitializer,data: Any?) {
     val entry = createNewEntry(initializer, initializer.textRange, INIT_BLOCK, null, true) ?: return
     parseModifiers(initializer.modifierList, entry)
   }
 
-  override fun visitFunction(function: KtNamedFunction) {
+  override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
+    if (function.parent !is KtClassBody){
+      return
+    }
     val isSectionCommentsDetected = registerSectionComments(function)
     val range = if (isSectionCommentsDetected)
       getElementRangeWithoutComments(function)
     else
       function.textRange
-
     val type = METHOD
     val entry = createNewEntry(function, range, type, function.name, true) ?: return
     processEntry(entry, function, function.bodyExpression)
@@ -292,30 +285,9 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
    * @author 吴昊
    * @since 1.2.6
    */
-  private class MethodBodyProcessor internal constructor(private val myInfo: KotlinArrangementParseInfo) :
+  private class MethodBodyProcessor internal constructor() :
       JavaRecursiveElementVisitor() {
     private var myBaseMethod: KtNamedFunction? = null
-
-
-    override fun visitMethodCallExpression(psiMethodCallExpression: PsiMethodCallExpression) {
-      val reference = psiMethodCallExpression.methodExpression.reference ?: return
-      val e = reference.resolve()
-      if (e is KtNamedFunction) {
-        assert(myBaseMethod != null)
-        val m = e as KtNamedFunction?
-        if (m!!.parent === myBaseMethod!!.parent) {
-          myInfo.registerMethodCallDependency(myBaseMethod!!, m!!)
-        }
-      }
-
-      // We process all method call expression children because there is a possible case like below:
-      //   new Runnable() {
-      //     void test();
-      //   }.visit();
-      // Here we want to process that 'Runnable.visit()' implementation.
-      super.visitMethodCallExpression(psiMethodCallExpression)
-    }
-
 
     internal fun setBaseMethod(baseMethod: KtNamedFunction?): Boolean {
       if (baseMethod == null || myBaseMethod == null) {
@@ -324,8 +296,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       }
       return false
     }
-
-
   }
 
   companion object {

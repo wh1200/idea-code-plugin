@@ -50,7 +50,7 @@ class FixJavaBlankLineProcessor : PostFormatProcessor {
         if (element is PsiField) {
           val nextField = element.getNextSiblingIgnoringWhitespace()
           val prevField = element.getPrevSiblingIgnoringWhitespaceAndComments()
-          if(prevField !is PsiField) {
+          if (prevField !is PsiField) {
             fixBlankLineBefore(element, 2, factory)
           }
           if (nextField is PsiField) {

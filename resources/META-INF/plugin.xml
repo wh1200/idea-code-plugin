@@ -13,6 +13,7 @@
       and it supports both java and kotlin.<br>
       Otherwise, it provided some additional features, such as:
       <ul>
+        <li>rearrange kotlin source code when reformatting like java</li>
         <li>rearrange tag attributes for .vue files when reformatting</li>
         <li>add gutters for mybatis mapper interfaces and mapping xml files,
          you can jump from the interface methods to the mapping file tag or the opposite,
@@ -39,7 +40,7 @@
   <extensions defaultExtensionNs="com.intellij">
     <postStartupActivity implementation="com.wuhao.code.check.PostStart"/>
     <lang.rearranger language="kotlin"
-                     implementationClass="com.wuhao.code.check.style.arrangement.KotlinCodeRearrangeProcessor"/>
+                     implementationClass="com.wuhao.code.check.style.arrangement.KotlinRearranger"/>
     <completion.contributor
         implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
         language="JAVA" order="FIRST"/>

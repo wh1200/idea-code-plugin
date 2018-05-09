@@ -79,7 +79,6 @@ class FixJavaElementOrder : PostFormatProcessor {
 
   /**
    * 获取java修饰符的权重
-   * @param modifier 修饰符
    * @return 权重值
    */
   private fun JvmModifier.getWeight(): Int {

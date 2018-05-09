@@ -60,7 +60,7 @@ fun getPsiElementFactory(element: PsiElement): PsiElementFactoryImpl {
 /**
  * 全局日志
  */
-val LOG = Logger.getLogger("plugin")
+val LOG: Logger = Logger.getLogger("plugin")
 
 /**
  * kotlin的修饰符

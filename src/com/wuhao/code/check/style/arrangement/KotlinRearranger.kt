@@ -43,30 +43,26 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
                              parentEntry: ArrangementEntry?,
                              previousEntry: ArrangementEntry?,
                              targetEntry: ArrangementEntry): Int {
-    return if (previousEntry == null) {
-      -1
-    } else {
-      val target = targetEntry as KotlinElementArrangementEntry
-      val parent = parentEntry as KotlinElementArrangementEntry?
-      val previous = previousEntry as KotlinElementArrangementEntry?
-      when (target.type) {
-        PROPERTY -> when {
-          parent != null && parent.type === INTERFACE -> 2
-          previous == null -> 1
-          previous.type == INIT_BLOCK -> 1
-          previous.type == PROPERTY -> 0
-          else -> 0
-        }
-        FUNCTION -> when {
-          parent != null && parent.type === INTERFACE -> 1
-          previous == null -> 1
-          previous.type == PROPERTY -> 1
-          else -> 1
-        }
-        CLASS -> 1
-        INIT_BLOCK -> 1
-        else -> -1
+    val target = targetEntry as KotlinElementArrangementEntry
+    val parent = parentEntry as KotlinElementArrangementEntry?
+    val previous = previousEntry as KotlinElementArrangementEntry?
+    return when (target.type) {
+      PROPERTY -> when {
+        parent != null && parent.type === INTERFACE -> 2
+        previous == null -> 1
+        previous.type == INIT_BLOCK -> 1
+        previous.type == PROPERTY -> 0
+        else -> 0
       }
+      FUNCTION -> when {
+        parent != null && parent.type === INTERFACE -> 1
+        previous == null -> 1
+        previous.type == PROPERTY -> 1
+        else -> 1
+      }
+      CLASS -> 1
+      INIT_BLOCK -> 1
+      else -> -1
     }
   }
 

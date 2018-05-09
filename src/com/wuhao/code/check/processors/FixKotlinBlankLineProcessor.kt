@@ -28,7 +28,6 @@ class FixKotlinBlankLineProcessor : PostFormatProcessor {
 
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
     if (source.language is KotlinLanguage) {
-      arrangeEngine.arrange(source, listOf(rangeToReformat))
     }
     return TextRange(0, source.endOffset)
   }

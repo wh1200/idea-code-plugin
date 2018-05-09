@@ -84,6 +84,11 @@ class FixJavaBlankLineProcessor : PostFormatProcessor {
     return TextRange(0, source.endOffset)
   }
 
+  private fun fixBlankLineAfter(element: PsiElement, blankLineCount: Int, factory: KtPsiFactory) {
+    val whiteSpaceElement = element.nextSibling
+    fixWhiteSpace(whiteSpaceElement, blankLineCount, factory)
+  }
+
   private fun fixBlankLineBefore(element: PsiElement, blankLineCount: Int, factory: KtPsiFactory) {
     val whiteSpaceElement = element.prevSibling
     fixWhiteSpace(whiteSpaceElement, blankLineCount, factory)
@@ -98,9 +103,5 @@ class FixJavaBlankLineProcessor : PostFormatProcessor {
       }
     }
   }
-
-  private fun fixBlankLineAfter(element: PsiElement, blankLineCount: Int, factory: KtPsiFactory) {
-    val whiteSpaceElement = element.nextSibling
-    fixWhiteSpace(whiteSpaceElement, blankLineCount, factory)
-  }
 }
+

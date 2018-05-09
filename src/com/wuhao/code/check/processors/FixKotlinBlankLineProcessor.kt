@@ -10,7 +10,6 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.arrangement.engine.ArrangementEngine
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
-import com.wuhao.code.check.RecursiveVisitor
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
@@ -21,7 +20,7 @@ import org.jetbrains.kotlin.psi.psiUtil.endOffset
  */
 class FixKotlinBlankLineProcessor : PostFormatProcessor {
 
-  val arrangeEngine = ArrangementEngine()
+  private val arrangeEngine = ArrangementEngine()
 
   override fun processElement(source: PsiElement, settings: CodeStyleSettings): PsiElement {
     return source
@@ -29,11 +28,6 @@ class FixKotlinBlankLineProcessor : PostFormatProcessor {
 
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
     if (source.language is KotlinLanguage) {
-      object : RecursiveVisitor() {
-        override fun visitElement(element: PsiElement) {
-
-        }
-      }.visit(source)
       arrangeEngine.arrange(source, listOf(rangeToReformat))
     }
     return TextRange(0, source.endOffset)

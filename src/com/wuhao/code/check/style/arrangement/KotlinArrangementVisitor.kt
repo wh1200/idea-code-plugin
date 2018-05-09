@@ -12,6 +12,7 @@ import com.intellij.psi.codeStyle.arrangement.ArrangementUtil
 import com.intellij.psi.codeStyle.arrangement.DefaultArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
 import com.intellij.psi.util.PsiUtil
+import com.intellij.util.Functions
 import com.intellij.util.containers.ContainerUtil
 import com.intellij.util.containers.ContainerUtilRt
 import com.intellij.util.containers.Stack
@@ -38,6 +39,7 @@ import com.wuhao.code.check.processors.Modifier.SEALED
 import org.jetbrains.kotlin.lexer.KtModifierKeywordToken
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlin.psi.psiUtil.visibilityModifier
 import java.util.*
 
@@ -56,13 +58,14 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
   private val myMethodBodyProcessor: MethodBodyProcessor
   private val mySectionDetector: ArrangementSectionDetector
   private val myProcessedSectionsComments = ContainerUtil.newHashSet<PsiComment>()
+  private val myCachedClassFields = HashMap<KtClass, Set<KtProperty>>()
 
   private val current: DefaultArrangementEntry?
     get() = if (myStack.isEmpty()) null else myStack.peek()
 
   init {
     myGroupingRules = getGroupingRules(settings)
-    myMethodBodyProcessor = MethodBodyProcessor()
+    myMethodBodyProcessor = MethodBodyProcessor(myInfo)
     mySectionDetector = ArrangementSectionDetector(myDocument, settings) { data ->
       val range = data.textRange
       val entry = KotlinSectionArrangementEntry(current, data.token, range, data.text, true)
@@ -227,7 +230,50 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     val entry = createNewEntry(property, range, FIELD, property.name, true) ?: return
     processEntry(entry, property, property.initializer)
     myInfo.onFieldEntryCreated(property, entry)
+//    val referencedFields = getReferencedFields(property)
+//    for (referencedField in referencedFields) {
+//      myInfo.registerFieldInitializationDependency(property, referencedField)
+//    }
   }
+
+  private fun getReferencedFields(field: KtProperty): List<KtProperty> {
+    val referencedElements = ArrayList<KtProperty>()
+
+    val fieldInitializer = field.initializer
+    val containingClass = field.containingClass()
+
+    if (fieldInitializer == null || containingClass == null) {
+      return referencedElements
+    }
+
+    var classFields: Set<KtProperty>? = myCachedClassFields[containingClass]
+    if (classFields == null) {
+      classFields = ContainerUtil.map2Set(containingClass.getProperties(), Functions.id())
+      myCachedClassFields[containingClass] = classFields
+    }
+
+    val containingClassFields = classFields
+    fieldInitializer.accept(object : JavaRecursiveElementVisitor() {
+
+      internal var myCurrentMethodLookupDepth: Int = 0
+      private val MAX_METHOD_LOOKUP_DEPTH = 3
+
+      override fun visitReferenceExpression(expression: PsiReferenceExpression?) {
+        val ref = expression!!.resolve()
+        if (ref is KtProperty && containingClassFields.contains(ref)) {
+          referencedElements.add(ref)
+        } else if (ref is KtNamedFunction && myCurrentMethodLookupDepth < MAX_METHOD_LOOKUP_DEPTH) {
+          myCurrentMethodLookupDepth++
+          visitNamedFunction(ref, null)
+          myCurrentMethodLookupDepth--
+        }
+        super.visitReferenceExpression(expression)
+      }
+    })
+    return referencedElements
+  }
+
+
 
   private fun expandToCommentIfPossible(element: PsiElement): Int {
     if (myDocument == null) {
@@ -266,6 +312,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       getElementRangeWithoutComments(function)
     else
       function.textRange
+
     val type = METHOD
     val entry = createNewEntry(function, range, type, function.name, true) ?: return
     processEntry(entry, function, function.bodyExpression)
@@ -285,9 +332,30 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
    * @author 吴昊
    * @since 1.2.6
    */
-  private class MethodBodyProcessor internal constructor() :
+  private class MethodBodyProcessor internal constructor(private val myInfo: KotlinArrangementParseInfo) :
       JavaRecursiveElementVisitor() {
     private var myBaseMethod: KtNamedFunction? = null
+
+
+    override fun visitMethodCallExpression(psiMethodCallExpression: PsiMethodCallExpression) {
+      val reference = psiMethodCallExpression.methodExpression.reference ?: return
+      val e = reference.resolve()
+      if (e is KtNamedFunction) {
+        assert(myBaseMethod != null)
+        val m = e as KtNamedFunction?
+        if (m!!.parent === myBaseMethod!!.parent) {
+          myInfo.registerMethodCallDependency(myBaseMethod!!, m!!)
+        }
+      }
+
+      // We process all method call expression children because there is a possible case like below:
+      //   new Runnable() {
+      //     void test();
+      //   }.visit();
+      // Here we want to process that 'Runnable.visit()' implementation.
+      super.visitMethodCallExpression(psiMethodCallExpression)
+    }
+
 
     internal fun setBaseMethod(baseMethod: KtNamedFunction?): Boolean {
       if (baseMethod == null || myBaseMethod == null) {
@@ -296,6 +364,8 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       }
       return false
     }
+
+
   }
 
   companion object {

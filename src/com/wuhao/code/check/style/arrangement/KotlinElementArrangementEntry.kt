@@ -33,7 +33,8 @@ open class KotlinElementArrangementEntry(parent: ArrangementEntry?,
               range: TextRange,
               type: ArrangementSettingsToken,
               name: String?,
-              canBeMatched: Boolean) : this(parent, range.startOffset, range.endOffset, type, name, canBeMatched)
+              canBeMatched: Boolean) : this(parent, range.startOffset, range.endOffset, type, name, canBeMatched) {
+  }
 
   init {
     myTypes.add(type)

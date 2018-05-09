@@ -9,6 +9,7 @@ import com.intellij.codeInsight.actions.LastRunReformatCodeOptionsProvider
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.ide.util.PropertiesComponent
+import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.TypeScriptFileType
@@ -25,18 +26,18 @@ import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementExtendableSettings
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementRuleAliasToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.*
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.*
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.*
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.*
 import com.intellij.psi.css.CssFileType
-import com.wuhao.code.check.processors.KotlinModifier
-import com.wuhao.code.check.processors.KotlinModifier.LATEINIT
-import com.wuhao.code.check.processors.KotlinModifier.OPEN
-import com.wuhao.code.check.processors.KotlinModifier.getKotlinRules
+import com.wuhao.code.check.style.KotlinModifier.LATEINIT
+import com.wuhao.code.check.style.KotlinModifier.OPEN
+import com.wuhao.code.check.style.arrangement.JavaRearrangeRules
+import com.wuhao.code.check.style.arrangement.KotlinRearrangeRules
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueFileType
+import org.jetbrains.vuejs.VueLanguage
 
 /**
  * 项目启动时运行
@@ -49,33 +50,36 @@ class PostStart : StartupActivity {
     // 强制启用java代码重排和import重新组织的功能
     val myLastRunSettings = LastRunReformatCodeOptionsProvider(PropertiesComponent.getInstance())
     myLastRunSettings.saveRearrangeCodeState(true)
-    myLastRunSettings.saveRearrangeState(JavaLanguage.INSTANCE, true)
-    myLastRunSettings.saveRearrangeState(KotlinLanguage.INSTANCE, true)
-    myLastRunSettings.saveOptimizeImportsState(true)
-    // 设定java代码重排规则
     val settings = CodeStyle.getSettings(project)
-    settings.getCommonSettings(JavaLanguage.INSTANCE).apply {
-      setArrangementSettings(createSettings())
-    }
-    settings.getCommonSettings(KotlinLanguage.INSTANCE).apply {
-      setArrangementSettings(createKotlinSettings())
-    }
+    myLastRunSettings.saveOptimizeImportsState(true)
+    setLanguageArrangeSettings(myLastRunSettings, settings, JavaLanguage.INSTANCE, createJavaSettings())
+    setLanguageArrangeSettings(myLastRunSettings, settings, KotlinLanguage.INSTANCE, createKotlinSettings())
+    setLanguageArrangeSettings(myLastRunSettings, settings, VueLanguage.INSTANCE, createVueSettings())
     // 设定代码缩进
     setIndent(settings)
   }
 
-  private fun createKotlinSettings(): StdArrangementSettings {
-    val groupingRules = listOf<ArrangementGroupingRule>(
+  private fun createJavaSettings(): StdArrangementSettings {
+    val groupingRules = listOf(
+        ArrangementGroupingRule(GETTERS_AND_SETTERS, KEEP),
+        ArrangementGroupingRule(OVERRIDDEN_METHODS, BY_NAME),
+        ArrangementGroupingRule(DEPENDENT_METHODS, BREADTH_FIRST)
     )
-    val sections = getKotlinRules().map { rule ->
-      if (rule.order == null) {
-        StdArrangementMatchRule(createMatcher(rule), BY_NAME)
-      } else {
-        StdArrangementMatchRule(createMatcher(rule), rule.order!!)
+    val sections = createSections(JavaRearrangeRules.get())
+    val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
+      definitionRules = listOf(PUBLIC, PACKAGE_PRIVATE,
+          PROTECTED, PRIVATE, LATEINIT).map {
+        StdArrangementMatchRule(
+            StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
+        )
       }
-    }.map {
-      ArrangementSectionRule.create(it)
-    }
+    })
+    return StdArrangementExtendableSettings(groupingRules, sections, tokens)
+  }
+
+  private fun createKotlinSettings(): StdArrangementSettings {
+
+    val sections = createSections(KotlinRearrangeRules.get())
     val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
       definitionRules = listOf(OPEN, PUBLIC, PACKAGE_PRIVATE, PROTECTED, PRIVATE, LATEINIT).map {
         StdArrangementMatchRule(
@@ -83,7 +87,7 @@ class PostStart : StartupActivity {
         )
       }
     })
-    return StdArrangementExtendableSettings(groupingRules, sections, tokens)
+    return StdArrangementExtendableSettings(listOf(), sections, tokens)
   }
 
   private fun createMatcher(rule: PostStart.RuleDescription): StdArrangementEntryMatcher {
@@ -96,13 +100,8 @@ class PostStart : StartupActivity {
     )
   }
 
-  private fun createSettings(): StdArrangementSettings {
-    val groupingRules = listOf(
-        ArrangementGroupingRule(GETTERS_AND_SETTERS, KEEP),
-        ArrangementGroupingRule(OVERRIDDEN_METHODS, BY_NAME),
-        ArrangementGroupingRule(DEPENDENT_METHODS, BREADTH_FIRST)
-    )
-    val sections = getRules().map { rule ->
+  private fun createSections(rules: List<PostStart.RuleDescription>): List<ArrangementSectionRule> {
+    return rules.map { rule ->
       if (rule.order == null) {
         StdArrangementMatchRule(createMatcher(rule), BY_NAME)
       } else {
@@ -111,63 +110,10 @@ class PostStart : StartupActivity {
     }.map {
       ArrangementSectionRule.create(it)
     }
-    val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
-      definitionRules = listOf(KotlinModifier.PUBLIC, KotlinModifier.PACKAGE_PRIVATE,
-          KotlinModifier.PROTECTED, KotlinModifier.PRIVATE, KotlinModifier.LATEINIT).map {
-        StdArrangementMatchRule(
-            StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-        )
-      }
-    })
-    return StdArrangementExtendableSettings(groupingRules, sections, tokens)
   }
 
-  private fun getRules(): List<RuleDescription> {
-    return listOf(
-        RuleDescription(listOf(FIELD, PUBLIC, STATIC, FINAL), BY_NAME),
-        RuleDescription(listOf(FIELD, PROTECTED, STATIC, FINAL), BY_NAME),
-        RuleDescription(listOf(FIELD, PACKAGE_PRIVATE, STATIC, FINAL), BY_NAME),
-        RuleDescription(listOf(FIELD, PRIVATE, STATIC, FINAL), BY_NAME),
-        RuleDescription(listOf(FIELD, PUBLIC, STATIC), BY_NAME),
-        RuleDescription(listOf(FIELD, PROTECTED, STATIC), BY_NAME),
-        RuleDescription(listOf(FIELD, PACKAGE_PRIVATE, STATIC), BY_NAME),
-        RuleDescription(listOf(FIELD, PRIVATE, STATIC), BY_NAME),
-        RuleDescription(listOf(INIT_BLOCK, STATIC)),
-        RuleDescription(listOf(FIELD, PUBLIC, FINAL), BY_NAME),
-        RuleDescription(listOf(FIELD, PROTECTED, FINAL), BY_NAME),
-        RuleDescription(listOf(FIELD, PACKAGE_PRIVATE, FINAL), BY_NAME),
-        RuleDescription(listOf(FIELD, PRIVATE, FINAL), BY_NAME),
-
-        RuleDescription(listOf(FIELD, PUBLIC), BY_NAME),
-        RuleDescription(listOf(FIELD, PROTECTED), BY_NAME),
-        RuleDescription(listOf(FIELD, PACKAGE_PRIVATE), BY_NAME),
-        RuleDescription(listOf(FIELD, PRIVATE), BY_NAME),
-        RuleDescription(listOf(FIELD), BY_NAME),
-        RuleDescription(listOf(INIT_BLOCK)),
-        RuleDescription(listOf(CONSTRUCTOR)),
-
-        RuleDescription(listOf(METHOD, PUBLIC, STATIC, FINAL), BY_NAME),
-        RuleDescription(listOf(METHOD, PACKAGE_PRIVATE, STATIC, FINAL), BY_NAME),
-        RuleDescription(listOf(METHOD, PROTECTED, STATIC, FINAL), BY_NAME),
-        RuleDescription(listOf(METHOD, PRIVATE, STATIC, FINAL), BY_NAME),
-
-        RuleDescription(listOf(METHOD, PUBLIC, STATIC), BY_NAME),
-        RuleDescription(listOf(METHOD, PACKAGE_PRIVATE, STATIC), BY_NAME),
-        RuleDescription(listOf(METHOD, PROTECTED, STATIC), BY_NAME),
-        RuleDescription(listOf(METHOD, PRIVATE, STATIC), BY_NAME),
-        RuleDescription(listOf(METHOD, PUBLIC, FINAL), BY_NAME),
-        RuleDescription(listOf(METHOD, PACKAGE_PRIVATE, FINAL), BY_NAME),
-        RuleDescription(listOf(METHOD, PROTECTED, FINAL), BY_NAME),
-        RuleDescription(listOf(METHOD, PRIVATE, FINAL), BY_NAME),
-        RuleDescription(listOf(METHOD, PUBLIC), BY_NAME),
-        RuleDescription(listOf(METHOD, PACKAGE_PRIVATE), BY_NAME),
-        RuleDescription(listOf(METHOD, PROTECTED), BY_NAME),
-        RuleDescription(listOf(METHOD, PRIVATE), BY_NAME),
-        RuleDescription(listOf(METHOD), BY_NAME),
-        RuleDescription(listOf(ENUM), BY_NAME),
-        RuleDescription(listOf(INTERFACE), BY_NAME),
-        RuleDescription(listOf(CLASS, STATIC), BY_NAME),
-        RuleDescription(listOf(CLASS, CLASS), BY_NAME))
+  private fun createVueSettings(): StdArrangementSettings {
+    return StdArrangementExtendableSettings(listOf(), listOf(), listOf())
   }
 
   private fun setIndent(settings: CodeStyleSettings) {
@@ -184,6 +130,16 @@ class PostStart : StartupActivity {
             TAB_SIZE = DEFAULT_INDENT_SPACE_COUNT
             USE_TAB_CHARACTER = false
           }
+    }
+  }
+
+  private fun setLanguageArrangeSettings(myLastRunSettings: LastRunReformatCodeOptionsProvider,
+                                         settings: CodeStyleSettings,
+                                         language: Language,
+                                         createSettings: StdArrangementSettings) {
+    myLastRunSettings.saveRearrangeState(language, true)
+    settings.getCommonSettings(language).apply {
+      setArrangementSettings(createSettings)
     }
   }
 

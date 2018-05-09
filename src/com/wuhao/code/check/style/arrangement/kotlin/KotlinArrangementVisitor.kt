@@ -1,7 +1,11 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.style.arrangement
+
+/*
+ * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
+ */
+package com.wuhao.code.check.style.arrangement.kotlin
 
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
@@ -16,28 +20,28 @@ import com.intellij.util.containers.ContainerUtil
 import com.intellij.util.containers.ContainerUtilRt
 import com.intellij.util.containers.Stack
 import com.wuhao.code.check.KOTLIN_MODIFIERS
-import com.wuhao.code.check.processors.EntryType.CLASS
-import com.wuhao.code.check.processors.EntryType.COMPANION_OBJECT
-import com.wuhao.code.check.processors.EntryType.DATA_CLASS
-import com.wuhao.code.check.processors.EntryType.ENUM
-import com.wuhao.code.check.processors.EntryType.FUNCTION
-import com.wuhao.code.check.processors.EntryType.INIT_BLOCK
-import com.wuhao.code.check.processors.EntryType.INTERFACE
-import com.wuhao.code.check.processors.EntryType.OBJECT
-import com.wuhao.code.check.processors.EntryType.PROPERTY
-import com.wuhao.code.check.processors.KotlinModifier.ABSTRACT
-import com.wuhao.code.check.processors.KotlinModifier.CONST
-import com.wuhao.code.check.processors.KotlinModifier.EXTERNAL
-import com.wuhao.code.check.processors.KotlinModifier.FINAL
-import com.wuhao.code.check.processors.KotlinModifier.INLINE
-import com.wuhao.code.check.processors.KotlinModifier.INTERNAL
-import com.wuhao.code.check.processors.KotlinModifier.LATEINIT
-import com.wuhao.code.check.processors.KotlinModifier.OPEN
-import com.wuhao.code.check.processors.KotlinModifier.PACKAGE_PRIVATE
-import com.wuhao.code.check.processors.KotlinModifier.PRIVATE
-import com.wuhao.code.check.processors.KotlinModifier.PROTECTED
-import com.wuhao.code.check.processors.KotlinModifier.PUBLIC
-import com.wuhao.code.check.processors.KotlinModifier.SEALED
+import com.wuhao.code.check.style.EntryType.CLASS
+import com.wuhao.code.check.style.EntryType.COMPANION_OBJECT
+import com.wuhao.code.check.style.EntryType.DATA_CLASS
+import com.wuhao.code.check.style.EntryType.ENUM
+import com.wuhao.code.check.style.EntryType.FUNCTION
+import com.wuhao.code.check.style.EntryType.INIT_BLOCK
+import com.wuhao.code.check.style.EntryType.INTERFACE
+import com.wuhao.code.check.style.EntryType.OBJECT
+import com.wuhao.code.check.style.EntryType.PROPERTY
+import com.wuhao.code.check.style.KotlinModifier.ABSTRACT
+import com.wuhao.code.check.style.KotlinModifier.CONST
+import com.wuhao.code.check.style.KotlinModifier.EXTERNAL
+import com.wuhao.code.check.style.KotlinModifier.FINAL
+import com.wuhao.code.check.style.KotlinModifier.INLINE
+import com.wuhao.code.check.style.KotlinModifier.INTERNAL
+import com.wuhao.code.check.style.KotlinModifier.LATEINIT
+import com.wuhao.code.check.style.KotlinModifier.OPEN
+import com.wuhao.code.check.style.KotlinModifier.PACKAGE_PRIVATE
+import com.wuhao.code.check.style.KotlinModifier.PRIVATE
+import com.wuhao.code.check.style.KotlinModifier.PROTECTED
+import com.wuhao.code.check.style.KotlinModifier.PUBLIC
+import com.wuhao.code.check.style.KotlinModifier.SEALED
 import org.jetbrains.kotlin.lexer.KtModifierKeywordToken
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*

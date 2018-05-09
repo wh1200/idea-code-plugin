@@ -6,7 +6,11 @@
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
 
-package com.wuhao.code.check.style.arrangement
+/*
+ * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
+ */
+
+package com.wuhao.code.check.style.arrangement.kotlin
 
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.Pair
@@ -24,11 +28,11 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.GETTERS_AND_SETTERS
 import com.intellij.util.containers.ContainerUtilRt
-import com.wuhao.code.check.processors.EntryType.CLASS
-import com.wuhao.code.check.processors.EntryType.FUNCTION
-import com.wuhao.code.check.processors.EntryType.INIT_BLOCK
-import com.wuhao.code.check.processors.EntryType.INTERFACE
-import com.wuhao.code.check.processors.EntryType.PROPERTY
+import com.wuhao.code.check.style.EntryType.CLASS
+import com.wuhao.code.check.style.EntryType.FUNCTION
+import com.wuhao.code.check.style.EntryType.INIT_BLOCK
+import com.wuhao.code.check.style.EntryType.INTERFACE
+import com.wuhao.code.check.style.EntryType.PROPERTY
 
 /**
  * kotlin代码重排
@@ -73,7 +77,7 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
   override fun parse(root: PsiElement, document: Document?,
                      ranges: MutableCollection<TextRange>,
                      settings: ArrangementSettings): List<ArrangementEntry> {
-    // Following entries are subject to arrangement: class, interface, field, method.
+    // Following entries are subject to arrangement: class, property, function, interface.
     val parseInfo = KotlinArrangementParseInfo()
     root.accept(KotlinArrangementVisitor(parseInfo, document, ranges, settings))
     return parseInfo.entries
@@ -92,7 +96,6 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
       null
     } else Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo
         .entries[0], existingEntriesInfo.entries)
-
   }
 
   companion object {

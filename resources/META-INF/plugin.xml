@@ -40,7 +40,9 @@
   <extensions defaultExtensionNs="com.intellij">
     <postStartupActivity implementation="com.wuhao.code.check.PostStart"/>
     <lang.rearranger language="kotlin"
-                     implementationClass="com.wuhao.code.check.style.arrangement.KotlinRearranger"/>
+                     implementationClass="com.wuhao.code.check.style.arrangement.kotlin.KotlinRearranger"/>
+    <lang.rearranger language="Vue"
+                     implementationClass="com.wuhao.code.check.style.arrangement.vue.VueRearranger"/>
     <completion.contributor
         implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
         language="JAVA" order="FIRST"/>

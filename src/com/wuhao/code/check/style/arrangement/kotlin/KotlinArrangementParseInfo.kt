@@ -1,7 +1,11 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.style.arrangement
+
+/*
+ * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
+ */
+package com.wuhao.code.check.style.arrangement.kotlin
 
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtProperty

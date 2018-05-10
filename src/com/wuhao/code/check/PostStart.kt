@@ -22,7 +22,6 @@ import com.intellij.psi.codeStyle.arrangement.match.StdArrangementEntryMatcher
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementMatchRule
 import com.intellij.psi.codeStyle.arrangement.model.ArrangementAtomMatchCondition
 import com.intellij.psi.codeStyle.arrangement.model.ArrangementCompositeMatchCondition
-import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementExtendableSettings
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementRuleAliasToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
@@ -34,6 +33,8 @@ import com.wuhao.code.check.style.KotlinModifier.LATEINIT
 import com.wuhao.code.check.style.KotlinModifier.OPEN
 import com.wuhao.code.check.style.arrangement.JavaRearrangeRules
 import com.wuhao.code.check.style.arrangement.KotlinRearrangeRules
+import com.wuhao.code.check.style.arrangement.RuleDescription
+import com.wuhao.code.check.style.arrangement.VueRearrangeRules
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueFileType
@@ -90,7 +91,7 @@ class PostStart : StartupActivity {
     return StdArrangementExtendableSettings(listOf(), sections, tokens)
   }
 
-  private fun createMatcher(rule: PostStart.RuleDescription): StdArrangementEntryMatcher {
+  private fun createMatcher(rule: RuleDescription): StdArrangementEntryMatcher {
     return StdArrangementEntryMatcher(
         ArrangementCompositeMatchCondition().apply {
           rule.template.forEach { token ->
@@ -100,7 +101,7 @@ class PostStart : StartupActivity {
     )
   }
 
-  private fun createSections(rules: List<PostStart.RuleDescription>): List<ArrangementSectionRule> {
+  private fun createSections(rules: List<RuleDescription>): List<ArrangementSectionRule> {
     return rules.map { rule ->
       if (rule.order == null) {
         StdArrangementMatchRule(createMatcher(rule), BY_NAME)
@@ -113,7 +114,8 @@ class PostStart : StartupActivity {
   }
 
   private fun createVueSettings(): StdArrangementSettings {
-    return StdArrangementExtendableSettings(listOf(), listOf(), listOf())
+    val sections = createSections(VueRearrangeRules.get())
+    return StdArrangementExtendableSettings(listOf(), sections, listOf())
   }
 
   private fun setIndent(settings: CodeStyleSettings) {
@@ -143,19 +145,5 @@ class PostStart : StartupActivity {
     }
   }
 
-  /**
-   * java代码排序规则描述
-   * @author 吴昊
-   * @since 1.2.6
-   */
-  class RuleDescription(val template: List<ArrangementSettingsToken>) {
-
-    var order: ArrangementSettingsToken? = null
-
-    constructor(template: List<ArrangementSettingsToken>, order: ArrangementSettingsToken)
-        : this(template) {
-      this.order = order
-    }
-  }
 }
 

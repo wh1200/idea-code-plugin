@@ -22,23 +22,46 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
  */
 class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : LocalQuickFix {
 
-  override fun getFamilyName(): String {
-    return "属性重新排序"
-  }
-
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val el = descriptor.psiElement as XmlTag
     fixElement(el, sortedAttributes)
   }
 
+  override fun getFamilyName(): String {
+    return "属性重新排序"
+  }
+
   companion object {
+
+    fun comparePrefix(nameList: List<String>, prefix: String): Int {
+      return when {
+        nameList.all { it.startsWith(prefix) } -> nameList[0].compareTo(nameList[1])
+        nameList[0].startsWith(prefix) -> -1
+        else -> 1
+      }
+    }
+
+    fun fixElement(el: XmlTag, sortedAttributes: List<XmlAttribute>) {
+      reorderAttributes(el, sortedAttributes)
+      fixWhitespace(el)
+    }
 
     fun fixElement(el: XmlTag) {
       fixElement(el, sortAttributes(el))
     }
 
-    fun reorderAttributes(el: XmlTag) {
-      reorderAttributes(el, sortAttributes(el))
+    fun fixWhitespace(el: XmlTag) {
+      val factory = KtPsiFactory(el.project)
+      el.attributes.forEachIndexed { index, it ->
+        val spaceBefore = it.prevSibling as PsiWhiteSpace
+        if (it.value == null && spaceBefore.textContains('\n')) {
+          spaceBefore.replace(factory.createWhiteSpace(" "))
+        } else if (it.value != null && index != 0 && !spaceBefore.textContains('\n')) {
+          spaceBefore.replace(factory.createWhiteSpace("\n"))
+        } else if (index == 0 && spaceBefore.textContains('\n')) {
+          spaceBefore.replace(factory.createWhiteSpace(" "))
+        }
+      }
     }
 
     private fun reorderAttributes(el: XmlTag, sortedAttributes: List<XmlAttribute>) {
@@ -50,27 +73,6 @@ class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : Loca
             .forEach { attr ->
               el.setAttribute(attr.name, attr.value)
             }
-      }
-    }
-
-    fun fixElement(el: XmlTag, sortedAttributes: List<XmlAttribute>) {
-      reorderAttributes(el, sortedAttributes)
-      fixWhitespace(el)
-    }
-
-    fun fixWhitespace(el: XmlTag) {
-      val factory = KtPsiFactory(el.project)
-      el.attributes.forEachIndexed { index, it ->
-        val spaceBefore = it.prevSibling as PsiWhiteSpace
-        if (index != 0 && !spaceBefore.textContains('\n')) {
-          spaceBefore.replace(factory.createWhiteSpace("\n"))
-        }
-        val spaceAfter = it.nextSibling
-        if (spaceAfter != null
-            && spaceAfter is PsiWhiteSpace
-            && !spaceAfter.textContains('\n')) {
-          spaceAfter.replace(factory.createWhiteSpace("\n"))
-        }
       }
     }
 
@@ -107,13 +109,6 @@ class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : Loca
         }
       }).filter { it.value != null }
     }
-
-    private fun comparePrefix(nameList: List<String>, prefix: String): Int {
-      return when {
-        nameList.all { it.startsWith(prefix) } -> nameList[0].compareTo(nameList[1])
-        nameList[0].startsWith(prefix) -> -1
-        else -> 1
-      }
-    }
   }
 }
+

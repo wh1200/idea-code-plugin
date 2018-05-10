@@ -4,13 +4,11 @@
 
 package com.wuhao.code.check.style.arrangement
 
-import com.wuhao.code.check.PostStart
-
 /**
  * 排序规则列表类
  * @author 吴昊
  * @since 1.3.1
  */
-abstract class Rules {
-  abstract fun get(): List<PostStart.RuleDescription>
+abstract class BaseRules {
+  abstract fun get(): List<RuleDescription>
 }

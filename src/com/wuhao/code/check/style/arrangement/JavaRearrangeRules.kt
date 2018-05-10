@@ -4,62 +4,63 @@
 
 package com.wuhao.code.check.style.arrangement
 
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens
-import com.wuhao.code.check.PostStart
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.*
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.*
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.BY_NAME
 
 /**
  *
  * @author 吴昊
  * @since 1.3.1
  */
-object JavaRearrangeRules: Rules() {
+object JavaRearrangeRules: BaseRules() {
 
-  override fun get(): List<PostStart.RuleDescription> {
+  override fun get(): List<RuleDescription> {
     return listOf(
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.STATIC, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.STATIC, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.STATIC, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PRIVATE, StdArrangementTokens.Modifier.STATIC, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.STATIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.STATIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.STATIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PRIVATE, StdArrangementTokens.Modifier.STATIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.INIT_BLOCK, StdArrangementTokens.Modifier.STATIC)),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PRIVATE, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
+        RuleDescription(listOf(FIELD, PUBLIC, STATIC, FINAL), BY_NAME),
+        RuleDescription(listOf(FIELD, PROTECTED, STATIC, FINAL), BY_NAME),
+        RuleDescription(listOf(FIELD, PACKAGE_PRIVATE, STATIC, FINAL), BY_NAME),
+        RuleDescription(listOf(FIELD, PRIVATE, STATIC, FINAL), BY_NAME),
+        RuleDescription(listOf(FIELD, PUBLIC, STATIC), BY_NAME),
+        RuleDescription(listOf(FIELD, PROTECTED, STATIC), BY_NAME),
+        RuleDescription(listOf(FIELD, PACKAGE_PRIVATE, STATIC), BY_NAME),
+        RuleDescription(listOf(FIELD, PRIVATE, STATIC), BY_NAME),
+        RuleDescription(listOf(INIT_BLOCK, STATIC)),
+        RuleDescription(listOf(FIELD, PUBLIC, FINAL), BY_NAME),
+        RuleDescription(listOf(FIELD, PROTECTED, FINAL), BY_NAME),
+        RuleDescription(listOf(FIELD, PACKAGE_PRIVATE, FINAL), BY_NAME),
+        RuleDescription(listOf(FIELD, PRIVATE, FINAL), BY_NAME),
 
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PUBLIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PROTECTED), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PACKAGE_PRIVATE), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD, StdArrangementTokens.Modifier.PRIVATE), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.FIELD), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.INIT_BLOCK)),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.CONSTRUCTOR)),
+        RuleDescription(listOf(FIELD, PUBLIC), BY_NAME),
+        RuleDescription(listOf(FIELD, PROTECTED), BY_NAME),
+        RuleDescription(listOf(FIELD, PACKAGE_PRIVATE), BY_NAME),
+        RuleDescription(listOf(FIELD, PRIVATE), BY_NAME),
+        RuleDescription(FIELD, BY_NAME),
+        RuleDescription(INIT_BLOCK),
+        RuleDescription(CONSTRUCTOR),
 
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.STATIC, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.STATIC, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.STATIC, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PRIVATE, StdArrangementTokens.Modifier.STATIC, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
+        RuleDescription(listOf(METHOD, PUBLIC, STATIC, FINAL), BY_NAME),
+        RuleDescription(listOf(METHOD, PACKAGE_PRIVATE, STATIC, FINAL), BY_NAME),
+        RuleDescription(listOf(METHOD, PROTECTED, STATIC, FINAL), BY_NAME),
+        RuleDescription(listOf(METHOD, PRIVATE, STATIC, FINAL), BY_NAME),
 
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.STATIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.STATIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.STATIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PRIVATE, StdArrangementTokens.Modifier.STATIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PRIVATE, StdArrangementTokens.Modifier.FINAL), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PUBLIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PACKAGE_PRIVATE), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PROTECTED), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD, StdArrangementTokens.Modifier.PRIVATE), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.METHOD), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.ENUM), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.INTERFACE), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.CLASS, StdArrangementTokens.Modifier.STATIC), StdArrangementTokens.Order.BY_NAME),
-        PostStart.RuleDescription(listOf(StdArrangementTokens.EntryType.CLASS, StdArrangementTokens.EntryType.CLASS), StdArrangementTokens.Order.BY_NAME))
+        RuleDescription(listOf(METHOD, PUBLIC, STATIC), BY_NAME),
+        RuleDescription(listOf(METHOD, PACKAGE_PRIVATE, STATIC), BY_NAME),
+        RuleDescription(listOf(METHOD, PROTECTED, STATIC), BY_NAME),
+        RuleDescription(listOf(METHOD, PRIVATE, STATIC), BY_NAME),
+        RuleDescription(listOf(METHOD, PUBLIC, FINAL), BY_NAME),
+        RuleDescription(listOf(METHOD, PACKAGE_PRIVATE, FINAL), BY_NAME),
+        RuleDescription(listOf(METHOD, PROTECTED, FINAL), BY_NAME),
+        RuleDescription(listOf(METHOD, PRIVATE, FINAL), BY_NAME),
+        RuleDescription(listOf(METHOD, PUBLIC), BY_NAME),
+        RuleDescription(listOf(METHOD, PACKAGE_PRIVATE), BY_NAME),
+        RuleDescription(listOf(METHOD, PROTECTED), BY_NAME),
+        RuleDescription(listOf(METHOD, PRIVATE), BY_NAME),
+        RuleDescription(METHOD, BY_NAME),
+        RuleDescription(ENUM, BY_NAME),
+        RuleDescription(INTERFACE, BY_NAME),
+        RuleDescription(listOf(CLASS, STATIC), BY_NAME),
+        RuleDescription(listOf(CLASS, CLASS), BY_NAME))
   }
 }
 

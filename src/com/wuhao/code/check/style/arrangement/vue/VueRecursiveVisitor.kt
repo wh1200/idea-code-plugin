@@ -18,7 +18,5 @@ open class VueRecursiveVisitor : VueFileVisitor(), PsiRecursiveVisitor {
   override fun visitElement(element: PsiElement) {
     element.acceptChildren(this)
   }
-
-
 }
 

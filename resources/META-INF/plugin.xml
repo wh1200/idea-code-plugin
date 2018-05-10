@@ -55,10 +55,8 @@
     <gotoDeclarationHandler
         implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyGotoDeclarationHandler2"/>
-    <postFormatProcessor implementation="com.wuhao.code.check.processors.ReorderVueAttributesProcessor"
-                         id="RerangeVueAttributesProcessor" order="first"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueAttributesProcessor"
-                         id="FixVueAttributesProcessor" order="after RerangeVueAttributesProcessor"/>
+                         id="FixVueAttributesProcessor" order="last"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueTemplateExpressionProcessor"
                          id="FixVueTemplateExpressionProcessor" order="first"/>
     <!--<postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaElementOrder"-->

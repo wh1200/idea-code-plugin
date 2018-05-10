@@ -18,6 +18,8 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementExtendableSettin
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementRuleAliasToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.XML_ATTRIBUTE
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.XML_TAG
 import com.intellij.util.containers.ContainerUtilRt
 
 /**
@@ -29,8 +31,23 @@ class VueRearranger : Rearranger<ArrangementEntry> {
 
   private val settingsSerializer = DefaultArrangementSettingsSerializer(getDefaultSettings())
 
-  override fun getBlankLines(settings: CodeStyleSettings, parent: ArrangementEntry?, previous: ArrangementEntry?, target: ArrangementEntry): Int {
-    return -1
+  override fun getBlankLines(settings: CodeStyleSettings,
+                             parentEntry: ArrangementEntry?,
+                             previousEntry: ArrangementEntry?,
+                             targetEntry: ArrangementEntry): Int {
+    val previous = previousEntry as VueElementArrangementEntry?
+    val target = targetEntry as VueElementArrangementEntry
+    return when (target.type) {
+      XML_ATTRIBUTE -> {
+        if (previous?.value == null) {
+          -1
+        } else {
+          1
+        }
+      }
+      XML_TAG -> -1
+      else -> -1
+    }
   }
 
   override fun getSerializer(): ArrangementSettingsSerializer {

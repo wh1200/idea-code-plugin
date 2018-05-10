@@ -24,11 +24,6 @@ import org.jetbrains.kotlin.psi.psiUtil.endOffset
 class FixVueAttributesProcessor : PostFormatProcessor {
 
   override fun processElement(el: PsiElement, styleSettings: CodeStyleSettings): PsiElement {
-    if (el.language.displayName == LanguageNames.vue) {
-      if (el is XmlTag) {
-        VueTemplateTagFix.fixElement(el)
-      }
-    }
     return el
   }
 

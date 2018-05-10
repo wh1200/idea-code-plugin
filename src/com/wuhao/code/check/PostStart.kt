@@ -13,6 +13,7 @@ import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.TypeScriptFileType
+import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.StartupActivity
 import com.intellij.psi.codeStyle.CodeStyleSettings
@@ -125,13 +126,7 @@ class PostStart : StartupActivity {
         XmlFileType.INSTANCE, CssFileType.INSTANCE
     )
     setIndentFileTypes.forEach { fileType ->
-      settings.getIndentOptions(fileType)
-          .apply {
-            INDENT_SIZE = DEFAULT_INDENT_SPACE_COUNT
-            CONTINUATION_INDENT_SIZE = DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
-            TAB_SIZE = DEFAULT_INDENT_SPACE_COUNT
-            USE_TAB_CHARACTER = false
-          }
+      setIndent(fileType, settings)
     }
   }
 
@@ -142,6 +137,17 @@ class PostStart : StartupActivity {
     myLastRunSettings.saveRearrangeState(language, true)
     settings.getCommonSettings(language).apply {
       setArrangementSettings(createSettings)
+    }
+  }
+
+  companion object {
+    fun setIndent(fileType: FileType, settings: CodeStyleSettings) {
+      settings.getIndentOptions(fileType).apply {
+        INDENT_SIZE = DEFAULT_INDENT_SPACE_COUNT
+        CONTINUATION_INDENT_SIZE = DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
+        TAB_SIZE = DEFAULT_INDENT_SPACE_COUNT
+        USE_TAB_CHARACTER = false
+      }
     }
   }
 

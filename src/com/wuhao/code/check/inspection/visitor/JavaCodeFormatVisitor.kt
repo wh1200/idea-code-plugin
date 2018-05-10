@@ -30,73 +30,77 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
  * @author 吴昊
  * @since 1.1
  */
-class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
+class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
+    JavaRecursiveElementVisitor(), BaseCodeFormatVisitor {
 
   override fun support(language: Language): Boolean {
     return language == JavaLanguage.INSTANCE
   }
 
+  override fun visitClass(clazz: PsiClass) {
+    if (clazz.annotations.any { it.qualifiedName == "Entity" || it.qualifiedName == "Table" }) {
+      clazz.fields.filter {
+        !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
+            && it.firstChild !is PsiDocComment
+      }.forEach { fieldElement ->
+        holder.registerProblem(fieldElement.nameIdentifier, Messages.commentRequired, ERROR,
+            JavaBlockCommentFix())
+      }
+    }
+  }
+
   override fun visitElement(element: PsiElement) {
-    when (element) {
-      is PsiClass -> {
-        if (element.annotations.any { it.qualifiedName == "Entity" || it.qualifiedName == "Table" }) {
-          element.fields.filter {
-            !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
-                && it.firstChild !is PsiDocComment
-          }.forEach { fieldElement ->
-            holder.registerProblem(fieldElement.nameIdentifier, Messages.commentRequired, ERROR,
-                JavaBlockCommentFix())
-          }
-        }
+  }
+
+  override fun visitIdentifier(identifier: PsiIdentifier) {
+    // 变量名不能少于2个字符
+    if (identifier.text.length <= 1) {
+      if (identifier.parent.getChildOfType<PsiTypeElement>() == null
+          || identifier.parent.getChildOfType<PsiTypeElement>()!!.text != "Exception") {
+//            holder.registerProblem(identifier, "变量名称不能少于2个字符", ProblemHighlightType.GENERIC_ERROR)
       }
-      is PsiIdentifier -> {
-        // 变量名不能少于2个字符
-        if (element.text.length <= 1) {
-          if (element.parent.getChildOfType<PsiTypeElement>() == null
-              || element.parent.getChildOfType<PsiTypeElement>()!!.text != "Exception") {
-//            holder.registerProblem(element, "变量名称不能少于2个字符", ProblemHighlightType.GENERIC_ERROR)
-          }
-        }
+    }
+  }
+
+  override fun visitLiteralExpression(expression: PsiLiteralExpression) {
+    // 检查数字参数
+    if (expression.parent is PsiExpressionList
+        && expression.text.toUpperCase() !in listOf("0", "0L", "0F") && expression.type in PRIMITIVE_TYPES) {
+      holder.registerProblem(expression, "不允许直接使用数字作为方法参数",
+          GENERIC_ERROR,
+          ExtractToVariableFix())
+    }
+  }
+
+  override fun visitMethod(method: PsiMethod) {
+    // 方法长度不能超过指定长度
+    if (method.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FUNCTION) {
+      holder.registerProblem(method, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", GENERIC_ERROR)
+    }
+    // 接口方法必须包含注释
+    val elClass = method.containingClass
+    if (elClass != null && elClass.isInterface && method.firstChild !is PsiDocComment) {
+      val elementToRegisterProblem = if (method.nameIdentifier != null) {
+        method.nameIdentifier!!
+      } else {
+        method
       }
-      is PsiLiteralExpression -> {
-        // 检查数字参数
-        if (element.parent is PsiExpressionList
-            && element.text.toUpperCase() !in listOf("0", "0L", "0F") && element.type in PRIMITIVE_TYPES) {
-          holder.registerProblem(element, "不允许直接使用数字作为方法参数",
-              GENERIC_ERROR,
-              ExtractToVariableFix())
-        }
-      }
-      is PsiMethodCallExpression -> {
-        // 使用日志输入代替System.out
-        if (element.text.startsWith("System.out") || element.text.startsWith("System.err")) {
-          if (element.ancestorOfType<PsiMethod>() == null
-              || !element.ancestorsOfType<PsiMethod>().any { func ->
-                func.annotations.any { annotation ->
-                  annotation.qualifiedName == JUNIT_TEST_ANNOTATION_CLASS_NAME
-                }
-              }
-          ) {
-            holder.registerProblem(element, "使用日志向控制台输出", GENERIC_ERROR, ConsolePrintFix())
+      holder.registerProblem(elementToRegisterProblem,
+          Messages.commentRequired, ERROR, JavaBlockCommentFix())
+    }
+  }
+
+  override fun visitMethodCallExpression(expression: PsiMethodCallExpression) {
+    // 使用日志输入代替System.out
+    if (expression.text.startsWith("System.out") || expression.text.startsWith("System.err")) {
+      if (expression.ancestorOfType<PsiMethod>() == null
+          || !expression.ancestorsOfType<PsiMethod>().any { func ->
+            func.annotations.any { annotation ->
+              annotation.qualifiedName == JUNIT_TEST_ANNOTATION_CLASS_NAME
+            }
           }
-        }
-      }
-      is PsiMethod -> {
-        // 方法长度不能超过指定长度
-        if (element.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FUNCTION) {
-          holder.registerProblem(element, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", GENERIC_ERROR)
-        }
-        // 接口方法必须包含注释
-        val elClass = element.containingClass
-        if (elClass != null && elClass.isInterface && element.firstChild !is PsiDocComment) {
-          val elementToRegisterProblem = if (element.nameIdentifier != null) {
-            element.nameIdentifier!!
-          } else {
-            element
-          }
-          holder.registerProblem(elementToRegisterProblem,
-              Messages.commentRequired, ERROR, JavaBlockCommentFix())
-        }
+      ) {
+        holder.registerProblem(expression, "使用日志向控制台输出", GENERIC_ERROR, ConsolePrintFix())
       }
     }
   }
@@ -107,3 +111,4 @@ class JavaCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(hold
 
   }
 }
+

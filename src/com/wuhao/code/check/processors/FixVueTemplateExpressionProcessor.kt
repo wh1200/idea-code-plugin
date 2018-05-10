@@ -19,8 +19,8 @@ import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.RecursiveVisitor
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
-import com.wuhao.code.check.inspection.visitor.BaseCodeFormatVisitor.Companion.CUSTOM_ATTR_PREFIX
-import com.wuhao.code.check.inspection.visitor.BaseCodeFormatVisitor.Companion.DIRECTIVE_PREFIX
+import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.CUSTOM_ATTR_PREFIX
+import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.DIRECTIVE_PREFIX
 import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 

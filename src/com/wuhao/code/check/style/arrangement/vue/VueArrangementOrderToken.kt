@@ -7,7 +7,7 @@ package com.wuhao.code.check.style.arrangement.vue
 import com.intellij.psi.codeStyle.arrangement.ArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.std.CustomArrangementOrderToken
 import com.wuhao.code.check.inspection.fix.VueTemplateTagFix
-import com.wuhao.code.check.inspection.visitor.BaseCodeFormatVisitor
+import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor
 import java.util.*
 
 /**
@@ -30,23 +30,23 @@ class VueArrangementOrderToken(id: String, name: String) : CustomArrangementOrde
           -1
         } else if (e2.value == null) {
           1
-        } else if (nameList.any { it.startsWith(BaseCodeFormatVisitor.DIRECTIVE_PREFIX) }) {
-          VueTemplateTagFix.comparePrefix(nameList, BaseCodeFormatVisitor.DIRECTIVE_PREFIX)
+        } else if (nameList.any { it.startsWith(CommonCodeFormatVisitor.DIRECTIVE_PREFIX) }) {
+          VueTemplateTagFix.comparePrefix(nameList, CommonCodeFormatVisitor.DIRECTIVE_PREFIX)
         } else if (nameList.any {
-              !it.startsWith(BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !it.startsWith(BaseCodeFormatVisitor.ACTION_PREFIX)
+              !it.startsWith(CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !it.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)
             }) {
-          if (!name1.startsWith(BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name1.startsWith(BaseCodeFormatVisitor.ACTION_PREFIX)
-              && !name2.startsWith(BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name2.startsWith(BaseCodeFormatVisitor.ACTION_PREFIX)) {
+          if (!name1.startsWith(CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name1.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)
+              && !name2.startsWith(CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name2.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)) {
             name1.compareTo(name2)
-          } else if (!name1.startsWith(BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name1.startsWith(BaseCodeFormatVisitor.ACTION_PREFIX)) {
+          } else if (!name1.startsWith(CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name1.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)) {
             -1
           } else {
             1
           }
-        } else if (nameList.any { it.startsWith(BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX) }) {
-          VueTemplateTagFix.comparePrefix(nameList, BaseCodeFormatVisitor.CUSTOM_ATTR_PREFIX)
-        } else if (nameList.any { it.startsWith(BaseCodeFormatVisitor.ACTION_PREFIX) }) {
-          VueTemplateTagFix.comparePrefix(nameList, BaseCodeFormatVisitor.ACTION_PREFIX)
+        } else if (nameList.any { it.startsWith(CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX) }) {
+          VueTemplateTagFix.comparePrefix(nameList, CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX)
+        } else if (nameList.any { it.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX) }) {
+          VueTemplateTagFix.comparePrefix(nameList, CommonCodeFormatVisitor.ACTION_PREFIX)
         } else {
           0
         }

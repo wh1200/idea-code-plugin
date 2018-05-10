@@ -82,7 +82,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
 
   override fun visitClassInitializer(initializer: KtClassInitializer, data: Any?) {
     val entry = createNewEntry(initializer, initializer.textRange, INIT_BLOCK, null, true) ?: return
-    parseModifiers(initializer.modifierList, entry)
+    processEntry(entry, initializer, null)
   }
 
   override fun visitComment(comment: PsiComment) {

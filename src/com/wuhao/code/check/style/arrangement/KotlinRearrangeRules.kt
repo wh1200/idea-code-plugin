@@ -6,9 +6,11 @@ package com.wuhao.code.check.style.arrangement
 
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.BY_NAME
 import com.wuhao.code.check.style.EntryType.CLASS
+import com.wuhao.code.check.style.EntryType.COMPANION_OBJECT
 import com.wuhao.code.check.style.EntryType.CONSTRUCTOR
 import com.wuhao.code.check.style.EntryType.DATA_CLASS
 import com.wuhao.code.check.style.EntryType.FUNCTION
+import com.wuhao.code.check.style.EntryType.INIT_BLOCK
 import com.wuhao.code.check.style.EntryType.INTERFACE
 import com.wuhao.code.check.style.EntryType.OBJECT
 import com.wuhao.code.check.style.EntryType.PROPERTY
@@ -28,6 +30,7 @@ object KotlinRearrangeRules : BaseRules() {
 
   override fun get(): List<RuleDescription> {
     return listOf(
+        RuleDescription(INIT_BLOCK, BY_NAME),
         RuleDescription(listOf(PROPERTY, OPEN), BY_NAME),
         RuleDescription(listOf(PROPERTY, OPEN, INTERNAL), BY_NAME),
         RuleDescription(listOf(PROPERTY, OPEN, PROTECTED), BY_NAME),
@@ -66,7 +69,9 @@ object KotlinRearrangeRules : BaseRules() {
         RuleDescription(INTERFACE, BY_NAME),
         RuleDescription(OBJECT, BY_NAME),
         RuleDescription(DATA_CLASS, BY_NAME),
-        RuleDescription(CLASS, BY_NAME))
+        RuleDescription(CLASS, BY_NAME),
+        RuleDescription(COMPANION_OBJECT, BY_NAME)
+    )
   }
 }
 

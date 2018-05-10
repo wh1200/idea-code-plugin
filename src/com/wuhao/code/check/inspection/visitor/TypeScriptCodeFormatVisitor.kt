@@ -12,12 +12,14 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
+import com.wuhao.code.check.lang.javascript.psi.JSRecursiveElementVisitor
 
 /**
  * Created by 吴昊 on 2018/4/28.
  *
  */
-open class TypeScriptCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
+open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSRecursiveElementVisitor(),
+    BaseCodeFormatVisitor {
 
   override fun support(language: Language): Boolean {
     return language.displayName == LanguageNames.typescript
@@ -43,3 +45,4 @@ open class TypeScriptCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatV
     val TS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.ts\$".toRegex()
   }
 }
+

@@ -8,12 +8,14 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.javascript.JavascriptLanguage
-import com.intellij.lang.javascript.psi.impl.JSObjectLiteralExpressionImpl
+import com.intellij.lang.javascript.psi.JSFile
+import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.inspection.fix.FileNameFix
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
+import com.wuhao.code.check.lang.javascript.psi.JSRecursiveElementVisitor
 
 /**
  * javascript文件代码格式检查访问器
@@ -22,7 +24,7 @@ import com.wuhao.code.check.inspection.fix.JsPropertySortFix
  * @author 吴昊
  * @since 1.1
  */
-open class JavaScriptCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
+open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSRecursiveElementVisitor(), BaseCodeFormatVisitor {
 
   override fun support(language: Language): Boolean {
     return language == JavascriptLanguage.INSTANCE
@@ -30,19 +32,14 @@ open class JavaScriptCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatV
   }
 
   override fun visitElement(element: PsiElement) {
-    when (element) {
-      is PsiFile -> {
-        checkFileName(element)
-      }
-      is JSObjectLiteralExpressionImpl -> remindReorderProperties(element)
-    }
   }
 
-  private fun remindReorderProperties(element: JSObjectLiteralExpressionImpl) {
-    val sortedProperties = element.properties.sortedBy { it.name }
-    if (element.properties.toList() != sortedProperties) {
-      holder.registerProblem(element, "对象属性排序", ProblemHighlightType.INFORMATION, JsPropertySortFix())
-    }
+  override fun visitJSFile(file: JSFile) {
+    checkFileName(file)
+  }
+
+  override fun visitJSObjectLiteralExpression(node: JSObjectLiteralExpression) {
+    remindReorderProperties(node)
   }
 
   /**
@@ -58,7 +55,15 @@ open class JavaScriptCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatV
     }
   }
 
+  private fun remindReorderProperties(element: JSObjectLiteralExpression) {
+    val sortedProperties = element.properties.sortedBy { it.name }
+    if (element.properties.toList() != sortedProperties) {
+      holder.registerProblem(element, "对象属性排序", ProblemHighlightType.INFORMATION, JsPropertySortFix())
+    }
+  }
+
   companion object {
     val JS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.js\$".toRegex()
   }
 }
+

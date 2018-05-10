@@ -19,6 +19,7 @@ import com.wuhao.code.check.Messages
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
 import com.wuhao.code.check.inspection.CodeFormatInspection
+import com.wuhao.code.check.inspection.checker.ClassCommentChecker
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.lexer.KtTokens.*
@@ -31,7 +32,10 @@ import org.jetbrains.kotlin.psi.*
  * @author 吴昊
  * @since 1.1
  */
-open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
+open class JavaOrKotlinCodeFormatVisitor(val holder: ProblemsHolder)
+  : BaseCodeFormatVisitor, PsiElementVisitor() {
+
+  private val classCommentChecker = ClassCommentChecker(holder)
 
   override fun support(language: Language): Boolean {
     return language == JavaLanguage.INSTANCE
@@ -63,6 +67,27 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
       needSpaceBothBeforeAndAfter(element) -> checkWhiteSpaceBothBeforeAndAfter(element)
       onlyNeedSpaceBefore(element) -> checkWhiteSpaceBefore(element)
       onlyNeedSpaceAfter(element) -> checkWhiteSpaceAfter(element)
+    }
+  }
+
+  private fun checkWhiteSpaceAfter(element: PsiElement) {
+    val keyword = element.text
+    if (element.nextSibling !is PsiWhiteSpace) {
+      holder.registerProblem(element, "$keyword 之后应当有空格", ERROR, SpaceQuickFix(SpaceQuickFix.Type.After))
+    }
+  }
+
+  private fun checkWhiteSpaceBefore(element: PsiElement) {
+    val keyword = element.text
+    if (element.prevSibling !is PsiWhiteSpace) {
+      holder.registerProblem(element, "$keyword 之前应当有空格", ERROR, SpaceQuickFix(SpaceQuickFix.Type.Before))
+    }
+  }
+
+  private fun checkWhiteSpaceBothBeforeAndAfter(element: PsiElement) {
+    val keyword = element.text
+    if (element.nextSibling !is PsiWhiteSpace || element.prevSibling !is PsiWhiteSpace) {
+      holder.registerProblem(element, "$keyword 前后应当有空格", ERROR, SpaceQuickFix(SpaceQuickFix.Type.Both))
     }
   }
 
@@ -100,6 +125,13 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
         ) && !(element is KtOperationReferenceExpression && element.parent is KtPrefixExpression)
   }
 
+  private fun onlyNeedSpaceAfter(element: PsiElement): Boolean {
+    return (element is LeafPsiElement
+        && element.parent !is KtOperationReferenceExpression
+        && element.elementType in shouldOnlyHaveSpaceAfterElementTypes) || (element is PsiKeyword
+        && element.text in shouldOnlyHaveSpaceAfterKeywords)
+  }
+
   private fun onlyNeedSpaceBefore(element: PsiElement): Boolean {
     return if (element.language is KotlinLanguage) {
       element is PsiJavaToken
@@ -111,44 +143,12 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
     }
   }
 
-  private fun onlyNeedSpaceAfter(element: PsiElement): Boolean {
-    return (element is LeafPsiElement
-        && element.parent !is KtOperationReferenceExpression
-        && element.elementType in shouldOnlyHaveSpaceAfterElementTypes) || (element is PsiKeyword
-        && element.text in shouldOnlyHaveSpaceAfterKeywords)
-  }
-
-  private fun checkWhiteSpaceBothBeforeAndAfter(element: PsiElement) {
-    val keyword = element.text
-    if (element.nextSibling !is PsiWhiteSpace || element.prevSibling !is PsiWhiteSpace) {
-      holder.registerProblem(element, "$keyword 前后应当有空格", ERROR, SpaceQuickFix(SpaceQuickFix.Type.Both))
-    }
-  }
-
-  private fun checkWhiteSpaceAfter(element: PsiElement) {
-    val keyword = element.text
-    if (element.nextSibling !is PsiWhiteSpace) {
-      holder.registerProblem(element, "$keyword 之后应当有空格", ERROR, SpaceQuickFix(SpaceQuickFix.Type.After))
-    }
-  }
-
-  private fun checkWhiteSpaceBefore(element: PsiElement) {
-    val keyword = element.text
-    if (element.prevSibling !is PsiWhiteSpace) {
-      holder.registerProblem(element, "$keyword 之前应当有空格", ERROR, SpaceQuickFix(SpaceQuickFix.Type.Before))
-    }
-  }
-
   /**
    * 修复空格
    * @author 吴昊
    * @since 1.2.1
    */
   class SpaceQuickFix(private val type: Type) : LocalQuickFix {
-
-    override fun getFamilyName(): String {
-      return Messages.fixSpace
-    }
 
     override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
       val element = descriptor.psiElement
@@ -161,13 +161,19 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
       }
     }
 
+    override fun getFamilyName(): String {
+      return Messages.fixSpace
+    }
+
     /**
      *
      * @author 吴昊
      * @since 1.2.1
      */
     enum class Type {
-      Before, After, Both
+      After,
+      Before,
+      Both
     }
   }
 
@@ -176,7 +182,7 @@ open class JavaOrKotlinCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeForma
         MUL, PLUS, MINUS, DIV, PERC,
         GT, LT, LTEQ, GTEQ, EQEQEQ, ARROW, DOUBLE_ARROW, EXCLEQEQEQ, EQEQ, EXCLEQ,
         ANDAND, OROR, EQ, MULTEQ, DIVEQ, PERCEQ, PLUSEQ, MINUSEQ, NOT_IN, NOT_IS)
-    private val shouldHaveSpaceBothBeforeAndAfterKeywords = shouldHaveSpaceBothBeforeAndAfterElementTypes
+    val shouldHaveSpaceBothBeforeAndAfterKeywords = shouldHaveSpaceBothBeforeAndAfterElementTypes
         .map { it.value } + listOf("else", "catch")
     val shouldHaveSpaceBothBeforeAndAfterTokens = listOf(">", "<", "=", ">=", "<=", "!=", "&&", "||", "&", "|", "==",
         "+", "-", "*", "/", "%", "+=", "-=", "/=", "*=", ">>", "<<", "<>") + shouldHaveSpaceBothBeforeAndAfterKeywords

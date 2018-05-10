@@ -10,12 +10,13 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.LanguageNames
+import com.wuhao.code.check.style.arrangement.vue.VueRecursiveVisitor
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 
 /**
  * Created by 吴昊 on 18-4-26.
  */
-open class VueCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(holder) {
+open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueRecursiveVisitor(), BaseCodeFormatVisitor {
 
   override fun support(language: Language): Boolean {
     return language.displayName == LanguageNames.vue
@@ -42,6 +43,10 @@ open class VueCodeFormatVisitor(holder: ProblemsHolder) : BaseCodeFormatVisitor(
       } else {
       }
     }
+  }
+
+  companion object {
+    const val MAX_TEMPLATE_LINES = 150
   }
 }
 

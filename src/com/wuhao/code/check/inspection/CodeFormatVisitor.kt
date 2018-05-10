@@ -15,6 +15,7 @@ import com.wuhao.code.check.inspection.visitor.*
 open class CodeFormatVisitor(holder: ProblemsHolder) : PsiElementVisitor() {
 
   private val visitors = listOf(
+      CommonCodeFormatVisitor(holder),
       JavaOrKotlinCodeFormatVisitor(holder),
       JavaCodeFormatVisitor(holder),
       KotlinCodeFormatVisitor(holder),
@@ -26,9 +27,10 @@ open class CodeFormatVisitor(holder: ProblemsHolder) : PsiElementVisitor() {
   override fun visitElement(element: PsiElement) {
     super.visitElement(element)
     visitors.forEach { visitor ->
-      if (visitor.support(element.language)) {
-        visitor.visit(element)
+      if (visitor is BaseCodeFormatVisitor && visitor is PsiElementVisitor && visitor.support(element.language)) {
+        element.accept(visitor)
       }
     }
   }
 }
+

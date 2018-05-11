@@ -6,8 +6,8 @@ package com.wuhao.code.check.style.arrangement.kotlin
 
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveVisitor
-import com.intellij.util.containers.Stack
-import org.jetbrains.kotlin.psi.KtReferenceExpression
+import org.jetbrains.kotlin.kdoc.psi.api.KDoc
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.psi.KtVisitor
 
 /**
@@ -17,24 +17,19 @@ import org.jetbrains.kotlin.psi.KtVisitor
  */
 abstract class KotlinRecursiveVisitor : KtVisitor<Any, Any>(), PsiRecursiveVisitor {
 
-  private val myRefExprsInVisit = Stack<KtReferenceExpression>()
+  open fun visitDoc(doc: KDoc) {
+  }
+
+  open fun visitDocSection(section: KDocSection) {
+  }
 
   override fun visitElement(element: PsiElement) {
-    if (!myRefExprsInVisit.isEmpty() && myRefExprsInVisit.peek() === element) {
-      myRefExprsInVisit.pop()
-      myRefExprsInVisit.push(null)
-    } else {
-      element.acceptChildren(this)
+    when (element) {
+      is KDoc -> visitDoc(element)
+      is KDocSection -> visitDocSection(element)
     }
+    element.acceptChildren(this)
   }
 
-  override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?): Any? {
-    myRefExprsInVisit.push(expression)
-    try {
-      visitExpression(expression, data)
-    } finally {
-      myRefExprsInVisit.pop()
-    }
-    return super.visitReferenceExpression(expression, data)
-  }
 }
+

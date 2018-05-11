@@ -15,8 +15,8 @@ import com.intellij.psi.PsiElement
 import com.intellij.spring.boot.SpringBootConfigFileConstants
 import com.wuhao.code.check.JAVA_VALUE_ANNOTATION_PATTERN
 import com.wuhao.code.check.RESOURCES_PATH
-import com.wuhao.code.check.RecursiveVisitor
 import com.wuhao.code.check.ancestors
+import com.wuhao.code.check.lang.RecursiveVisitor
 import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 import org.jetbrains.yaml.psi.YAMLKeyValue
 

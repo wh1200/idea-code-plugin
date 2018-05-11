@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.processors
 
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
@@ -120,5 +119,6 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
     const val MAPPER_ANNOTATION_TEXT = "@Mapper"
     const val MAPPER_CLASS = "org.apache.ibatis.annotations.Mapper"
   }
+
 }
 

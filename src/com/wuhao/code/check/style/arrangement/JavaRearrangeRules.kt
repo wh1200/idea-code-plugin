@@ -9,7 +9,7 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.BY_NAME
 
 /**
- *
+ * java代码排序规则列表
  * @author 吴昊
  * @since 1.3.1
  */

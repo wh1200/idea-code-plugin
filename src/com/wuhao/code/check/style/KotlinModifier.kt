@@ -1,27 +1,16 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
-/*
- * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
- */
-
 package com.wuhao.code.check.style
 
-import com.intellij.psi.codeStyle.arrangement.std.*
-import com.wuhao.code.check.PostStart
-import com.wuhao.code.check.style.EntryType.CLASS
-import com.wuhao.code.check.style.EntryType.CONSTRUCTOR
-import com.wuhao.code.check.style.EntryType.DATA_CLASS
+import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
+import com.intellij.psi.codeStyle.arrangement.std.CompositeArrangementToken
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettingsToken
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokenType
 import com.wuhao.code.check.style.EntryType.FUNCTION
-import com.wuhao.code.check.style.EntryType.INTERFACE
-import com.wuhao.code.check.style.EntryType.OBJECT
-import com.wuhao.code.check.style.EntryType.PROPERTY
 
 object KotlinModifier {
 
-
-  private val TOKENS = collectFields(KotlinModifier::class.java)
   val ABSTRACT: ArrangementSettingsToken = invertible("ABSTRACT", StdArrangementTokenType.MODIFIER)
   val CONST: ArrangementSettingsToken = invertible("CONST", StdArrangementTokenType.ENTRY_TYPE)
   val EXTERNAL: ArrangementSettingsToken = invertible("EXTERNAL", StdArrangementTokenType.ENTRY_TYPE)
@@ -36,6 +25,11 @@ object KotlinModifier {
   val PROTECTED: ArrangementSettingsToken = invertible("PROTECTED", StdArrangementTokenType.MODIFIER)
   val PUBLIC: ArrangementSettingsToken = invertible("PUBLIC", StdArrangementTokenType.MODIFIER)
   val SEALED: ArrangementSettingsToken = invertible("SEALED", StdArrangementTokenType.MODIFIER)
+  private val TOKENS = collectFields(KotlinModifier::class.java)
+
+  fun values(): Set<ArrangementSettingsToken> {
+    return TOKENS.value
+  }
 
   private fun compositeToken(id: String,
                              type: StdArrangementTokenType,
@@ -45,8 +39,5 @@ object KotlinModifier {
     return result
   }
 
-  fun values(): Set<ArrangementSettingsToken> {
-    return TOKENS.value
-  }
 }
 

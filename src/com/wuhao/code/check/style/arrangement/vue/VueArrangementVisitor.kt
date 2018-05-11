@@ -8,7 +8,6 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.codeStyle.arrangement.ArrangementSettings
 import com.intellij.psi.codeStyle.arrangement.DefaultArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.XML_ATTRIBUTE
@@ -26,8 +25,7 @@ import com.intellij.xml.arrangement.XmlElementArrangementEntry
  */
 class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
                             private val myDocument: Document?,
-                            private val myRanges: Collection<TextRange>,
-                            settings: ArrangementSettings) : VueRecursiveVisitor() {
+                            private val myRanges: Collection<TextRange>) : VueRecursiveVisitor() {
 
   private val myStack = Stack<XmlElementArrangementEntry>()
 

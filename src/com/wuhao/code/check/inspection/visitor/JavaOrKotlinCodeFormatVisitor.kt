@@ -4,22 +4,17 @@
 
 package com.wuhao.code.check.inspection.visitor
 
-import com.intellij.codeInspection.LocalQuickFix
-import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
-import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassImpl
 import com.intellij.psi.impl.source.tree.ElementType
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.Messages
-import com.wuhao.code.check.insertElementAfter
-import com.wuhao.code.check.insertElementBefore
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.checker.ClassCommentChecker
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.lexer.KtTokens.*
@@ -140,40 +135,6 @@ open class JavaOrKotlinCodeFormatVisitor(val holder: ProblemsHolder)
           && element.parent is KtCatchClause))
     } else {
       false
-    }
-  }
-
-  /**
-   * 修复空格
-   * @author 吴昊
-   * @since 1.2.1
-   */
-  class SpaceQuickFix(private val type: Type) : LocalQuickFix {
-
-    override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-      val element = descriptor.psiElement
-      val factory = KtPsiFactory(project)
-      if (type in listOf(Type.Both, Type.After) && element.nextSibling !is PsiWhiteSpace) {
-        element.insertElementAfter(factory.createWhiteSpace(" "))
-      }
-      if (type in listOf(Type.Both, Type.Before) && element.prevSibling !is PsiWhiteSpace) {
-        element.insertElementBefore(factory.createWhiteSpace(" "))
-      }
-    }
-
-    override fun getFamilyName(): String {
-      return Messages.fixSpace
-    }
-
-    /**
-     *
-     * @author 吴昊
-     * @since 1.2.1
-     */
-    enum class Type {
-      After,
-      Before,
-      Both
     }
   }
 

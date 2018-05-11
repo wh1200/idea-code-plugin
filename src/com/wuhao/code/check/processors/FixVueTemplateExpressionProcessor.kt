@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.processors
 
 import com.intellij.lang.javascript.psi.JSElementFactory
@@ -16,11 +15,11 @@ import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.LanguageNames
-import com.wuhao.code.check.RecursiveVisitor
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
 import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.CUSTOM_ATTR_PREFIX
 import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.DIRECTIVE_PREFIX
+import com.wuhao.code.check.lang.RecursiveVisitor
 import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
@@ -39,7 +38,7 @@ class FixVueTemplateExpressionProcessor : PostFormatProcessor {
     if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
-        object:RecursiveVisitor(){
+        object : RecursiveVisitor() {
           override fun visitElement(element: PsiElement) {
             val parent = element.parent
             if (element.text != "\"" && element.text != "'" && parent is XmlAttributeValue) {

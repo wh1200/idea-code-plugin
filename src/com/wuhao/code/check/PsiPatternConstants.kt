@@ -36,16 +36,18 @@ val KOTLIN_VALUE_ANNOTATION_PATTERN: PsiElementPattern.Capture<LeafPsiElement> =
         .withSuperParent(5, psiElement(KtAnnotationEntry::class.java)
             .withChild(psiElement(KtConstructorCalleeExpression::class.java)
                 .withText(VALUE_ANNOTATION_NAME)))
+
 /**
  * 是否一等kotlin属性
  */
 fun PsiElement.isFirstLevelProperty(): Boolean {
-  return  this is KtProperty && this.parent is KtFile
+  return this is KtProperty && this.parent is KtFile
 }
 
 /**
  * 判断是否有文档型注释
  */
-fun PsiElement.hasDocComment():Boolean {
+fun PsiElement.hasDocComment(): Boolean {
   return this.firstChild is KDoc || this.firstChild is PsiDocComment
 }
+

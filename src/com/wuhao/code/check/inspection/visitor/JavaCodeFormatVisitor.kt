@@ -5,7 +5,6 @@
 package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.ProblemHighlightType.ERROR
-import com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
@@ -22,7 +21,6 @@ import com.wuhao.code.check.inspection.fix.ConsolePrintFix
 import com.wuhao.code.check.inspection.fix.ExtractToVariableFix
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
-import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 
 /**
  * Java代码格式检查访问器
@@ -53,11 +51,13 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
   }
 
   override fun visitIdentifier(identifier: PsiIdentifier) {
-    // 变量名不能少于2个字符
+    // 方法名、字段名长度不能少于2个字符
     if (identifier.text.length <= 1) {
-      if (identifier.parent.getChildOfType<PsiTypeElement>() == null
-          || identifier.parent.getChildOfType<PsiTypeElement>()!!.text != "Exception") {
-//            holder.registerProblem(identifier, "变量名称不能少于2个字符", ProblemHighlightType.GENERIC_ERROR)
+      if (identifier.parent is PsiMethod || identifier.parent is PsiClass) {
+        holder.registerProblem(identifier, Messages.nameMustNotLessThan2Chars, ERROR)
+      }
+      if (identifier.parent is PsiField && identifier.parent.parent is PsiClass) {
+        holder.registerProblem(identifier, Messages.nameMustNotLessThan2Chars, ERROR)
       }
     }
   }
@@ -67,15 +67,15 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     if (expression.parent is PsiExpressionList
         && expression.text.toUpperCase() !in listOf("0", "0L", "0F") && expression.type in PRIMITIVE_TYPES) {
       holder.registerProblem(expression, "不允许直接使用数字作为方法参数",
-          GENERIC_ERROR,
-          ExtractToVariableFix())
+          ERROR, ExtractToVariableFix())
     }
   }
 
   override fun visitMethod(method: PsiMethod) {
     // 方法长度不能超过指定长度
-    if (method.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FUNCTION) {
-      holder.registerProblem(method, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", GENERIC_ERROR)
+    if (method.nameIdentifier != null && method.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FUNCTION) {
+      holder.registerProblem(method.nameIdentifier!!,
+          "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", ERROR)
     }
     // 接口方法必须包含注释
     val elClass = method.containingClass
@@ -100,7 +100,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
             }
           }
       ) {
-        holder.registerProblem(expression, "使用日志向控制台输出", GENERIC_ERROR, ConsolePrintFix())
+        holder.registerProblem(expression, "使用日志向控制台输出", ERROR, ConsolePrintFix())
       }
     }
   }
@@ -110,5 +110,6 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     val PRIMITIVE_TYPES = setOf(LONG, INT, DOUBLE, FLOAT, BYTE, SHORT)
 
   }
+
 }
 

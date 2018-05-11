@@ -1,11 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
-/*
- * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
- */
-
 package com.wuhao.code.check.processors
 
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo
@@ -147,5 +142,6 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
     const val SELECT = "select"
     const val UPDATE = "update"
   }
+
 }
 

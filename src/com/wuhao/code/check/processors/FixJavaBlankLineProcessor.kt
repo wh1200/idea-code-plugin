@@ -116,5 +116,6 @@ class FixJavaBlankLineProcessor : PostFormatProcessor {
       }
     }
   }
+
 }
 

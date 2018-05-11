@@ -69,8 +69,9 @@ class CommonCodeFormatVisitor(protected val holder: ProblemsHolder) : PsiElement
       val continuationIndent = styleContainer.getContinuationIndentSize(element.fileType)
       if (indent != DEFAULT_INDENT_SPACE_COUNT) {
         val indentFix = object : LocalQuickFix {
+
           override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-            PostStart.setIndent(element.fileType, CodeStyle.getSettings(element.project))
+            PostStart.setIndent(element.fileType, element.language, CodeStyle.getSettings(element.project))
           }
 
           override fun getFamilyName(): String {
@@ -92,5 +93,6 @@ class CommonCodeFormatVisitor(protected val holder: ProblemsHolder) : PsiElement
     const val CUSTOM_ATTR_PREFIX = ":"
     const val DIRECTIVE_PREFIX = "v-"
   }
+
 }
 

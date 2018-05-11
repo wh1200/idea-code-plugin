@@ -10,6 +10,5 @@ import com.wuhao.code.check.LOG
  * Created by 吴昊 on 18-4-25.
  */
 fun main(args: Array<String>) {
-  val s = "1".repeat(5)
   LOG.info("test")
 }

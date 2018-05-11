@@ -10,9 +10,9 @@ import com.intellij.psi.*
 import com.intellij.psi.JavaTokenType.LBRACE
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
-import com.wuhao.code.check.RecursiveVisitor
 import com.wuhao.code.check.getPsiElementFactory
 import com.wuhao.code.check.insertAfter
+import com.wuhao.code.check.lang.RecursiveVisitor
 import org.jetbrains.kotlin.idea.hierarchy.overrides.isOverrideHierarchyElement
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
@@ -22,6 +22,19 @@ import org.jetbrains.kotlin.psi.psiUtil.endOffset
  * @since 1.1.2
  */
 class FixJavaElementOrder : PostFormatProcessor {
+
+  fun PsiMethod.compare(method: PsiMethod): Int {
+    return if (this.modifiers.contentEquals(method.modifiers)) {
+      this.compareOverride(method)
+    } else {
+      val modifierCompare = method.modifiers.compareTo(this.modifiers)
+      if (modifierCompare == 0) {
+        this.compareOverride(method)
+      } else {
+        modifierCompare
+      }
+    }
+  }
 
   override fun processElement(source: PsiElement, settings: CodeStyleSettings): PsiElement {
     return source
@@ -36,6 +49,40 @@ class FixJavaElementOrder : PostFormatProcessor {
       }
     }.visit(source)
     return TextRange(0, source.endOffset)
+  }
+
+  private fun PsiMethod.compareOverride(method: PsiMethod): Int {
+    return if (this.isOverrideHierarchyElement() && method.isOverrideHierarchyElement()) {
+      this.name.compareTo(method.name)
+    } else if (this.isOverrideHierarchyElement()) {
+      1
+    } else if (method.isOverrideHierarchyElement()) {
+      -1
+    } else {
+      this.name.compareTo(method.name)
+    }
+  }
+
+  /**
+   * 按修饰符排序
+   * @param modifiers
+   * @return
+   */
+  private fun Array<JvmModifier>.compareTo(modifiers: Array<JvmModifier>): Int {
+    return this.getWeight().compareTo(modifiers.getWeight())
+  }
+
+  private fun PsiField.compareTo(field: PsiField): Int {
+    return if (this.modifiers.contentEquals(field.modifiers)) {
+      this.name.compareTo(field.name)
+    } else {
+      val modifierCompare = field.modifiers.compareTo(this.modifiers)
+      if (modifierCompare == 0) {
+        this.name.compareTo(field.name)
+      } else {
+        modifierCompare
+      }
+    }
   }
 
   private fun fixElementOrder(psiClass: PsiClass) {
@@ -62,15 +109,6 @@ class FixJavaElementOrder : PostFormatProcessor {
         relativeElement = method.insertAfter(relativeElement)
       }
     }
-  }
-
-  /**
-   * 按修饰符排序
-   * @param modifiers
-   * @return
-   */
-  private fun Array<JvmModifier>.compareTo(modifiers: Array<JvmModifier>): Int {
-    return this.getWeight().compareTo(modifiers.getWeight())
   }
 
   private fun Array<JvmModifier>.getWeight(): Int {
@@ -100,45 +138,5 @@ class FixJavaElementOrder : PostFormatProcessor {
     return Math.pow(2.0, weight.toDouble()).toInt()
   }
 
-  fun PsiMethod.compare(method: PsiMethod): Int {
-    return if (this.modifiers.contentEquals(method.modifiers)) {
-      this.compareOverride(method)
-    } else {
-      val modifierCompare = method.modifiers.compareTo(this.modifiers)
-      if (modifierCompare == 0) {
-        this.compareOverride(method)
-      } else {
-        modifierCompare
-      }
-    }
-  }
-
-  private fun PsiMethod.compareOverride(method: PsiMethod): Int {
-    return if (this.isOverrideHierarchyElement() && method.isOverrideHierarchyElement()) {
-      this.name.compareTo(method.name)
-    } else if (this.isOverrideHierarchyElement()) {
-      1
-    } else if (method.isOverrideHierarchyElement()) {
-      -1
-    } else {
-      this.name.compareTo(method.name)
-    }
-  }
-
-  private fun PsiField.compareTo(field: PsiField): Int {
-    return if (this.modifiers.contentEquals(field.modifiers)) {
-      this.name.compareTo(field.name)
-    } else {
-      val modifierCompare = field.modifiers.compareTo(this.modifiers)
-      if (modifierCompare == 0) {
-        this.name.compareTo(field.name)
-      } else {
-        modifierCompare
-      }
-    }
-  }
 }
-
-
-
 

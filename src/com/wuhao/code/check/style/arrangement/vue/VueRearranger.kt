@@ -23,7 +23,7 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType
 import com.intellij.util.containers.ContainerUtilRt
 
 /**
- * vue代码排序器
+ * vue代码排序器，主要对vue的模板标签属性进行排序
  * @author 吴昊
  * @since
  */
@@ -42,7 +42,7 @@ class VueRearranger : Rearranger<ArrangementEntry> {
         if (previous?.value == null) {
           -1
         } else {
-          1
+          0
         }
       }
       XML_TAG -> -1
@@ -59,7 +59,7 @@ class VueRearranger : Rearranger<ArrangementEntry> {
                      settings: ArrangementSettings): List<ArrangementEntry> {
     // Following entries are subject to arrangement: attribute of tag in vue template.
     val parseInfo = VueArrangementParseInfo()
-    root.accept(VueArrangementVisitor(parseInfo, document, ranges, settings))
+    root.accept(VueArrangementVisitor(parseInfo, document, ranges))
     return parseInfo.entries
   }
 
@@ -68,10 +68,10 @@ class VueRearranger : Rearranger<ArrangementEntry> {
       ranges: MutableCollection<TextRange>, element: PsiElement,
       settings: ArrangementSettings): Pair<ArrangementEntry, List<ArrangementEntry>>? {
     val existingEntriesInfo = VueArrangementParseInfo()
-    root.accept(VueArrangementVisitor(existingEntriesInfo, document, ranges, settings))
+    root.accept(VueArrangementVisitor(existingEntriesInfo, document, ranges))
 
     val newEntryInfo = VueArrangementParseInfo()
-    element.accept(VueArrangementVisitor(newEntryInfo, document, setOf(element.textRange), settings))
+    element.accept(VueArrangementVisitor(newEntryInfo, document, setOf(element.textRange)))
     return if (newEntryInfo.entries.size != 1) {
       null
     } else Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo

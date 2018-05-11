@@ -1,11 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
-/*
- * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
- */
-
 package com.wuhao.code.check.style
 
 import com.intellij.openapi.util.NotNullLazyValue
@@ -16,24 +11,27 @@ import com.intellij.psi.codeStyle.arrangement.std.StdInvertibleArrangementSettin
 import com.intellij.util.containers.ContainerUtilRt
 
 object EntryType {
-  private val TOKENS = collectFields(EntryType::class.java)
+
   val CLASS: ArrangementSettingsToken = invertible("CLASS", StdArrangementTokenType.ENTRY_TYPE)
+  val COMPANION_OBJECT: ArrangementSettingsToken = invertible("COMPANION_OBJECT", StdArrangementTokenType.ENTRY_TYPE)
   val CONSTRUCTOR: ArrangementSettingsToken = invertible("CONSTRUCTOR", StdArrangementTokenType.ENTRY_TYPE)
+  val DATA_CLASS: ArrangementSettingsToken = invertible("DATA_CLASS", StdArrangementTokenType.ENTRY_TYPE)
   val ENUM: ArrangementSettingsToken = invertible("ENUM", StdArrangementTokenType.ENTRY_TYPE)
   val EVENT_HANDLER: ArrangementSettingsToken = invertible("EVENT_HANDLER", StdArrangementTokenType.ENTRY_TYPE)
+  val FUNCTION: ArrangementSettingsToken = invertible("FUNCTION", StdArrangementTokenType.ENTRY_TYPE)
   val INIT_BLOCK: ArrangementSettingsToken = invertible("INITIALIZER_BLOCK", StdArrangementTokenType.ENTRY_TYPE)
   val INTERFACE: ArrangementSettingsToken = invertible("INTERFACE", StdArrangementTokenType.ENTRY_TYPE)
-  val FUNCTION: ArrangementSettingsToken = invertible("FUNCTION", StdArrangementTokenType.ENTRY_TYPE)
   val NAMESPACE: ArrangementSettingsToken = invertible("NAMESPACE", StdArrangementTokenType.ENTRY_TYPE)
   val OBJECT: ArrangementSettingsToken = invertible("OBJECT", StdArrangementTokenType.ENTRY_TYPE)
-  val COMPANION_OBJECT: ArrangementSettingsToken = invertible("COMPANION_OBJECT", StdArrangementTokenType.ENTRY_TYPE)
-  val DATA_CLASS: ArrangementSettingsToken = invertible("DATA_CLASS", StdArrangementTokenType.ENTRY_TYPE)
   val PROPERTY: ArrangementSettingsToken = invertible("PROPERTY", StdArrangementTokenType.ENTRY_TYPE)
+  private val TOKENS = collectFields(EntryType::class.java)
 
   fun values(): Set<ArrangementSettingsToken> {
     return TOKENS.value
   }
+
 }
+
 internal val TOKENS_BY_ID = ContainerUtilRt.newHashMap<String, StdArrangementSettingsToken>()
 /**
  *
@@ -46,6 +44,7 @@ fun invertible(id: String, type: StdArrangementTokenType): StdArrangementSetting
   TOKENS_BY_ID[id] = result
   return result
 }
+
 /**
  *
  * @param clazz
@@ -67,6 +66,7 @@ fun collectFields(clazz: Class<*>): NotNullLazyValue<Set<ArrangementSettingsToke
       }
       return result
     }
+
   }
 }
 

@@ -10,13 +10,16 @@ import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.lang.Language
+import com.intellij.lang.css.CSSLanguage
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.javascript.JavaScriptFileType
+import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.lang.javascript.TypeScriptFileType
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.StartupActivity
 import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 import com.intellij.psi.codeStyle.arrangement.group.ArrangementGroupingRule
 import com.intellij.psi.codeStyle.arrangement.match.ArrangementSectionRule
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementEntryMatcher
@@ -42,7 +45,7 @@ import org.jetbrains.vuejs.VueFileType
 import org.jetbrains.vuejs.VueLanguage
 
 /**
- * 项目启动时运行
+ * 项目启动时运行，主要对代码格式的配置按公司规范进行重写
  * @author 吴昊
  * @since 1.2.6
  */
@@ -121,12 +124,25 @@ class PostStart : StartupActivity {
 
   private fun setIndent(settings: CodeStyleSettings) {
     val setIndentFileTypes = listOf(
-        JavaFileType.INSTANCE, KotlinFileType.INSTANCE, JavaScriptFileType.INSTANCE,
-        TypeScriptFileType.INSTANCE, VueFileType.INSTANCE,
-        XmlFileType.INSTANCE, CssFileType.INSTANCE
+        JavaFileType.INSTANCE,
+        KotlinFileType.INSTANCE,
+        JavaScriptFileType.INSTANCE,
+        TypeScriptFileType.INSTANCE,
+        VueFileType.INSTANCE,
+        XmlFileType.INSTANCE,
+        CssFileType.INSTANCE
     )
     setIndentFileTypes.forEach { fileType ->
-      setIndent(fileType, settings)
+      val language = when (fileType) {
+        is JavaFileType -> JavaLanguage.INSTANCE
+        is KotlinFileType -> KotlinLanguage.INSTANCE
+        is JavaScriptFileType -> JavascriptLanguage.INSTANCE
+        is VueFileType -> VueLanguage.INSTANCE
+        is CssFileType -> CSSLanguage.INSTANCE
+        else -> null
+      }
+
+      setIndent(fileType, language, settings)
     }
   }
 
@@ -141,12 +157,15 @@ class PostStart : StartupActivity {
   }
 
   companion object {
-    fun setIndent(fileType: FileType, settings: CodeStyleSettings) {
+    fun setIndent(fileType: FileType, language: Language?, settings: CodeStyleSettings) {
       settings.getIndentOptions(fileType).apply {
         INDENT_SIZE = DEFAULT_INDENT_SPACE_COUNT
         CONTINUATION_INDENT_SIZE = DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
         TAB_SIZE = DEFAULT_INDENT_SPACE_COUNT
         USE_TAB_CHARACTER = false
+      }
+      if (language != null) {
+        LanguageCodeStyleSettingsProvider.getDefaultCommonSettings(language)?.LINE_COMMENT_AT_FIRST_COLUMN = true
       }
     }
   }

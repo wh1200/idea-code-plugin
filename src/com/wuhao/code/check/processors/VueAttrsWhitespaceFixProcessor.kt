@@ -12,7 +12,7 @@ import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.LanguageNames
-import com.wuhao.code.check.inspection.fix.VueTemplateTagFix
+import com.wuhao.code.check.inspection.fix.vue.VueTemplateTagFix
 import com.wuhao.code.check.lang.RecursiveVisitor
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 

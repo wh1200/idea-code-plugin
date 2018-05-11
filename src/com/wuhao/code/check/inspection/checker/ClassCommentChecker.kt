@@ -14,7 +14,7 @@ import com.intellij.psi.PsiTypeParameter
 import com.intellij.psi.javadoc.PsiDocComment
 import com.wuhao.code.check.Messages.classCommentRequired
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
-import com.wuhao.code.check.inspection.fix.KotlinCommentQuickFix
+import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommentQuickFix
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtEnumEntry

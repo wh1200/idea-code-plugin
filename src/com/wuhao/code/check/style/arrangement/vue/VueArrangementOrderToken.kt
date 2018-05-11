@@ -6,7 +6,7 @@ package com.wuhao.code.check.style.arrangement.vue
 
 import com.intellij.psi.codeStyle.arrangement.ArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.std.CustomArrangementOrderToken
-import com.wuhao.code.check.inspection.fix.VueTemplateTagFix
+import com.wuhao.code.check.inspection.fix.vue.VueTemplateTagFix
 import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor
 import java.util.*
 

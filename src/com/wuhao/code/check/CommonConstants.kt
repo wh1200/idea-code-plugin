@@ -98,6 +98,24 @@ inline fun <reified T> PsiElement.isFirstChildOfType(): Boolean {
 }
 
 /**
+ * psi元素的深度
+ */
+val PsiElement.depth: Int
+  get() {
+    var depth = 0
+    fun analyzeDepth(children: List<PsiElement>) {
+      if (children.isNotEmpty()) {
+        depth++
+        analyzeDepth(children.map { it.children.toList() }.flatten())
+      } else {
+        return
+      }
+    }
+    analyzeDepth(this.children.toList())
+    return depth
+  }
+
+/**
  * 源码及资源文件基本路径
  */
 private const val BASE_PATH = "src/main"

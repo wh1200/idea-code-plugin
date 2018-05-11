@@ -60,24 +60,29 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
   private val current: DefaultArrangementEntry?
     get() = if (myStack.isEmpty()) null else myStack.peek()
   private val myEntries = HashMap<PsiElement, KotlinElementArrangementEntry>()
-  private val myGroupingRules: Set<ArrangementSettingsToken>
-  private val myMethodBodyProcessor: MethodBodyProcessor
-  private val myObjectBodyProcessor: ObjectBodyProcessor
+  private val myMethodBodyProcessor: MethodBodyProcessor = MethodBodyProcessor()
+  private val myObjectBodyProcessor: ObjectBodyProcessor = ObjectBodyProcessor()
   private val myProcessedSectionsComments = ContainerUtil.newHashSet<PsiComment>()
-  private val mySectionDetector: ArrangementSectionDetector
+  private val mySectionDetector: ArrangementSectionDetector = ArrangementSectionDetector(myDocument, settings) { data ->
+    val range = data.textRange
+    val entry = KotlinSectionArrangementEntry(current, data.token, range, data.text, true)
+    registerEntry(data.element, entry)
+  }
   private val myStack = Stack<KotlinElementArrangementEntry>()
 
   override fun visitClass(clazz: KtClass, data: Any?) {
-    val isSectionCommentsDetected = registerSectionComments(clazz)
-    val range = if (isSectionCommentsDetected) getElementRangeWithoutComments(clazz) else clazz.textRange
-    val type = when {
-      clazz.isEnum() -> ENUM
-      clazz.isInterface() -> INTERFACE
-      clazz.isData() -> DATA_CLASS
-      else -> CLASS
+    if (clazz !is KtEnumEntry) {
+      val isSectionCommentsDetected = registerSectionComments(clazz)
+      val range = if (isSectionCommentsDetected) getElementRangeWithoutComments(clazz) else clazz.textRange
+      val type = when {
+        clazz.isEnum() -> ENUM
+        clazz.isInterface() -> INTERFACE
+        clazz.isData() -> DATA_CLASS
+        else -> CLASS
+      }
+      val entry = createNewEntry(clazz, range, type, clazz.name, true)
+      processEntry(entry, clazz, clazz)
     }
-    val entry = createNewEntry(clazz, range, type, clazz.name, true)
-    processEntry(entry, clazz, clazz)
   }
 
   override fun visitClassInitializer(initializer: KtClassInitializer, data: Any?) {
@@ -330,20 +335,26 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     }
   }
 
-  init {
-    myGroupingRules = getGroupingRules(settings)
-    myMethodBodyProcessor = MethodBodyProcessor()
-    myObjectBodyProcessor = ObjectBodyProcessor()
-    mySectionDetector = ArrangementSectionDetector(myDocument, settings) { data ->
-      val range = data.textRange
-      val entry = KotlinSectionArrangementEntry(current, data.token, range, data.text, true)
-      registerEntry(data.element, entry)
-    }
-  }
-
   companion object {
 
-    private val MODIFIERS = ContainerUtilRt.newHashMap<KtModifierKeywordToken, ArrangementSettingsToken>()
+    init {
+
+    }
+
+    private val MODIFIERS = ContainerUtilRt.newHashMap<KtModifierKeywordToken, ArrangementSettingsToken>().apply {
+      put(KtTokens.PROTECTED_KEYWORD, PROTECTED)
+      put(KtTokens.PRIVATE_KEYWORD, PRIVATE)
+      put(KtTokens.OPEN_KEYWORD, OPEN)
+      put(KtTokens.LATEINIT_KEYWORD, LATEINIT)
+      put(KtTokens.PUBLIC_KEYWORD, PUBLIC)
+      put(KtTokens.INTERNAL_KEYWORD, INTERNAL)
+      put(KtTokens.INLINE_KEYWORD, INLINE)
+      put(KtTokens.FINAL_KEYWORD, FINAL)
+      put(KtTokens.SEALED_KEYWORD, SEALED)
+      put(KtTokens.ABSTRACT_KEYWORD, ABSTRACT)
+      put(KtTokens.CONST_KEYWORD, CONST)
+      put(KtTokens.EXTERNAL_KEYWORD, EXTERNAL)
+    }
 
     private fun getComments(element: PsiElement): List<PsiComment> {
       val children = element.children
@@ -369,14 +380,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       }
 
       return TextRange(child.textRange.startOffset, element.textRange.endOffset)
-    }
-
-    private fun getGroupingRules(settings: ArrangementSettings): Set<ArrangementSettingsToken> {
-      val groupingRules = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()
-      for (rule in settings.groupings) {
-        groupingRules.add(rule.groupingType)
-      }
-      return groupingRules
     }
 
     private fun getPreviousNonWsComment(element: PsiElement?, minOffset: Int): PsiElement? {
@@ -425,21 +428,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       if (modifierList.visibilityModifier() == null) {
         entry.addModifier(PACKAGE_PRIVATE)
       }
-    }
-
-    init {
-      MODIFIERS[KtTokens.PROTECTED_KEYWORD] = PROTECTED
-      MODIFIERS[KtTokens.PRIVATE_KEYWORD] = PRIVATE
-      MODIFIERS[KtTokens.OPEN_KEYWORD] = OPEN
-      MODIFIERS[KtTokens.LATEINIT_KEYWORD] = LATEINIT
-      MODIFIERS[KtTokens.PUBLIC_KEYWORD] = PUBLIC
-      MODIFIERS[KtTokens.INTERNAL_KEYWORD] = INTERNAL
-      MODIFIERS[KtTokens.INLINE_KEYWORD] = INLINE
-      MODIFIERS[KtTokens.FINAL_KEYWORD] = FINAL
-      MODIFIERS[KtTokens.SEALED_KEYWORD] = SEALED
-      MODIFIERS[KtTokens.ABSTRACT_KEYWORD] = ABSTRACT
-      MODIFIERS[KtTokens.CONST_KEYWORD] = CONST
-      MODIFIERS[KtTokens.EXTERNAL_KEYWORD] = EXTERNAL
     }
   }
 

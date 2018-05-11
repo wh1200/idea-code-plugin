@@ -12,14 +12,13 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.intellij.psi.xml.XmlAttribute
-import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
-import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.CUSTOM_ATTR_PREFIX
-import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.DIRECTIVE_PREFIX
 import com.wuhao.code.check.lang.RecursiveVisitor
+import com.wuhao.code.check.lang.vue.isInjectAttribute
+import com.wuhao.code.check.style.arrangement.vue.VueRecursiveVisitor
 import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
@@ -38,39 +37,37 @@ class FixVueTemplateExpressionProcessor : PostFormatProcessor {
     if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
-        object : RecursiveVisitor() {
-          override fun visitElement(element: PsiElement) {
-            val parent = element.parent
-            if (element.text != "\"" && element.text != "'" && parent is XmlAttributeValue) {
-              val attr = parent.parent
-              if (attr is XmlAttribute
-                  && (attr.name.startsWith(CUSTOM_ATTR_PREFIX)
-                      || attr.name.startsWith(DIRECTIVE_PREFIX))) {
-                val exp = JSElementFactory.createExpressionCodeFragment(element.project, element.text, null)
-                object : RecursiveVisitor() {
-                  private val factory = KtPsiFactory(exp.project)
-                  override fun visitElement(element: PsiElement) {
-                    if (element.text in listOf("+", "-", "*", "/", "?", ":", ">", "<", "=", "!=", "===", "==", ">=", "<=", "||", "%",
-                            "&&", "&", "|")) {
-                      if (element.prevSibling !is PsiWhiteSpace) {
-                        element.insertElementBefore(factory.createWhiteSpace(" "))
-                      }
-                      if (element.nextSibling !is PsiWhiteSpace) {
-                        element.insertElementAfter(factory.createWhiteSpace(" "))
-                      }
+        templateTag.accept(object : VueRecursiveVisitor() {
+
+          override fun visitXmlAttribute(attribute: XmlAttribute) {
+            if (isInjectAttribute(attribute)) {
+              val exp = JSElementFactory.createExpressionCodeFragment(attribute.project, attribute.value, attribute)
+              object : RecursiveVisitor() {
+                private val factory = KtPsiFactory(exp.project)
+                override fun visitElement(element: PsiElement) {
+                  if (element.text in listOf(",", "+", "-", "*", "/", "?",
+                          ":", ">", "<", "=", "!=", "===", "==", "===",
+                          ">=", "<=", "||", "%",
+                          "&&", "&", "|")) {
+                    if (element.prevSibling !is PsiWhiteSpace) {
+                      element.insertElementBefore(factory.createWhiteSpace(" "))
                     }
-                    if (element.text in listOf(",")) {
-                      if (element.nextSibling !is PsiWhiteSpace) {
-                        element.insertElementAfter(factory.createWhiteSpace(" "))
-                      }
+                    if (element.nextSibling !is PsiWhiteSpace) {
+                      element.insertElementAfter(factory.createWhiteSpace(" "))
                     }
                   }
-                }.visit(exp)
-                attr.value = exp.text
-              }
+                  if (element.text in listOf(",")) {
+                    if (element.nextSibling !is PsiWhiteSpace) {
+                      element.insertElementAfter(factory.createWhiteSpace(" "))
+                    }
+                  }
+                }
+              }.visit(exp)
+              attribute.value = exp.text
             }
+            super.visitXmlAttribute(attribute)
           }
-        }.visit(templateTag)
+        })
       }
     }
     return TextRange(0, file.endOffset)

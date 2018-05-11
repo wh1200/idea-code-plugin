@@ -12,9 +12,9 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.DeleteFix
-import com.wuhao.code.check.inspection.fix.KotlinCommaFix
-import com.wuhao.code.check.inspection.fix.KotlinCommentQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
+import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommaFix
+import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommentQuickFix
 import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage

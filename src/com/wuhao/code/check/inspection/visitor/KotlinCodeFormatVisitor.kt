@@ -6,6 +6,7 @@ package com.wuhao.code.check.inspection.visitor
 import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
+import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
@@ -101,10 +102,10 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
   }
 
   override fun visitFile(file: PsiFile) {
-    val docs = file.getChildrenOfType<KDoc>()
+    val docs = file.getChildrenOfType<PsiComment>()
     if (docs.size > 1) {
-      docs.drop(1).forEach { doc ->
-        holder.registerProblem(doc, Messages.redundantComment, DeleteFix())
+      docs.drop(1).forEach { comment ->
+        holder.registerError(comment, Messages.redundantComment, DeleteFix())
       }
     }
     super.visitFile(file)
@@ -185,7 +186,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
       }
     } else {
       if (element.firstChild is KDoc && element.prevSiblingIgnoreWhitespace is KDoc) {
-        holder.registerProblem(element.firstChild, Messages.redundantComment, ERROR, DeleteFix())
+        holder.registerProblem(element.prevSiblingIgnoreWhitespace!!, Messages.redundantComment, ERROR, DeleteFix())
       }
     }
   }

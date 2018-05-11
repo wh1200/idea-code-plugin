@@ -130,9 +130,11 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
     fun getKotlinClasspath(): String {
       return className.replace(".", File.separator) + ".kt"
     }
+
   }
 
   companion object {
+
     const val DELETE = "delete"
     val FILE = IconLoader.getIcon("/icons/arrow_up.png")
     const val ID_ATTR_NAME = "id"
@@ -141,6 +143,7 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
     const val MAPPER_TAG_NAME = "mapper"
     const val SELECT = "select"
     const val UPDATE = "update"
+
   }
 
 }

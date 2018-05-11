@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.ui
 
 import com.intellij.openapi.components.PersistentStateComponent
@@ -24,15 +23,19 @@ import kotlin.reflect.jvm.javaField
     storages = [(Storage(file = "\$APP_CONFIG$/aegis.xml"))])
 class PluginSettings : PersistentStateComponent<Element> {
 
+  var email: String = ""
   var gitPrivateToken: String = ""
+  var javaKotlinTemplateUrl: String = ""
+  var reactTemplateUrl: String = ""
+  var user: String = ""
   var vueTemplateUrl: String = ""
     get() {
-      return if (field.isEmpty()) DEFAULT_VUE_TEMPLATE_URL else field
+      return if (field.isEmpty()) {
+        DEFAULT_VUE_TEMPLATE_URL
+      } else {
+        field
+      }
     }
-  var reactTemplateUrl: String = ""
-  var javaKotlinTemplateUrl: String = ""
-  var user: String = ""
-  var email: String = ""
 
   override fun getState(): Element? {
     val element = Element(CONFIG_NAME)
@@ -53,9 +56,12 @@ class PluginSettings : PersistentStateComponent<Element> {
 
 
   companion object {
+
     const val CONFIG_NAME = "AegisSettings"
     val instance: PluginSettings
       get() = ServiceManager.getService(PluginSettings::class.java) as PluginSettings
+
   }
 
 }
+

@@ -5,7 +5,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.style.arrangement
 
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
@@ -26,5 +25,6 @@ class RuleDescription(val template: List<ArrangementSettingsToken>) {
 
   constructor(token: ArrangementSettingsToken) : this(listOf(token))
   constructor(token: ArrangementSettingsToken, order: ArrangementSettingsToken) : this(listOf(token), order)
+
 }
 

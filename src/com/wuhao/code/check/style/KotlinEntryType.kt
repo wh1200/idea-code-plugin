@@ -25,6 +25,7 @@ object EntryType {
   val NAMESPACE: ArrangementSettingsToken = invertible("NAMESPACE", StdArrangementTokenType.ENTRY_TYPE)
   val OBJECT: ArrangementSettingsToken = invertible("OBJECT", StdArrangementTokenType.ENTRY_TYPE)
   val PROPERTY: ArrangementSettingsToken = invertible("PROPERTY", StdArrangementTokenType.ENTRY_TYPE)
+  val SECONDARY_CONSTRUCTOR: ArrangementSettingsToken = invertible("SECONDARY_CONSTRUCTOR", StdArrangementTokenType.ENTRY_TYPE)
   private val TOKENS = collectFields(EntryType::class.java)
 
   fun values(): Set<ArrangementSettingsToken> {
@@ -53,6 +54,7 @@ fun invertible(id: String, type: StdArrangementTokenType): StdArrangementSetting
  */
 fun collectFields(clazz: Class<*>): NotNullLazyValue<Set<ArrangementSettingsToken>> {
   return object : NotNullLazyValue<Set<ArrangementSettingsToken>>() {
+
     override fun compute(): Set<ArrangementSettingsToken> {
       val result = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()
       for (field in clazz.fields) {

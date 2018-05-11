@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.gotohandler
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
@@ -23,7 +22,6 @@ class MyGotoDeclarationHandler2 : GotoDeclarationHandler {
   }
 
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
-
     val res = arrayListOf<PsiElement>()
     val parent = el?.parent
     if (parent != null && (parent is KtLiteralStringTemplateEntry || parent is PsiLiteralExpression)) {
@@ -31,4 +29,6 @@ class MyGotoDeclarationHandler2 : GotoDeclarationHandler {
     }
     return res.toTypedArray()
   }
+
 }
+

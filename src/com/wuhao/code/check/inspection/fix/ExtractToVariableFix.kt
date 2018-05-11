@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.inspection.fix
 
 import com.intellij.codeInspection.LocalQuickFix
@@ -25,10 +24,6 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
  */
 class ExtractToVariableFix : LocalQuickFix {
 
-  override fun getFamilyName(): String {
-    return "提取为变量"
-  }
-
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val el = descriptor.endElement as PsiLiteralExpression
     val factory = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(el.project))
@@ -45,6 +40,10 @@ class ExtractToVariableFix : LocalQuickFix {
       }
       el.replace(factory.createIdentifier(name))
     }
+  }
+
+  override fun getFamilyName(): String {
+    return "提取为变量"
   }
 
   private fun resolveParameterName(el: PsiLiteralExpression): String {

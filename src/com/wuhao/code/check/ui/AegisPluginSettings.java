@@ -15,20 +15,20 @@ import javax.swing.JTextField;
  */
 public class AegisPluginSettings {
 
-  public  JPanel     mainPanel;
-  private JPanel     settingsPanel;
-  public  JTextField gitPrivateTokenInput;
-  public  JTextField vueTemplateUrlInput;
-  public  JTextField reactTemplateUrlInput;
-  public  JTextField javaKotlinTemplateUrlInput;
-  private JLabel     gitPrivateTokenLabel;
-  private JLabel     vueTemplateUrlLabel;
-  private JLabel     reactTemplateUrlLabel;
-  private JLabel     javaKotlinTemplateUrlLabel;
-  private JLabel     userLabel;
-  public  JTextField userInput;
-  private JLabel     emailLabel;
   public  JTextField emailInput;
+  public  JTextField gitPrivateTokenInput;
+  public  JTextField javaKotlinTemplateUrlInput;
+  public  JPanel     mainPanel;
+  public  JTextField reactTemplateUrlInput;
+  public  JTextField userInput;
+  public  JTextField vueTemplateUrlInput;
+  private JLabel     emailLabel;
+  private JLabel     gitPrivateTokenLabel;
+  private JLabel     javaKotlinTemplateUrlLabel;
+  private JLabel     reactTemplateUrlLabel;
+  private JPanel     settingsPanel;
+  private JLabel     userLabel;
+  private JLabel     vueTemplateUrlLabel;
 
   public AegisPluginSettings() {
     int width = 200;
@@ -42,3 +42,4 @@ public class AegisPluginSettings {
   }
 
 }
+

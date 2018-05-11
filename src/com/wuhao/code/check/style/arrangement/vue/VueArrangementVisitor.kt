@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.style.arrangement.vue
 
 import com.intellij.openapi.editor.Document
@@ -71,7 +70,11 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
   }
 
   private fun getCurrent(): DefaultArrangementEntry? {
-    return if (myStack.isEmpty()) null else myStack.peek()
+    return if (myStack.isEmpty()) {
+      null
+    } else {
+      myStack.peek()
+    }
   }
 
   private fun isWithinBounds(range: TextRange): Boolean {
@@ -96,9 +99,12 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
   }
 
   companion object {
+
     const val SCRIPT_TAG = "script"
     const val STYLE_TAG = "style"
     const val TEMPLATE_TAG = "template"
+
   }
+
 }
 

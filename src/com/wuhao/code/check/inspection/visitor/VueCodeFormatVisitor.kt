@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.LocalQuickFix
@@ -145,6 +144,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueRecursiveVisito
 
   private fun visitJsTag(js: JSEmbeddedContent) {
     js.accept(object : JSRecursiveElementVisitor() {
+
       override fun visitJSObjectLiteralExpression(node: JSObjectLiteralExpression) {
         if (node.parent is ES6ExportDefaultAssignment) {
           if (node.findProperty("name") == null) {
@@ -153,6 +153,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueRecursiveVisito
           super.visitJSObjectLiteralExpression(node)
         }
       }
+
     })
   }
 
@@ -160,6 +161,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueRecursiveVisito
 
     const val COMPUTED_ATTRIBUTE = "computed"
     const val MAX_TEMPLATE_LINES = 150
+
   }
 
 }

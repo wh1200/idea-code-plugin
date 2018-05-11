@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.style.arrangement
 
 /**
@@ -10,5 +9,8 @@ package com.wuhao.code.check.style.arrangement
  * @since 1.3.1
  */
 abstract class BaseRules {
+
   abstract fun get(): List<RuleDescription>
+
 }
+

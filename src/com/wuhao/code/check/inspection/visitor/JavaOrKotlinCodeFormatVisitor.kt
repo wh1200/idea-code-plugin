@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.ProblemHighlightType.ERROR
@@ -139,6 +138,7 @@ open class JavaOrKotlinCodeFormatVisitor(val holder: ProblemsHolder)
   }
 
   companion object {
+
     val shouldHaveSpaceBothBeforeAndAfterElementTypes = listOf(
         MUL, PLUS, MINUS, DIV, PERC,
         GT, LT, LTEQ, GTEQ, EQEQEQ, ARROW, DOUBLE_ARROW, EXCLEQEQEQ, EQEQ, EXCLEQ,
@@ -151,6 +151,8 @@ open class JavaOrKotlinCodeFormatVisitor(val holder: ProblemsHolder)
         CATCH_KEYWORD, FOR_KEYWORD, IF_KEYWORD, TRY_KEYWORD, DO_KEYWORD, WHILE_KEYWORD, WHEN_KEYWORD, ELVIS)
     val shouldOnlyHaveSpaceAfterKeywords = listOf("if", "for", "try",
         "while", "do", "switch")
+
   }
+
 }
 

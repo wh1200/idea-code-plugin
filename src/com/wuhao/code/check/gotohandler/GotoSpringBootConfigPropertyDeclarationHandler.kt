@@ -5,7 +5,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.gotohandler
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
@@ -40,6 +39,7 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
       val currentKey = getRealProperty(el.text)
       if (yamlFile != null) {
         object : RecursiveVisitor() {
+
           override fun visitElement(element: PsiElement) {
             if (element is YAMLKeyValue) {
               val key = element.ancestors.filter { it is YAMLKeyValue }
@@ -51,6 +51,7 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
               }
             }
           }
+
         }.visit(yamlFile)
       }
     }
@@ -65,4 +66,6 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
     val tmp = text.substring(quoteLength)
     return tmp.substring(0, tmp.length - quoteLength + 1)
   }
+
 }
+

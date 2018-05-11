@@ -92,6 +92,7 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
         fixBlankLineBefore(element, 2, factory)
         fixBlankLineAfter(element, 2, factory)
       }
+
     })
     fixWhiteSpace(source.lastChild, 2, factory)
     return TextRange(0, source.endOffset)

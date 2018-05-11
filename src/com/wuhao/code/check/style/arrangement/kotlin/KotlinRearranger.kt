@@ -9,7 +9,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.style.arrangement.kotlin
 
 import com.intellij.openapi.editor.Document
@@ -99,8 +98,10 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
     element.accept(KotlinArrangementVisitor(newEntryInfo, document, setOf(element.textRange), settings))
     return if (newEntryInfo.entries.size != 1) {
       null
-    } else Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo
-        .entries[0], existingEntriesInfo.entries)
+    } else {
+      Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo
+          .entries[0], existingEntriesInfo.entries)
+    }
   }
 
   companion object {
@@ -117,6 +118,7 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
       })
       return StdArrangementExtendableSettings.createByMatchRules(groupingRules, matchRules, aliasTokens)
     }
+
   }
 
 }

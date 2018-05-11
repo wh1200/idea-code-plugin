@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.processors
 
 import com.intellij.openapi.util.TextRange
@@ -32,11 +31,13 @@ class VueAttrsWhitespaceFixPostProcessor : PostFormatProcessor {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
         object : RecursiveVisitor() {
+
           override fun visitElement(element: PsiElement) {
             if (element is XmlTag) {
               VueTemplateTagFix.fixWhitespace(element)
             }
           }
+
         }.visit(templateTag)
       }
     }

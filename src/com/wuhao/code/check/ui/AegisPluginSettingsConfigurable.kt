@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.ui
 
 import com.intellij.openapi.options.SearchableConfigurable
@@ -15,25 +14,8 @@ import javax.swing.JComponent
  */
 class AegisPluginSettingsConfigurable : SearchableConfigurable {
 
-
   private var aegisPluginSettings: AegisPluginSettings? = null
   private var settings = PluginSettings.instance
-
-  override fun isModified(): Boolean {
-    return settings.gitPrivateToken != aegisPluginSettings?.gitPrivateTokenInput?.text
-        || settings.vueTemplateUrl != aegisPluginSettings?.gitPrivateTokenInput?.text
-        || settings.reactTemplateUrl != aegisPluginSettings?.reactTemplateUrlInput?.text
-        || settings.user == aegisPluginSettings?.userInput?.text
-        || settings.javaKotlinTemplateUrl != aegisPluginSettings?.javaKotlinTemplateUrlInput?.text
-  }
-
-  override fun getId(): String {
-    return "Aegis Plugin Configuration"
-  }
-
-  override fun getDisplayName(): String {
-    return "擎盾开发插件"
-  }
 
   override fun apply() {
     aegisPluginSettings?.let {
@@ -60,4 +42,22 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
     }
     return aegisPluginSettings?.mainPanel
   }
+
+  override fun getDisplayName(): String {
+    return "擎盾开发插件"
+  }
+
+  override fun getId(): String {
+    return "Aegis Plugin Configuration"
+  }
+
+  override fun isModified(): Boolean {
+    return settings.gitPrivateToken != aegisPluginSettings?.gitPrivateTokenInput?.text
+        || settings.vueTemplateUrl != aegisPluginSettings?.gitPrivateTokenInput?.text
+        || settings.reactTemplateUrl != aegisPluginSettings?.reactTemplateUrlInput?.text
+        || settings.user == aegisPluginSettings?.userInput?.text
+        || settings.javaKotlinTemplateUrl != aegisPluginSettings?.javaKotlinTemplateUrlInput?.text
+  }
+
 }
+

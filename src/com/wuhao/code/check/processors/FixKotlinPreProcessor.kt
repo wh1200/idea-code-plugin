@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.processors
 
 import com.intellij.lang.ASTNode
@@ -27,7 +26,9 @@ class FixKotlinPreProcessor : PreFormatProcessor {
   }
 
   companion object {
+
     private const val KOTLIN_PRE_FIX_EXECUTED = "KOTLIN_PRE_FIX_EXECUTED"
+
   }
 
 }

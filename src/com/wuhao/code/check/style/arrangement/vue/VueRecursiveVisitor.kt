@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.style.arrangement.vue
 
 import com.intellij.psi.PsiElement
@@ -18,5 +17,6 @@ open class VueRecursiveVisitor : VueFileVisitor(), PsiRecursiveVisitor {
   override fun visitElement(element: PsiElement) {
     element.acceptChildren(this)
   }
+
 }
 

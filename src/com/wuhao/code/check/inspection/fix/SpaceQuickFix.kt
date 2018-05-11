@@ -5,7 +5,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.inspection.fix
 
 import com.intellij.codeInspection.LocalQuickFix
@@ -48,15 +47,13 @@ class SpaceQuickFix(private val type: Type) : LocalQuickFix {
    * @since 1.2.1
    */
   enum class Type {
+
     After,
-
     AfterParent,
-
     Before,
-
     BeforeParent,
+    Both;
 
-    Both
   }
 
 }

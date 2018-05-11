@@ -27,7 +27,7 @@ open class KotlinElementArrangementEntry(parent: ArrangementEntry?,
     ModifierAwareArrangementEntry {
 
   private val myModifiers = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()
-  private val myTypes = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()
+  private val myTypes = hashSetOf(type)
 
   constructor(parent: ArrangementEntry?,
               range: TextRange,
@@ -35,8 +35,8 @@ open class KotlinElementArrangementEntry(parent: ArrangementEntry?,
               name: String?,
               canBeMatched: Boolean) : this(parent, range.startOffset, range.endOffset, type, name, canBeMatched)
 
-  init {
-    myTypes.add(type)
+  fun addModifier(modifier: ArrangementSettingsToken) {
+    myModifiers.add(modifier)
   }
 
   override fun getModifiers(): Set<ArrangementSettingsToken> {
@@ -59,8 +59,5 @@ open class KotlinElementArrangementEntry(parent: ArrangementEntry?,
     )
   }
 
-  fun addModifier(modifier: ArrangementSettingsToken) {
-    myModifiers.add(modifier)
-  }
 }
 

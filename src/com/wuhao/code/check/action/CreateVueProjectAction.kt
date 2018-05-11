@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.action
 
 import com.google.gson.GsonBuilder
@@ -34,6 +33,7 @@ class CreateVueProjectAction : AnAction() {
   override fun actionPerformed(e: AnActionEvent) {
     val newProjectName = Messages.showInputDialog(e.project, "输入项目名称", "输入", null,
         null, object : InputValidator {
+
       override fun checkInput(input: String?): Boolean {
         return !File("${File(e.project!!.baseDir.path).parentFile.absolutePath}/$input").exists()
       }
@@ -41,6 +41,7 @@ class CreateVueProjectAction : AnAction() {
       override fun canClose(input: String?): Boolean {
         return true
       }
+
     })
     if (newProjectName != null) {
       val newProjectRoot = File("${File(e.project!!.baseDir.path).parentFile.absolutePath}/$newProjectName")
@@ -117,4 +118,6 @@ class CreateVueProjectAction : AnAction() {
       entry = zip.nextEntry
     }
   }
+
 }
+

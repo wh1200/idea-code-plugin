@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.style.arrangement.vue
 
 import com.intellij.openapi.editor.Document
@@ -74,11 +73,14 @@ class VueRearranger : Rearranger<ArrangementEntry> {
     element.accept(VueArrangementVisitor(newEntryInfo, document, setOf(element.textRange)))
     return if (newEntryInfo.entries.size != 1) {
       null
-    } else Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo
-        .entries[0], existingEntriesInfo.entries)
+    } else {
+      Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo
+          .entries[0], existingEntriesInfo.entries)
+    }
   }
 
   companion object {
+
     private fun getDefaultSettings(): StdArrangementSettings {
       val groupingRules = ContainerUtilRt.newArrayList(ArrangementGroupingRule(StdArrangementTokens.Grouping.GETTERS_AND_SETTERS))
       val matchRules = ContainerUtilRt.newArrayList<StdArrangementMatchRule>()
@@ -91,6 +93,8 @@ class VueRearranger : Rearranger<ArrangementEntry> {
       })
       return StdArrangementExtendableSettings.createByMatchRules(groupingRules, matchRules, aliasTokens)
     }
+
   }
+
 }
 

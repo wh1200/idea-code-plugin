@@ -26,4 +26,6 @@ class KotlinSectionArrangementEntry(parent: ArrangementEntry?,
   override fun getText(): String {
     return myText
   }
+
 }
+

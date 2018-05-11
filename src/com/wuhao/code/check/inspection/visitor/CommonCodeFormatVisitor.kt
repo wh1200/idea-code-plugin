@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.application.options.CodeStyle
@@ -77,6 +76,7 @@ class CommonCodeFormatVisitor(protected val holder: ProblemsHolder) : PsiElement
           override fun getFamilyName(): String {
             return "设置缩进"
           }
+
         }
         holder.registerProblem(element, "${element.fileType.name}文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
             ProblemHighlightType.ERROR, indentFix)
@@ -89,9 +89,11 @@ class CommonCodeFormatVisitor(protected val holder: ProblemsHolder) : PsiElement
   }
 
   companion object {
+
     const val ACTION_PREFIX = "@"
     const val CUSTOM_ATTR_PREFIX = ":"
     const val DIRECTIVE_PREFIX = "v-"
+
   }
 
 }

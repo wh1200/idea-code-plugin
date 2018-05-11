@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.inspection.fix
 
 import com.intellij.codeInspection.LocalQuickFix
@@ -15,11 +14,7 @@ import com.wuhao.code.check.getPsiElementFactory
  * @author
  * @since
  */
-class ConsolePrintFix: LocalQuickFix {
-
-  override fun getFamilyName(): String {
-    return "替换为日志输出"
-  }
+class ConsolePrintFix : LocalQuickFix {
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val el = descriptor.endElement
@@ -32,4 +27,10 @@ class ConsolePrintFix: LocalQuickFix {
       }
     }
   }
+
+  override fun getFamilyName(): String {
+    return "替换为日志输出"
+  }
+
 }
+

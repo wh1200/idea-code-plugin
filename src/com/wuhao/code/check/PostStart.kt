@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check
 
 import com.intellij.application.options.CodeStyle
@@ -83,7 +82,6 @@ class PostStart : StartupActivity {
   }
 
   private fun createKotlinSettings(): StdArrangementSettings {
-
     val sections = createSections(KotlinRearrangeRules.get())
     val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
       definitionRules = listOf(OPEN, PUBLIC, PACKAGE_PRIVATE, PROTECTED, PRIVATE, LATEINIT).map {
@@ -157,6 +155,7 @@ class PostStart : StartupActivity {
   }
 
   companion object {
+
     fun setIndent(fileType: FileType, language: Language?, settings: CodeStyleSettings) {
       settings.getIndentOptions(fileType).apply {
         INDENT_SIZE = DEFAULT_INDENT_SPACE_COUNT
@@ -168,6 +167,7 @@ class PostStart : StartupActivity {
         LanguageCodeStyleSettingsProvider.getDefaultCommonSettings(language)?.LINE_COMMENT_AT_FIRST_COLUMN = true
       }
     }
+
   }
 
 }

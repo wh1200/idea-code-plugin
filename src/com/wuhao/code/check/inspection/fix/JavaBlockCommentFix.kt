@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.inspection.fix
 
 import com.intellij.codeInspection.LocalQuickFix
@@ -44,6 +43,10 @@ class JavaBlockCommentFix : LocalQuickFix {
     }
   }
 
+  override fun getFamilyName(): String {
+    return "添加注释"
+  }
+
   private fun buildMethodComment(element: PsiMethod): String {
     val commentBuilder = StringBuilder(BLOCK_COMMENT_START)
     element.parameterList.parameters.forEach {
@@ -56,17 +59,17 @@ class JavaBlockCommentFix : LocalQuickFix {
     return commentBuilder.toString()
   }
 
-  override fun getFamilyName(): String {
-    return "添加注释"
-  }
-
   companion object {
+
+    const val BLOCK_COMMENT_END = "*/"
     const val BLOCK_COMMENT_START = """/**
 *
 """
-    const val BLOCK_COMMENT_END = "*/"
     const val BLOCK_COMMENT_STRING = BLOCK_COMMENT_START + BLOCK_COMMENT_END
     val CLASS_COMMENT = "$BLOCK_COMMENT_START* @author ${PluginSettings.instance.user} \n* @since " +
         "\n$BLOCK_COMMENT_END"
+
   }
+
 }
+

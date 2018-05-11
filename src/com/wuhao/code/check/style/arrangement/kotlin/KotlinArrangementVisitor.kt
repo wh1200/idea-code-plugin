@@ -30,6 +30,7 @@ import com.wuhao.code.check.style.EntryType.INIT_BLOCK
 import com.wuhao.code.check.style.EntryType.INTERFACE
 import com.wuhao.code.check.style.EntryType.OBJECT
 import com.wuhao.code.check.style.EntryType.PROPERTY
+import com.wuhao.code.check.style.EntryType.SECONDARY_CONSTRUCTOR
 import com.wuhao.code.check.style.KotlinModifier.ABSTRACT
 import com.wuhao.code.check.style.KotlinModifier.CONST
 import com.wuhao.code.check.style.KotlinModifier.EXTERNAL
@@ -59,7 +60,11 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
                                settings: ArrangementSettings) : KotlinRecursiveVisitor() {
 
   private val current: DefaultArrangementEntry?
-    get() = if (myStack.isEmpty()) null else myStack.peek()
+    get() = if (myStack.isEmpty()) {
+      null
+    } else {
+      myStack.peek()
+    }
   private val myEntries = HashMap<PsiElement, KotlinElementArrangementEntry>()
   private val myMethodBodyProcessor: MethodBodyProcessor = MethodBodyProcessor()
   private val myObjectBodyProcessor: ObjectBodyProcessor = ObjectBodyProcessor()
@@ -77,7 +82,11 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       return
     }
     val isSectionCommentsDetected = registerSectionComments(clazz)
-    val range = if (isSectionCommentsDetected) getElementRangeWithoutComments(clazz) else clazz.textRange
+    val range = if (isSectionCommentsDetected) {
+      getElementRangeWithoutComments(clazz)
+    } else {
+      clazz.textRange
+    }
     val type = when {
       clazz.isEnum() -> ENUM
       clazz.isInterface() -> INTERFACE
@@ -106,10 +115,11 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       return
     }
     val isSectionCommentsDetected = registerSectionComments(function)
-    val range = if (isSectionCommentsDetected)
+    val range = if (isSectionCommentsDetected) {
       getElementRangeWithoutComments(function)
-    else
+    } else {
       function.textRange
+    }
     val type = FUNCTION
     val entry = createNewEntry(function, range, type, function.name, true) ?: return
     processEntry(entry, function, function.bodyExpression)
@@ -158,7 +168,11 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     //    int i1,
     //        i2;
     // We want to consider only the first declaration then but need to expand its range to all affected lines (up to semicolon).
-    var range = if (isSectionCommentsDetected) getElementRangeWithoutComments(property) else property.textRange
+    var range = if (isSectionCommentsDetected) {
+      getElementRangeWithoutComments(property)
+    } else {
+      property.textRange
+    }
     val child = property.lastChild
     var needSpecialProcessing = true
     if (isSemicolon(child)) {
@@ -208,6 +222,11 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     myInfo.onFieldEntryCreated(property, entry)
   }
 
+  override fun visitSecondaryConstructor(constructor: KtSecondaryConstructor, data: Any?) {
+    val entry = createNewEntry(constructor, constructor.textRange, SECONDARY_CONSTRUCTOR, null, true)
+    processEntry(entry, constructor, null)
+  }
+
   private fun createNewEntry(element: PsiElement,
                              range: TextRange,
                              type: ArrangementSettingsToken,
@@ -219,7 +238,11 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     val current = this.current
     val entry: KotlinElementArrangementEntry
     entry = if (canArrange) {
-      val expandedRange = if (myDocument == null) null else ArrangementUtil.expandToLineIfPossible(range, myDocument)
+      val expandedRange = if (myDocument == null) {
+        null
+      } else {
+        ArrangementUtil.expandToLineIfPossible(range, myDocument)
+      }
       val rangeToUse = expandedRange ?: range
       KotlinElementArrangementEntry(current, rangeToUse, type, name, true)
     } else {
@@ -311,6 +334,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
    */
   private class MethodBodyProcessor internal constructor() :
       KotlinRecursiveVisitor() {
+
     private var myBaseMethod: KtNamedFunction? = null
 
     internal fun setBaseMethod(baseMethod: KtNamedFunction?): Boolean {
@@ -320,6 +344,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       }
       return false
     }
+
   }
 
   /**
@@ -328,6 +353,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
    */
   private class ObjectBodyProcessor internal constructor() :
       KotlinRecursiveVisitor() {
+
     private var myBaseObject: KtObjectDeclaration? = null
 
     internal fun setBaseObject(baseObject: KtObjectDeclaration?): Boolean {
@@ -337,13 +363,10 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       }
       return false
     }
+
   }
 
   companion object {
-
-    init {
-
-    }
 
     private val MODIFIERS = ContainerUtilRt.newHashMap<KtModifierKeywordToken, ArrangementSettingsToken>().apply {
       put(KtTokens.PROTECTED_KEYWORD, PROTECTED)
@@ -358,6 +381,10 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       put(KtTokens.ABSTRACT_KEYWORD, ABSTRACT)
       put(KtTokens.CONST_KEYWORD, CONST)
       put(KtTokens.EXTERNAL_KEYWORD, EXTERNAL)
+    }
+
+    init {
+
     }
 
     private fun getComments(element: PsiElement): List<PsiComment> {
@@ -433,6 +460,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
         entry.addModifier(PACKAGE_PRIVATE)
       }
     }
+
   }
 
 }

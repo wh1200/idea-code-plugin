@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.inspection.checker
 
 import com.intellij.codeInspection.LocalQuickFix
@@ -35,10 +34,6 @@ class ClassCommentChecker(holder: ProblemsHolder) : BaseChecker(holder) {
     }
   }
 
-  private fun registerProblem(element: PsiElement, fix: LocalQuickFix) {
-    holder.registerProblem(element, classCommentRequired, ERROR, fix)
-  }
-
   fun checkKotlin(element: KtClass) {
     if (element !is KtEnumEntry && element.nameIdentifier != null) {
       checkKotlinClassComment(element, element.nameIdentifier)
@@ -60,5 +55,10 @@ class ClassCommentChecker(holder: ProblemsHolder) : BaseChecker(holder) {
       }
     }
   }
+
+  private fun registerProblem(element: PsiElement, fix: LocalQuickFix) {
+    holder.registerProblem(element, classCommentRequired, ERROR, fix)
+  }
+
 }
 

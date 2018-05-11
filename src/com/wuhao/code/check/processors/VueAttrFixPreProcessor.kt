@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.processors
 
 import com.intellij.lang.ASTNode
@@ -58,6 +57,7 @@ class VueAttrFixPreProcessor : PreFormatProcessor {
                 name
               }
             }
+
           }
       )
     }
@@ -65,6 +65,7 @@ class VueAttrFixPreProcessor : PreFormatProcessor {
   }
 
   companion object {
+
     val tags = listOf("!DOCTYPE", "a", "abbr", "acronym", "address",
         "applet", "area", "article", "aside", "audio", "b", "base",
         "basefont", "bdi", "bdo", "big", "blockquote", "body", "br",
@@ -84,6 +85,7 @@ class VueAttrFixPreProcessor : PreFormatProcessor {
         "var", "video", "wbr", "xmp", "template", "keep-alive",
         "component", "slot", "transaction", "transaction-group"
     )
+
   }
 
 }

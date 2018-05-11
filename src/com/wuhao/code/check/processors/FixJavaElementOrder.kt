@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.processors
 
 import com.intellij.lang.jvm.JvmModifier
@@ -42,11 +41,13 @@ class FixJavaElementOrder : PostFormatProcessor {
 
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
     object : RecursiveVisitor() {
+
       override fun visitElement(element: PsiElement) {
         if (element is PsiClass) {
           fixElementOrder(element)
         }
       }
+
     }.visit(source)
     return TextRange(0, source.endOffset)
   }

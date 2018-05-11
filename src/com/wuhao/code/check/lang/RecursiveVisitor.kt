@@ -5,7 +5,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.lang
 
 import com.intellij.psi.PsiElement
@@ -31,5 +30,6 @@ abstract class RecursiveVisitor : PsiElementVisitor(), PsiRecursiveVisitor {
       recursiveVisit(it)
     }
   }
+
 }
 

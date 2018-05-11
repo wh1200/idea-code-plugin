@@ -115,9 +115,11 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
   private data class MapperInfo(val isMethod: Boolean, val mapperName: String, val methodName: String? = null)
 
   companion object {
+
     val FILE = IconLoader.getIcon("/icons/arrow_down.png")
     const val MAPPER_ANNOTATION_TEXT = "@Mapper"
     const val MAPPER_CLASS = "org.apache.ibatis.annotations.Mapper"
+
   }
 
 }

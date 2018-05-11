@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.style.arrangement.vue
 
 import com.intellij.openapi.util.TextRange
@@ -9,7 +8,6 @@ import com.intellij.psi.codeStyle.arrangement.ArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.NameAwareArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.TypeAwareArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
-import com.intellij.util.containers.ContainerUtilRt
 import com.intellij.xml.arrangement.XmlElementArrangementEntry
 
 /**
@@ -28,7 +26,7 @@ class VueElementArrangementEntry(parent: ArrangementEntry?,
     TypeAwareArrangementEntry,
     NameAwareArrangementEntry {
 
-  private val myTypes = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()
+  private val myTypes = hashSetOf(type)
 
   override fun getName(): String {
     return myName
@@ -36,10 +34,6 @@ class VueElementArrangementEntry(parent: ArrangementEntry?,
 
   override fun getTypes(): MutableSet<ArrangementSettingsToken> {
     return myTypes
-  }
-
-  init {
-    myTypes.add(type)
   }
 
 }

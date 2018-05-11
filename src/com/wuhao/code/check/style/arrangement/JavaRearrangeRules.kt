@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.style.arrangement
 
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.*
@@ -13,7 +12,7 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.BY_
  * @author 吴昊
  * @since 1.3.1
  */
-object JavaRearrangeRules: BaseRules() {
+object JavaRearrangeRules : BaseRules() {
 
   override fun get(): List<RuleDescription> {
     return listOf(
@@ -62,6 +61,6 @@ object JavaRearrangeRules: BaseRules() {
         RuleDescription(listOf(CLASS, STATIC), BY_NAME),
         RuleDescription(listOf(CLASS, CLASS), BY_NAME))
   }
-}
 
+}
 

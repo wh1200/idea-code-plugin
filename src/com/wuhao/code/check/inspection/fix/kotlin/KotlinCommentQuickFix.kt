@@ -5,7 +5,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.inspection.fix.kotlin
 
 import com.intellij.codeInspection.LocalQuickFix
@@ -29,10 +28,6 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
  * @since 1.1
  */
 class KotlinCommentQuickFix : LocalQuickFix {
-
-  override fun getName(): String {
-    return "添加注释"
-  }
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     try {
@@ -61,6 +56,14 @@ class KotlinCommentQuickFix : LocalQuickFix {
     }
   }
 
+  override fun getFamilyName(): String {
+    return name
+  }
+
+  override fun getName(): String {
+    return "添加注释"
+  }
+
   private fun buildFunctionComment(element: KtFunction): String {
     val commentBuilder = StringBuilder(BLOCK_COMMENT_START)
     element.valueParameterList?.parameters?.forEach {
@@ -73,13 +76,11 @@ class KotlinCommentQuickFix : LocalQuickFix {
     return commentBuilder.toString()
   }
 
-
-  override fun getFamilyName(): String {
-    return name
-  }
-
   companion object {
+
     private val LOG = Logger.getInstance("com.intellij.codeInspection.PropertyClassCreateInspection")
+
   }
+
 }
 

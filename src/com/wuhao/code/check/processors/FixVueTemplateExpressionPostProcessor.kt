@@ -43,6 +43,7 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
             if (isInjectAttribute(attribute)) {
               val exp = JSElementFactory.createExpressionCodeFragment(attribute.project, attribute.value, attribute)
               object : RecursiveVisitor() {
+
                 private val factory = KtPsiFactory(exp.project)
                 override fun visitElement(element: PsiElement) {
                   if (element.text in listOf(",", "+", "-", "*", "/", "?",
@@ -62,11 +63,13 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
                     }
                   }
                 }
+
               }.visit(exp)
               attribute.value = exp.text
             }
             super.visitXmlAttribute(attribute)
           }
+
         })
       }
     }

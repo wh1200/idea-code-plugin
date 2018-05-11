@@ -111,8 +111,8 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
   companion object {
 
     val ENTITY_CLASS = "javax.persistence.Entity"
-    val TABLE_CLASS = "javax.persistence.Table"
     val PRIMITIVE_TYPES = setOf(LONG, INT, DOUBLE, FLOAT, BYTE, SHORT)
+    val TABLE_CLASS = "javax.persistence.Table"
 
   }
 

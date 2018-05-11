@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.ProblemHighlightType.ERROR
@@ -35,8 +34,12 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     return language == JavaLanguage.INSTANCE
   }
 
+  /**
+   *
+   * @param clazz 类元素
+   */
   override fun visitClass(clazz: PsiClass) {
-    if (clazz.annotations.any { it.qualifiedName == "Entity" || it.qualifiedName == "Table" }) {
+    if (clazz.annotations.any { it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS) }) {
       clazz.fields.filter {
         !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
             && it.firstChild !is PsiDocComment
@@ -107,6 +110,8 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
 
   companion object {
 
+    val ENTITY_CLASS = "javax.persistence.Entity"
+    val TABLE_CLASS = "javax.persistence.Table"
     val PRIMITIVE_TYPES = setOf(LONG, INT, DOUBLE, FLOAT, BYTE, SHORT)
 
   }

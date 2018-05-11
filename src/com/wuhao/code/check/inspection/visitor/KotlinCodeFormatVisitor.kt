@@ -7,6 +7,7 @@ import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
@@ -28,6 +29,7 @@ import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
+import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 import java.util.logging.Logger
 
 /**
@@ -96,6 +98,16 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
       }
     }
     super.visitElement(element)
+  }
+
+  override fun visitFile(file: PsiFile) {
+    val docs = file.getChildrenOfType<KDoc>()
+    if (docs.size > 1) {
+      docs.drop(1).forEach { doc ->
+        holder.registerProblem(doc, Messages.redundantComment, DeleteFix())
+      }
+    }
+    super.visitFile(file)
   }
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
@@ -189,7 +201,9 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
   }
 
   companion object {
+
     val LOG: Logger = Logger.getLogger("Inspection")
+
   }
 
 }

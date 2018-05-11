@@ -73,7 +73,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
 
   override fun visitClass(clazz: KtClass, data: Any?) {
     // 不对枚举元素排序
-    if (clazz !is KtEnumEntry) {
+    if (clazz is KtEnumEntry) {
       return
     }
     val isSectionCommentsDetected = registerSectionComments(clazz)

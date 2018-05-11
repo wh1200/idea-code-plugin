@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.psi.psiUtil.endOffset
  * @author
  * @since
  */
-class FixVueTemplateExpressionProcessor : PostFormatProcessor {
+class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
 
   override fun processElement(el: PsiElement, styleSettings: CodeStyleSettings): PsiElement {
     return el

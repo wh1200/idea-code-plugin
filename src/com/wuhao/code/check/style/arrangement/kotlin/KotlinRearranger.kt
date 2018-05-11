@@ -29,6 +29,7 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.GETTERS_AND_SETTERS
 import com.intellij.util.containers.ContainerUtilRt
 import com.wuhao.code.check.style.EntryType.CLASS
+import com.wuhao.code.check.style.EntryType.ENUM_ENTRY
 import com.wuhao.code.check.style.EntryType.FUNCTION
 import com.wuhao.code.check.style.EntryType.INIT_BLOCK
 import com.wuhao.code.check.style.EntryType.INTERFACE
@@ -65,6 +66,10 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
         else -> 1
       }
       CLASS -> 1
+      ENUM_ENTRY -> when {
+        previous != null && previous.type == ENUM_ENTRY -> 0
+        else -> 1
+      }
       INIT_BLOCK -> 1
       else -> -1
     }
@@ -113,5 +118,6 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
       return StdArrangementExtendableSettings.createByMatchRules(groupingRules, matchRules, aliasTokens)
     }
   }
+
 }
 

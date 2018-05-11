@@ -19,7 +19,7 @@ import org.jetbrains.kotlin.psi.psiUtil.getPrevSiblingIgnoringWhitespaceAndComme
  * @author 吴昊
  * @since 1.1.2
  */
-class FixJavaBlankLineProcessor : PostFormatProcessor {
+class FixJavaBlankLinePostProcessor : PostFormatProcessor {
 
   override fun processElement(source: PsiElement, settings: CodeStyleSettings): PsiElement {
     return source

@@ -17,6 +17,7 @@ object EntryType {
   val CONSTRUCTOR: ArrangementSettingsToken = invertible("CONSTRUCTOR", StdArrangementTokenType.ENTRY_TYPE)
   val DATA_CLASS: ArrangementSettingsToken = invertible("DATA_CLASS", StdArrangementTokenType.ENTRY_TYPE)
   val ENUM: ArrangementSettingsToken = invertible("ENUM", StdArrangementTokenType.ENTRY_TYPE)
+  val ENUM_ENTRY: ArrangementSettingsToken = invertible("ENUM_ENTRY", StdArrangementTokenType.ENTRY_TYPE)
   val EVENT_HANDLER: ArrangementSettingsToken = invertible("EVENT_HANDLER", StdArrangementTokenType.ENTRY_TYPE)
   val FUNCTION: ArrangementSettingsToken = invertible("FUNCTION", StdArrangementTokenType.ENTRY_TYPE)
   val INIT_BLOCK: ArrangementSettingsToken = invertible("INITIALIZER_BLOCK", StdArrangementTokenType.ENTRY_TYPE)

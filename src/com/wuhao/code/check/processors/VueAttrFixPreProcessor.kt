@@ -21,7 +21,7 @@ import org.jetbrains.vuejs.VueLanguage
  * @author 吴昊
  * @since 1.3.1
  */
-class VueAttrFixProcessor : PreFormatProcessor {
+class VueAttrFixPreProcessor : PreFormatProcessor {
 
   override fun process(astNode: ASTNode, textRange: TextRange): TextRange {
     if (astNode.psi.language == VueLanguage.INSTANCE) {

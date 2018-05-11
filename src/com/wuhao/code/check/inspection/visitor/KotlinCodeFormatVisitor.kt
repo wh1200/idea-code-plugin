@@ -88,7 +88,8 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
           }
         }
         // Kotlin中不需要使用分号
-        if (element.text == ";" && element.parent !is KtLiteralStringTemplateEntry) {
+        if (element.text == ";" && element.parent !is KtLiteralStringTemplateEntry
+            && element.parent !is KtEnumEntry) {
           holder.registerProblem(element, "Kotlin中代码不需要以;结尾",
               ERROR, KotlinCommaFix())
         }

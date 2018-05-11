@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.psi.psiUtil.endOffset
  * @author 吴昊
  * @since 1.1
  */
-class VueAttrsWhitespaceFixProcessor : PostFormatProcessor {
+class VueAttrsWhitespaceFixPostProcessor : PostFormatProcessor {
 
   override fun processElement(el: PsiElement, styleSettings: CodeStyleSettings): PsiElement {
     return el

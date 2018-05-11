@@ -24,6 +24,7 @@ import com.wuhao.code.check.style.EntryType.CLASS
 import com.wuhao.code.check.style.EntryType.COMPANION_OBJECT
 import com.wuhao.code.check.style.EntryType.DATA_CLASS
 import com.wuhao.code.check.style.EntryType.ENUM
+import com.wuhao.code.check.style.EntryType.ENUM_ENTRY
 import com.wuhao.code.check.style.EntryType.FUNCTION
 import com.wuhao.code.check.style.EntryType.INIT_BLOCK
 import com.wuhao.code.check.style.EntryType.INTERFACE
@@ -71,18 +72,21 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
   private val myStack = Stack<KotlinElementArrangementEntry>()
 
   override fun visitClass(clazz: KtClass, data: Any?) {
+    // 不对枚举元素排序
     if (clazz !is KtEnumEntry) {
-      val isSectionCommentsDetected = registerSectionComments(clazz)
-      val range = if (isSectionCommentsDetected) getElementRangeWithoutComments(clazz) else clazz.textRange
-      val type = when {
-        clazz.isEnum() -> ENUM
-        clazz.isInterface() -> INTERFACE
-        clazz.isData() -> DATA_CLASS
-        else -> CLASS
-      }
-      val entry = createNewEntry(clazz, range, type, clazz.name, true)
-      processEntry(entry, clazz, clazz)
+      return
     }
+    val isSectionCommentsDetected = registerSectionComments(clazz)
+    val range = if (isSectionCommentsDetected) getElementRangeWithoutComments(clazz) else clazz.textRange
+    val type = when {
+      clazz.isEnum() -> ENUM
+      clazz.isInterface() -> INTERFACE
+      clazz.isData() -> DATA_CLASS
+      clazz is KtEnumEntry -> ENUM_ENTRY
+      else -> CLASS
+    }
+    val entry = createNewEntry(clazz, range, type, clazz.name, true)
+    processEntry(entry, clazz, clazz)
   }
 
   override fun visitClassInitializer(initializer: KtClassInitializer, data: Any?) {

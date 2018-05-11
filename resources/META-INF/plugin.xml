@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check Plugin</name>
-  <version>1.3.3</version>
+  <version>1.3.3.1</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
@@ -22,6 +22,12 @@
           add code completion when inject property for spring boot applications use the annotation @Value
         </li>
       <ul>
+      bug fix:
+      <ul>
+        <li>
+          fix errors when reformat kotlin enum class
+        </li>
+      </ul>
     ]]></description>
   <change-notes><![CDATA[
       <br>
@@ -55,18 +61,18 @@
     <gotoDeclarationHandler
         implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyGotoDeclarationHandler2"/>
-    <preFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrFixProcessor"
-                         id="VueAttrFixProcessor" order="last"/>
-    <postFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrsWhitespaceFixProcessor"
+    <preFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrFixPreProcessor"
+                        id="VueAttrFixProcessor" order="last"/>
+    <preFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPreProcessor"
+                        id="FixKotlinPreProcessor" order="first"/>
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrsWhitespaceFixPostProcessor"
                          id="VueAttrsWhitespaceFixProcessor" order="last"/>
-    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueTemplateExpressionProcessor"
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueTemplateExpressionPostProcessor"
                          id="FixVueTemplateExpressionProcessor" order="first"/>
-    <!--<postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaElementOrder"-->
-    <!--id="FixJavaElementOrder" order="first"/>-->
-    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaBlankLineProcessor"
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaBlankLinePostProcessor"
                          id="FixJavaBlankLineProcessor" order="last"/>
-    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinBlankLineProcessor"
-                         id="FixKotlinBlankLineProcessor" order="last"/>
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPostProcessor"
+                         id="FixKotlinProcessor" order="last"/>
     <codeInsight.lineMarkerProvider
         implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"
         id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>

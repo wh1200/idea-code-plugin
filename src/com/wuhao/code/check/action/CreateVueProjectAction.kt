@@ -16,8 +16,8 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.PlatformProjectOpenProcessor
+import com.wuhao.code.check.http.HttpRequest
 import com.wuhao.code.check.ui.PluginSettings
-import wuhao.tools.http.HttpRequest
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.util.zip.ZipInputStream
@@ -49,11 +49,11 @@ class CreateVueProjectAction : AnAction() {
         Messages.showErrorDialog("${newProjectRoot.absolutePath}已存在", "错误")
       } else {
         val httpResult = HttpRequest.newGet(pluginSettings.vueTemplateUrl)
-            .withHeaaer("Private-Token", pluginSettings.gitPrivateToken).execute()
+            .withHeader("Private-Token", pluginSettings.gitPrivateToken).execute()
         if (httpResult.bytes == null) {
           Messages.showErrorDialog(httpResult.response, "下载模板出错")
         } else {
-          unzip(httpResult.bytes, newProjectRoot)
+          unzip(httpResult.bytes!!, newProjectRoot)
           modifyPackageJson(newProjectRoot, newProjectName)
           createConfig(newProjectRoot, newProjectName)
           val descriptor = OpenProjectFileChooserDescriptor(false)

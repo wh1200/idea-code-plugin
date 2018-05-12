@@ -39,11 +39,41 @@ val PsiElement.prevSiblingIgnoreWhitespace: PsiElement?
   }
 
 /**
- * 获取ktolin方法的方法体（包含括号）
+ * 获取当前元素之前连续的同类型元素
+ * @return 符合条件的同类型元素
+ */
+inline fun <reified T> PsiElement.getPrevContinuousSiblingsOfType(): ArrayList<T> {
+  var sibling = this.prevSibling
+  val result = arrayListOf<T>()
+  while (sibling != null && sibling is T) {
+    result.add(sibling)
+    sibling = sibling.prevSibling
+  }
+  return result
+}
+
+/**
+ * 获取当前元素之前连续的同类型元素，且排除空白元素
+ * @return 符合条件的同类型元素
+ */
+inline fun <reified T> PsiElement.getPrevContinuousSiblingsOfTypeIgnoreWhitespace(): ArrayList<T> {
+  var sibling = this.prevSibling
+  val result = arrayListOf<T>()
+  while (sibling != null && (sibling is T || sibling is PsiWhiteSpace)) {
+    if (sibling is T) {
+      result.add(sibling)
+    }
+    sibling = sibling.prevSibling
+  }
+  return result
+}
+
+/**
+ * 获取kotlin方法的方法体（包含括号）
  */
 val KtNamedFunction.body: KtBlockExpression?
   get() {
-    return this.getChildOfType<KtBlockExpression>()
+    return this.getChildOfType()
   }
 
 /**
@@ -63,6 +93,20 @@ inline fun <reified T> PsiElement.getPrevSiblingsOfType(): List<T> {
 }
 
 /**
+ *
+ * @return
+ */
+fun PsiElement.getPrevSiblings(): List<PsiElement> {
+  var sibling = this.prevSibling
+  val list = arrayListOf<PsiElement>()
+  while (sibling != null) {
+    list.add(sibling)
+    sibling = sibling.prevSibling
+  }
+  return list
+}
+
+/**
  * 是否是父元素的第一个子元素
  */
 val PsiElement.isFirstChild: Boolean
@@ -75,22 +119,22 @@ val PsiElement.isFirstChild: Boolean
  * @param element 提示错误的元素
  * @param message 注册错误提示
  */
-fun ProblemsHolder.registerError(elemenet: PsiElement, message: String) {
-  this.registerProblem(elemenet, message, ProblemHighlightType.ERROR)
+fun ProblemsHolder.registerError(element: PsiElement, message: String) {
+  this.registerProblem(element, message, ProblemHighlightType.ERROR)
 }
 
 /**
  * 注册元素错误提示信息，并提供修复方法
- * @param elemenet 错误元素
+ * @param element 错误元素
  * @param message 错误提示信息
  * @param fix 修复方法
  */
-fun ProblemsHolder.registerError(elemenet: PsiElement, message: String, fix: LocalQuickFix) {
-  this.registerProblem(elemenet, message, ProblemHighlightType.ERROR, fix)
+fun ProblemsHolder.registerError(element: PsiElement, message: String, fix: LocalQuickFix) {
+  this.registerProblem(element, message, ProblemHighlightType.ERROR, fix)
 }
 
 /**
- *
+ * 取第一个特定类型的子元素
  */
 inline fun <reified T> PsiElement.isFirstChildOfType(): Boolean {
   return this.parent != null && this.parent.children.firstOrNull { it is T } == this
@@ -123,10 +167,6 @@ private const val BASE_PATH = "src/main"
  * 资源文件路径
  */
 const val RESOURCES_PATH = "$BASE_PATH/resources"
-/**
- * 源码路径
- */
-//const val SOURCE_PATH = "$BASE_PATH/java"
 
 /**
  * mybatis的mapper文件存放路径

@@ -36,42 +36,40 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
   override fun processText(file: PsiFile, textRange: TextRange, styleSettings: CodeStyleSettings): TextRange {
     if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
-      if (templateTag != null) {
-        templateTag.accept(object : VueRecursiveVisitor() {
+      templateTag?.accept(object : VueRecursiveVisitor() {
 
-          override fun visitXmlAttribute(attribute: XmlAttribute) {
-            if (isInjectAttribute(attribute)) {
-              val exp = JSElementFactory.createExpressionCodeFragment(attribute.project, attribute.value, attribute)
-              object : RecursiveVisitor() {
+        override fun visitXmlAttribute(attribute: XmlAttribute) {
+          if (isInjectAttribute(attribute)) {
+            val exp = JSElementFactory.createExpressionCodeFragment(attribute.project, attribute.value, attribute)
+            object : RecursiveVisitor() {
 
-                private val factory = KtPsiFactory(exp.project)
-                override fun visitElement(element: PsiElement) {
-                  if (element.text in listOf(",", "+", "-", "*", "/", "?",
-                          ":", ">", "<", "=", "!=", "===", "==", "===",
-                          ">=", "<=", "||", "%",
-                          "&&", "&", "|")) {
-                    if (element.prevSibling !is PsiWhiteSpace) {
-                      element.insertElementBefore(factory.createWhiteSpace(" "))
-                    }
-                    if (element.nextSibling !is PsiWhiteSpace) {
-                      element.insertElementAfter(factory.createWhiteSpace(" "))
-                    }
+              private val factory = KtPsiFactory(exp.project)
+              override fun visitElement(element: PsiElement) {
+                if (element.text in listOf(",", "+", "-", "*", "/", "?",
+                        ":", ">", "<", "=", "!=", "===", "==", "===",
+                        ">=", "<=", "||", "%",
+                        "&&", "&", "|")) {
+                  if (element.prevSibling !is PsiWhiteSpace) {
+                    element.insertElementBefore(factory.createWhiteSpace(" "))
                   }
-                  if (element.text in listOf(",")) {
-                    if (element.nextSibling !is PsiWhiteSpace) {
-                      element.insertElementAfter(factory.createWhiteSpace(" "))
-                    }
+                  if (element.nextSibling !is PsiWhiteSpace) {
+                    element.insertElementAfter(factory.createWhiteSpace(" "))
                   }
                 }
+                if (element.text in listOf(",")) {
+                  if (element.nextSibling !is PsiWhiteSpace) {
+                    element.insertElementAfter(factory.createWhiteSpace(" "))
+                  }
+                }
+              }
 
-              }.visit(exp)
-              attribute.value = exp.text
-            }
-            super.visitXmlAttribute(attribute)
+            }.visit(exp)
+            attribute.value = exp.text
           }
+          super.visitXmlAttribute(attribute)
+        }
 
-        })
-      }
+      })
     }
     return TextRange(0, file.endOffset)
   }

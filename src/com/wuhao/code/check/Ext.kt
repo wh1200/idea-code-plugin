@@ -183,7 +183,7 @@ fun getWords(string: String): List<String> {
         upperCaseContinue = true
       }
     }
-    if (tmpWord.length > 0 && !result.contains(tmpWord)) {
+    if (tmpWord.isNotEmpty() && !result.contains(tmpWord)) {
       result.add(tmpWord)
     }
     result.map {

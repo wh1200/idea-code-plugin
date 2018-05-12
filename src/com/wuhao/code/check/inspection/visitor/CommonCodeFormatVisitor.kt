@@ -35,7 +35,7 @@ import java.nio.charset.StandardCharsets
  * @author 吴昊
  * @since 1.1
  */
-class CommonCodeFormatVisitor(protected val holder: ProblemsHolder) : PsiElementVisitor(), BaseCodeFormatVisitor {
+class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVisitor(), BaseCodeFormatVisitor {
 
   override fun support(language: Language): Boolean {
     return language is KotlinLanguage

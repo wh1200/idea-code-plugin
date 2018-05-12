@@ -3,7 +3,6 @@
  */
 package com.wuhao.code.check.style.arrangement.vue
 
-import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -23,7 +22,6 @@ import com.intellij.xml.arrangement.XmlElementArrangementEntry
  * @since 1.3.1
  */
 class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
-                            private val myDocument: Document?,
                             private val myRanges: Collection<TextRange>) : VueRecursiveVisitor() {
 
   private val myStack = Stack<XmlElementArrangementEntry>()

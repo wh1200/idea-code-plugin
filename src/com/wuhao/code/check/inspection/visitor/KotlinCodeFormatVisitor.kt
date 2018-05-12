@@ -1,4 +1,4 @@
-/*
+/**
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
 package com.wuhao.code.check.inspection.visitor
@@ -8,7 +8,6 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
@@ -30,7 +29,6 @@ import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
-import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 import java.util.logging.Logger
 
 /**
@@ -101,16 +99,6 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
     super.visitElement(element)
   }
 
-  override fun visitFile(file: PsiFile) {
-    val docs = file.getChildrenOfType<PsiComment>()
-    if (docs.size > 1) {
-      docs.drop(1).forEach { comment ->
-        holder.registerError(comment, Messages.redundantComment, DeleteFix())
-      }
-    }
-    super.visitFile(file)
-  }
-
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     checkRedundantComment(function)
     // 一等方法必须添加注释
@@ -164,8 +152,8 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
     if (expression.text == "println") {
       if (expression.ancestorOfType<KtFunction>() == null
           || !expression.ancestorsOfType<KtFunction>().any { func ->
-            func.annotationEntries.map { annoEntry ->
-              annoEntry.toLightAnnotation()
+            func.annotationEntries.map { annotationEntry ->
+              annotationEntry.toLightAnnotation()
             }.any { lightAnnotation ->
               lightAnnotation?.qualifiedName == JUNIT_TEST_ANNOTATION_CLASS_NAME
             }
@@ -177,12 +165,21 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
   }
 
   private fun checkRedundantComment(element: PsiElement) {
-    val docsBeforeDirective = element.getPrevSiblingsOfType<KDoc>()
-    if (docsBeforeDirective.size > 1) {
-      docsBeforeDirective.reversed().forEachIndexed { index, kDoc ->
-        if (index > 0) {
-          holder.registerProblem(kDoc, Messages.redundantComment, ERROR, DeleteFix())
+    if (element is KtPackageDirective) {
+      fun registerErrorExceptFirst(list:List<PsiElement>) {
+        list.reversed().forEachIndexed { index, comment ->
+          if (index > 0) {
+            holder.registerProblem(comment, Messages.redundantComment, ERROR, DeleteFix())
+          }
         }
+      }
+      val docsBeforeDirective = element.getPrevContinuousSiblingsOfTypeIgnoreWhitespace<KDoc>()
+      val commentsBeforeDirective = element.getPrevContinuousSiblingsOfTypeIgnoreWhitespace<PsiComment>()
+      if (commentsBeforeDirective.size > 1) {
+        registerErrorExceptFirst(commentsBeforeDirective)
+      }
+      if (docsBeforeDirective.size > 1) {
+        registerErrorExceptFirst(docsBeforeDirective)
       }
     } else {
       if (element.firstChild is KDoc && element.prevSiblingIgnoreWhitespace is KDoc) {

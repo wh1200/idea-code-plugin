@@ -25,12 +25,6 @@ class FixKotlinPreProcessor : PreFormatProcessor {
     return textRange
   }
 
-  companion object {
-
-    private const val KOTLIN_PRE_FIX_EXECUTED = "KOTLIN_PRE_FIX_EXECUTED"
-
-  }
-
 }
 
 /**

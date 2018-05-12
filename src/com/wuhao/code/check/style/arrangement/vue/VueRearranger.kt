@@ -58,7 +58,7 @@ class VueRearranger : Rearranger<ArrangementEntry> {
                      settings: ArrangementSettings): List<ArrangementEntry> {
     // Following entries are subject to arrangement: attribute of tag in vue template.
     val parseInfo = VueArrangementParseInfo()
-    root.accept(VueArrangementVisitor(parseInfo, document, ranges))
+    root.accept(VueArrangementVisitor(parseInfo, ranges))
     return parseInfo.entries
   }
 
@@ -67,10 +67,10 @@ class VueRearranger : Rearranger<ArrangementEntry> {
       ranges: MutableCollection<TextRange>, element: PsiElement,
       settings: ArrangementSettings): Pair<ArrangementEntry, List<ArrangementEntry>>? {
     val existingEntriesInfo = VueArrangementParseInfo()
-    root.accept(VueArrangementVisitor(existingEntriesInfo, document, ranges))
+    root.accept(VueArrangementVisitor(existingEntriesInfo, ranges))
 
     val newEntryInfo = VueArrangementParseInfo()
-    element.accept(VueArrangementVisitor(newEntryInfo, document, setOf(element.textRange)))
+    element.accept(VueArrangementVisitor(newEntryInfo, setOf(element.textRange)))
     return if (newEntryInfo.entries.size != 1) {
       null
     } else {

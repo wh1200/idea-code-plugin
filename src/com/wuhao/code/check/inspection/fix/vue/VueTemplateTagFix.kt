@@ -1,10 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
-/*
- * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
- */
 package com.wuhao.code.check.inspection.fix.vue
 
 import com.intellij.codeInspection.LocalQuickFix
@@ -15,7 +11,6 @@ import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.ancestors
-import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
 /**
@@ -49,10 +44,6 @@ class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : Loca
       fixWhitespace(el)
     }
 
-    fun fixElement(el: XmlTag) {
-      fixElement(el, sortAttributes(el))
-    }
-
     fun fixWhitespace(el: XmlTag) {
       val factory = KtPsiFactory(el.project)
       el.attributes.forEachIndexed { index, it ->
@@ -77,40 +68,6 @@ class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : Loca
               el.setAttribute(attr.name, attr.value)
             }
       }
-    }
-
-    private fun sortAttributes(element: XmlTag): List<XmlAttribute> {
-      return element.attributes.sortedWith(Comparator { attr1, attr2 ->
-        val name1 = attr1.name
-        val name2 = attr2.name
-        val nameList = listOf(name1, name2)
-        if (attr1.value == null && attr2.value == null) {
-          attr1.name.compareTo(attr2.name)
-        } else if (attr1.value == null) {
-          -1
-        } else if (attr2.value == null) {
-          1
-        } else if (nameList.any { it.startsWith(CommonCodeFormatVisitor.DIRECTIVE_PREFIX) }) {
-          comparePrefix(nameList, CommonCodeFormatVisitor.DIRECTIVE_PREFIX)
-        } else if (nameList.any {
-              !it.startsWith(CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !it.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)
-            }) {
-          if (!name1.startsWith(CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name1.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)
-              && !name2.startsWith(CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name2.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)) {
-            name1.compareTo(name2)
-          } else if (!name1.startsWith(CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX) && !name1.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)) {
-            -1
-          } else {
-            1
-          }
-        } else if (nameList.any { it.startsWith(CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX) }) {
-          comparePrefix(nameList, CommonCodeFormatVisitor.CUSTOM_ATTR_PREFIX)
-        } else if (nameList.any { it.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX) }) {
-          comparePrefix(nameList, CommonCodeFormatVisitor.ACTION_PREFIX)
-        } else {
-          0
-        }
-      }).filter { it.value != null }
     }
 
   }

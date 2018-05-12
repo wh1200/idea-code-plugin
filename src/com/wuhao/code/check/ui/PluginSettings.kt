@@ -61,6 +61,8 @@ class PluginSettings : PersistentStateComponent<Element> {
     val instance: PluginSettings
       get() = ServiceManager.getService(PluginSettings::class.java) as PluginSettings
 
+    val nullableInstance:PluginSettings?
+      get() = ServiceManager.getService(PluginSettings::class.java)
   }
 
 }

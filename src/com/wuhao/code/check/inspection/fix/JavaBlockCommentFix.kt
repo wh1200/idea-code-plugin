@@ -66,7 +66,7 @@ class JavaBlockCommentFix : LocalQuickFix {
 *
 """
     const val BLOCK_COMMENT_STRING = BLOCK_COMMENT_START + BLOCK_COMMENT_END
-    val CLASS_COMMENT = "$BLOCK_COMMENT_START* @author ${PluginSettings.instance.user} \n* @since " +
+    val CLASS_COMMENT = "$BLOCK_COMMENT_START* @author ${PluginSettings.nullableInstance?.user} \n* @since " +
         "\n$BLOCK_COMMENT_END"
 
   }

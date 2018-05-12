@@ -15,6 +15,7 @@ import org.apache.commons.httpclient.methods.multipart.Part
 import org.apache.commons.httpclient.methods.multipart.StringPart
 import org.apache.commons.httpclient.params.HttpMethodParams
 import org.apache.commons.io.output.ByteArrayOutputStream
+import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import java.io.*
 import java.net.URLEncoder
@@ -158,7 +159,7 @@ class HttpRequest private constructor() {
     return this
   }
 
-  fun withUrl(url: String): HttpRequest {
+  private fun withUrl(url: String): HttpRequest {
     this.url = url
     return this
   }
@@ -173,9 +174,8 @@ class HttpRequest private constructor() {
   }
 
   private fun createClient(): HttpClient {
-    val client: HttpClient?
-    client = if (ip != null && port > 0) {
-      getPorxyClient(ip!!, port)
+    val client: HttpClient = if (ip != null && port > 0) {
+      getProxyClient(ip!!, port)
     } else {
       HttpClient()
     }
@@ -235,14 +235,14 @@ class HttpRequest private constructor() {
     return result
   }
 
-  private fun getPorxyClient(proxyHost: String, proxyPort: Int): HttpClient {
+  private fun getProxyClient(proxyHost: String, proxyPort: Int): HttpClient {
     val httpClient = HttpClient()
     val username = ""
     val password = ""
     httpClient.hostConfiguration.setProxy(proxyHost, proxyPort)
-    val creds = UsernamePasswordCredentials(
+    val credentials = UsernamePasswordCredentials(
         username, password)
-    httpClient.state.setProxyCredentials(AuthScope.ANY, creds)
+    httpClient.state.setProxyCredentials(AuthScope.ANY, credentials)
     // List<Header> headers = new ArrayList<Header>();
     // headers.add(new Header("test.User-Agent",
     // "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)"));
@@ -304,38 +304,41 @@ class HttpRequest private constructor() {
   private inner class Get : RequestThread() {
 
     override fun run() {
-      if (params != null && params.size > 0) {
+      if (params != null && params.isNotEmpty()) {
         val builder = StringBuilder()
         builder.append("?")
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         for (key in params.keys) {
           val value = params[key]
           try {
-            if (value is Date) {
-              if (builder.length > 1) {
-                builder.append("&")
+            when {
+              value is Date -> {
+                if (builder.length > 1) {
+                  builder.append("&")
+                }
+                builder.append(key).append("=").append(URLEncoder.encode(sdf.format(value), encoding!!))
               }
-              builder.append(key).append("=").append(URLEncoder.encode(sdf.format(value), encoding!!))
-            } else if (value is Collection<*>) {
-              for (v in value) {
+              value is Collection<*> -> for (v in value) {
                 if (builder.length > 1) {
                   builder.append("&")
                 }
                 builder.append(key).append("=").append(URLEncoder.encode(v.toString(), encoding!!))
               }
-            } else if (value!!.javaClass.isArray()) {
-              val array = value as Array<*>
-              for (v in array) {
+              value!!.javaClass.isArray -> {
+                val array = value as Array<*>
+                for (v in array) {
+                  if (builder.length > 1) {
+                    builder.append("&")
+                  }
+                  builder.append(key).append("=").append(URLEncoder.encode(v.toString(), encoding!!))
+                }
+              }
+              else -> {
                 if (builder.length > 1) {
                   builder.append("&")
                 }
-                builder.append(key).append("=").append(URLEncoder.encode(v.toString(), encoding!!))
+                builder.append(key).append("=").append(URLEncoder.encode(value.toString(), encoding!!))
               }
-            } else {
-              if (builder.length > 1) {
-                builder.append("&")
-              }
-              builder.append(key).append("=").append(URLEncoder.encode(value.toString(), encoding!!))
             }
           } catch (e: Exception) {
             e.printStackTrace()
@@ -460,7 +463,11 @@ class HttpRequest private constructor() {
       putMethod.params.setParameter(
           HttpMethodParams.HTTP_CONTENT_CHARSET, encoding)
       if (body != null) {
-        putMethod.setRequestBody(body)
+        try {
+          putMethod.requestEntity = StringRequestEntity(body, "application/json", "UTF-8")
+        } catch (e: UnsupportedEncodingException) {
+          e.printStackTrace()
+        }
       }
       result = execute(createClient(), putMethod)
     }
@@ -482,7 +489,7 @@ class HttpRequest private constructor() {
 
     const val BUFFER_SIZE = 4096
 
-    var log = LogFactory.getLog(HttpRequest::class.java)
+    var log: Log = LogFactory.getLog(HttpRequest::class.java)
 
     fun decodeUnicode(str: String): String {
       val set = Charset.forName("UTF-16")

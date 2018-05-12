@@ -8,15 +8,18 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
+import com.wuhao.code.check.Messages.classCommentRequired
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.DeleteFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.After
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommaFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommentQuickFix
-import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
+import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor.Companion.shouldHaveSpaceBeforeOrAfter
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
@@ -34,7 +37,7 @@ import java.util.logging.Logger
 /**
  * Created by 吴昊 on 18-4-26.
  */
-class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisitor(), BaseCodeFormatVisitor {
+class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), BaseCodeFormatVisitor {
 
   override fun support(language: Language): Boolean {
     return language == KotlinLanguage.INSTANCE
@@ -42,6 +45,11 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
 
   override fun visitClass(klass: KtClass, data: Any?) {
     checkRedundantComment(klass)
+    if (klass !is KtEnumEntry && klass.nameIdentifier != null) {
+      if (klass.firstChild == null || klass.firstChild !is KDoc) {
+        holder.registerError(klass.nameIdentifier!!, classCommentRequired, KotlinCommentQuickFix())
+      }
+    }
     super.visitClass(klass, data)
   }
 
@@ -62,23 +70,11 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
     }
   }
 
-  override fun visitDocSection(section: KDocSection) {
-    if (section.prevSiblingIgnoreWhitespace is LeafPsiElement
-        && (section.prevSiblingIgnoreWhitespace as LeafPsiElement).elementType == KDocTokens.START) {
-      val textElement = section.allChildren.firstOrNull { it is LeafPsiElement && it.elementType == KDocTokens.TEXT }
-      if ((section.firstChild as LeafPsiElement).elementType == KDocTokens.LEADING_ASTERISK
-          && section.firstChild.text != "*") {
-        holder.registerProblem(section.firstChild, "应该为一个*", ERROR)
-      } else if (textElement == section.firstChild) {
-        holder.registerProblem(section.firstChild, "前面应该添加*", ERROR)
-      } else if (textElement == null) {
-        holder.registerProblem(section, "缺少注释内容", ERROR)
-      }
-    }
-  }
-
   override fun visitElement(element: PsiElement) {
     when (element) {
+      is KDocSection -> {
+        this.visitDocSection(element)
+      }
       is LeafPsiElement -> {
         // 检查变量名称，不得少于2个字符
         if ((element.text == "val" || element.text == "var")
@@ -97,6 +93,20 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
       }
     }
     super.visitElement(element)
+  }
+
+  override fun visitFile(file: PsiFile) {
+    if (file.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FILE) {
+      holder.registerProblem(file, "文件长度不允许超过${CodeFormatInspection.MAX_LINES_PER_FILE}行", ERROR)
+    }
+  }
+
+  override fun visitForExpression(expression: KtForExpression, data: Any?) {
+    shouldHaveSpaceBeforeOrAfter(expression.rightParenthesis, holder, After)
+  }
+
+  override fun visitIfExpression(expression: KtIfExpression, data: Any?) {
+    shouldHaveSpaceBeforeOrAfter(expression.rightParenthesis, holder, After)
   }
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
@@ -123,6 +133,14 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
             ERROR)
       } else {
         holder.registerProblem(function, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", ERROR)
+      }
+    }
+  }
+
+  override fun visitObjectDeclaration(declaration: KtObjectDeclaration, data: Any?) {
+    if (!declaration.isCompanion() && declaration.nameIdentifier != null) {
+      if (declaration.firstChild == null || declaration.firstChild !is KDoc) {
+        holder.registerError(declaration.nameIdentifier!!, classCommentRequired, KotlinCommentQuickFix())
       }
     }
   }
@@ -166,13 +184,14 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
 
   private fun checkRedundantComment(element: PsiElement) {
     if (element is KtPackageDirective) {
-      fun registerErrorExceptFirst(list:List<PsiElement>) {
+      fun registerErrorExceptFirst(list: List<PsiElement>) {
         list.reversed().forEachIndexed { index, comment ->
           if (index > 0) {
             holder.registerProblem(comment, Messages.redundantComment, ERROR, DeleteFix())
           }
         }
       }
+
       val docsBeforeDirective = element.getPrevContinuousSiblingsOfTypeIgnoreWhitespace<KDoc>()
       val commentsBeforeDirective = element.getPrevContinuousSiblingsOfTypeIgnoreWhitespace<PsiComment>()
       if (commentsBeforeDirective.size > 1) {
@@ -195,6 +214,21 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KotlinRecursiveVisit
     } else {
       holder.registerProblem(property, Messages.commentRequired, ERROR,
           KotlinCommentQuickFix())
+    }
+  }
+
+  private fun visitDocSection(section: KDocSection) {
+    if (section.prevSiblingIgnoreWhitespace is LeafPsiElement
+        && (section.prevSiblingIgnoreWhitespace as LeafPsiElement).elementType == KDocTokens.START) {
+      val textElement = section.allChildren.firstOrNull { it is LeafPsiElement && it.elementType == KDocTokens.TEXT }
+      if ((section.firstChild as LeafPsiElement).elementType == KDocTokens.LEADING_ASTERISK
+          && section.firstChild.text != "*") {
+        holder.registerProblem(section.firstChild, "应该为一个*", ERROR)
+      } else if (textElement == section.firstChild) {
+        holder.registerProblem(section.firstChild, "前面应该添加*", ERROR)
+      } else if (textElement == null) {
+        holder.registerProblem(section, "缺少注释内容", ERROR)
+      }
     }
   }
 

@@ -30,15 +30,15 @@ import com.wuhao.code.check.lang.vue.isInjectAttribute
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.SCRIPT_TAG
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.STYLE_TAG
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.TEMPLATE_TAG
-import com.wuhao.code.check.style.arrangement.vue.VueRecursiveVisitor
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
+import org.jetbrains.vuejs.codeInsight.VueFileVisitor
 
 /**
  *
  * Created by 吴昊 on 18-4-26.
  */
-open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueRecursiveVisitor(), BaseCodeFormatVisitor {
+open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), BaseCodeFormatVisitor {
 
   override fun support(language: Language): Boolean {
     return language.displayName == LanguageNames.vue

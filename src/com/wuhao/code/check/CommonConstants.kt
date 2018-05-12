@@ -7,13 +7,7 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiWhiteSpace
-import com.intellij.psi.impl.PsiElementFactoryImpl
-import com.intellij.psi.impl.PsiManagerEx
 import org.jetbrains.kotlin.lexer.KtTokens
-import org.jetbrains.kotlin.psi.KtBlockExpression
-import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import java.util.logging.Logger
 
 
@@ -26,93 +20,7 @@ const val JUNIT_TEST_ANNOTATION_CLASS_NAME = "org.junit.Test"
  */
 const val DEFAULT_VUE_TEMPLATE_URL = "http://git2.aegis-info.com/template/aegis-vue-template/repository/archive.zip?ref=master"
 
-/**
- * 获取当前元素之前的第一个非空白元素
- */
-val PsiElement.prevSiblingIgnoreWhitespace: PsiElement?
-  get() {
-    var sibling = this.prevSibling
-    while (sibling != null && sibling is PsiWhiteSpace) {
-      sibling = sibling.prevSibling
-    }
-    return sibling
-  }
 
-/**
- * 获取当前元素之前连续的同类型元素
- * @return 符合条件的同类型元素
- */
-inline fun <reified T> PsiElement.getPrevContinuousSiblingsOfType(): ArrayList<T> {
-  var sibling = this.prevSibling
-  val result = arrayListOf<T>()
-  while (sibling != null && sibling is T) {
-    result.add(sibling)
-    sibling = sibling.prevSibling
-  }
-  return result
-}
-
-/**
- * 获取当前元素之前连续的同类型元素，且排除空白元素
- * @return 符合条件的同类型元素
- */
-inline fun <reified T> PsiElement.getPrevContinuousSiblingsOfTypeIgnoreWhitespace(): ArrayList<T> {
-  var sibling = this.prevSibling
-  val result = arrayListOf<T>()
-  while (sibling != null && (sibling is T || sibling is PsiWhiteSpace)) {
-    if (sibling is T) {
-      result.add(sibling)
-    }
-    sibling = sibling.prevSibling
-  }
-  return result
-}
-
-/**
- * 获取kotlin方法的方法体（包含括号）
- */
-val KtNamedFunction.body: KtBlockExpression?
-  get() {
-    return this.getChildOfType()
-  }
-
-/**
- * 获取当前元素之前指定类型的所有同级元素
- * @return 符合条件的元素结合
- */
-inline fun <reified T> PsiElement.getPrevSiblingsOfType(): List<T> {
-  var sibling = this.prevSibling
-  val list = arrayListOf<T>()
-  while (sibling != null) {
-    if (sibling is T) {
-      list.add(sibling)
-    }
-    sibling = sibling.prevSibling
-  }
-  return list
-}
-
-/**
- *
- * @return
- */
-fun PsiElement.getPrevSiblings(): List<PsiElement> {
-  var sibling = this.prevSibling
-  val list = arrayListOf<PsiElement>()
-  while (sibling != null) {
-    list.add(sibling)
-    sibling = sibling.prevSibling
-  }
-  return list
-}
-
-/**
- * 是否是父元素的第一个子元素
- */
-val PsiElement.isFirstChild: Boolean
-  get() {
-    return this.parent != null && this.parent.firstChild == this
-  }
 
 /**
  * 注册元素错误提示信息
@@ -133,30 +41,7 @@ fun ProblemsHolder.registerError(element: PsiElement, message: String, fix: Loca
   this.registerProblem(element, message, ProblemHighlightType.ERROR, fix)
 }
 
-/**
- * 取第一个特定类型的子元素
- */
-inline fun <reified T> PsiElement.isFirstChildOfType(): Boolean {
-  return this.parent != null && this.parent.children.firstOrNull { it is T } == this
-}
 
-/**
- * psi元素的深度
- */
-val PsiElement.depth: Int
-  get() {
-    var depth = 0
-    fun analyzeDepth(children: List<PsiElement>) {
-      if (children.isNotEmpty()) {
-        depth++
-        analyzeDepth(children.map { it.children.toList() }.flatten())
-      } else {
-        return
-      }
-    }
-    analyzeDepth(this.children.toList())
-    return depth
-  }
 
 /**
  * 源码及资源文件基本路径
@@ -180,15 +65,6 @@ const val DEFAULT_INDENT_SPACE_COUNT = 2
  * 默认持续缩进空格数
  */
 const val DEFAULT_CONTINUATION_INDENT_SPACE_COUNT = DEFAULT_INDENT_SPACE_COUNT * 2
-
-/**
- * 获取java psi元素的工厂类
- * @param element psi元素
- * @return
- */
-fun getPsiElementFactory(element: PsiElement): PsiElementFactoryImpl {
-  return PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(element.project))
-}
 
 /**
  * 全局日志

@@ -7,6 +7,7 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.javascript.JavascriptLanguage
+import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSFile
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.psi.PsiElement
@@ -14,7 +15,6 @@ import com.intellij.psi.PsiFile
 import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.inspection.fix.FileNameFix
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
-import com.wuhao.code.check.lang.javascript.psi.JSRecursiveElementVisitor
 
 /**
  * javascript文件代码格式检查访问器
@@ -23,7 +23,7 @@ import com.wuhao.code.check.lang.javascript.psi.JSRecursiveElementVisitor
  * @author 吴昊
  * @since 1.1
  */
-open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSRecursiveElementVisitor(), BaseCodeFormatVisitor {
+open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVisitor(), BaseCodeFormatVisitor {
 
   override fun support(language: Language): Boolean {
     return language == JavascriptLanguage.INSTANCE

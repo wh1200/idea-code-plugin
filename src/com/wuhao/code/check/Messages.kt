@@ -7,6 +7,7 @@ object Messages {
 
   const val classCommentRequired = "缺少类注释"
   const val commentRequired = "必须添加注释"
+  const val interfaceMethodCommentRequired = "接口方法必须添加注释"
   const val fixSpace = "修复空格"
   const val forShort = "应该进行缩写"
   const val forTagShouldHaveKeyAttr = "v-for应该与:key配合使用"

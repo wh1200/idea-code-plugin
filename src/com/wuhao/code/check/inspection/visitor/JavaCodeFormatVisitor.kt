@@ -11,14 +11,13 @@ import com.intellij.lang.jvm.JvmModifier
 import com.intellij.psi.*
 import com.intellij.psi.PsiPrimitiveType.*
 import com.intellij.psi.javadoc.PsiDocComment
-import com.wuhao.code.check.JUNIT_TEST_ANNOTATION_CLASS_NAME
-import com.wuhao.code.check.Messages
-import com.wuhao.code.check.ancestorOfType
-import com.wuhao.code.check.ancestorsOfType
+import com.wuhao.code.check.*
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.ConsolePrintFix
 import com.wuhao.code.check.inspection.fix.ExtractToVariableFix
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.Before
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 
 /**
@@ -28,7 +27,7 @@ import org.jetbrains.kotlin.idea.refactoring.getLineCount
  * @since 1.1
  */
 class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
-    JavaRecursiveElementVisitor(), BaseCodeFormatVisitor {
+    JavaElementVisitor(), BaseCodeFormatVisitor {
 
   override fun support(language: Language): Boolean {
     return language == JavaLanguage.INSTANCE
@@ -39,6 +38,13 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
    * @param clazz 类元素
    */
   override fun visitClass(clazz: PsiClass) {
+    if ((clazz !is PsiTypeParameter && clazz.firstChild == null || clazz.firstChild !is PsiDocComment) && clazz !is PsiAnonymousClass) {
+      if (clazz.nameIdentifier != null) {
+        holder.registerError(clazz.nameIdentifier!!, Messages.classCommentRequired, JavaBlockCommentFix())
+      } else {
+        holder.registerError(clazz, Messages.classCommentRequired, JavaBlockCommentFix())
+      }
+    }
     if (clazz.annotations.any { it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS) }) {
       clazz.fields.filter {
         !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
@@ -53,6 +59,18 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
   override fun visitElement(element: PsiElement) {
   }
 
+  override fun visitFile(file: PsiFile) {
+    if (file.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FILE) {
+      holder.registerProblem(file, "文件长度不允许超过${CodeFormatInspection.MAX_LINES_PER_FILE}行", ERROR)
+    }
+  }
+
+  override fun visitForStatement(statement: PsiForStatement) {
+    shouldHaveSpaceBeforeOrAfter(statement.condition, holder)
+    shouldHaveSpaceBeforeOrAfter(statement.update, holder)
+    shouldHaveSpaceBeforeOrAfter(statement.rParenth, holder, SpaceQuickFix.Type.After)
+  }
+
   override fun visitIdentifier(identifier: PsiIdentifier) {
     // 方法名、字段名长度不能少于2个字符
     if (identifier.text.length <= 1) {
@@ -63,6 +81,10 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
         holder.registerProblem(identifier, Messages.nameMustNotLessThan2Chars, ERROR)
       }
     }
+  }
+
+  override fun visitIfStatement(statement: PsiIfStatement) {
+    shouldHaveSpaceBeforeOrAfter(statement.rParenth, holder, SpaceQuickFix.Type.After)
   }
 
   override fun visitLiteralExpression(expression: PsiLiteralExpression) {
@@ -89,7 +111,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
         method
       }
       holder.registerProblem(elementToRegisterProblem,
-          Messages.commentRequired, ERROR, JavaBlockCommentFix())
+          Messages.interfaceMethodCommentRequired, ERROR, JavaBlockCommentFix())
     }
   }
 
@@ -113,6 +135,35 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     const val ENTITY_CLASS = "javax.persistence.Entity"
     val PRIMITIVE_TYPES = setOf(LONG, INT, DOUBLE, FLOAT, BYTE, SHORT)
     const val TABLE_CLASS = "javax.persistence.Table"
+
+    /**
+     * 检查前面是否有空格
+     * @param checkElement 被检查的元素
+     * @param holder
+     * @param position 检查空格的位置
+     */
+    fun shouldHaveSpaceBeforeOrAfter(checkElement: PsiElement?,
+                                     holder: ProblemsHolder,
+                                     position: SpaceQuickFix.Type = Before) {
+      if (checkElement != null) {
+        val fix = SpaceQuickFix(position)
+        val place = if (position == Before) {
+          "前面"
+        } else {
+          "后面"
+        }
+        val check = if (position == Before) {
+          checkElement.prevSibling
+        } else {
+          checkElement.nextSibling
+        }
+        if (check !is PsiWhiteSpace) {
+          holder.registerError(checkElement, "${place}应当有空格", fix)
+        } else if (check.textLength != 1) {
+          holder.registerError(checkElement, "${place}应当只有一个空格", fix)
+        }
+      }
+    }
 
   }
 

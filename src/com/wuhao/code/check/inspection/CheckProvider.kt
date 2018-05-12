@@ -14,6 +14,11 @@ class CheckProvider : InspectionToolProvider {
   override fun getInspectionClasses(): Array<Class<*>> {
     return arrayOf(
         CodeFormatInspection::class.java,
+        JavaFormatInspection::class.java,
+        KotlinFormatInspection::class.java,
+        VueFormatInspection::class.java,
+        JavaScriptFormatInspection::class.java,
+        TypeScriptFormatInspection::class.java,
         PropertyClassCreateInspection::class.java
     )
   }

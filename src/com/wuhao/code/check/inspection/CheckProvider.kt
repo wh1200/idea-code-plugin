@@ -15,6 +15,8 @@ class CheckProvider : InspectionToolProvider {
     return arrayOf(
         CodeFormatInspection::class.java,
         JavaFormatInspection::class.java,
+        JavaCommentInspection::class.java,
+        KotlinCommentInspection::class.java,
         KotlinFormatInspection::class.java,
         VueFormatInspection::class.java,
         JavaScriptFormatInspection::class.java,

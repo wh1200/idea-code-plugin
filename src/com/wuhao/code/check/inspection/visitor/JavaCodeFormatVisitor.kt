@@ -7,15 +7,12 @@ import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
-import com.intellij.lang.jvm.JvmModifier
 import com.intellij.psi.*
 import com.intellij.psi.PsiPrimitiveType.*
-import com.intellij.psi.javadoc.PsiDocComment
 import com.wuhao.code.check.*
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.ConsolePrintFix
 import com.wuhao.code.check.inspection.fix.ExtractToVariableFix
-import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.Before
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
@@ -31,32 +28,6 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
 
   override fun support(language: Language): Boolean {
     return language == JavaLanguage.INSTANCE
-  }
-
-  /**
-   *
-   * @param clazz 类元素
-   */
-  override fun visitClass(clazz: PsiClass) {
-    if ((clazz !is PsiTypeParameter && clazz.firstChild == null || clazz.firstChild !is PsiDocComment) && clazz !is PsiAnonymousClass) {
-      if (clazz.nameIdentifier != null) {
-        holder.registerError(clazz.nameIdentifier!!, Messages.classCommentRequired, JavaBlockCommentFix())
-      } else {
-        holder.registerError(clazz, Messages.classCommentRequired, JavaBlockCommentFix())
-      }
-    }
-    if (clazz.annotations.any { it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS) }) {
-      clazz.fields.filter {
-        !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
-            && it.firstChild !is PsiDocComment
-      }.forEach { fieldElement ->
-        holder.registerProblem(fieldElement.nameIdentifier, Messages.commentRequired, ERROR,
-            JavaBlockCommentFix())
-      }
-    }
-  }
-
-  override fun visitElement(element: PsiElement) {
   }
 
   override fun visitFile(file: PsiFile) {
@@ -102,24 +73,13 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
       holder.registerProblem(method.nameIdentifier!!,
           "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", ERROR)
     }
-    // 接口方法必须包含注释
-    val elClass = method.containingClass
-    if (elClass != null && elClass.isInterface && method.firstChild !is PsiDocComment) {
-      val elementToRegisterProblem = if (method.nameIdentifier != null) {
-        method.nameIdentifier!!
-      } else {
-        method
-      }
-      holder.registerProblem(elementToRegisterProblem,
-          Messages.interfaceMethodCommentRequired, ERROR, JavaBlockCommentFix())
-    }
   }
 
   override fun visitMethodCallExpression(expression: PsiMethodCallExpression) {
     // 使用日志输入代替System.out
     if (expression.text.startsWith("System.out") || expression.text.startsWith("System.err")) {
       if (expression.ancestorOfType<PsiMethod>() == null
-          || !expression.ancestorsOfType<PsiMethod>().any { func ->
+          || !expression.getAncestorsOfType<PsiMethod>().any { func ->
             func.annotations.any { annotation ->
               annotation.qualifiedName == JUNIT_TEST_ANNOTATION_CLASS_NAME
             }
@@ -132,9 +92,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
 
   companion object {
 
-    const val ENTITY_CLASS = "javax.persistence.Entity"
     val PRIMITIVE_TYPES = setOf(LONG, INT, DOUBLE, FLOAT, BYTE, SHORT)
-    const val TABLE_CLASS = "javax.persistence.Table"
 
     /**
      * 检查前面是否有空格

@@ -18,6 +18,10 @@ import com.wuhao.code.check.inspection.JavaFormatInspection
 import com.wuhao.code.check.inspection.KotlinFormatInspection
 import java.io.File
 import java.util.*
+import com.intellij.util.containers.ContainerUtil
+import com.intellij.codeInsight.intention.IntentionAction
+import junit.framework.TestCase
+
 
 /**
  *
@@ -40,8 +44,11 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     super.setUp()
   }
 
-  fun testAll() {
+  fun testAllJava() {
     doTestGlobalInspection("testData", JavaFormatInspection())
+  }
+
+  fun testAllKotlin() {
     doTestGlobalInspection("testData", KotlinFormatInspection())
   }
 
@@ -68,7 +75,7 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
 
   fun testKotlinInspection() {
     val inspector = KotlinFormatInspection()
-    myFixture.configureByFile(BASE_PATH + "Test.kt")
+    myFixture.configureByFile(BASE_PATH + "KtWhiteSpace.kt")
     myFixture.enableInspections(inspector)
     myFixture.testHighlighting(true, false, true)
   }
@@ -78,6 +85,21 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     myFixture.configureByFile(BASE_PATH + "InterfaceExample.kt")
     myFixture.enableInspections(inspector)
     myFixture.testHighlighting(true, false, true)
+    applySingleQuickFix("添加注释")
+  }
+
+  protected fun applySingleQuickFix(quickFixName: String) {
+    val availableIntentions = myFixture.filterAvailableIntentions(quickFixName)
+    myFixture.availableIntentions.forEach {
+      println("${it.familyName}/${it.javaClass}")
+    }
+    availableIntentions.forEach {
+      println(it)
+    }
+    val action = ContainerUtil.getFirstItem(availableIntentions)
+
+//    TestCase.assertNotNull(action)
+//    myFixture.launchAction(action!!)
   }
 
   private fun buildProblemMessage(problem: ProblemDescriptorBase): String {

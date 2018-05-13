@@ -8,9 +8,16 @@ package error
  * @author 吴昊
  * @since
  */
-class Test {
+class KtWhiteSpace {
 
   fun test() {
+    val a = 1
+    val b = a > 1
+    val c = a > 1
+    val d = a > 1
+    val e = b
+        || c
+        || d
   }
 
 }

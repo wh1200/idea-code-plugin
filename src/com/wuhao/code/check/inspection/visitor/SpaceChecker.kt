@@ -147,15 +147,11 @@ class SpaceChecker {
   }
 
   private fun shouldCheckOnlyOneSpaceAfter(element: PsiElement): Boolean {
-    return !((element is LeafPsiElement && element.elementType
-        in shouldNotCheckOnlyOneSpaceAfter)
-        || element.text in listOf("+"))
+    return element.text !in shouldNotCheckOnlyOneSpaceAfter
   }
 
   private fun shouldCheckOnlyOneSpaceBefore(element: PsiElement): Boolean {
-    return !((element is LeafPsiElement && element.elementType
-        in shouldNotCheckOnlyOneSpaceBefore)
-        || element.text in listOf("+"))
+    return element.text !in shouldNotCheckOnlyOneSpaceBefore
   }
 
   companion object {
@@ -168,10 +164,9 @@ class SpaceChecker {
     val shouldHaveSpaceBothBeforeAndAfterTokens = listOf(">", "<", "=", ">=", "<=", "!=",
         "&&", "||", "&", "|", "==", "+", "-", "*", "/", "%",
         "+=", "-=", "/=", "*=", ">>", "<<", "<>", ELSE, FINALLY)
-    val shouldNotCheckOnlyOneSpaceAfter = listOf(PLUS, ARROW)
+    val shouldNotCheckOnlyOneSpaceAfter = listOf("+", "->", "=")
     val shouldNotCheckOnlyOneSpaceBefore = listOf(
-        ANDAND, OROR,
-        PLUS, ARROW)
+        "&&", "||", "+", "->", "=")
     val shouldOnlyHaveSpaceAfterElementTypes = listOf(
         CATCH_KEYWORD, FOR_KEYWORD, IF_KEYWORD, TRY_KEYWORD, DO_KEYWORD,
         WHILE_KEYWORD, WHEN_KEYWORD, ELVIS)

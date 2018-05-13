@@ -9,6 +9,7 @@ import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import org.jetbrains.kotlin.psi.KtBlockExpression
+import org.jetbrains.kotlin.psi.KtElement
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
@@ -105,11 +106,27 @@ val PsiElement.psiFactory: PsiElementFactoryImpl
   }
 
 /**
+ * 获取kt元素的工厂类
+ */
+val KtElement.ktFactory: KtPsiFactory
+  get() {
+    return KtPsiFactory(this.project)
+  }
+
+/**
  * 获取空白元素
  */
 val whiteSpace: PsiWhiteSpace
   get() {
     return KtPsiFactory(ProjectCoreUtil.theProject).createWhiteSpace() as PsiWhiteSpace
+  }
+
+/**
+ * 获取空行元素
+ */
+val newLine: PsiWhiteSpace
+  get() {
+    return KtPsiFactory(ProjectCoreUtil.theProject).createNewLine() as PsiWhiteSpace
   }
 
 /**
@@ -212,11 +229,39 @@ inline fun <reified T> PsiElement.getPrevContinuousSiblingsOfTypeIgnoreWhitespac
   return result
 }
 
+/**
+ * 获取连续的指定类型的所有的祖先元素
+ */
+inline fun <reified T> PsiElement.getContinuousAncestorsOfType(): ArrayList<T> {
+  val result = arrayListOf<T>()
+  var el: PsiElement? = this.parent
+  while (el != null && el is T) {
+    result.add(el)
+    el = el.parent
+  }
+  return result
+}
+
+/**
+ * 获取连续的指定类型的所有的祖先元素
+ */
+inline fun <reified T> PsiElement.getContinuousAncestorsMatches(
+    predicate: (PsiElement) -> Boolean
+): ArrayList<T> {
+  val result = arrayListOf<T>()
+  var el: PsiElement? = this.parent
+  while (el != null && el is T && predicate(el)) {
+    result.add(el)
+    el = el.parent
+  }
+  return result
+}
+
 
 /**
  * 获取指定类型的所有的祖先元素
  */
-inline fun <reified T> PsiElement.ancestorsOfType(): ArrayList<T> {
+inline fun <reified T> PsiElement.getAncestorsOfType(): ArrayList<T> {
   val result = arrayListOf<T>()
   var el: PsiElement? = this.parent
   while (el != null) {
@@ -229,12 +274,23 @@ inline fun <reified T> PsiElement.ancestorsOfType(): ArrayList<T> {
 }
 
 /**
+ * 获取指定类型的同级元素
+ */
+inline fun <reified T> PsiElement.getSiblingsOfType(): List<PsiElement> {
+  if (this.parent == null) {
+    return listOf()
+  } else {
+    return this.parent.children.filter { it is T }
+  }
+}
+
+/**
  * 按距离获取祖先元素，0为parent，如果没有找到则返回null
  * @param level 距离
  */
 fun PsiElement.getAncestor(level: Int): PsiElement? {
   var el: PsiElement? = this
-  for (i in 0..level) {
+  for (i in 0 until level) {
     el = el?.parent
     if (el == null) {
       return null

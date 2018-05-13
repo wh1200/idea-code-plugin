@@ -33,8 +33,7 @@ class KotlinCommentQuickFix : LocalQuickFix {
       } else {
         element
       }
-      val commentString =
-          when (measureElement) {
+      val commentString = when (measureElement) {
             is KtClass -> CLASS_COMMENT
             is KtObjectDeclaration -> CLASS_COMMENT
             is KtFunction -> buildFunctionComment(measureElement)

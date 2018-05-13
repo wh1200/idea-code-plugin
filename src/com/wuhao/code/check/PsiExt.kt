@@ -3,16 +3,22 @@
  */
 package com.wuhao.code.check
 
+import com.intellij.ide.DataManager
+import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.ProjectCoreUtil
+import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
+import com.intellij.refactoring.actions.RenameElementAction
+import org.jetbrains.kotlin.idea.core.moveCaret
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtElement
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
+import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 /**
  * 获取psi元素的所有祖先元素，按距离从近到远
@@ -155,6 +161,33 @@ val PsiElement.isFirstChild: Boolean
     return this.parent != null && this.parent.firstChild == this
   }
 
+/**
+ * 重命名元素
+ * @param element 待重命名的元素
+ */
+fun renameElement(element: PsiElement,
+                  caretOffset: Int = -1,
+                  parentElement: PsiElement? = null,
+                  indexInParent: Int = -1) {
+  val context = DataManager.getInstance()
+      .dataContextFromFocus.result
+  val editor = context.getData(CommonDataKeys.EDITOR)!!
+  PsiDocumentManager.getInstance(element.project).doPostponedOperationsAndUnblockDocument(editor.document)
+  val realElement = if (parentElement != null && indexInParent >= 0) {
+    parentElement.children[indexInParent]
+  } else {
+    element
+  }
+  val action = RenameElementAction()
+  if (caretOffset < 0) {
+    editor.moveCaret(realElement.startOffset)
+  } else {
+    editor.moveCaret(caretOffset)
+  }
+  editor.settings.isVariableInplaceRenameEnabled = true
+  val handler = action.getHandler(context)
+  handler?.invoke(realElement.project, editor, realElement.containingFile, context)
+}
 //val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
 //  get() {
 //    val list = ArrayList<VirtualFile>()

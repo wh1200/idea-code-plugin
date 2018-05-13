@@ -3,7 +3,6 @@
  */
 package com.wuhao.code.check.inspection.visitor
 
-import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.psi.PsiComment
@@ -52,17 +51,17 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     checkRedundantComment(function)
     // 一等方法必须添加注释
     if (function.parent is KtFile && function.firstChild !is KDoc) {
-      holder.registerProblem(function, "一等方法必须添加注释", ERROR, KotlinCommentQuickFix())
+      holder.registerError(function.nameIdentifier!!, "一等方法必须添加注释", KotlinCommentQuickFix())
     }
     // 接口方法必须添加注释
     val containingClass = function.containingClass()
     if (containingClass != null && containingClass.isInterface()
         && function.firstChild !is KDoc) {
-      holder.registerProblem(if (function.nameIdentifier != null) {
+      holder.registerError(if (function.nameIdentifier != null) {
         function.nameIdentifier!!
       } else {
         function
-      }, "接口方法必须添加注释", ERROR,
+      }, "接口方法必须添加注释",
           KotlinCommentQuickFix())
     }
   }
@@ -101,7 +100,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
       fun registerErrorExceptFirst(list: List<PsiElement>) {
         list.reversed().forEachIndexed { index, comment ->
           if (index > 0) {
-            holder.registerProblem(comment, Messages.redundantComment, ERROR, DeleteFix())
+            holder.registerError(comment, Messages.redundantComment, DeleteFix())
           }
         }
       }
@@ -116,17 +115,17 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
       }
     } else {
       if (element.firstChild is KDoc && element.prevSiblingIgnoreWhitespace is KDoc) {
-        holder.registerProblem(element.prevSiblingIgnoreWhitespace!!, Messages.redundantComment, ERROR, DeleteFix())
+        holder.registerError(element.prevSiblingIgnoreWhitespace!!, Messages.redundantComment, DeleteFix())
       }
     }
   }
 
   private fun registerPropertyCommentMissingError(property: KtProperty) {
     if (property.nameIdentifier != null) {
-      holder.registerProblem(property.nameIdentifier!!, Messages.commentRequired, ERROR,
+      holder.registerError(property.nameIdentifier!!, Messages.commentRequired,
           KotlinCommentQuickFix())
     } else {
-      holder.registerProblem(property, Messages.commentRequired, ERROR,
+      holder.registerError(property, Messages.commentRequired,
           KotlinCommentQuickFix())
     }
   }
@@ -137,11 +136,11 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
       val textElement = section.allChildren.firstOrNull { it is LeafPsiElement && it.elementType == KDocTokens.TEXT }
       if ((section.firstChild as LeafPsiElement).elementType == KDocTokens.LEADING_ASTERISK
           && section.firstChild.text != "*") {
-        holder.registerProblem(section.firstChild, "应该为一个*", ERROR)
+        holder.registerError(section.firstChild, "应该为一个*")
       } else if (textElement == section.firstChild) {
-        holder.registerProblem(section.firstChild, "前面应该添加*", ERROR)
+        holder.registerError(section.firstChild, "前面应该添加*")
       } else if (textElement == null) {
-        holder.registerProblem(section, "缺少注释内容", ERROR)
+        holder.registerError(section, "缺少注释内容")
       }
     }
   }

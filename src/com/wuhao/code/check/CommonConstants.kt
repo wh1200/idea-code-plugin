@@ -12,6 +12,16 @@ import java.util.logging.Logger
 
 
 /**
+ * 修改字段、属性或变量名称时的临时名称
+ */
+const val PROPERTY_NAME_PLACEHOLDER = "_tmp"
+
+/**
+ * 直接使用字符串作为参数时允许的最大长度
+ */
+const val MAX_STRING_ARGUMENT_LENGTH = 10
+
+/**
  * junit的Test注解的类名称
  */
 const val JUNIT_TEST_ANNOTATION_CLASS_NAME = "org.junit.Test"
@@ -19,7 +29,6 @@ const val JUNIT_TEST_ANNOTATION_CLASS_NAME = "org.junit.Test"
  * 默认的vue项目模板git地址
  */
 const val DEFAULT_VUE_TEMPLATE_URL = "http://git2.aegis-info.com/template/aegis-vue-template/repository/archive.zip?ref=master"
-
 
 
 /**
@@ -40,7 +49,6 @@ fun ProblemsHolder.registerError(element: PsiElement, message: String) {
 fun ProblemsHolder.registerError(element: PsiElement, message: String, fix: LocalQuickFix) {
   this.registerProblem(element, message, ProblemHighlightType.ERROR, fix)
 }
-
 
 
 /**

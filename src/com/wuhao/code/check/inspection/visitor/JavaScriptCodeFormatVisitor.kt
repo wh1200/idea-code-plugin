@@ -15,6 +15,7 @@ import com.intellij.psi.PsiFile
 import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.inspection.fix.FileNameFix
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
+import com.wuhao.code.check.registerError
 
 /**
  * javascript文件代码格式检查访问器
@@ -47,9 +48,8 @@ open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
    */
   private fun checkFileName(element: PsiFile) {
     if (!JS_FILE_NAME_PATTERN.matches(element.name)) {
-      holder.registerProblem(element,
+      holder.registerError(element,
           "文件名称格式错误，只允许包含字母，数字，-及_",
-          ProblemHighlightType.ERROR,
           FileNameFix())
     }
   }

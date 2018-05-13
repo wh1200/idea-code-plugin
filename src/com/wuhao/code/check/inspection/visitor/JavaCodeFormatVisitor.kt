@@ -3,12 +3,11 @@
  */
 package com.wuhao.code.check.inspection.visitor
 
-import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.psi.*
-import com.intellij.psi.PsiPrimitiveType.*
+import com.intellij.psi.JavaTokenType.*
 import com.wuhao.code.check.*
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.ConsolePrintFix
@@ -32,7 +31,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
 
   override fun visitFile(file: PsiFile) {
     if (file.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FILE) {
-      holder.registerProblem(file, "文件长度不允许超过${CodeFormatInspection.MAX_LINES_PER_FILE}行", ERROR)
+      holder.registerError(file, "文件长度不允许超过${CodeFormatInspection.MAX_LINES_PER_FILE}行")
     }
   }
 
@@ -45,11 +44,9 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
   override fun visitIdentifier(identifier: PsiIdentifier) {
     // 方法名、字段名长度不能少于2个字符
     if (identifier.text.length <= 1) {
-      if (identifier.parent is PsiMethod || identifier.parent is PsiClass) {
-        holder.registerProblem(identifier, Messages.nameMustNotLessThan2Chars, ERROR)
-      }
-      if (identifier.parent is PsiField && identifier.parent.parent is PsiClass) {
-        holder.registerProblem(identifier, Messages.nameMustNotLessThan2Chars, ERROR)
+      if ((identifier.parent is PsiMethod || identifier.parent is PsiClass)
+          || (identifier.parent is PsiField && identifier.getAncestor(2) is PsiClass)) {
+        holder.registerError(identifier, Messages.nameMustNotLessThan2Chars)
       }
     }
   }
@@ -61,17 +58,23 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
   override fun visitLiteralExpression(expression: PsiLiteralExpression) {
     // 检查数字参数
     if (expression.parent is PsiExpressionList
-        && expression.text.toUpperCase() !in listOf("0", "0L", "0F") && expression.type in PRIMITIVE_TYPES) {
-      holder.registerProblem(expression, "不允许直接使用数字作为方法参数",
-          ERROR, ExtractToVariableFix())
+        && expression.firstChild.node.elementType in listOf(
+            INTEGER_LITERAL, LONG_LITERAL, FLOAT_LITERAL,
+            DOUBLE_LITERAL, STRING_LITERAL)
+        && expression.text.length > 1) {
+      if (expression.firstChild.node.elementType != STRING_LITERAL
+          || expression.textLength <= MAX_STRING_ARGUMENT_LENGTH) {
+        holder.registerError(expression, Messages.noConstantArgument,
+            ExtractToVariableFix())
+      }
     }
   }
 
   override fun visitMethod(method: PsiMethod) {
     // 方法长度不能超过指定长度
     if (method.nameIdentifier != null && method.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FUNCTION) {
-      holder.registerProblem(method.nameIdentifier!!,
-          "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行", ERROR)
+      holder.registerError(method.nameIdentifier!!,
+          "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行")
     }
   }
 
@@ -85,14 +88,12 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
             }
           }
       ) {
-        holder.registerProblem(expression, "使用日志向控制台输出", ERROR, ConsolePrintFix())
+        holder.registerError(expression, "使用日志向控制台输出", ConsolePrintFix())
       }
     }
   }
 
   companion object {
-
-    val PRIMITIVE_TYPES = setOf(LONG, INT, DOUBLE, FLOAT, BYTE, SHORT)
 
     /**
      * 检查前面是否有空格

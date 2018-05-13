@@ -1,28 +1,17 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
-/*
- * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
- */
 package com.wuhao.code.check.inspection.visitor
 
-import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.jvm.JvmModifier
 import com.intellij.psi.*
-import com.intellij.psi.PsiPrimitiveType.*
 import com.intellij.psi.javadoc.PsiDocComment
-import com.wuhao.code.check.*
-import com.wuhao.code.check.inspection.CodeFormatInspection
-import com.wuhao.code.check.inspection.fix.ConsolePrintFix
-import com.wuhao.code.check.inspection.fix.ExtractToVariableFix
+import com.wuhao.code.check.Messages
 import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.Before
-import org.jetbrains.kotlin.idea.refactoring.getLineCount
+import com.wuhao.code.check.registerError
 
 /**
  * Java代码格式检查访问器
@@ -54,7 +43,7 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
         !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
             && it.firstChild !is PsiDocComment
       }.forEach { fieldElement ->
-        holder.registerProblem(fieldElement.nameIdentifier, Messages.commentRequired, ERROR,
+        holder.registerError(fieldElement.nameIdentifier, Messages.commentRequired,
             JavaBlockCommentFix())
       }
     }
@@ -69,8 +58,8 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
       } else {
         method
       }
-      holder.registerProblem(elementToRegisterProblem,
-          Messages.interfaceMethodCommentRequired, ERROR, JavaBlockCommentFix())
+      holder.registerError(elementToRegisterProblem,
+          Messages.interfaceMethodCommentRequired, JavaBlockCommentFix())
     }
   }
 

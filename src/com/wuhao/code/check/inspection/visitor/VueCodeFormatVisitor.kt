@@ -11,8 +11,11 @@ import com.intellij.lang.Language
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.javascript.psi.JSEmbeddedContent
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
+import com.intellij.lang.javascript.psi.JSReferenceExpression
+import com.intellij.lang.javascript.psi.JSThisExpression
 import com.intellij.lang.javascript.psi.impl.JSChangeUtil
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiElement
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlDocument
@@ -85,6 +88,20 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
 
             override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
               val el = descriptor.psiElement
+              object : MyRecursiveElementVisitor() {
+
+                override fun visitElement(element: PsiElement) {
+                  when (element) {
+                    is JSReferenceExpression -> {
+                      if (element.firstChild !is JSThisExpression) {
+                        val exp = JSChangeUtil.createExpressionWithContext("this.${element.text}", element.parent)!!.psi
+                        element.replace(exp)
+                      }
+                    }
+                  }
+                }
+
+              }.visit(el)
               val script = el.parent.ancestorOfType<XmlDocument>()!!
                   .firstChild { it is XmlTag && it.name == SCRIPT_TAG }
               if (script != null) {
@@ -93,17 +110,19 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
                     .firstChild { it is JSObjectLiteralExpression } as JSObjectLiteralExpression
                 val computedAttr = obj.findProperty(COMPUTED_ATTRIBUTE)
                 if (computedAttr != null) {
-                  val propertyName = "tmp"
+                  val propertyName = PROPERTY_NAME_PLACEHOLDER
                   val computedBody = computedAttr.value as JSObjectLiteralExpression
                   val newProperty = JSChangeUtil.createObjectLiteralPropertyFromText(
                       """$propertyName() {
                         |  return ${el.text};
-                        |}""".trimMargin(), computedBody
-                  ).insertAfter(computedBody.firstChild)
+                        |}""".trimMargin(), computedBody).insertAfter(computedBody.firstChild)
                   if (computedBody.properties.size > 1) {
                     newProperty.insertElementAfter(JSChangeUtil.createCommaPsiElement(computedBody))
                   }
-                  el.firstChild.replace(JSChangeUtil.createExpressionWithContext(propertyName, el)!!.psi)
+                  val newPlaceholder = JSChangeUtil.createExpressionWithContext(propertyName, el)!!.psi
+                  el.firstChild.replace(newPlaceholder)
+                  val element = el.firstChild
+                  renameElement(element)
                 }
               }
             }

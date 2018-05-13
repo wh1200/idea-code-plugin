@@ -3,7 +3,6 @@
  */
 package com.wuhao.code.check.inspection.visitor
 
-import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
 import com.intellij.psi.PsiKeyword.*
@@ -60,7 +59,7 @@ class SpaceChecker {
   private fun checkWhiteSpaceAfter(element: PsiElement, holder: ProblemsHolder) {
     val keyword = element.text
     if (element.nextSibling !is PsiWhiteSpace) {
-      holder.registerProblem(element, "$keyword 之后应当有空格", ProblemHighlightType.ERROR, SpaceQuickFix(After))
+      holder.registerError(element, "$keyword 之后应当有空格", SpaceQuickFix(After))
     } else {
       checkOnlyOneSpaceBeforeOrAfter(element, holder, After)
     }
@@ -88,7 +87,7 @@ class SpaceChecker {
   private fun checkWhiteSpaceBothBeforeAndAfter(element: PsiElement, holder: ProblemsHolder) {
     val keyword = element.text
     if (element.nextSibling !is PsiWhiteSpace || element.prevSibling !is PsiWhiteSpace) {
-      holder.registerProblem(element, "$keyword 前后应当有空格", ProblemHighlightType.ERROR, SpaceQuickFix(Both))
+      holder.registerError(element, "$keyword 前后应当有空格", SpaceQuickFix(Both))
     } else {
       checkOnlyOneSpaceBeforeOrAfter(element, holder, Both)
     }

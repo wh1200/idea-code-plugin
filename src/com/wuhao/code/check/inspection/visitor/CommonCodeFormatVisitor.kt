@@ -6,7 +6,6 @@ package com.wuhao.code.check.inspection.visitor
 import com.intellij.application.options.CodeStyle
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
-import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
@@ -21,6 +20,7 @@ import com.intellij.psi.codeStyle.JavaCodeStyleSettings
 import com.wuhao.code.check.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
 import com.wuhao.code.check.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.PostStart
+import com.wuhao.code.check.registerError
 import org.apache.xmlbeans.XmlLanguage
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueLanguage
@@ -55,8 +55,7 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
 
   private fun checkEncoding(element: PsiElement) {
     if (element is PsiFile && element.virtualFile != null && element.virtualFile.charset != StandardCharsets.UTF_8) {
-      holder.registerProblem(element, "${element.name}的编码为${element.virtualFile.charset}，应该使用UTF-8",
-          ProblemHighlightType.ERROR)
+      holder.registerError(element, "${element.name}的编码为${element.virtualFile.charset}，应该使用UTF-8")
     }
   }
 
@@ -78,12 +77,11 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
           }
 
         }
-        holder.registerProblem(element, "${element.fileType.name}文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
-            ProblemHighlightType.ERROR, indentFix)
+        holder.registerError(element, "${element.fileType.name}文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
+            indentFix)
       }
       if (continuationIndent != DEFAULT_CONTINUATION_INDENT_SPACE_COUNT) {
-        holder.registerProblem(element, "${element.fileType.name}文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格",
-            ProblemHighlightType.ERROR)
+        holder.registerError(element, "${element.fileType.name}文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格")
       }
     }
   }

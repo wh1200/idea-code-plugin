@@ -11,16 +11,15 @@ import com.intellij.lang.Language
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.javascript.psi.JSEmbeddedContent
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
-import com.intellij.lang.javascript.psi.JSReferenceExpression
-import com.intellij.lang.javascript.psi.JSThisExpression
-import com.intellij.lang.javascript.psi.impl.JSChangeUtil
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
-import com.wuhao.code.check.*
+import com.wuhao.code.check.LanguageNames
+import com.wuhao.code.check.Messages
+import com.wuhao.code.check.depth
+import com.wuhao.code.check.inspection.fix.vue.ComplexExpToComputedPropertyFix
 import com.wuhao.code.check.inspection.fix.vue.VueComponentNameFix
 import com.wuhao.code.check.inspection.fix.vue.VueShortAttrFix
 import com.wuhao.code.check.lang.javascript.psi.JSRecursiveElementVisitor
@@ -30,6 +29,7 @@ import com.wuhao.code.check.lang.vue.VueDirectives.FOR
 import com.wuhao.code.check.lang.vue.VueDirectives.IF
 import com.wuhao.code.check.lang.vue.VueDirectives.ON
 import com.wuhao.code.check.lang.vue.isInjectAttribute
+import com.wuhao.code.check.registerError
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.SCRIPT_TAG
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.STYLE_TAG
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.TEMPLATE_TAG
@@ -79,59 +79,14 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
 
   override fun visitXmlAttributeValue(value: XmlAttributeValue) {
     if (isInjectAttribute(value.parent as XmlAttribute)
+        && (value.parent as XmlAttribute).name != FOR
         && !(value.parent as XmlAttribute).name.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)) {
       val jsContent = value.getChildOfType<JSEmbeddedContent>()
       if (jsContent != null) {
         val depth = jsContent.depth
-        if (depth > 5) {
-          holder.registerProblem(jsContent, "复杂的属性应当声明在计算属性中", ProblemHighlightType.WEAK_WARNING, object : LocalQuickFix {
-
-            override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-              val el = descriptor.psiElement
-              object : MyRecursiveElementVisitor() {
-
-                override fun visitElement(element: PsiElement) {
-                  when (element) {
-                    is JSReferenceExpression -> {
-                      if (element.firstChild !is JSThisExpression) {
-                        val exp = JSChangeUtil.createExpressionWithContext("this.${element.text}", element.parent)!!.psi
-                        element.replace(exp)
-                      }
-                    }
-                  }
-                }
-
-              }.visit(el)
-              val script = el.parent.ancestorOfType<XmlDocument>()!!
-                  .firstChild { it is XmlTag && it.name == SCRIPT_TAG }
-              if (script != null) {
-                val obj = script.firstChild { it is JSEmbeddedContent }!!
-                    .firstChild { it is ES6ExportDefaultAssignment }!!
-                    .firstChild { it is JSObjectLiteralExpression } as JSObjectLiteralExpression
-                val computedAttr = obj.findProperty(COMPUTED_ATTRIBUTE)
-                if (computedAttr != null) {
-                  val propertyName = PROPERTY_NAME_PLACEHOLDER
-                  val computedBody = computedAttr.value as JSObjectLiteralExpression
-                  val newProperty = JSChangeUtil.createObjectLiteralPropertyFromText(
-                      """$propertyName() {
-                        |  return ${el.text};
-                        |}""".trimMargin(), computedBody).insertAfter(computedBody.firstChild)
-                  if (computedBody.properties.size > 1) {
-                    newProperty.insertElementAfter(JSChangeUtil.createCommaPsiElement(computedBody))
-                  }
-                  val newPlaceholder = JSChangeUtil.createExpressionWithContext(propertyName, el)!!.psi
-                  el.firstChild.replace(newPlaceholder)
-                  val element = el.firstChild
-                  renameElement(element)
-                }
-              }
-            }
-
-            override fun getFamilyName(): String {
-              return "修复"
-            }
-
-          })
+        if (depth >= 4) {
+          holder.registerProblem(jsContent, "复杂的属性应当声明在计算属性中", ProblemHighlightType.INFORMATION,
+              ComplexExpToComputedPropertyFix())
         }
       }
     }

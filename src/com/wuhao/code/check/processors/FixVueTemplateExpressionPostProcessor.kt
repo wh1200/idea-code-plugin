@@ -49,12 +49,19 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
                         ":", ">", "<", "=", "!=", "===", "==", "===",
                         ">=", "<=", "||", "%",
                         "&&", "&", "|")) {
-                  if (element.prevSibling !is PsiWhiteSpace) {
-                    element.insertElementBefore(factory.createWhiteSpace(" "))
+                  if (element.text == ",") {
+                    if (element.nextSibling !is PsiWhiteSpace) {
+                      element.insertElementAfter(factory.createWhiteSpace(" "))
+                    }
+                  } else {
+                    if (element.prevSibling !is PsiWhiteSpace) {
+                      element.insertElementBefore(factory.createWhiteSpace(" "))
+                    }
+                    if (element.nextSibling !is PsiWhiteSpace) {
+                      element.insertElementAfter(factory.createWhiteSpace(" "))
+                    }
                   }
-                  if (element.nextSibling !is PsiWhiteSpace) {
-                    element.insertElementAfter(factory.createWhiteSpace(" "))
-                  }
+
                 }
                 if (element.text in listOf(",")) {
                   if (element.nextSibling !is PsiWhiteSpace) {

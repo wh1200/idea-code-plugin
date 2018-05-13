@@ -11,7 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
-import com.intellij.refactoring.actions.RenameElementAction
+import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
 import org.jetbrains.kotlin.idea.core.moveCaret
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtElement
@@ -178,15 +178,14 @@ fun renameElement(element: PsiElement,
   } else {
     element
   }
-  val action = RenameElementAction()
   if (caretOffset < 0) {
     editor.moveCaret(realElement.startOffset)
   } else {
     editor.moveCaret(caretOffset)
   }
   editor.settings.isVariableInplaceRenameEnabled = true
-  val handler = action.getHandler(context)
-  handler?.invoke(realElement.project, editor, realElement.containingFile, context)
+  val handler = VariableInplaceRenameHandler()
+  handler.invoke(realElement.project, editor, realElement.containingFile, context)
 }
 //val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
 //  get() {

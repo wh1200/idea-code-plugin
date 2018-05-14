@@ -17,10 +17,10 @@ import com.intellij.testFramework.createGlobalContextForTool
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
 import com.intellij.util.containers.ContainerUtil
+import com.wuhao.code.check.inspection.JavaCommentInspection
 import com.wuhao.code.check.inspection.JavaFormatInspection
 import com.wuhao.code.check.inspection.KotlinFormatInspection
 import java.io.File
-import java.util.*
 
 
 /**
@@ -60,7 +60,7 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
   }
 
   fun testJavaTypeArgument() {
-    doJavaInspectionTest("error/JavaInterfaceExample.java")
+    doJavaInspectionTest("src/error/java")
   }
 
   fun testJavaWhiteSpace() {
@@ -112,6 +112,7 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
 
   private fun doJavaInspectionTest(path: String) {
     doTestGlobalInspection(path, JavaFormatInspection())
+    doTestGlobalInspection(path, JavaCommentInspection())
   }
 
   private fun doKotlinInspectionTest(path: String) {
@@ -132,6 +133,7 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     val toolWrapper = LocalInspectionToolWrapper(inspection)
     myFixture.testDataPath = "testData"
     val file = File(myFixture.testDataPath + File.separator + path)
+    println("当前路径：" + file.absolutePath)
     val sourceDir = if (file.isFile) {
       myFixture.psiManager.findFile(myFixture.copyFileToProject(path, path.replace(file.name, "")))
           ?: throw AssertionError("Could not find $file")

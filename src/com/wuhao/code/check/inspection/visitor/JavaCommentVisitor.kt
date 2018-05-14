@@ -31,7 +31,7 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
    * @param clazz 类元素
    */
   override fun visitClass(clazz: PsiClass) {
-    if ((clazz !is PsiTypeParameter && clazz.firstChild == null || clazz.firstChild !is PsiDocComment) && clazz !is PsiAnonymousClass) {
+    if (clazz !is PsiTypeParameter && (clazz.firstChild == null || clazz.firstChild !is PsiDocComment) && clazz !is PsiAnonymousClass) {
       if (clazz.nameIdentifier != null) {
         holder.registerError(clazz.nameIdentifier!!, Messages.classCommentRequired, JavaBlockCommentFix())
       } else {

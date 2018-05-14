@@ -43,6 +43,7 @@ import com.wuhao.code.check.style.KotlinModifier.PUBLIC
 import com.wuhao.code.check.style.KotlinModifier.SEALED
 import org.jetbrains.kotlin.descriptors.FunctionDescriptor
 import org.jetbrains.kotlin.descriptors.PropertyDescriptor
+import org.jetbrains.kotlin.idea.refactoring.isCompanionMemberOf
 import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
 import org.jetbrains.kotlin.lexer.KtModifierKeywordToken
 import org.jetbrains.kotlin.lexer.KtTokens
@@ -68,6 +69,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       myStack.peek()
     }
   private val myCachedClassFields = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
+  private val myCachedCompanionClassFields = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
   private val myEntries = HashMap<PsiElement, KotlinElementArrangementEntry>()
   private val myMethodBodyProcessor: MethodBodyProcessor = MethodBodyProcessor()
   private val myObjectBodyProcessor: ObjectBodyProcessor = ObjectBodyProcessor()
@@ -157,16 +159,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
   }
 
   override fun visitProperty(property: KtProperty, data: Any?) {
-    if (property.parent !is KtClassBody) {
-      return
-    }
     val isSectionCommentsDetected = registerSectionComments(property)
-    // There is a possible case that more than one field is declared for the same type like 'int i, j;'. We want to process only
-    // the first one then.
-    val fieldPrev = getPreviousNonWsComment(property.prevSibling, 0)
-    if (PsiUtil.isJavaToken(fieldPrev, JavaTokenType.COMMA)) {
-      return
-    }
     // There is a possible case that fields which share the same type declaration are located on different document lines, e.g.:
     //    int i1,
     //        i2;
@@ -282,34 +275,41 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     return element.textRange.endOffset
   }
 
-  private fun getReferencedFields(field: KtProperty): List<KtProperty> {
+  private fun getReferencedFields(property: KtProperty): List<KtProperty> {
     val referencedElements = ArrayList<KtProperty>()
-
-    val fieldInitializer = field.initializer
-    val containingClass = field.containingClass()
-
+    val fieldInitializer = property.initializer
+    val containingClass = property.containingClass()
     if (fieldInitializer == null || containingClass == null) {
       return referencedElements
     }
-
-    var classFields: Set<KtProperty>? = myCachedClassFields[containingClass]
-    if (classFields == null) {
-      classFields = ContainerUtil.map2Set(containingClass.getProperties(), Functions.id())
-      myCachedClassFields[containingClass] = classFields
+    val isCompanionProperty = property.isCompanionMemberOf(containingClass)
+    val classFields = if (isCompanionProperty) {
+      var classFields: Set<KtProperty>? = myCachedCompanionClassFields[containingClass]
+      if (classFields == null) {
+        classFields = ContainerUtil.map2Set(containingClass.companionObjects.mapNotNull {
+          it.getBody()?.properties
+        }.flatten(), Functions.id())
+        myCachedCompanionClassFields[containingClass] = classFields
+      }
+      classFields
+    } else {
+      var classFields: Set<KtProperty>? = myCachedClassFields[containingClass]
+      if (classFields == null) {
+        classFields = ContainerUtil.map2Set(containingClass.getProperties(), Functions.id())
+        myCachedClassFields[containingClass] = classFields
+      }
+      classFields
     }
-
-    val containingClassFields = classFields
     fieldInitializer.accept(object : KotlinRecursiveVisitor() {
 
       internal var myCurrentMethodLookupDepth: Int = 0
-      private val MAX_METHOD_LOOKUP_DEPTH = 3
 
       override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?) {
         val refs = expression.resolveMainReferenceToDescriptors()
         refs.forEach { ref ->
           if (ref is PropertyDescriptor) {
             val psi = ref.source.getPsi()
-            if (psi is KtProperty && containingClassFields.contains(psi)) {
+            if (psi is KtProperty && classFields.contains(psi)) {
               referencedElements.add(psi)
             }
           } else if (ref is FunctionDescriptor) {
@@ -420,6 +420,8 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
   }
 
   companion object {
+
+    private val MAX_METHOD_LOOKUP_DEPTH = 3
 
     private val MODIFIERS = ContainerUtilRt.newHashMap<KtModifierKeywordToken, ArrangementSettingsToken>().apply {
       put(KtTokens.PROTECTED_KEYWORD, PROTECTED)

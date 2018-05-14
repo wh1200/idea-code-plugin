@@ -9,7 +9,7 @@ package error.java;
 
 import java.lang.String;
 
-class InterfaceExample {
+interface InterfaceExample {
 
   <T> void test(String text);
 

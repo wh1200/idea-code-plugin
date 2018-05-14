@@ -170,7 +170,7 @@ class SpaceChecker {
         CATCH_KEYWORD, FOR_KEYWORD, IF_KEYWORD, TRY_KEYWORD, DO_KEYWORD,
         WHILE_KEYWORD, WHEN_KEYWORD, ELVIS)
     val shouldOnlyHaveSpaceAfterKeywords = listOf(IF, FOR, TRY,
-        WHILE, DO, SWITCH, CATCH, CASE, RETURN, SYNCHRONIZED)
+        WHILE, DO, SWITCH, CATCH, CASE, SYNCHRONIZED)
 
   }
 

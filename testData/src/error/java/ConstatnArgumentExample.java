@@ -15,9 +15,14 @@ class ConstatnArgumentExample {
 
   public void test(String text) {
     showMeTheCode("");
+    int count = 10;
+    for (int i = 1; i < count; i++) {
+      return;
+    }
   }
 
-  public void showMeTheCode(String text){}
+  public void showMeTheCode(String text) {
+  }
 
 }
 

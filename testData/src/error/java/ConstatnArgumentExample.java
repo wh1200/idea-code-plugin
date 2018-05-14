@@ -7,11 +7,17 @@
  */
 package error.java;
 
-import java.lang.String;
+/**
+ * @author 吴昊
+ * @since 1.3.1
+ */
+class ConstatnArgumentExample {
 
-class InterfaceExample {
+  public void test(String text) {
+    showMeTheCode("");
+  }
 
-  <T> void test(String text);
+  public void showMeTheCode(String text){}
 
 }
 

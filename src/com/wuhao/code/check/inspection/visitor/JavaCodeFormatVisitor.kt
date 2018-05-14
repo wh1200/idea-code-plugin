@@ -64,7 +64,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
             DOUBLE_LITERAL, STRING_LITERAL)
         && expression.text.length > 1) {
       if (expression.firstChild.node.elementType != STRING_LITERAL
-          || expression.textLength <= MAX_STRING_ARGUMENT_LENGTH) {
+          || expression.textLength > MAX_STRING_ARGUMENT_LENGTH) {
         holder.registerError(expression, Messages.noConstantArgument,
             ExtractToVariableFix())
       }

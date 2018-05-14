@@ -18,5 +18,13 @@ class KtWhiteSpace {
     val e = b || c || d
   }
 
+  companion object {
+
+    const val zh = ""
+    const val book = zh
+    const val doc = book
+
+  }
+
 }
 

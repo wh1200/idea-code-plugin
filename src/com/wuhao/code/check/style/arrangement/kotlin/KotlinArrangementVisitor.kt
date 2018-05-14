@@ -68,8 +68,8 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     } else {
       myStack.peek()
     }
-  private val myCachedClassFields = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
-  private val myCachedCompanionClassFields = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
+  private val myCachedClassProperties = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
+  private val myCachedCompanionClassProperties = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
   private val myEntries = HashMap<PsiElement, KotlinElementArrangementEntry>()
   private val myMethodBodyProcessor: MethodBodyProcessor = MethodBodyProcessor()
   private val myObjectBodyProcessor: ObjectBodyProcessor = ObjectBodyProcessor()
@@ -174,14 +174,12 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     }
     val child = property.lastChild
     var needSpecialProcessing = true
-    if (isSemicolon(child)) {
-      needSpecialProcessing = false
-    } else if (child is PsiComment) {
+    if (child is PsiComment) {
       // There is a possible field definition like below:
       //   int f; // my comment.
       // The comment goes into field PSI here, that's why we need to handle it properly.
       val prev = getPreviousNonWsComment(child, range.startOffset)
-      needSpecialProcessing = prev != null && !isSemicolon(prev)
+      needSpecialProcessing = prev != null
     }
 
     if (needSpecialProcessing) {
@@ -199,7 +197,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
             break
           }
         }
-        if (e is PsiField) {
+        if (e is KtProperty) {
           var c: PsiElement? = e.lastChild
           if (c != null) {
             c = getPreviousNonWsComment(c, range.startOffset)
@@ -218,10 +216,10 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     }
     val entry = createNewEntry(property, range, PROPERTY, property.name, true) ?: return
     processEntry(entry, property, property.initializer)
-    myInfo.onFieldEntryCreated(property, entry)
-    val referencedFields = getReferencedFields(property)
+    myInfo.onPropertyEntryCreated(property, entry)
+    val referencedFields = getReferencedProperties(property)
     for (referencedField in referencedFields) {
-      myInfo.registerFieldInitializationDependency(property, referencedField)
+      myInfo.registerPropertyInitializationDependency(property, referencedField)
     }
   }
 
@@ -278,32 +276,32 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     return element.textRange.endOffset
   }
 
-  private fun getReferencedFields(property: KtProperty): List<KtProperty> {
+  private fun getReferencedProperties(property: KtProperty): List<KtProperty> {
     val referencedElements = ArrayList<KtProperty>()
-    val fieldInitializer = property.initializer
+    val propertyInitializer = property.initializer
     val containingClass = property.containingClass()
-    if (fieldInitializer == null || containingClass == null) {
+    if (propertyInitializer == null || containingClass == null) {
       return referencedElements
     }
     val isCompanionProperty = property.isCompanionMemberOf(containingClass)
-    val classFields = if (isCompanionProperty) {
-      var classFields: Set<KtProperty>? = myCachedCompanionClassFields[containingClass]
-      if (classFields == null) {
-        classFields = ContainerUtil.map2Set(containingClass.companionObjects.mapNotNull {
+    val classProperties = if (isCompanionProperty) {
+      var classProperties: Set<KtProperty>? = myCachedCompanionClassProperties[containingClass]
+      if (classProperties == null) {
+        classProperties = ContainerUtil.map2Set(containingClass.companionObjects.mapNotNull {
           it.getBody()?.properties
         }.flatten(), Functions.id())
-        myCachedCompanionClassFields[containingClass] = classFields
+        myCachedCompanionClassProperties[containingClass] = classProperties
       }
-      classFields
+      classProperties
     } else {
-      var classFields: Set<KtProperty>? = myCachedClassFields[containingClass]
-      if (classFields == null) {
-        classFields = ContainerUtil.map2Set(containingClass.getProperties(), Functions.id())
-        myCachedClassFields[containingClass] = classFields
+      var classProperties: Set<KtProperty>? = myCachedClassProperties[containingClass]
+      if (classProperties == null) {
+        classProperties = ContainerUtil.map2Set(containingClass.getProperties(), Functions.id())
+        myCachedClassProperties[containingClass] = classProperties
       }
-      classFields
+      classProperties
     }
-    fieldInitializer.accept(object : KotlinRecursiveVisitor() {
+    propertyInitializer.accept(object : KotlinRecursiveVisitor() {
 
       internal var myCurrentMethodLookupDepth: Int = 0
 
@@ -312,7 +310,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
         refs.forEach { ref ->
           if (ref is PropertyDescriptor) {
             val psi = ref.source.getPsi()
-            if (psi is KtProperty && classFields.contains(psi)) {
+            if (psi is KtProperty && classProperties.contains(psi)) {
               referencedElements.add(psi)
             }
           } else if (ref is FunctionDescriptor) {
@@ -424,7 +422,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
 
   companion object {
 
-    private val MAX_METHOD_LOOKUP_DEPTH = 3
+    val MAX_METHOD_LOOKUP_DEPTH = 3
 
     private val MODIFIERS = ContainerUtilRt.newHashMap<KtModifierKeywordToken, ArrangementSettingsToken>().apply {
       put(KtTokens.PROTECTED_KEYWORD, PROTECTED)
@@ -498,9 +496,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       return false
     }
 
-    private fun isSemicolon(e: PsiElement?): Boolean {
-      return PsiUtil.isJavaToken(e, JavaTokenType.SEMICOLON)
-    }
 
     private fun parseModifiers(modifierList: KtModifierList?, entry: KotlinElementArrangementEntry) {
       if (modifierList == null) {

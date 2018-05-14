@@ -9,7 +9,6 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.arrangement.*
-import com.intellij.psi.codeStyle.arrangement.engine.ArrangementEngine
 import com.intellij.psi.codeStyle.arrangement.group.ArrangementGroupingRule
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementEntryMatcher
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementMatchRule
@@ -26,6 +25,7 @@ import com.wuhao.code.check.style.KotlinEntryType.FUNCTION
 import com.wuhao.code.check.style.KotlinEntryType.INIT_BLOCK
 import com.wuhao.code.check.style.KotlinEntryType.INTERFACE
 import com.wuhao.code.check.style.KotlinEntryType.PROPERTY
+import com.wuhao.code.check.style.arrangement.kotlin.KotlinArrangementVisitor.Companion.MAX_METHOD_LOOKUP_DEPTH
 
 /**
  * kotlin代码重排
@@ -77,28 +77,34 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
     // Following entries are subject to arrangement: class, property, function, interface.
     val parseInfo = KotlinArrangementParseInfo()
     root.accept(KotlinArrangementVisitor(parseInfo, document, ranges, settings))
-    val fieldDependencyRoots = parseInfo.getFieldDependencyRoots()
-    if (!fieldDependencyRoots.isEmpty()) {
-      setupFieldInitializationDependencies(fieldDependencyRoots, settings, parseInfo)
+    val propertyDependencyRoots = parseInfo.getPropertyDependencyRoots()
+    if (!propertyDependencyRoots.isEmpty()) {
+      setupPropertyInitializationDependencies(propertyDependencyRoots, settings, parseInfo)
     }
     return parseInfo.entries
   }
 
-  fun setupFieldInitializationDependencies(fieldDependencyRoots: List<KotlinArrangementEntryDependencyInfo>,
-                                           settings: ArrangementSettings,
-                                           parseInfo: KotlinArrangementParseInfo) {
-    val fields = parseInfo.getFields()
-    val arrangedFields = ArrangementEngine.arrange(fields, settings.sections, settings.rulesSortedByPriority, null)
-
-    for (root in fieldDependencyRoots) {
-      val anchorField = root.anchorEntry
-      val anchorEntryIndex = arrangedFields.indexOf(anchorField)
-
-      for (fieldInInitializerInfo in root.dependentEntriesInfos) {
-        val fieldInInitializer = fieldInInitializerInfo.anchorEntry
-        if (arrangedFields.indexOf(fieldInInitializer) > anchorEntryIndex) {
-          anchorField.addDependency(fieldInInitializer)
+  private fun setupPropertyInitializationDependencies(propertyDependencyRoots: List<KotlinArrangementEntryDependencyInfo>,
+                                                      settings: ArrangementSettings,
+                                                      parseInfo: KotlinArrangementParseInfo) {
+    val dependencyMap = propertyDependencyRoots.associateBy({ it }, { it.dependentEntriesInfos })
+    for (root in propertyDependencyRoots) {
+      val anchorProperty = root.anchorEntry
+      val dependencyEntries = root.dependentEntriesInfos
+      var maxDependencyDepth = MAX_METHOD_LOOKUP_DEPTH
+      var tmpEntries: List<KotlinArrangementEntryDependencyInfo>
+      while (maxDependencyDepth > 0) {
+        tmpEntries = dependencyEntries.toList()
+        tmpEntries.forEach { entry ->
+          dependencyMap[entry]?.forEach {
+            root.addDependentEntryInfo(it)
+          }
         }
+        maxDependencyDepth--
+      }
+      for (propertyInInitializerInfo in dependencyEntries) {
+        val propertyInInitializer = propertyInInitializerInfo.anchorEntry
+        anchorProperty.addDependency(propertyInInitializer)
       }
     }
   }

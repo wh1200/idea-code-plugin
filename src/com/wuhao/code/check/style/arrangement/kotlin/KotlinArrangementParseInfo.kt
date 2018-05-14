@@ -18,37 +18,37 @@ class KotlinArrangementParseInfo {
   val entries: List<KotlinElementArrangementEntry>
     get() = myEntries
   private val myEntries = ArrayList<KotlinElementArrangementEntry>()
-  private val myFields = LinkedHashMap<KtProperty, KotlinElementArrangementEntry>()
-  private val myMethodEntriesMap = HashMap<KtNamedFunction, KotlinElementArrangementEntry>()
-  private val myFieldDependencies = ContainerUtil.newHashMap<KtProperty, HashSet<KtProperty>>()
+  private val myProperties = LinkedHashMap<KtProperty, KotlinElementArrangementEntry>()
+  private val myFunctionEntriesMap = HashMap<KtNamedFunction, KotlinElementArrangementEntry>()
+  private val myPropertyDependencies = ContainerUtil.newHashMap<KtProperty, HashSet<KtProperty>>()
 
   fun addEntry(entry: KotlinElementArrangementEntry) {
     myEntries.add(entry)
   }
 
-  fun onFieldEntryCreated(field: KtProperty, entry: KotlinElementArrangementEntry) {
-    myFields[field] = entry
+  fun onPropertyEntryCreated(property: KtProperty, entry: KotlinElementArrangementEntry) {
+    myProperties[property] = entry
   }
 
   fun onMethodEntryCreated(method: KtNamedFunction, entry: KotlinElementArrangementEntry) {
-    myMethodEntriesMap[method] = entry
+    myFunctionEntriesMap[method] = entry
   }
 
-  fun registerFieldInitializationDependency(property: KtProperty, referencedField: KtProperty) {
-    var fields: MutableSet<KtProperty>? = myFieldDependencies[property]
-    if (fields == null) {
-      fields = ContainerUtil.newHashSet()
-      myFieldDependencies[property] = fields
+  fun registerPropertyInitializationDependency(property: KtProperty, referencedProperty: KtProperty) {
+    var properties: MutableSet<KtProperty>? = myPropertyDependencies[property]
+    if (properties == null) {
+      properties = ContainerUtil.newHashSet()
+      myPropertyDependencies[property] = properties
     }
-    fields.add(referencedField)
+    properties.add(referencedProperty)
   }
 
-  fun getFields(): Collection<KotlinElementArrangementEntry> {
-    return myFields.values
+  fun getProperties(): Collection<KotlinElementArrangementEntry> {
+    return myProperties.values
   }
 
-  fun getFieldDependencyRoots(): List<KotlinArrangementEntryDependencyInfo> {
-    return PropertyDependenciesManager(myFieldDependencies, myFields).roots
+  fun getPropertyDependencyRoots(): List<KotlinArrangementEntryDependencyInfo> {
+    return PropertyDependenciesManager(myPropertyDependencies, myProperties).roots
   }
 
 }

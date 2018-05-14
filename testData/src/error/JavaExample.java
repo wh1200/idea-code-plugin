@@ -5,6 +5,10 @@ package error;
 
 class JavaExample {
 
+  private String c = "";
+  private String a = c;
+  private String b = a;
+
   public void test() {
     System.out.println(1);
   }

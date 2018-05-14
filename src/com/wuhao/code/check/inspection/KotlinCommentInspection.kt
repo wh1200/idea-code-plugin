@@ -1,16 +1,11 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
-/*
- * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
- */
 package com.wuhao.code.check.inspection
 
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
 import com.wuhao.code.check.inspection.visitor.CodeFormatVisitor
-import com.wuhao.code.check.inspection.visitor.KotlinCodeFormatVisitor
 import com.wuhao.code.check.inspection.visitor.KotlinCommentVisitor
 
 /**

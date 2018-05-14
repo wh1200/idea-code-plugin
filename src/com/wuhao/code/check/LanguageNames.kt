@@ -3,12 +3,12 @@
  */
 package com.wuhao.code.check
 
+/**
+ * 语言名称类
+ */
 object LanguageNames {
 
   const val ecma6 = "ECMAScript 6"
-  const val java = "Java"
-  const val javascript = "JavaScript"
-  const val kotlin = "Kotlin"
   const val typescript = "TypeScript"
   const val vue = "Vue"
 

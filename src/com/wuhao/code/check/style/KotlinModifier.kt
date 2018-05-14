@@ -7,8 +7,13 @@ import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
 import com.intellij.psi.codeStyle.arrangement.std.CompositeArrangementToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettingsToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokenType
-import com.wuhao.code.check.style.EntryType.FUNCTION
+import com.wuhao.code.check.style.KotlinEntryType.FUNCTION
 
+/**
+ * kotlin的排序修饰符
+ * @author 吴昊
+ * @since 1.3.1
+ */
 object KotlinModifier {
 
   val ABSTRACT: ArrangementSettingsToken = invertible("ABSTRACT", StdArrangementTokenType.MODIFIER)

@@ -10,7 +10,12 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokenType
 import com.intellij.psi.codeStyle.arrangement.std.StdInvertibleArrangementSettingsToken
 import com.intellij.util.containers.ContainerUtilRt
 
-object EntryType {
+/**
+ * kotlin排序类型
+ * @author 吴昊
+ * @since
+ */
+object KotlinEntryType {
 
   val CLASS: ArrangementSettingsToken = invertible("CLASS", StdArrangementTokenType.ENTRY_TYPE)
   val COMPANION_OBJECT: ArrangementSettingsToken = invertible("COMPANION_OBJECT", StdArrangementTokenType.ENTRY_TYPE)
@@ -26,15 +31,13 @@ object EntryType {
   val OBJECT: ArrangementSettingsToken = invertible("OBJECT", StdArrangementTokenType.ENTRY_TYPE)
   val PROPERTY: ArrangementSettingsToken = invertible("PROPERTY", StdArrangementTokenType.ENTRY_TYPE)
   val SECONDARY_CONSTRUCTOR: ArrangementSettingsToken = invertible("SECONDARY_CONSTRUCTOR", StdArrangementTokenType.ENTRY_TYPE)
-  private val TOKENS = collectFields(EntryType::class.java)
-
-  fun values(): Set<ArrangementSettingsToken> {
-    return TOKENS.value
-  }
 
 }
 
-internal val TOKENS_BY_ID = ContainerUtilRt.newHashMap<String, StdArrangementSettingsToken>()
+/**
+ * token id到token的映射map
+ */
+internal val TOKENS_BY_ID = HashMap<String, StdArrangementSettingsToken>()
 /**
  *
  * @param id

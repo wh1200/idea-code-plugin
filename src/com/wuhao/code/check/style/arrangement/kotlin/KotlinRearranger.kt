@@ -20,12 +20,12 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.GETTERS_AND_SETTERS
 import com.intellij.util.containers.ContainerUtilRt
-import com.wuhao.code.check.style.EntryType.CLASS
-import com.wuhao.code.check.style.EntryType.ENUM_ENTRY
-import com.wuhao.code.check.style.EntryType.FUNCTION
-import com.wuhao.code.check.style.EntryType.INIT_BLOCK
-import com.wuhao.code.check.style.EntryType.INTERFACE
-import com.wuhao.code.check.style.EntryType.PROPERTY
+import com.wuhao.code.check.style.KotlinEntryType.CLASS
+import com.wuhao.code.check.style.KotlinEntryType.ENUM_ENTRY
+import com.wuhao.code.check.style.KotlinEntryType.FUNCTION
+import com.wuhao.code.check.style.KotlinEntryType.INIT_BLOCK
+import com.wuhao.code.check.style.KotlinEntryType.INTERFACE
+import com.wuhao.code.check.style.KotlinEntryType.PROPERTY
 
 /**
  * kotlin代码重排

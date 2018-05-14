@@ -14,6 +14,7 @@ import com.wuhao.code.check.inspection.fix.ConsolePrintFix
 import com.wuhao.code.check.inspection.fix.ExtractToVariableFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.Before
+import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 
 /**
@@ -47,7 +48,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
         && identifier.parent !is PsiTypeParameter) {
       if ((identifier.parent is PsiMethod || identifier.parent is PsiClass)
           || (identifier.parent is PsiField && identifier.getAncestor(2) is PsiClass)) {
-        holder.registerError(identifier, Messages.nameMustNotLessThan2Chars)
+        holder.registerError(identifier, Messages.nameMustNotLessThan2Chars, RenameIdentifierFix())
       }
     }
   }

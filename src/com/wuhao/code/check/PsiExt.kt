@@ -5,7 +5,7 @@ package com.wuhao.code.check
 
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.project.ProjectCoreUtil
+import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
@@ -122,18 +122,16 @@ val KtElement.ktFactory: KtPsiFactory
 /**
  * 获取空白元素
  */
-val whiteSpace: PsiWhiteSpace
-  get() {
-    return KtPsiFactory(ProjectCoreUtil.theProject).createWhiteSpace() as PsiWhiteSpace
-  }
+fun getWhiteSpace(project: Project): PsiWhiteSpace {
+  return KtPsiFactory(project).createWhiteSpace() as PsiWhiteSpace
+}
 
 /**
  * 获取空行元素
  */
-val newLine: PsiWhiteSpace
-  get() {
-    return KtPsiFactory(ProjectCoreUtil.theProject).createNewLine() as PsiWhiteSpace
-  }
+fun getNewLine(project: Project): PsiWhiteSpace {
+  return KtPsiFactory(project).createNewLine() as PsiWhiteSpace
+}
 
 /**
  * psi元素的深度

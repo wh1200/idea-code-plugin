@@ -19,7 +19,7 @@ const val PROPERTY_NAME_PLACEHOLDER = "_tmp"
 /**
  * 直接使用字符串作为参数时允许的最大长度
  */
-const val MAX_STRING_ARGUMENT_LENGTH = 10
+const val MAX_STRING_ARGUMENT_LENGTH = 1000
 
 /**
  * junit的Test注解的类名称

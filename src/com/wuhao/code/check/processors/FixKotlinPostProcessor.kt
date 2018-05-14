@@ -4,6 +4,7 @@
 package com.wuhao.code.check.processors
 
 import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
@@ -53,37 +54,57 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
       val factory = KtPsiFactory(klass.project)
       klass.getBody()?.let { body ->
         val oldEntries = body.getChildrenOfType<KtEnumEntry>()
-        oldEntries.forEach { entry -> entry.delete() }
-        val entries = oldEntries
-            .sortedByDescending { entry -> entry.name }
-            .mapIndexed { index, entry ->
-              var text = if (entry.text.endsWith(";")) {
-                entry.text.substring(0, entry.text.length - 1).trim()
-              } else {
-                entry.text
-              }
-              if (index == 0) {
-                if (text.endsWith(",")) {
-                  text = text.substring(0, text.length - 1).trim() + ";"
+        if (oldEntries.size > 0) {
+          val commentMap = oldEntries.associateBy({ it }, {
+            if (it.lastChild is PsiComment) {
+              it.lastChild as PsiComment
+            } else {
+              null
+            }
+          })
+          commentMap.values.forEach { it?.delete() }
+          val commentStringMap = hashMapOf<String, String>()
+          oldEntries.forEach { entry -> entry.delete() }
+          val texts = oldEntries
+              .sortedByDescending { it.name }
+              .mapIndexed { index, entry ->
+                val comment = commentMap[entry]
+                val commentText = comment?.text ?: ""
+                var text = if (entry.text.endsWith(";")) {
+                  entry.text.dropLast(1)
                 } else {
-                  text += ";"
+                  entry.text.trim()
                 }
-              } else {
                 if (!text.endsWith(",")) {
                   text += ","
                 }
+                commentStringMap[text] = commentText
+                text
               }
-              factory.createEnumEntry(text)
+          val maxLength = texts.map { it.length }.max()!!
+          val entries = texts.mapIndexed { index, it ->
+            var text = it
+            val comment = commentStringMap[text]!!
+            if (index == 0) {
+              text = text.dropLast(1) + ";"
             }
-        if (body.lBrace!!.nextSibling is PsiWhiteSpace) {
-          entries.forEach { it.insertAfter(body.lBrace!!.nextSibling) }
-        } else {
-          entries.forEach { it.insertAfter(body.lBrace!!) }
-        }
-        val newEntries = body.getChildrenOfType<KtEnumEntry>()
-        newEntries.forEach { newEntry ->
-          if (newEntry.nextSibling is KtEnumEntry) {
-            newEntry.insertElementAfter(factory.createNewLine())
+            val newEntry = factory.createEnumEntry(text)
+            if (comment.isNotBlank()) {
+              newEntry.add(factory.createWhiteSpace(" ".repeat(maxLength - text.length + 2)))
+              newEntry.add(factory.createComment(comment))
+            }
+            newEntry
+          }
+          if (body.lBrace!!.nextSibling is PsiWhiteSpace) {
+            entries.forEach { it.insertAfter(body.lBrace!!.nextSibling) }
+          } else {
+            entries.forEach { it.insertAfter(body.lBrace!!) }
+          }
+          val newEntries = body.getChildrenOfType<KtEnumEntry>()
+          newEntries.forEach { newEntry ->
+            if (newEntry.nextSibling is KtEnumEntry) {
+              newEntry.insertElementAfter(factory.createNewLine())
+            }
           }
         }
       }

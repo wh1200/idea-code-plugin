@@ -4,4 +4,9 @@
 package error;
 
 class JavaExample {
+
+  public void test() {
+    System.out.println(1);
+  }
 }
+

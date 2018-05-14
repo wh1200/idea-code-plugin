@@ -87,10 +87,6 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     availableIntentions.forEach {
       println(it)
     }
-    val action = ContainerUtil.getFirstItem(availableIntentions)
-
-    //    TestCase.assertNotNull(action)
-    //    myFixture.launchAction(action!!)
   }
 
   private fun buildProblemMessage(problem: ProblemDescriptorBase): String {

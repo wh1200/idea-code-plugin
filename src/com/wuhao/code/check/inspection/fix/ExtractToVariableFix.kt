@@ -14,8 +14,8 @@ import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.psi.util.parents
 import com.wuhao.code.check.PROPERTY_NAME_PLACEHOLDER
+import com.wuhao.code.check.getNewLine
 import com.wuhao.code.check.insertElementBefore
-import com.wuhao.code.check.newLine
 import com.wuhao.code.check.renameElement
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
@@ -37,11 +37,11 @@ class ExtractToVariableFix : LocalQuickFix {
         val newField = factory.createFieldFromText("""${statement.modifiers.joinToString(" ").toLowerCase()} ${el.type!!
             .presentableText} $name = ${el.text};""", null)
         statement.insertElementBefore(newField)
-        statement.insertElementBefore(newLine)
+        statement.insertElementBefore(getNewLine(project))
       } else {
         val declarationStatement = factory.createVariableDeclarationStatement(name, el.type!!, el)
         statement.insertElementBefore(declarationStatement)
-        statement.insertElementBefore(newLine)
+        statement.insertElementBefore(getNewLine(project))
       }
       val newArgument = el.replace(factory.createIdentifier(name))
       renameElement(newArgument, -1, newArgument.parent, newArgument.parent.children.indexOf(newArgument))

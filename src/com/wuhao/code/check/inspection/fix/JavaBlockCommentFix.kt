@@ -5,6 +5,8 @@ package com.wuhao.code.check.inspection.fix
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
+import com.intellij.codeInspection.ProblemHighlightType
+import com.intellij.codeInspection.ex.ProblemDescriptorImpl
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiIdentifier
@@ -13,6 +15,7 @@ import com.intellij.psi.PsiPrimitiveType
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.wuhao.code.check.ui.PluginSettings
+import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
 
 /**
  * java元素添加块注释修复

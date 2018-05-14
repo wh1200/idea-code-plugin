@@ -15,9 +15,7 @@ class KtWhiteSpace {
     val b = a > 1
     val c = a > 1
     val d = a > 1
-    val e = b
-        || c
-        || d
+    val e = b || c || d
   }
 
 }

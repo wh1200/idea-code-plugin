@@ -9,10 +9,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.wuhao.code.check.Messages
+import com.wuhao.code.check.getWhiteSpace
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
-import com.wuhao.code.check.whiteSpace
-import org.jetbrains.kotlin.psi.KtPsiFactory
 
 /**
  * 修复空格
@@ -21,35 +20,21 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
  */
 class SpaceQuickFix(private val type: Type) : LocalQuickFix {
 
-  /**
-   * 自定义获取修复作用的元素，用于错误提示元素和修复作用的元素不是同一个的情况，
-   * 比如错误提示注册在左大括号（{）,但实际修复时应当添加在块元素之前
-   */
-  private var getActionElement: (() -> PsiElement)? = null
 
-  constructor(type: Type, getActionElement: () -> PsiElement) : this(type) {
-    this.getActionElement = getActionElement
-  }
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val element = descriptor.psiElement
-    val factory = KtPsiFactory(project)
-    val actionElement = if (getActionElement?.invoke() != null) {
-      getActionElement?.invoke()!!
-    } else {
-      element
-    }
     when (type) {
       SpaceQuickFix.Type.After -> {
-        insertSpaceAfter(actionElement)
+        insertSpaceAfter(element)
       }
       SpaceQuickFix.Type.Before -> {
-        insertSpaceBefore(actionElement)
+        insertSpaceBefore(element)
       }
-      SpaceQuickFix.Type.BeforeParent -> insertSpaceBefore(actionElement.parent)
+      SpaceQuickFix.Type.BeforeParent -> insertSpaceBefore(element.parent)
       SpaceQuickFix.Type.Both -> {
-        insertSpaceBefore(actionElement)
-        insertSpaceAfter(actionElement)
+        insertSpaceBefore(element)
+        insertSpaceAfter(element)
       }
     }
   }
@@ -60,17 +45,17 @@ class SpaceQuickFix(private val type: Type) : LocalQuickFix {
 
   private fun insertSpaceAfter(element: PsiElement) {
     if (element.nextSibling !is PsiWhiteSpace) {
-      element.insertElementAfter(whiteSpace)
+      element.insertElementAfter(getWhiteSpace(element.project))
     } else {
-      element.nextSibling.replace(whiteSpace)
+      element.nextSibling.replace(getWhiteSpace(element.project))
     }
   }
 
   private fun insertSpaceBefore(element: PsiElement) {
     if (element.prevSibling !is PsiWhiteSpace) {
-      element.insertElementBefore(whiteSpace)
+      element.insertElementBefore(getWhiteSpace(element.project))
     } else {
-      element.prevSibling.replace(whiteSpace)
+      element.prevSibling.replace(getWhiteSpace(element.project))
     }
   }
 

@@ -306,7 +306,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
 
       override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?) {
         val refs = expression.resolveMainReferenceToDescriptors()
-        val scope = expression.resolveScope
         refs.forEach { ref ->
           if (ref is PropertyDescriptor) {
             val psi = ref.source.getPsi()

@@ -67,7 +67,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
           oldEntries.forEach { entry -> entry.delete() }
           val texts = oldEntries
               .sortedByDescending { it.name }
-              .mapIndexed { index, entry ->
+              .map { entry ->
                 val comment = commentMap[entry]
                 val commentText = comment?.text ?: ""
                 var text = if (entry.text.endsWith(";")) {

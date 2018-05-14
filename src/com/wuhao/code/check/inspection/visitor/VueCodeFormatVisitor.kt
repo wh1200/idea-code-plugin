@@ -102,11 +102,9 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
           }
         }
         SCRIPT_TAG -> {
-          if (tag.name == "script") {
-            val js = tag.getChildOfType<JSEmbeddedContent>()
-            if (js != null) {
-              visitJsTag(js)
-            }
+          val script = tag.getChildOfType<JSEmbeddedContent>()
+          if (script != null) {
+            script.accept(VueJsVisitor())
           }
         }
         STYLE_TAG -> {
@@ -116,19 +114,23 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
   }
 
 
-  private fun visitJsTag(js: JSEmbeddedContent) {
-    js.accept(object : JSRecursiveElementVisitor() {
+  /**
+   * vue文件中js代码递归访问器
+   * @author 吴昊
+   * @since 1.3.5
+   */
+  inner class VueJsVisitor : JSRecursiveElementVisitor() {
 
-      override fun visitJSObjectLiteralExpression(node: JSObjectLiteralExpression) {
-        if (node.parent is ES6ExportDefaultAssignment) {
-          if (node.findProperty("name") == null) {
-            holder.registerError(node.parent.firstChild, Messages.vueComponentMissingName, VueComponentNameFix(node))
-          }
-          super.visitJSObjectLiteralExpression(node)
+    override fun visitJSObjectLiteralExpression(node: JSObjectLiteralExpression) {
+      if (node.parent is ES6ExportDefaultAssignment) {
+        // vue 组件必须有name属性
+        if (node.findProperty("name") == null) {
+          holder.registerError(node.parent.firstChild, Messages.vueComponentMissingName, VueComponentNameFix(node))
         }
+        super.visitJSObjectLiteralExpression(node)
       }
+    }
 
-    })
   }
 
   companion object {

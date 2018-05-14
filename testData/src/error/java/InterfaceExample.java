@@ -5,14 +5,13 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package error;
+package error.java;
 
 import java.lang.String;
 
-interface JavaInterfaceExample {
+interface InterfaceExample {
 
-  void test();
+  <T> void test(String text);
 
-  void test(String text);
 }
 

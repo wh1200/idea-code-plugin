@@ -4,7 +4,7 @@
 package com.wuhao.code.check.inspection
 
 import com.intellij.codeHighlighting.HighlightDisplayLevel
-import com.intellij.codeInsight.daemon.GroupNames
+import com.intellij.codeHighlighting.HighlightDisplayLevel.ERROR
 import com.intellij.codeInspection.LocalInspectionTool
 
 /**
@@ -15,7 +15,7 @@ import com.intellij.codeInspection.LocalInspectionTool
 abstract class BaseInspection(private val display: String, private val short: String) : LocalInspectionTool() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel {
-    return HighlightDisplayLevel.ERROR
+    return ERROR
   }
 
   override fun getDisplayName(): String {
@@ -23,7 +23,7 @@ abstract class BaseInspection(private val display: String, private val short: St
   }
 
   override fun getGroupDisplayName(): String {
-    return GroupNames.ERROR_HANDLING_GROUP_NAME
+    return "擎盾代码检查"
   }
 
   override fun getShortName(): String {

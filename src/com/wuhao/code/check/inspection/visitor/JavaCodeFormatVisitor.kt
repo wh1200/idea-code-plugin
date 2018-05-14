@@ -43,7 +43,8 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
 
   override fun visitIdentifier(identifier: PsiIdentifier) {
     // 方法名、字段名长度不能少于2个字符
-    if (identifier.text.length <= 1) {
+    if (identifier.text.length <= 1
+        && identifier.parent !is PsiTypeParameter) {
       if ((identifier.parent is PsiMethod || identifier.parent is PsiClass)
           || (identifier.parent is PsiField && identifier.getAncestor(2) is PsiClass)) {
         holder.registerError(identifier, Messages.nameMustNotLessThan2Chars)

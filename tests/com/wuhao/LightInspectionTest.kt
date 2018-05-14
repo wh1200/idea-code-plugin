@@ -9,18 +9,18 @@ import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemDescriptorBase
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper
 import com.intellij.openapi.application.PathManager
+import com.intellij.psi.PsiDirectory
+import com.intellij.psi.PsiFile
 import com.intellij.testFramework.InspectionTestUtil
 import com.intellij.testFramework.builders.ModuleFixtureBuilder
 import com.intellij.testFramework.createGlobalContextForTool
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
+import com.intellij.util.containers.ContainerUtil
 import com.wuhao.code.check.inspection.JavaFormatInspection
 import com.wuhao.code.check.inspection.KotlinFormatInspection
 import java.io.File
 import java.util.*
-import com.intellij.util.containers.ContainerUtil
-import com.intellij.codeInsight.intention.IntentionAction
-import junit.framework.TestCase
 
 
 /**
@@ -39,31 +39,28 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
   }
 
   override fun setUp() {
-    Locale.setDefault(Locale.ENGLISH)
     System.setProperty(PathManager.PROPERTY_HOME_PATH, homePath)
     super.setUp()
   }
 
   fun testAllJava() {
-    doTestGlobalInspection("testData", JavaFormatInspection())
+    doTestGlobalInspection("src", JavaFormatInspection())
   }
 
   fun testAllKotlin() {
-    doTestGlobalInspection("testData", KotlinFormatInspection())
+    doTestGlobalInspection("src", KotlinFormatInspection())
   }
 
   fun testJavaInspection() {
-    val inspector = JavaFormatInspection()
-    myFixture.configureByFile(BASE_PATH + "JavaExample.java")
-    myFixture.enableInspections(inspector)
-    myFixture.testHighlighting(true, false, true)
+    doTestGlobalInspection("src/error/JavaExample.java", JavaFormatInspection())
   }
 
   fun testJavaInterfaceInspection() {
-    val inspector = JavaFormatInspection()
-    myFixture.configureByFile(BASE_PATH + "JavaInterfaceExample.java")
-    myFixture.enableInspections(inspector)
-    myFixture.testHighlighting(true, false, true)
+    doJavaInspectionTest("src/error/java")
+  }
+
+  fun testJavaTypeArgument() {
+    doJavaInspectionTest("error/JavaInterfaceExample.java")
   }
 
   fun testJavaWhiteSpace() {
@@ -74,17 +71,11 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
   }
 
   fun testKotlinInspection() {
-    val inspector = KotlinFormatInspection()
-    myFixture.configureByFile(BASE_PATH + "KtWhiteSpace.kt")
-    myFixture.enableInspections(inspector)
-    myFixture.testHighlighting(true, false, true)
+    doKotlinInspectionTest("error/KtWhiteSpace.kt")
   }
 
   fun testKotlinInterfaceInspection() {
-    val inspector = KotlinFormatInspection()
-    myFixture.configureByFile(BASE_PATH + "InterfaceExample.kt")
-    myFixture.enableInspections(inspector)
-    myFixture.testHighlighting(true, false, true)
+    doKotlinInspectionTest("error/InterfaceExample.kt")
     applySingleQuickFix("添加注释")
   }
 
@@ -98,8 +89,8 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     }
     val action = ContainerUtil.getFirstItem(availableIntentions)
 
-//    TestCase.assertNotNull(action)
-//    myFixture.launchAction(action!!)
+    //    TestCase.assertNotNull(action)
+    //    myFixture.launchAction(action!!)
   }
 
   private fun buildProblemMessage(problem: ProblemDescriptorBase): String {
@@ -113,8 +104,23 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
 ------------------------------""".trimIndent()
   }
 
-  private fun doTestGlobalInspection(testDir: String, inspection: LocalInspectionTool) {
-    val problemDescriptors = getGlobalInspectionResults(testDir, inspection)
+  private fun doInspectionTest(path: String, inspector: LocalInspectionTool) {
+    myFixture.configureByFile(BASE_PATH + path)
+    myFixture.enableInspections(inspector)
+    myFixture.testHighlighting(true, false, true)
+  }
+
+  private fun doJavaInspectionTest(path: String) {
+    doTestGlobalInspection(path, JavaFormatInspection())
+  }
+
+  private fun doKotlinInspectionTest(path: String) {
+    val inspector = KotlinFormatInspection()
+    doInspectionTest(path, inspector)
+  }
+
+  private fun doTestGlobalInspection(path: String, inspection: LocalInspectionTool) {
+    val problemDescriptors = getGlobalInspectionResults(path, inspection)
     for (problem in problemDescriptors) {
       if (problem is ProblemDescriptorBase) {
         println(buildProblemMessage(problem))
@@ -122,13 +128,22 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     }
   }
 
-  private fun getGlobalInspectionResults(testDir: String, inspection: LocalInspectionTool): Collection<CommonProblemDescriptor> {
+  private fun getGlobalInspectionResults(path: String, inspection: LocalInspectionTool): Collection<CommonProblemDescriptor> {
     val toolWrapper = LocalInspectionToolWrapper(inspection)
-    myFixture.testDataPath = testDir
-    val sourceDir = myFixture.copyDirectoryToProject("src", "src")
-    val psiDirectory = myFixture.psiManager.findDirectory(sourceDir)
-        ?: throw AssertionError("Could not find $sourceDir")
-    val scope = AnalysisScope(psiDirectory)
+    myFixture.testDataPath = "testData"
+    val file = File(myFixture.testDataPath + File.separator + path)
+    val sourceDir = if (file.isFile) {
+      myFixture.psiManager.findFile(myFixture.copyFileToProject(path, path.replace(file.name, "")))
+          ?: throw AssertionError("Could not find $file")
+    } else {
+      myFixture.psiManager.findDirectory(myFixture.copyDirectoryToProject(path, path))
+          ?: throw AssertionError("Could not find $file")
+    }
+    val scope = if (sourceDir is PsiDirectory) {
+      AnalysisScope(sourceDir)
+    } else {
+      AnalysisScope(sourceDir as PsiFile)
+    }
     scope.invalidate()
     val globalContext = createGlobalContextForTool(scope, project, listOf(toolWrapper))
     InspectionTestUtil.runTool(toolWrapper, scope, globalContext)
@@ -138,7 +153,7 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
 
   companion object {
 
-    const val BASE_PATH = "testData/src/error/"
+    const val BASE_PATH = "testData/src/"
 
   }
 

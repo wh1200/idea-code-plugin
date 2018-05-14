@@ -12,6 +12,7 @@ import com.intellij.psi.codeStyle.arrangement.ArrangementUtil
 import com.intellij.psi.codeStyle.arrangement.DefaultArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
 import com.intellij.psi.util.PsiUtil
+import com.intellij.util.Functions
 import com.intellij.util.containers.ContainerUtil
 import com.intellij.util.containers.ContainerUtilRt
 import com.intellij.util.containers.Stack
@@ -40,10 +41,15 @@ import com.wuhao.code.check.style.KotlinModifier.PRIVATE
 import com.wuhao.code.check.style.KotlinModifier.PROTECTED
 import com.wuhao.code.check.style.KotlinModifier.PUBLIC
 import com.wuhao.code.check.style.KotlinModifier.SEALED
+import org.jetbrains.kotlin.descriptors.FunctionDescriptor
+import org.jetbrains.kotlin.descriptors.PropertyDescriptor
+import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
 import org.jetbrains.kotlin.lexer.KtModifierKeywordToken
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlin.psi.psiUtil.visibilityModifier
+import org.jetbrains.kotlin.resolve.source.getPsi
 import java.util.*
 
 /**
@@ -61,6 +67,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     } else {
       myStack.peek()
     }
+  private val myCachedClassFields = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
   private val myEntries = HashMap<PsiElement, KotlinElementArrangementEntry>()
   private val myMethodBodyProcessor: MethodBodyProcessor = MethodBodyProcessor()
   private val myObjectBodyProcessor: ObjectBodyProcessor = ObjectBodyProcessor()
@@ -216,6 +223,10 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     val entry = createNewEntry(property, range, PROPERTY, property.name, true) ?: return
     processEntry(entry, property, property.initializer)
     myInfo.onFieldEntryCreated(property, entry)
+    val referencedFields = getReferencedFields(property)
+    for (referencedField in referencedFields) {
+      myInfo.registerFieldInitializationDependency(property, referencedField)
+    }
   }
 
   override fun visitSecondaryConstructor(constructor: KtSecondaryConstructor, data: Any?) {
@@ -269,6 +280,53 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       e = e.nextSibling
     }
     return element.textRange.endOffset
+  }
+
+  private fun getReferencedFields(field: KtProperty): List<KtProperty> {
+    val referencedElements = ArrayList<KtProperty>()
+
+    val fieldInitializer = field.initializer
+    val containingClass = field.containingClass()
+
+    if (fieldInitializer == null || containingClass == null) {
+      return referencedElements
+    }
+
+    var classFields: Set<KtProperty>? = myCachedClassFields[containingClass]
+    if (classFields == null) {
+      classFields = ContainerUtil.map2Set(containingClass.getProperties(), Functions.id())
+      myCachedClassFields[containingClass] = classFields
+    }
+
+    val containingClassFields = classFields
+    fieldInitializer.accept(object : KotlinRecursiveVisitor() {
+
+      internal var myCurrentMethodLookupDepth: Int = 0
+      private val MAX_METHOD_LOOKUP_DEPTH = 3
+
+      override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?) {
+        val refs = expression.resolveMainReferenceToDescriptors()
+        val scope = expression.resolveScope
+        refs.forEach { ref ->
+          if (ref is PropertyDescriptor) {
+            val psi = ref.source.getPsi()
+            if (psi is KtProperty && containingClassFields.contains(psi)) {
+              referencedElements.add(psi)
+            }
+          } else if (ref is FunctionDescriptor) {
+            val psi = ref.source.getPsi()
+            if (psi is KtNamedFunction && myCurrentMethodLookupDepth < MAX_METHOD_LOOKUP_DEPTH) {
+              myCurrentMethodLookupDepth++
+              visitNamedFunction(psi, data)
+              myCurrentMethodLookupDepth--
+            }
+          }
+        }
+        super.visitReferenceExpression(expression, data)
+      }
+
+    })
+    return referencedElements
   }
 
   private fun isWithinBounds(range: TextRange): Boolean {

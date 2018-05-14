@@ -9,6 +9,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.arrangement.*
+import com.intellij.psi.codeStyle.arrangement.engine.ArrangementEngine
 import com.intellij.psi.codeStyle.arrangement.group.ArrangementGroupingRule
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementEntryMatcher
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementMatchRule
@@ -76,7 +77,30 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
     // Following entries are subject to arrangement: class, property, function, interface.
     val parseInfo = KotlinArrangementParseInfo()
     root.accept(KotlinArrangementVisitor(parseInfo, document, ranges, settings))
+    val fieldDependencyRoots = parseInfo.getFieldDependencyRoots()
+    if (!fieldDependencyRoots.isEmpty()) {
+      setupFieldInitializationDependencies(fieldDependencyRoots, settings, parseInfo)
+    }
     return parseInfo.entries
+  }
+
+  fun setupFieldInitializationDependencies(fieldDependencyRoots: List<KotlinArrangementEntryDependencyInfo>,
+                                           settings: ArrangementSettings,
+                                           parseInfo: KotlinArrangementParseInfo) {
+    val fields = parseInfo.getFields()
+    val arrangedFields = ArrangementEngine.arrange(fields, settings.sections, settings.rulesSortedByPriority, null)
+
+    for (root in fieldDependencyRoots) {
+      val anchorField = root.anchorEntry
+      val anchorEntryIndex = arrangedFields.indexOf(anchorField)
+
+      for (fieldInInitializerInfo in root.dependentEntriesInfos) {
+        val fieldInInitializer = fieldInInitializerInfo.anchorEntry
+        if (arrangedFields.indexOf(fieldInInitializer) > anchorEntryIndex) {
+          anchorField.addDependency(fieldInInitializer)
+        }
+      }
+    }
   }
 
   override fun parseWithNew(

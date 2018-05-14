@@ -160,6 +160,9 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
 
   override fun visitProperty(property: KtProperty, data: Any?) {
     val isSectionCommentsDetected = registerSectionComments(property)
+    if (property.isLocal || property.isTopLevel) {
+      return
+    }
     // There is a possible case that fields which share the same type declaration are located on different document lines, e.g.:
     //    int i1,
     //        i2;

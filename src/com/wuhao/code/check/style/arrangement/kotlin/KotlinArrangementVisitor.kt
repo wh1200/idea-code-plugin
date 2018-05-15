@@ -49,6 +49,7 @@ import org.jetbrains.kotlin.lexer.KtModifierKeywordToken
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.containingClass
+import org.jetbrains.kotlin.psi.psiUtil.containingClassOrObject
 import org.jetbrains.kotlin.psi.psiUtil.visibilityModifier
 import org.jetbrains.kotlin.resolve.source.getPsi
 import java.util.*
@@ -71,14 +72,14 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
   private val myCachedClassProperties = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
   private val myCachedCompanionClassProperties = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
   private val myEntries = HashMap<PsiElement, KotlinElementArrangementEntry>()
-  private val myMethodBodyProcessor: MethodBodyProcessor = MethodBodyProcessor()
-  private val myObjectBodyProcessor: ObjectBodyProcessor = ObjectBodyProcessor()
-  private val myProcessedSectionsComments = ContainerUtil.newHashSet<PsiComment>()
   private val mySectionDetector: ArrangementSectionDetector = ArrangementSectionDetector(myDocument, settings) { data ->
     val range = data.textRange
     val entry = KotlinSectionArrangementEntry(current, data.token, range, data.text, true)
     registerEntry(data.element, entry)
   }
+  private val myMethodBodyProcessor: MethodBodyProcessor = MethodBodyProcessor()
+  private val myObjectBodyProcessor: ObjectBodyProcessor = ObjectBodyProcessor()
+  private val myProcessedSectionsComments = ContainerUtil.newHashSet<PsiComment>()
   private val myStack = Stack<KotlinElementArrangementEntry>()
 
   override fun visitClass(clazz: KtClass, data: Any?) {
@@ -280,27 +281,34 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     val referencedElements = ArrayList<KtProperty>()
     val propertyInitializer = property.initializer
     val containingClass = property.containingClass()
-    if (propertyInitializer == null || containingClass == null) {
+    val containingObject = property.containingClassOrObject
+    if (propertyInitializer == null || (containingClass == null && containingObject == null)) {
       return referencedElements
     }
-    val isCompanionProperty = property.isCompanionMemberOf(containingClass)
-    val classProperties = if (isCompanionProperty) {
-      var classProperties: Set<KtProperty>? = myCachedCompanionClassProperties[containingClass]
-      if (classProperties == null) {
-        classProperties = ContainerUtil.map2Set(containingClass.companionObjects.mapNotNull {
-          it.getBody()?.properties
-        }.flatten(), Functions.id())
-        myCachedCompanionClassProperties[containingClass] = classProperties
-      }
-      classProperties
-    } else {
-      var classProperties: Set<KtProperty>? = myCachedClassProperties[containingClass]
-      if (classProperties == null) {
-        classProperties = ContainerUtil.map2Set(containingClass.getProperties(), Functions.id())
-        myCachedClassProperties[containingClass] = classProperties
-      }
-      classProperties
+    val isCompanionProperty = when {
+      containingClass != null -> property.isCompanionMemberOf(containingClass)
+      else -> false
     }
+    val classProperties =
+        if (containingObject is KtObjectDeclaration) {
+          containingObject.getBody()?.properties ?: setOf()
+        } else if (isCompanionProperty) {
+          var classProperties: Set<KtProperty>? = myCachedCompanionClassProperties[containingClass]
+          if (classProperties == null) {
+            classProperties = ContainerUtil.map2Set(containingClass!!.companionObjects.mapNotNull {
+              it.getBody()?.properties
+            }.flatten(), Functions.id())
+            myCachedCompanionClassProperties[containingClass] = classProperties
+          }
+          classProperties
+        } else {
+          var classProperties: Set<KtProperty>? = myCachedClassProperties[containingClass]
+          if (classProperties == null) {
+            classProperties = ContainerUtil.map2Set(containingClass!!.getProperties(), Functions.id())
+            myCachedClassProperties[containingClass] = classProperties
+          }
+          classProperties
+        }
     propertyInitializer.accept(object : KotlinRecursiveVisitor() {
 
       internal var myCurrentMethodLookupDepth: Int = 0

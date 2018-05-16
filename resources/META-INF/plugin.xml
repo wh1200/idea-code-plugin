@@ -85,8 +85,12 @@
   </extensions>
 
   <actions>
-    <action id="CreateVueProject" class="com.wuhao.code.check.action.CreateVueProjectAction" text="Aegis Vue Project"
+    <action id="CreateVueProject" class="com.wuhao.code.check.action.CreateVueProjectAction" text="擎盾VueJS项目"
             description="新建Vue项目">
+      <add-to-group group-id="NewGroup" anchor="first"/>
+    </action>
+    <action id="CreateJavaKotlinProject" class="com.wuhao.code.check.action.CreateJavaKotlinProjectAction"
+            text="擎盾Java&amp;Kotlin项目" description="新建Vue项目">
       <add-to-group group-id="NewGroup" anchor="first"/>
     </action>
   </actions>

@@ -5,67 +5,25 @@ package com.wuhao.code.check.action
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
-import com.intellij.ide.actions.OpenProjectFileChooserDescriptor
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.fileChooser.FileChooser
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.InputValidator
-import com.intellij.openapi.ui.Messages
-import com.intellij.openapi.vfs.LocalFileSystem
-import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.platform.PlatformProjectOpenProcessor
-import com.wuhao.code.check.http.HttpRequest
-import com.wuhao.code.check.ui.PluginSettings
-import java.io.ByteArrayInputStream
 import java.io.File
-import java.util.zip.ZipInputStream
 
 
 /**
+ * 根据模板创建vue项目
  * Created by 吴昊 on 18-4-24.
+ * @author 吴昊
+ * @since 1.0
  */
-class CreateVueProjectAction : AnAction() {
+class CreateVueProjectAction : CreateProjectAction() {
 
-  private var pluginSettings = PluginSettings.instance
+  override fun getTemplateUrl(): String {
+    return pluginSettings.vueTemplateUrl
+  }
 
-  override fun actionPerformed(e: AnActionEvent) {
-    val newProjectName = Messages.showInputDialog(e.project, "输入项目名称", "输入", null,
-        null, object : InputValidator {
-
-      override fun checkInput(input: String?): Boolean {
-        return !File("${File(e.project!!.baseDir.path).parentFile.absolutePath}/$input").exists()
-      }
-
-      override fun canClose(input: String?): Boolean {
-        return true
-      }
-
-    })
-    if (newProjectName != null) {
-      val newProjectRoot = File("${File(e.project!!.baseDir.path).parentFile.absolutePath}/$newProjectName")
-      if (newProjectRoot.exists()) {
-        Messages.showErrorDialog("${newProjectRoot.absolutePath}已存在", "错误")
-      } else {
-        val httpResult = HttpRequest.newGet(pluginSettings.vueTemplateUrl)
-            .withHeader("Private-Token", pluginSettings.gitPrivateToken).execute()
-        if (httpResult.bytes == null) {
-          Messages.showErrorDialog(httpResult.response, "下载模板出错")
-        } else {
-          unzip(httpResult.bytes!!, newProjectRoot)
-          modifyPackageJson(newProjectRoot, newProjectName)
-          createConfig(newProjectRoot, newProjectName)
-          val descriptor = OpenProjectFileChooserDescriptor(false)
-          val project = e.getData(CommonDataKeys.PROJECT) as Project
-          val vs = LocalFileSystem.getInstance().findFileByIoFile(newProjectRoot)
-          FileChooser.chooseFiles(descriptor, project, vs) { var1x ->
-            PlatformProjectOpenProcessor.getInstance()
-                .doOpenProject(var1x[0] as VirtualFile, project, true)
-          }
-        }
-      }
-    }
+  override fun onCreated(event: AnActionEvent, prepareCreateInfo: PrepareInfo) {
+    modifyPackageJson(prepareCreateInfo.projectRoot, prepareCreateInfo.projectName)
+    createConfig(prepareCreateInfo.projectRoot, prepareCreateInfo.projectName)
   }
 
   private fun createConfig(newProjectRoot: File, newProjectName: String?) {
@@ -97,26 +55,6 @@ class CreateVueProjectAction : AnAction() {
     el.asJsonObject.addProperty("name", newProjectName)
     val gson = GsonBuilder().setPrettyPrinting().create()
     packageJsonFile.writeText(gson.toJson(el))
-  }
-
-  @Throws(Exception::class)
-  private fun unzip(bytes: ByteArray, unzipFileDir: File) {
-    if (!unzipFileDir.exists() || !unzipFileDir.isDirectory) {
-      unzipFileDir.mkdirs()
-    }
-    val zip = ZipInputStream(ByteArrayInputStream(bytes))
-    var entry = zip.nextEntry
-    while (entry != null) {
-      val entryFilePath = unzipFileDir.absolutePath + File.separator + entry.name.split(File.separator)
-          .drop(n = 1).joinToString(File.separator)
-      val entryFile = File(entryFilePath)
-      if (entry.isDirectory) {
-        entryFile.mkdirs()
-      } else {
-        entryFile.writeBytes(zip.readBytes())
-      }
-      entry = zip.nextEntry
-    }
   }
 
 }

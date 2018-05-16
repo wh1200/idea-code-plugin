@@ -30,6 +30,10 @@ const val JUNIT_TEST_ANNOTATION_CLASS_NAME = "org.junit.Test"
  */
 const val DEFAULT_VUE_TEMPLATE_URL = "http://git2.aegis-info.com/template/aegis-vue-template/repository/archive.zip?ref=master"
 
+/**
+ * 默认的java&kotlin项目模板git地址
+ */
+const val DEFAULT_JAVA_KOTLIN_TEMPLATE_URL = "http://git2.aegis-info.com/template/JavaKotlinTemplate/repository/archive.zip?ref=master"
 
 /**
  * 注册元素错误提示信息

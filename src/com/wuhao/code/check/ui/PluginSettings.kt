@@ -7,6 +7,7 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
+import com.wuhao.code.check.DEFAULT_JAVA_KOTLIN_TEMPLATE_URL
 import com.wuhao.code.check.DEFAULT_VUE_TEMPLATE_URL
 import com.wuhao.code.check.ui.PluginSettings.Companion.CONFIG_NAME
 import org.jdom.Element
@@ -26,6 +27,13 @@ class PluginSettings : PersistentStateComponent<Element> {
   var email: String = ""
   var gitPrivateToken: String = ""
   var javaKotlinTemplateUrl: String = ""
+    get() {
+      return if (field.isEmpty()) {
+        DEFAULT_JAVA_KOTLIN_TEMPLATE_URL
+      } else {
+        field
+      }
+    }
   var reactTemplateUrl: String = ""
   var user: String = ""
   var vueTemplateUrl: String = ""
@@ -61,8 +69,9 @@ class PluginSettings : PersistentStateComponent<Element> {
     val instance: PluginSettings
       get() = ServiceManager.getService(PluginSettings::class.java) as PluginSettings
 
-    val nullableInstance:PluginSettings?
+    val nullableInstance: PluginSettings?
       get() = ServiceManager.getService(PluginSettings::class.java)
+
   }
 
 }

@@ -1,46 +1,61 @@
-## 简介
+## Introduction
 
-本项目是一个Intelli IDEAJ插件
-最初是为公司统一编程规范创建的，主要提交一些ide未能提供的代码检查，以及一些方便开发的功能，同时包含对Java以及Kotlin的支持，以及前端框架VueJS的支持
+The contents following are written in Chinese and translated by google translate.
 
-项目包含的功能可能有些杂，并不能在项目名称中体现出来，所以随便起了一个名字
+This project is an Intelli IDEAJ plugin
+Initially created for the company's unified programming specification, it mainly submits some code checks that IDE failed to provide, as well as some convenient development features. It also includes support for Java and Kotlin, as well as support for the front-end framework VueJS.
 
-本项目原本用于公司内部使用，开源的主要目的是想让大家能够提供一些问题检查和建议
+The functions contained in the project may be somewhat complicated and cannot be reflected in the project name, so a name is casually used.
 
-该项目中的文字提示信息均采用了中文
-
-## 功能介绍
-
-### 编码检查
-- 检查文件的编码如果不是UTF-8时，进行错误提示
-
-### 缩进检查
-- 缩减检查为检查ide的code style配置，检查的范围为java、kotlin、javascript、typescript、vue
-
-### Java&Kotlin相关
-- java文件或kt文件的长度不能超过 800 行，否则提示错误
-- 类方法不得超过 100 行，否则提示错误
-- 类必须添加注释，否则提示错误
-- 接口方法必须添加注释，否则提示错误
-- 直接使用数字作为参数提示错误，提供的代码修正功能可以将参数提取为变量
-- 增加了空格检查以及修复
-- 增加java类的字段和方法排序以及空白行修正
-- 启动项目时默认打开格式化代码时同时组织import和代码重排的选项（Java语言） v1.2.6
-
-### Spring相关
-- 在类中使用@Value注解引入spring的环境变量时，对spring boot默认配置文件application.yml(暂不支持properties文件)的内容作了代码提示
-- 在类中使用@Value注解引入spring的环境变量，可以使用查找声明的方式跳转到application.yml中对应的配置项
-
-### 前端相关
-- .vue文件在格式化的时候，模板中的标签属性会重新进行排序，且每个属性占一行
-- .vue文件在格式化的时候，模板中的标签属性以v-或:开头，对属性值进行格式化
-- .vue文件中模板部分（template标签部分）的长度不得超过150行，超过时请进行组件拆分
+This project was originally used for internal use by the company. The main purpose of open source is to let everyone provide some questions for inspection and suggestions.
 
 
-## 构建
+## Features
 
-复制项目代码到本地，使用idea打开项目，配置IntelliJ Platform Plugin SDK，并在SDK的Classpath配置中增加以下内容：
-/Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/lib/javascript-openapi.jar
+### Mandatory style
+- Some mandatory presets for code styles at project startup, including indentation and encoding
+- Forced code rearrangement
+- Write some file templates by default (Kotlin)
+
+### Encoding Check
+- Check the file encoding is UTF-8 or not.
+
+### Indent check
+- Indent check for checking code style configuration of IDE, included languages are java, kotlin, javascript, 
+typescript, vue etc.
+- Normal indentation is set to 2 spaces, and continuous indentation is twice as long as normal indentation. It is 4 
+spaces.
+
+### Java & Kotlin related
+- The line count of a .java file or .kt file is limited to **800** lines.
+- The line count of java method or kotlin function is limited to **100** lines.
+- The class must add a document comment with @author and @since tags.
+- The interface method must add a document comment.
+- Direct use of numbers as arguments is forbidden(check for numbers great than 10), provided code correction function can extract parameters as variables
+- Added space check and fix
+- Increase the sorting of fields and methods of java classes and blank line corrections
+- Completely new kotlin code rearrangement function.
+- Options for organizing import and code rearrangement when the formatting code is turned on by default when starting the project (Java language) v1.2.6
+- Except for the JUnit test class, it is not allowed to use "System.out.println" or "System.err.println" or "println"
+ in kotlin for console output. The output should always uses the log and provides the repair function. The default is
+  to use slf4j.
+
+### Spring Framework Related
+- When using the "@Value" annotation in a class to import spring's environment variables, code hints are given for 
+the contents of spring boot's default configuration file application.yml (temporarily not supporting properties file).
+- Use the "@Value" annotation in the class to introduce spring's environment variable, you can use the find statement to jump to the corresponding configuration item in application.yml
+
+### Front End Related
+- When the .vue file is formatted, the label attributes in the template are reordered, one line per attribute.
+- When the .vue file is formatted, the label property in the template starts with v- or: and the property value is 
+formatted.
+- The length of the template part (template tag part) in the .vue file must not exceed 150 lines.
+- .vue file template, if the property value is a complex expression, can be extracted as a calculated property.
+
+
+## Build
+
+Copy the project code to the local, open the project using idea, configure the IntelliJ Platform Plugin SDK, and add the following in the Classpath configuration of the SDK:/Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/lib/javascript-openapi.jar
 /Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar
 /Applications/IntelliJ IDEA.app/Contents/plugins/Kotlin/lib/kotlin-plugin.jar
 /Applications/IntelliJ IDEA.app/Contents/plugins/Spring/lib/spring.jar
@@ -55,5 +70,8 @@
 /Applications/IntelliJ IDEA.app/Contents/plugins/SpringBoot/lib/spring-boot-run.jar
 /Users/wuhao/Library/Application Support/IntelliJIdea2018.1/vuejs/lib/vuejs.jar
 /Applications/IntelliJ IDEA.app/Contents/plugins/yaml/lib/yaml.jar
-然后选择 Build - Prepare Plugin Module For Deployment，构建完成之后在项目目录下会生成zip文件，该文件即为idea插件的安装文件
 
+Then select Build - Prepare Plugin Module For Deployment. After the build is completed, a zip file will be generated in the project directory. The file is the installation file for the idea plug-in.
+
+> Note that the VueJS plugin is located in the user plugin installation directory instead of the IDEA installation 
+directory. For Mac users, the plugin directory is in path of "~/Library/Application Support/Intellij IDEA/".

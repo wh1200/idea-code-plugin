@@ -15,6 +15,7 @@ import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.After
 import com.wuhao.code.check.inspection.fix.kotlin.ExtractConstantToPropertyFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommaFix
+import com.wuhao.code.check.inspection.fix.kotlin.KotlinConsolePrintFix
 import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor.Companion.shouldHaveSpaceBeforeOrAfter
 import org.jetbrains.kotlin.KtNodeTypes.*
 import org.jetbrains.kotlin.asJava.toLightAnnotation
@@ -110,7 +111,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
             }
           }
       ) {
-        holder.registerError(expression, "使用日志向控制台输出")
+        holder.registerError(expression, "使用日志向控制台输出", KotlinConsolePrintFix())
       }
     }
   }

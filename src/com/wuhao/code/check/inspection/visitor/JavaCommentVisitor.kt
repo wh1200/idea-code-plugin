@@ -10,7 +10,7 @@ import com.intellij.lang.jvm.JvmModifier
 import com.intellij.psi.*
 import com.intellij.psi.javadoc.PsiDocComment
 import com.wuhao.code.check.Messages
-import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix
+import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix
 import com.wuhao.code.check.registerError
 
 /**

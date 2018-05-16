@@ -44,7 +44,7 @@
   -->
 
   <extensions defaultExtensionNs="com.intellij">
-    <postStartupActivity implementation="com.wuhao.code.check.PostStart"/>
+    <postStartupActivity implementation="com.wuhao.code.check.PluginStart"/>
     <lang.rearranger language="kotlin"
                      implementationClass="com.wuhao.code.check.style.arrangement.kotlin.KotlinRearranger"/>
     <lang.rearranger language="Vue"

@@ -1,7 +1,7 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.inspection.fix
+package com.wuhao.code.check.inspection.fix.java
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
@@ -10,13 +10,8 @@ import com.intellij.psi.PsiExpressionStatement
 import com.intellij.psi.PsiField
 import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.PsiMethodCallExpression
-import com.intellij.psi.impl.PsiElementFactoryImpl
-import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.psi.util.parents
-import com.wuhao.code.check.PROPERTY_NAME_PLACEHOLDER
-import com.wuhao.code.check.getNewLine
-import com.wuhao.code.check.insertElementBefore
-import com.wuhao.code.check.renameElement
+import com.wuhao.code.check.*
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
 /**
@@ -29,7 +24,7 @@ class ExtractToVariableFix : LocalQuickFix {
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val el = descriptor.endElement as PsiLiteralExpression
-    val factory = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(el.project))
+    val factory = el.psiFactory
     val name = resolveParameterName(el)
     val statement = el.parents().firstOrNull { it is PsiExpressionStatement || it is PsiField }
     if (statement != null) {

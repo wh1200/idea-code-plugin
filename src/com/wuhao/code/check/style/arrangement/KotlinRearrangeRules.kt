@@ -46,32 +46,32 @@ object KotlinRearrangeRules : BaseRules() {
         RuleDescription(listOf(PROPERTY, INTERNAL, LATEINIT), BY_NAME),
         RuleDescription(listOf(PROPERTY, PROTECTED, LATEINIT), BY_NAME),
         RuleDescription(listOf(PROPERTY, PRIVATE, LATEINIT), BY_NAME),
+
+        RuleDescription(COMPANION_OBJECT, BY_NAME),
+        RuleDescription(listOf(COMPANION_OBJECT, PRIVATE), BY_NAME),
+
         RuleDescription(INIT_BLOCK, BY_NAME),
+
         RuleDescription(SECONDARY_CONSTRUCTOR, BY_NAME),
         RuleDescription(ENUM_ENTRY, BY_NAME),
         RuleDescription(listOf(FUNCTION, OPEN), BY_NAME),
         RuleDescription(listOf(FUNCTION, OPEN, INTERNAL), BY_NAME),
         RuleDescription(listOf(FUNCTION, OPEN, PROTECTED), BY_NAME),
         RuleDescription(listOf(FUNCTION, OPEN, PRIVATE), BY_NAME),
-        RuleDescription(listOf(FUNCTION, OPEN, LATEINIT), BY_NAME),
-        RuleDescription(listOf(FUNCTION, OPEN, INTERNAL, LATEINIT), BY_NAME),
-        RuleDescription(listOf(FUNCTION, OPEN, PROTECTED, LATEINIT), BY_NAME),
-        RuleDescription(listOf(FUNCTION, OPEN, PRIVATE, LATEINIT), BY_NAME),
+        RuleDescription(listOf(FUNCTION, OPEN), BY_NAME),
+        RuleDescription(listOf(FUNCTION, OPEN, INTERNAL), BY_NAME),
+        RuleDescription(listOf(FUNCTION, OPEN, PROTECTED), BY_NAME),
+        RuleDescription(listOf(FUNCTION, OPEN, PRIVATE), BY_NAME),
         RuleDescription(FUNCTION, BY_NAME),
         RuleDescription(listOf(FUNCTION, INTERNAL), BY_NAME),
         RuleDescription(listOf(FUNCTION, PROTECTED), BY_NAME),
         RuleDescription(listOf(FUNCTION, PRIVATE), BY_NAME),
-        RuleDescription(listOf(FUNCTION, LATEINIT), BY_NAME),
-        RuleDescription(listOf(FUNCTION, INTERNAL, LATEINIT), BY_NAME),
-        RuleDescription(listOf(FUNCTION, PROTECTED, LATEINIT), BY_NAME),
-        RuleDescription(listOf(FUNCTION, PRIVATE, LATEINIT), BY_NAME),
 
         RuleDescription(INNER, BY_NAME),
         RuleDescription(INTERFACE, BY_NAME),
         RuleDescription(OBJECT, BY_NAME),
         RuleDescription(DATA_CLASS, BY_NAME),
-        RuleDescription(CLASS, BY_NAME),
-        RuleDescription(COMPANION_OBJECT, BY_NAME)
+        RuleDescription(CLASS, BY_NAME)
     )
   }
 

@@ -1,7 +1,7 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.inspection.fix
+package com.wuhao.code.check.inspection.fix.java
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
@@ -21,7 +21,7 @@ import org.jetbrains.uast.getContainingClass
  * @author
  * @since
  */
-class ConsolePrintFix : LocalQuickFix {
+class JavaConsolePrintFix : LocalQuickFix {
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val el = descriptor.endElement
@@ -35,8 +35,8 @@ class ConsolePrintFix : LocalQuickFix {
           val importList = file.importList
           if (importList != null) {
             val imports = importList.allImportStatements.toList()
-            val hasLogImport = imports.any { it.importReference?.text == logPreference }
-            val hasLogFactoryImport = imports.any { it.importReference?.text == logFactoryPreference }
+            val hasLogImport = imports.any { it.importReference?.text == LOG_PREFERENCE }
+            val hasLogFactoryImport = imports.any { it.importReference?.text == LOG_FACTORY_PREFERENCE }
             val newImportList = createImportList(project)
             if (!hasLogImport) {
               importList.add(newImportList.importStatements[0])
@@ -45,7 +45,7 @@ class ConsolePrintFix : LocalQuickFix {
               importList.add(newImportList.importStatements[1])
             }
             val fieldString = "private static final Logger $LOG_FIELD_NAME " +
-                "= LoggerFactory.getLogger(${clazz.nameIdentifier?.text}.class)"
+                "= LoggerFactory.getLogger(${clazz.nameIdentifier?.text}.class);"
             val field = factory.createFieldFromText(fieldString, clazz)
             clazz.lBrace!!.apply {
               insertElementAfter(field)
@@ -54,10 +54,10 @@ class ConsolePrintFix : LocalQuickFix {
           }
         }
       }
-      if (el.firstChild.text.startsWith(printDeclaration)) {
+      if (el.firstChild.text.startsWith(PRINT_DECLARATION)) {
         el.firstChild.replace(factory.createExpressionFromText("$LOG_FIELD_NAME.info", null))
       } else {
-        if (el.firstChild.text.startsWith(errorDeclaration)) {
+        if (el.firstChild.text.startsWith(ERROR_DECLARATION)) {
           el.firstChild.replace(factory.createExpressionFromText("$LOG_FIELD_NAME.error", null))
         }
       }
@@ -71,19 +71,19 @@ class ConsolePrintFix : LocalQuickFix {
   private fun createImportList(project: Project): PsiImportList {
     return (PsiFileFactory.getInstance(project).createFileFromText(
         "Dummy", JavaFileType.INSTANCE,
-        """import $logPreference;
-                  |import $logFactoryPreference;
+        """import $LOG_PREFERENCE;
+                  |import $LOG_FACTORY_PREFERENCE;
                 """.trimMargin()
     ) as PsiJavaFile).importList!!
   }
 
   companion object {
 
-    private const val LOG_FIELD_NAME = "LOG"
-    private const val errorDeclaration = "System.err.print"
-    private const val logFactoryPreference = "org.slf4j.LoggerFactory"
-    private const val logPreference = "org.slf4j.Logger"
-    private const val printDeclaration = "System.out.print"
+    const val LOG_FACTORY_PREFERENCE = "org.slf4j.LoggerFactory"
+    const val LOG_FIELD_NAME = "LOG"
+    const val LOG_PREFERENCE = "org.slf4j.Logger"
+    const val ERROR_DECLARATION = "System.err.print"
+    private const val PRINT_DECLARATION = "System.out.print"
 
   }
 

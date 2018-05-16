@@ -5,6 +5,7 @@ package com.wuhao.code.check
 
 import com.intellij.application.options.CodeStyle
 import com.intellij.codeInsight.actions.LastRunReformatCodeOptionsProvider
+import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.ide.util.PropertiesComponent
@@ -38,6 +39,7 @@ import com.wuhao.code.check.style.arrangement.JavaRearrangeRules
 import com.wuhao.code.check.style.arrangement.KotlinRearrangeRules
 import com.wuhao.code.check.style.arrangement.RuleDescription
 import com.wuhao.code.check.style.arrangement.VueRearrangeRules
+import com.wuhao.code.check.template.KotlinTemplates
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueFileType
@@ -48,7 +50,7 @@ import org.jetbrains.vuejs.VueLanguage
  * @author 吴昊
  * @since 1.2.6
  */
-class PostStart : StartupActivity {
+class PluginStart : StartupActivity {
 
   override fun runActivity(project: Project) {
     // 强制启用java代码重排和import重新组织的功能
@@ -61,6 +63,7 @@ class PostStart : StartupActivity {
     setLanguageArrangeSettings(myLastRunSettings, settings, VueLanguage.INSTANCE, createVueSettings())
     // 设定代码缩进
     setIndent(settings)
+    setTemplates(project)
   }
 
   private fun createJavaSettings(): StdArrangementSettings {
@@ -152,6 +155,14 @@ class PostStart : StartupActivity {
     settings.getCommonSettings(language).apply {
       setArrangementSettings(createSettings)
     }
+  }
+
+  private fun setTemplates(project: Project) {
+    val fileTemplateManager = FileTemplateManager.getInstance(project)
+    fileTemplateManager.getInternalTemplate("Kotlin File")?.text = KotlinTemplates.file
+    fileTemplateManager.getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.klass
+    fileTemplateManager.getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.enum
+    fileTemplateManager.getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.inter
   }
 
   companion object {

@@ -9,10 +9,10 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.util.IncorrectOperationException
-import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix.Companion.BLOCK_COMMENT_END
-import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix.Companion.BLOCK_COMMENT_START
-import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix.Companion.BLOCK_COMMENT_STRING
-import com.wuhao.code.check.inspection.fix.JavaBlockCommentFix.Companion.CLASS_COMMENT
+import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_END
+import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_START
+import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_STRING
+import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.CLASS_COMMENT
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFunction
 import org.jetbrains.kotlin.psi.KtObjectDeclaration

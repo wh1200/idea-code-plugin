@@ -79,14 +79,12 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
     root.accept(KotlinArrangementVisitor(parseInfo, document, ranges, settings))
     val propertyDependencyRoots = parseInfo.getPropertyDependencyRoots()
     if (!propertyDependencyRoots.isEmpty()) {
-      setupPropertyInitializationDependencies(propertyDependencyRoots, settings, parseInfo)
+      setupPropertyInitializationDependencies(propertyDependencyRoots)
     }
     return parseInfo.entries
   }
 
-  private fun setupPropertyInitializationDependencies(propertyDependencyRoots: List<KotlinArrangementEntryDependencyInfo>,
-                                                      settings: ArrangementSettings,
-                                                      parseInfo: KotlinArrangementParseInfo) {
+  private fun setupPropertyInitializationDependencies(propertyDependencyRoots: List<KotlinArrangementEntryDependencyInfo>) {
     val dependencyMap = propertyDependencyRoots.associateBy({ it }, { it.dependentEntriesInfos })
     for (root in propertyDependencyRoots) {
       val anchorProperty = root.anchorEntry

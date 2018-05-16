@@ -10,8 +10,8 @@ import com.intellij.psi.*
 import com.intellij.psi.JavaTokenType.*
 import com.wuhao.code.check.*
 import com.wuhao.code.check.inspection.CodeFormatInspection
-import com.wuhao.code.check.inspection.fix.ConsolePrintFix
-import com.wuhao.code.check.inspection.fix.ExtractToVariableFix
+import com.wuhao.code.check.inspection.fix.java.ExtractToVariableFix
+import com.wuhao.code.check.inspection.fix.java.JavaConsolePrintFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.Before
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
@@ -90,7 +90,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
             }
           }
       ) {
-        holder.registerError(expression, "使用日志向控制台输出", ConsolePrintFix())
+        holder.registerError(expression, "使用日志向控制台输出", JavaConsolePrintFix())
       }
     }
   }

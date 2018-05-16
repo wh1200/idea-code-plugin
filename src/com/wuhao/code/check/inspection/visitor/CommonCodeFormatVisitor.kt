@@ -19,7 +19,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.JavaCodeStyleSettings
 import com.wuhao.code.check.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
 import com.wuhao.code.check.DEFAULT_INDENT_SPACE_COUNT
-import com.wuhao.code.check.PostStart
+import com.wuhao.code.check.PluginStart
 import com.wuhao.code.check.registerError
 import org.apache.xmlbeans.XmlLanguage
 import org.jetbrains.kotlin.idea.KotlinLanguage
@@ -69,7 +69,7 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
         val indentFix = object : LocalQuickFix {
 
           override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-            PostStart.setIndent(element.fileType, element.language, CodeStyle.getSettings(element.project))
+            PluginStart.setIndent(element.fileType, element.language, CodeStyle.getSettings(element.project))
           }
 
           override fun getFamilyName(): String {

@@ -6,13 +6,9 @@ package com.wuhao.code.check.inspection.fix.java
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiExpressionStatement
-import com.intellij.psi.PsiField
-import com.intellij.psi.PsiLiteralExpression
-import com.intellij.psi.PsiMethodCallExpression
+import com.intellij.psi.*
 import com.intellij.psi.util.parents
 import com.wuhao.code.check.*
-import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
 /**
  * 将方法直接引用的数值或字符串参数提取为变量
@@ -48,12 +44,15 @@ class ExtractToVariableFix : LocalQuickFix {
   }
 
   private fun resolveParameterName(el: PsiLiteralExpression): String {
-    val methodExpression = el.parents().firstOrNull { it is PsiMethodCallExpression } as PsiMethodCallExpression?
-    if (methodExpression != null) {
-      val calledMethod = methodExpression.resolveMethod()
-      val parameterIndex = el.parent.getChildrenOfType<PsiLiteralExpression>().indexOf(el)
-      if (calledMethod != null && parameterIndex <= calledMethod.parameterList.parameters.size - 1) {
-        return calledMethod.parameterList.parameters[parameterIndex].name ?: PROPERTY_NAME_PLACEHOLDER
+    val parameters = el.ancestorOfType<PsiExpressionList>()
+    if (parameters != null) {
+      val parameterIndex = parameters.expressions.indexOf(el)
+      val methodExpression = el.parents().firstOrNull { it is PsiMethodCallExpression } as PsiMethodCallExpression?
+      if (methodExpression != null) {
+        val calledMethod = methodExpression.resolveMethod()
+        if (calledMethod != null && parameterIndex <= calledMethod.parameterList.parameters.size - 1) {
+          return calledMethod.parameterList.parameters[parameterIndex].name ?: PROPERTY_NAME_PLACEHOLDER
+        }
       }
     }
     return PROPERTY_NAME_PLACEHOLDER

@@ -57,12 +57,8 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     val containingClass = function.containingClass()
     if (containingClass != null && containingClass.isInterface()
         && function.firstChild !is KDoc) {
-      holder.registerError(if (function.nameIdentifier != null) {
-        function.nameIdentifier!!
-      } else {
-        function
-      }, "接口方法必须添加注释",
-          KotlinCommentQuickFix())
+      holder.registerError(function.nameIdentifier ?: function,
+          Messages.interfaceMethodCommentRequired, KotlinCommentQuickFix())
     }
   }
 
@@ -97,14 +93,6 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
 
   private fun checkRedundantComment(element: PsiElement) {
     if (element is KtPackageDirective) {
-      fun registerErrorExceptFirst(list: List<PsiElement>) {
-        list.reversed().forEachIndexed { index, comment ->
-          if (index > 0) {
-            holder.registerError(comment, Messages.redundantComment, DeleteFix())
-          }
-        }
-      }
-
       val docsBeforeDirective = element.getPrevContinuousSiblingsOfTypeIgnoreWhitespace<KDoc>()
       val commentsBeforeDirective = element.getPrevContinuousSiblingsOfTypeIgnoreWhitespace<PsiComment>()
       if (commentsBeforeDirective.size > 1) {
@@ -120,14 +108,15 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     }
   }
 
-  private fun registerPropertyCommentMissingError(property: KtProperty) {
-    if (property.nameIdentifier != null) {
-      holder.registerError(property.nameIdentifier!!, Messages.commentRequired,
-          KotlinCommentQuickFix())
-    } else {
-      holder.registerError(property, Messages.commentRequired,
-          KotlinCommentQuickFix())
+  private fun registerErrorExceptFirst(list: List<PsiElement>) {
+    list.reversed().drop(1).forEach { comment ->
+      holder.registerError(comment, Messages.redundantComment, DeleteFix())
     }
+  }
+
+  private fun registerPropertyCommentMissingError(property: KtProperty) {
+    holder.registerError(property.nameIdentifier ?: property,
+        Messages.commentRequired, KotlinCommentQuickFix())
   }
 
   private fun visitDocSection(section: KDocSection) {
@@ -140,7 +129,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
       } else if (textElement == section.firstChild) {
         holder.registerError(section.firstChild, "前面应该添加*")
       } else if (textElement == null) {
-        holder.registerError(section, "缺少注释内容")
+        holder.registerError(section, Messages.missingCommentContent)
       }
     }
   }

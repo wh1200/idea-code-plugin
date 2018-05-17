@@ -10,25 +10,38 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
+import com.wuhao.code.check.enums.NamingMethod
+import com.wuhao.code.check.enums.NamingMethod.Camel
+import com.wuhao.code.check.enums.NamingMethod.Constant
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.After
 import com.wuhao.code.check.inspection.fix.kotlin.ExtractConstantToPropertyFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommaFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinConsolePrintFix
+import com.wuhao.code.check.inspection.fix.kotlin.KotlinNameFix
 import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor.Companion.shouldHaveSpaceBeforeOrAfter
 import org.jetbrains.kotlin.KtNodeTypes.*
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.lexer.KtKeywordToken
+import org.jetbrains.kotlin.lexer.KtTokens.CONST_KEYWORD
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 
 /**
  * Created by 吴昊 on 18-4-26.
+ * @author 吴昊
+ * @since 1.1
  */
 class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), BaseCodeFormatVisitor {
+
+  companion object {
+
+    val KOTLIN_PROPERTY_TYPES = listOf("val", "var")
+
+  }
 
   override fun support(language: Language): Boolean {
     return language == KotlinLanguage.INSTANCE
@@ -57,7 +70,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     when (element) {
       is LeafPsiElement -> {
         // 检查变量名称，不得少于2个字符
-        if ((element.text == "val" || element.text == "var")
+        if ((element.text in KOTLIN_PROPERTY_TYPES)
             && element.elementType is KtKeywordToken) {
           val paramNameLength = element.nextSibling?.nextSibling?.text?.length
           if (paramNameLength != null && paramNameLength <= 1) {
@@ -97,6 +110,23 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
         holder.registerError(function, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行")
       }
     }
+    if (!Camel.test(function.name!!)) {
+      registerNameError(function, Camel)
+    }
+  }
+
+  override fun visitProperty(property: KtProperty, data: Any?) {
+    val name = property.name!!
+    if (property.hasModifier(CONST_KEYWORD)) {
+      if (!Constant.test(name)) {
+        registerNameError(property, Constant)
+      }
+    } else {
+      if (!Camel.test(name)) {
+        registerNameError(property, Camel)
+      }
+    }
+    super.visitProperty(property, data)
   }
 
   override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?) {
@@ -114,6 +144,11 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
         holder.registerError(expression, "使用日志向控制台输出", KotlinConsolePrintFix())
       }
     }
+  }
+
+  private fun registerNameError(element: KtCallableDeclaration, method: NamingMethod) {
+    holder.registerError(element.nameIdentifier ?: element,
+        "属性名称应该遵${method.zhName}命名法", KotlinNameFix(method))
   }
 
 }

@@ -160,7 +160,7 @@ class PluginStart : StartupActivity {
   private fun setTemplates(project: Project) {
     val fileTemplateManager = FileTemplateManager.getInstance(project)
     fileTemplateManager.getInternalTemplate("Kotlin File")?.text = KotlinTemplates.file
-    fileTemplateManager.getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.klass
+    fileTemplateManager.getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.ktClass
     fileTemplateManager.getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.enum
     fileTemplateManager.getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.inter
   }

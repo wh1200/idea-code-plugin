@@ -243,11 +243,6 @@ class HttpRequest private constructor() {
     val credentials = UsernamePasswordCredentials(
         username, password)
     httpClient.state.setProxyCredentials(AuthScope.ANY, credentials)
-    // List<Header> headers = new ArrayList<Header>();
-    // headers.add(new Header("test.User-Agent",
-    // "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)"));
-    // httpClient.getHostConfiguration().getParams().setParameter("http.default-headers",
-    // headers);
     return httpClient
   }
 

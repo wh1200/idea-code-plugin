@@ -11,6 +11,26 @@ import org.junit.Test
 class Test5 {
 
   @Test
+  fun regexTest() {
+    val constReg = "^[A-Z]+(_[A-Z]+){0,}$".toRegex()
+    val camelReg = "^[a-z]+([A-Z0-9]{1,}[a-z0-9]{0,}){0,}$".toRegex()
+    val dashReg = "[a-z0-9]+(-[a-z0-9]+){0,}".toRegex()
+    val reg = camelReg
+    println("MY".matches(reg))
+    println("MY_NAME".matches(reg))
+    println("my1".matches(reg))
+    println("my1-bike".matches(reg))
+    println("my_name".matches(reg))
+    println("myName12Dad".matches(reg))
+    println("MyName".matches(reg))
+    println("userDAO".matches(reg))
+    println("My".matches(reg))
+    println("My_".matches(reg))
+    println("MY_".matches(reg))
+    println("MY_FAMILY_NAME".matches(reg))
+  }
+
+  @Test
   fun test() {
     println(getWordCount("myName"))
     println(getWordCount("MyName"))

@@ -347,6 +347,16 @@ fun PsiElement.insertElementBefore(element: PsiElement): PsiElement {
 }
 
 /**
+ * 在当前元素前面插入多个元素
+ * @param elements 待插入的元素
+ */
+fun PsiElement.insertElementsBefore(vararg elements: PsiElement) {
+  elements.forEach {
+    this.insertElementBefore(it)
+  }
+}
+
+/**
  * 在当前psi元素后插入元素
  * @param element 待插入的元素
  */

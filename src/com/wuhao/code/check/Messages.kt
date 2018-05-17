@@ -23,6 +23,7 @@ object Messages {
   const val noConstantArgument = "不允许直接使用未经声明的常量作为参数"
   const val redundantComment = "多余的注释"
   const val vueComponentMissingName = "vue组件必须设置name"
+  const val missingCommentContent = "缺少注释内容"
 
 }
 

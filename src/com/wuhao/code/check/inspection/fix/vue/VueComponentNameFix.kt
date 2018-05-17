@@ -38,11 +38,11 @@ class VueComponentNameFix(obj: JSObjectLiteralExpression) : LocalQuickFixOnPsiEl
   }
 
   private fun detectComponentNameFromFile(file: PsiFile): String {
-    val words = getWords(file.name.split(".")[0])
+    val words = file.name.split(".")[0].getWords()
     return if (words.size > 1) {
       words.joinToString("")
     } else {
-      (getWords(file.parent!!.name) + words).joinToString("")
+      (file.parent!!.name.getWords() + words).joinToString("")
     }
   }
 

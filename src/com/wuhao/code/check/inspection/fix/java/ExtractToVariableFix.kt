@@ -24,15 +24,16 @@ class ExtractToVariableFix : LocalQuickFix {
     val name = resolveParameterName(el)
     val statement = el.parents().firstOrNull { it is PsiExpressionStatement || it is PsiField }
     if (statement != null) {
-      if (statement is PsiField) {
-        val newField = factory.createFieldFromText("""${statement.modifiers.joinToString(" ").toLowerCase()} ${el.type!!
-            .presentableText} $name = ${el.text};""", null)
-        statement.insertElementBefore(newField)
-        statement.insertElementBefore(getNewLine(project))
-      } else {
-        val declarationStatement = factory.createVariableDeclarationStatement(name, el.type!!, el)
-        statement.insertElementBefore(declarationStatement)
-        statement.insertElementBefore(getNewLine(project))
+      when (statement) {
+        is PsiField -> {
+          val newField = factory.createFieldFromText("""${statement.modifiers.joinToString(" ").toLowerCase()} ${el.type!!
+              .presentableText} $name = ${el.text};""", null)
+          statement.insertElementsBefore(newField, getNewLine(project))
+        }
+        else -> {
+          val declarationStatement = factory.createVariableDeclarationStatement(name, el.type!!, el)
+          statement.insertElementsBefore(declarationStatement, getNewLine(project))
+        }
       }
       val newArgument = el.replace(factory.createIdentifier(name))
       renameElement(newArgument, -1, newArgument.parent, newArgument.parent.children.indexOf(newArgument))
@@ -50,8 +51,8 @@ class ExtractToVariableFix : LocalQuickFix {
       val methodExpression = el.parents().firstOrNull { it is PsiMethodCallExpression } as PsiMethodCallExpression?
       if (methodExpression != null) {
         val calledMethod = methodExpression.resolveMethod()
-        if (calledMethod != null && parameterIndex <= calledMethod.parameterList.parameters.size - 1) {
-          return calledMethod.parameterList.parameters[parameterIndex].name ?: PROPERTY_NAME_PLACEHOLDER
+        if (calledMethod != null && parameters.expressionCount == calledMethod.parameters.size - 1) {
+          return calledMethod.parameters[parameterIndex].name ?: PROPERTY_NAME_PLACEHOLDER
         }
       }
     }

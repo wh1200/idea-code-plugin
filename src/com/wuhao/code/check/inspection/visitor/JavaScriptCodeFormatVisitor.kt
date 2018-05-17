@@ -21,6 +21,7 @@ import com.wuhao.code.check.registerError
  * javascript文件代码格式检查访问器
  * 主要检查了javascript文件命名格式
  * Created by 吴昊 on 2018/4/28.
+ *
  * @author 吴昊
  * @since 1.1
  */

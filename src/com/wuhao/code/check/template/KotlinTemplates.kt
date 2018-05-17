@@ -7,7 +7,7 @@ package com.wuhao.code.check.template
  */
 object KotlinTemplates {
 
-  private val DEFAULT_BLOCK_COMMENT = """/**
+  private const val DEFAULT_BLOCK_COMMENT = """/**
  *
  * Created by ${'$'}{USER} on ${'$'}{DATE}.
  *
@@ -21,10 +21,10 @@ object KotlinTemplates {
 #end
 #parse("File Header.java")
 $DEFAULT_BLOCK_COMMENT""".trimIndent()
-  val klass = file + "\n" + """class ${'$'}{NAME} {
+  val ktClass = file + "\n" + """class ${'$'}{NAME} {
     }""".trimIndent()
 
-  val kobject = file + "\n" + """
+  val ktObject = file + "\n" + """
     object ${'$'}{NAME} {
     }""".trimIndent()
   val enum: String = file + "\n" + """

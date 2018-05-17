@@ -10,15 +10,15 @@ package com.wuhao.code.check.lang.vue
  */
 object VueDirectives {
 
-  val BIND = "v-bind"
-  val ELSE = "v-else"
-  val FOR = "v-for"
-  val HTML = "v-html"
-  val IF = "v-if"
-  val MODEL = "v-model"
-  val ON = "v-on"
-  val TEXT = "v-text"
-  val VELSEIF = "v-elseif"
+  const val BIND = "v-bind"
+  const val ELSE = "v-else"
+  const val FOR = "v-for"
+  const val HTML = "v-html"
+  const val IF = "v-if"
+  const val MODEL = "v-model"
+  const val ON = "v-on"
+  const val TEXT = "v-text"
+  const val ELSE_IF = "v-elseif"
 
   fun getShortName(name: String): String {
     return when {

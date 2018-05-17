@@ -39,7 +39,7 @@ spaces.
 - Except for the JUnit test class, it is not allowed to use "System.out.println" or "System.err.println" or "println"
  in kotlin for console output. The output should always uses the log and provides the repair function. The default is
   to use slf4j.
-
+- Add naming pattern check for property, method, field, function and constant property.
 ### Spring Framework Related
 - When using the "@Value" annotation in a class to import spring's environment variables, code hints are given for 
 the contents of spring boot's default configuration file application.yml (temporarily not supporting properties file).

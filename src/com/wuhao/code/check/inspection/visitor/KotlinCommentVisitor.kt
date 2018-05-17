@@ -9,7 +9,7 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
-import com.wuhao.code.check.Messages.classCommentRequired
+import com.wuhao.code.check.Messages.CLASS_COMMENT_REQUIRED
 import com.wuhao.code.check.inspection.fix.DeleteFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommentQuickFix
 import org.jetbrains.kotlin.idea.KotlinLanguage
@@ -34,7 +34,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     checkRedundantComment(klass)
     if (klass !is KtEnumEntry && klass.nameIdentifier != null) {
       if (klass.firstChild == null || klass.firstChild !is KDoc) {
-        holder.registerError(klass.nameIdentifier!!, classCommentRequired, KotlinCommentQuickFix())
+        holder.registerError(klass.nameIdentifier!!, CLASS_COMMENT_REQUIRED, KotlinCommentQuickFix())
       }
     }
   }
@@ -58,14 +58,14 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     if (containingClass != null && containingClass.isInterface()
         && function.firstChild !is KDoc) {
       holder.registerError(function.nameIdentifier ?: function,
-          Messages.interfaceMethodCommentRequired, KotlinCommentQuickFix())
+          Messages.INTERFACE_METHOD_COMMENT_REQUIRED, KotlinCommentQuickFix())
     }
   }
 
   override fun visitObjectDeclaration(declaration: KtObjectDeclaration, data: Any?) {
     if (!declaration.isCompanion() && declaration.nameIdentifier != null) {
       if (declaration.firstChild == null || declaration.firstChild !is KDoc) {
-        holder.registerError(declaration.nameIdentifier!!, classCommentRequired, KotlinCommentQuickFix())
+        holder.registerError(declaration.nameIdentifier!!, CLASS_COMMENT_REQUIRED, KotlinCommentQuickFix())
       }
     }
   }
@@ -103,20 +103,20 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
       }
     } else {
       if (element.firstChild is KDoc && element.prevSiblingIgnoreWhitespace is KDoc) {
-        holder.registerError(element.prevSiblingIgnoreWhitespace!!, Messages.redundantComment, DeleteFix())
+        holder.registerError(element.prevSiblingIgnoreWhitespace!!, Messages.REDUNDANT_COMMENT, DeleteFix())
       }
     }
   }
 
   private fun registerErrorExceptFirst(list: List<PsiElement>) {
     list.reversed().drop(1).forEach { comment ->
-      holder.registerError(comment, Messages.redundantComment, DeleteFix())
+      holder.registerError(comment, Messages.REDUNDANT_COMMENT, DeleteFix())
     }
   }
 
   private fun registerPropertyCommentMissingError(property: KtProperty) {
     holder.registerError(property.nameIdentifier ?: property,
-        Messages.commentRequired, KotlinCommentQuickFix())
+        Messages.COMMENT_REQUIRED, KotlinCommentQuickFix())
   }
 
   private fun visitDocSection(section: KDocSection) {
@@ -129,7 +129,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
       } else if (textElement == section.firstChild) {
         holder.registerError(section.firstChild, "前面应该添加*")
       } else if (textElement == null) {
-        holder.registerError(section, Messages.missingCommentContent)
+        holder.registerError(section, Messages.MISSING_COMMENT_CONTENT)
       }
     }
   }

@@ -20,17 +20,7 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
  */
 class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : LocalQuickFix {
 
-  override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-    val el = descriptor.psiElement as XmlTag
-    fixElement(el, sortedAttributes)
-  }
-
-  override fun getFamilyName(): String {
-    return "属性重新排序"
-  }
-
   companion object {
-
     fun comparePrefix(nameList: List<String>, prefix: String): Int {
       return when {
         nameList.all { it.startsWith(prefix) } -> nameList[0].compareTo(nameList[1])
@@ -69,7 +59,15 @@ class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : Loca
             }
       }
     }
+  }
 
+  override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+    val el = descriptor.psiElement as XmlTag
+    fixElement(el, sortedAttributes)
+  }
+
+  override fun getFamilyName(): String {
+    return "属性重新排序"
   }
 
 }

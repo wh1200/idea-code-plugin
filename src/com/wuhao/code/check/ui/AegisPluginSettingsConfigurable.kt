@@ -15,7 +15,7 @@ import javax.swing.JComponent
 class AegisPluginSettingsConfigurable : SearchableConfigurable {
 
   private var aegisPluginSettings: AegisPluginSettings? = null
-  private var settings = PluginSettings.instance
+  private var settings = PluginSettings.INSTANCE
 
   override fun apply() {
     aegisPluginSettings?.let {

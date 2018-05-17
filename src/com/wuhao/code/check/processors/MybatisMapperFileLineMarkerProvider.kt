@@ -27,6 +27,17 @@ import java.io.File
  */
 class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
+  companion object {
+    const val DELETE = "delete"
+    val ICON_FILE = IconLoader.getIcon("/icons/arrow_up.png")
+    const val ID_ATTR_NAME = "id"
+    const val INSERT = "insert"
+    const val MAPPER_NAMESPACE_ATTR_NAME = "namespace"
+    const val MAPPER_TAG_NAME = "mapper"
+    const val SELECT = "select"
+    const val UPDATE = "update"
+  }
+
   override fun collectNavigationMarkers(element: PsiElement,
                                         result: MutableCollection<in RelatedItemLineMarkerInfo<*>>) {
     val mapperInfo = resolveMapperInfo(element)
@@ -73,8 +84,8 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
   }
 
   private fun createLineMarkerInfo(source: PsiElement, target: PsiElement): RelatedItemLineMarkerInfo<*> {
-    val builder = NavigationGutterIconBuilder.create(FILE).setTargets(listOf(target))
-        .setTooltipText(Messages.jumpToInterface)
+    val builder = NavigationGutterIconBuilder.create(ICON_FILE).setTargets(listOf(target))
+        .setTooltipText(Messages.JUMP_TO_INTERFACE)
     return builder.createLineMarkerInfo(source)
   }
 
@@ -130,19 +141,6 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
     fun getKotlinClasspath(): String {
       return className.replace(".", File.separator) + ".kt"
     }
-
-  }
-
-  companion object {
-
-    const val DELETE = "delete"
-    val FILE = IconLoader.getIcon("/icons/arrow_up.png")
-    const val ID_ATTR_NAME = "id"
-    const val INSERT = "insert"
-    const val MAPPER_NAMESPACE_ATTR_NAME = "namespace"
-    const val MAPPER_TAG_NAME = "mapper"
-    const val SELECT = "select"
-    const val UPDATE = "update"
 
   }
 

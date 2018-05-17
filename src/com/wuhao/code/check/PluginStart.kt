@@ -52,6 +52,20 @@ import org.jetbrains.vuejs.VueLanguage
  */
 class PluginStart : StartupActivity {
 
+  companion object {
+    fun setIndent(fileType: FileType, language: Language?, settings: CodeStyleSettings) {
+      settings.getIndentOptions(fileType).apply {
+        INDENT_SIZE = DEFAULT_INDENT_SPACE_COUNT
+        CONTINUATION_INDENT_SIZE = DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
+        TAB_SIZE = DEFAULT_INDENT_SPACE_COUNT
+        USE_TAB_CHARACTER = false
+      }
+      if (language != null) {
+        LanguageCodeStyleSettingsProvider.getDefaultCommonSettings(language)?.LINE_COMMENT_AT_FIRST_COLUMN = true
+      }
+    }
+  }
+
   override fun runActivity(project: Project) {
     // 强制启用java代码重排和import重新组织的功能
     val myLastRunSettings = LastRunReformatCodeOptionsProvider(PropertiesComponent.getInstance())
@@ -159,26 +173,10 @@ class PluginStart : StartupActivity {
 
   private fun setTemplates(project: Project) {
     val fileTemplateManager = FileTemplateManager.getInstance(project)
-    fileTemplateManager.getInternalTemplate("Kotlin File")?.text = KotlinTemplates.file
-    fileTemplateManager.getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.ktClass
-    fileTemplateManager.getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.enum
-    fileTemplateManager.getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.inter
-  }
-
-  companion object {
-
-    fun setIndent(fileType: FileType, language: Language?, settings: CodeStyleSettings) {
-      settings.getIndentOptions(fileType).apply {
-        INDENT_SIZE = DEFAULT_INDENT_SPACE_COUNT
-        CONTINUATION_INDENT_SIZE = DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
-        TAB_SIZE = DEFAULT_INDENT_SPACE_COUNT
-        USE_TAB_CHARACTER = false
-      }
-      if (language != null) {
-        LanguageCodeStyleSettingsProvider.getDefaultCommonSettings(language)?.LINE_COMMENT_AT_FIRST_COLUMN = true
-      }
-    }
-
+    fileTemplateManager.getInternalTemplate("Kotlin File")?.text = KotlinTemplates.FILE
+    fileTemplateManager.getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.CLASS
+    fileTemplateManager.getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.ENUM
+    fileTemplateManager.getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.INTERFACE
   }
 
 }

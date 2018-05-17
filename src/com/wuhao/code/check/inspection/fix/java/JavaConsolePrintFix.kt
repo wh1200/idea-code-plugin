@@ -23,6 +23,15 @@ import org.jetbrains.uast.getContainingClass
  */
 class JavaConsolePrintFix : LocalQuickFix {
 
+  companion object {
+
+    const val ERROR_DECLARATION = "System.err.print"
+    const val LOG_FACTORY_PREFERENCE = "org.slf4j.LoggerFactory"
+    const val LOG_FIELD_NAME = "LOG"
+    const val LOG_PREFERENCE = "org.slf4j.Logger"
+    private const val PRINT_DECLARATION = "System.out.print"
+  }
+
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val el = descriptor.endElement
     val factory = getPsiElementFactory(el)
@@ -75,16 +84,6 @@ class JavaConsolePrintFix : LocalQuickFix {
                   |import $LOG_FACTORY_PREFERENCE;
                 """.trimMargin()
     ) as PsiJavaFile).importList!!
-  }
-
-  companion object {
-
-    const val LOG_FACTORY_PREFERENCE = "org.slf4j.LoggerFactory"
-    const val LOG_FIELD_NAME = "LOG"
-    const val LOG_PREFERENCE = "org.slf4j.Logger"
-    const val ERROR_DECLARATION = "System.err.print"
-    private const val PRINT_DECLARATION = "System.out.print"
-
   }
 
 }

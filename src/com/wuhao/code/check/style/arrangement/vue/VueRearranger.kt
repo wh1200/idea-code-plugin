@@ -30,6 +30,21 @@ class VueRearranger : Rearranger<ArrangementEntry> {
 
   private val settingsSerializer = DefaultArrangementSettingsSerializer(getDefaultSettings())
 
+  companion object {
+    private fun getDefaultSettings(): StdArrangementSettings {
+      val groupingRules = ContainerUtilRt.newArrayList(ArrangementGroupingRule(StdArrangementTokens.Grouping.GETTERS_AND_SETTERS))
+      val matchRules = ContainerUtilRt.newArrayList<StdArrangementMatchRule>()
+      val aliasTokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
+        definitionRules = listOf(StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.PRIVATE).map {
+          StdArrangementMatchRule(
+              StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
+          )
+        }
+      })
+      return StdArrangementExtendableSettings.createByMatchRules(groupingRules, matchRules, aliasTokens)
+    }
+  }
+
   override fun getBlankLines(settings: CodeStyleSettings,
                              parentEntry: ArrangementEntry?,
                              previousEntry: ArrangementEntry?,
@@ -77,23 +92,6 @@ class VueRearranger : Rearranger<ArrangementEntry> {
       Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo
           .entries[0], existingEntriesInfo.entries)
     }
-  }
-
-  companion object {
-
-    private fun getDefaultSettings(): StdArrangementSettings {
-      val groupingRules = ContainerUtilRt.newArrayList(ArrangementGroupingRule(StdArrangementTokens.Grouping.GETTERS_AND_SETTERS))
-      val matchRules = ContainerUtilRt.newArrayList<StdArrangementMatchRule>()
-      val aliasTokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
-        definitionRules = listOf(StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.PRIVATE).map {
-          StdArrangementMatchRule(
-              StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-          )
-        }
-      })
-      return StdArrangementExtendableSettings.createByMatchRules(groupingRules, matchRules, aliasTokens)
-    }
-
   }
 
 }

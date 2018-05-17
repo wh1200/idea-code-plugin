@@ -8,9 +8,9 @@ package com.wuhao.code.check
  */
 object LanguageNames {
 
-  const val ecma6 = "ECMAScript 6"
-  const val typescript = "TypeScript"
-  const val vue = "Vue"
+  const val ECMA6 = "ECMAScript 6"
+  const val TYPESCRIPT = "TypeScript"
+  const val VUE = "Vue"
 
 }
 

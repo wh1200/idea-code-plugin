@@ -25,6 +25,10 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
  */
 class KotlinCommentQuickFix : LocalQuickFix {
 
+  companion object {
+    private val LOG = Logger.getInstance("com.intellij.codeInspection.PropertyClassCreateInspection")
+  }
+
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     try {
       val element = descriptor.psiElement
@@ -34,11 +38,11 @@ class KotlinCommentQuickFix : LocalQuickFix {
         element
       }
       val commentString = when (measureElement) {
-            is KtClass -> CLASS_COMMENT
-            is KtObjectDeclaration -> CLASS_COMMENT
-            is KtFunction -> buildFunctionComment(measureElement)
-            else -> BLOCK_COMMENT_STRING
-          }
+        is KtClass -> CLASS_COMMENT
+        is KtObjectDeclaration -> CLASS_COMMENT
+        is KtFunction -> buildFunctionComment(measureElement)
+        else -> BLOCK_COMMENT_STRING
+      }
       val factory = KtPsiFactory(project)
       val comment = factory.createComment(commentString)
       if (element is LeafPsiElement) {
@@ -69,12 +73,6 @@ class KotlinCommentQuickFix : LocalQuickFix {
     }
     commentBuilder.append(BLOCK_COMMENT_END)
     return commentBuilder.toString()
-  }
-
-  companion object {
-
-    private val LOG = Logger.getInstance("com.intellij.codeInspection.PropertyClassCreateInspection")
-
   }
 
 }

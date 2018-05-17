@@ -38,6 +38,7 @@ object KotlinEntryType {
  * token id到token的映射map
  */
 internal val TOKENS_BY_ID = HashMap<String, StdArrangementSettingsToken>()
+
 /**
  *
  * @param id

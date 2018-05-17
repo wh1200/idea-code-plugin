@@ -43,18 +43,23 @@ import org.jetbrains.vuejs.codeInsight.VueFileVisitor
  */
 open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), BaseCodeFormatVisitor {
 
+  companion object {
+    const val COMPUTED_ATTRIBUTE = "computed"
+    const val MAX_TEMPLATE_LINES = 150
+  }
+
   override fun support(language: Language): Boolean {
-    return language.displayName == LanguageNames.vue
+    return language.displayName == LanguageNames.VUE
   }
 
   override fun visitXmlAttribute(attribute: XmlAttribute) {
     // v-if和v-for不应出现在同一元素之上
     if (attribute.name == FOR && attribute.parent.getAttribute(IF) != null) {
-      holder.registerError(attribute, Messages.ifAndForNotTogether)
+      holder.registerError(attribute, Messages.IF_AND_FOR_NOT_TOGETHER)
     }
     //v-for标签应当有:key属性
     if (attribute.name == FOR && attribute.parent.getAttribute(KEY) == null) {
-      holder.registerError(attribute, Messages.forTagShouldHaveKeyAttr, object : LocalQuickFix {
+      holder.registerError(attribute, Messages.FOR_TAG_SHOULD_HAVE_KEY_ATTR, object : LocalQuickFix {
 
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
           val tag = descriptor.psiElement.parent as XmlTag
@@ -68,11 +73,11 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
       })
     }
     if (attribute.name == KEY && attribute.value.isNullOrBlank()) {
-      holder.registerError(attribute, Messages.missingAttrValue)
+      holder.registerError(attribute, Messages.MISSING_ATTR_VALUE)
     }
     // v-bind和v-on应该缩写
     if (attribute.name.startsWith(BIND) || attribute.name.startsWith(ON)) {
-      holder.registerError(attribute, Messages.forShort, VueShortAttrFix())
+      holder.registerError(attribute, Messages.FOR_SHORT, VueShortAttrFix())
     }
     super.visitXmlAttribute(attribute)
   }
@@ -113,7 +118,6 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
     }
   }
 
-
   /**
    * vue文件中js代码递归访问器
    * @author 吴昊
@@ -125,18 +129,11 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
       if (node.parent is ES6ExportDefaultAssignment) {
         // vue 组件必须有name属性
         if (node.findProperty("name") == null) {
-          holder.registerError(node.parent.firstChild, Messages.vueComponentMissingName, VueComponentNameFix(node))
+          holder.registerError(node.parent.firstChild, Messages.VUE_COMPONENT_MISSING_NAME, VueComponentNameFix(node))
         }
         super.visitJSObjectLiteralExpression(node)
       }
     }
-
-  }
-
-  companion object {
-
-    const val COMPUTED_ATTRIBUTE = "computed"
-    const val MAX_TEMPLATE_LINES = 150
 
   }
 

@@ -45,6 +45,14 @@ class PluginSettings : PersistentStateComponent<Element> {
       }
     }
 
+  companion object {
+    const val CONFIG_NAME = "AegisSettings"
+    val INSTANCE: PluginSettings
+      get() = ServiceManager.getService(PluginSettings::class.java) as PluginSettings
+    val NULLABLE_INSTANCE: PluginSettings?
+      get() = ServiceManager.getService(PluginSettings::class.java)
+  }
+
   override fun getState(): Element? {
     val element = Element(CONFIG_NAME)
     PluginSettings::class.memberProperties.forEach { property ->
@@ -60,18 +68,6 @@ class PluginSettings : PersistentStateComponent<Element> {
         property.javaField?.set(this, value)
       }
     }
-  }
-
-
-  companion object {
-
-    const val CONFIG_NAME = "AegisSettings"
-    val instance: PluginSettings
-      get() = ServiceManager.getService(PluginSettings::class.java) as PluginSettings
-
-    val nullableInstance: PluginSettings?
-      get() = ServiceManager.getService(PluginSettings::class.java)
-
   }
 
 }

@@ -57,7 +57,7 @@ class CreateFromKotlinTemplateHandler : CreateFromTemplateHandler {
   }
 
   override fun prepareProperties(props: MutableMap<String, Any>) {
-    props["USER"] = PluginSettings.instance.user
+    props["USER"] = PluginSettings.INSTANCE.user
   }
 
   private fun checkAppendExtension(fileName: String, template: FileTemplate): String {

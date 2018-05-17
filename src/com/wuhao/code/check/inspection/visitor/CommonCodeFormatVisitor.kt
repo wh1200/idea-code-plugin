@@ -37,6 +37,12 @@ import java.nio.charset.StandardCharsets
  */
 class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVisitor(), BaseCodeFormatVisitor {
 
+  companion object {
+    const val ACTION_PREFIX = "@"
+    const val CUSTOM_ATTR_PREFIX = ":"
+    const val DIRECTIVE_PREFIX = "v-"
+  }
+
   override fun support(language: Language): Boolean {
     return language is KotlinLanguage
         || language is JavaLanguage
@@ -84,14 +90,6 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
         holder.registerError(element, "${element.fileType.name}文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格")
       }
     }
-  }
-
-  companion object {
-
-    const val ACTION_PREFIX = "@"
-    const val CUSTOM_ATTR_PREFIX = ":"
-    const val DIRECTIVE_PREFIX = "v-"
-
   }
 
 }

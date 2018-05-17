@@ -27,9 +27,13 @@ import com.wuhao.code.check.registerError
  */
 open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVisitor(), BaseCodeFormatVisitor {
 
+  companion object {
+    val JS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.js\$".toRegex()
+  }
+
   override fun support(language: Language): Boolean {
     return language == JavascriptLanguage.INSTANCE
-        || language.displayName == LanguageNames.ecma6
+        || language.displayName == LanguageNames.ECMA6
   }
 
   override fun visitElement(element: PsiElement) {
@@ -60,12 +64,6 @@ open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
     if (element.properties.toList() != sortedProperties) {
       holder.registerProblem(element, "对象属性排序", ProblemHighlightType.INFORMATION, JsPropertySortFix())
     }
-  }
-
-  companion object {
-
-    val JS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.js\$".toRegex()
-
   }
 
 }

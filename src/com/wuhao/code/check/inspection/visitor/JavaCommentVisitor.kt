@@ -22,6 +22,11 @@ import com.wuhao.code.check.registerError
 class JavaCommentVisitor(val holder: ProblemsHolder) :
     JavaElementVisitor(), BaseCodeFormatVisitor {
 
+  companion object {
+    const val ENTITY_CLASS = "javax.persistence.Entity"
+    const val TABLE_CLASS = "javax.persistence.Table"
+  }
+
   override fun support(language: Language): Boolean {
     return language == JavaLanguage.INSTANCE
   }
@@ -33,9 +38,9 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
   override fun visitClass(clazz: PsiClass) {
     if (clazz !is PsiTypeParameter && (clazz.firstChild == null || clazz.firstChild !is PsiDocComment) && clazz !is PsiAnonymousClass) {
       if (clazz.nameIdentifier != null) {
-        holder.registerError(clazz.nameIdentifier!!, Messages.classCommentRequired, JavaBlockCommentFix())
+        holder.registerError(clazz.nameIdentifier!!, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
       } else {
-        holder.registerError(clazz, Messages.classCommentRequired, JavaBlockCommentFix())
+        holder.registerError(clazz, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
       }
     }
     if (clazz.annotations.any { it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS) }) {
@@ -43,7 +48,7 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
         !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
             && it.firstChild !is PsiDocComment
       }.forEach { fieldElement ->
-        holder.registerError(fieldElement.nameIdentifier, Messages.commentRequired,
+        holder.registerError(fieldElement.nameIdentifier, Messages.COMMENT_REQUIRED,
             JavaBlockCommentFix())
       }
     }
@@ -59,16 +64,8 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
         method
       }
       holder.registerError(elementToRegisterProblem,
-          Messages.interfaceMethodCommentRequired, JavaBlockCommentFix())
+          Messages.INTERFACE_METHOD_COMMENT_REQUIRED, JavaBlockCommentFix())
     }
-  }
-
-
-  companion object {
-
-    const val ENTITY_CLASS = "javax.persistence.Entity"
-    const val TABLE_CLASS = "javax.persistence.Table"
-
   }
 
 }

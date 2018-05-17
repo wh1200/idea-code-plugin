@@ -8,18 +8,6 @@
 package com.wuhao.code.check
 
 /**
- * 判断当前字符串是否驼峰命名
- */
-val String.isCamelCase: Boolean
-  get() {
-    return if (this.length == 1 && this.toLowerCase() == this) {
-      true
-    } else {
-      this.matches("^[a-z]+([A-Za-z0-9]+)\$".toRegex())
-    }
-  }
-
-/**
  * 将字符串转化为驼峰命名
  * @return 转化为驼峰命名的字符串
  */

@@ -34,43 +34,14 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
   }
 
   override fun processText(file: PsiFile, textRange: TextRange, styleSettings: CodeStyleSettings): TextRange {
-    if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
+    if (file is HtmlFileImpl && file.language.displayName == LanguageNames.VUE) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       templateTag?.accept(object : VueRecursiveVisitor() {
 
         override fun visitXmlAttribute(attribute: XmlAttribute) {
           if (isInjectAttribute(attribute)) {
             val exp = JSElementFactory.createExpressionCodeFragment(attribute.project, attribute.value, attribute)
-            object : RecursiveVisitor() {
-
-              private val factory = KtPsiFactory(exp.project)
-              override fun visitElement(element: PsiElement) {
-                if (element.text in listOf(",", "+", "-", "*", "/", "?",
-                        ":", ">", "<", "=", "!=", "===", "==", "===",
-                        ">=", "<=", "||", "%",
-                        "&&", "&", "|")) {
-                  if (element.text == ",") {
-                    if (element.nextSibling !is PsiWhiteSpace) {
-                      element.insertElementAfter(factory.createWhiteSpace(" "))
-                    }
-                  } else {
-                    if (element.prevSibling !is PsiWhiteSpace) {
-                      element.insertElementBefore(factory.createWhiteSpace(" "))
-                    }
-                    if (element.nextSibling !is PsiWhiteSpace) {
-                      element.insertElementAfter(factory.createWhiteSpace(" "))
-                    }
-                  }
-
-                }
-                if (element.text in listOf(",")) {
-                  if (element.nextSibling !is PsiWhiteSpace) {
-                    element.insertElementAfter(factory.createWhiteSpace(" "))
-                  }
-                }
-              }
-
-            }.visit(exp)
+            JSExpressionVisitor().visit(exp)
             attribute.value = exp.text
           }
           super.visitXmlAttribute(attribute)
@@ -79,6 +50,42 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
       })
     }
     return TextRange(0, file.endOffset)
+  }
+
+}
+
+/**
+ * js表达式访问器
+ * @author 吴昊
+ * @since 1.1
+ */
+class JSExpressionVisitor : RecursiveVisitor() {
+
+  override fun visitElement(element: PsiElement) {
+    val factory = KtPsiFactory(element.project)
+    if (element.text in listOf(",", "+", "-", "*", "/", "?",
+            ":", ">", "<", "=", "!=", "===", "==", "===",
+            ">=", "<=", "||", "%",
+            "&&", "&", "|")) {
+      if (element.text == ",") {
+        if (element.nextSibling !is PsiWhiteSpace) {
+          element.insertElementAfter(factory.createWhiteSpace(" "))
+        }
+      } else {
+        if (element.prevSibling !is PsiWhiteSpace) {
+          element.insertElementBefore(factory.createWhiteSpace(" "))
+        }
+        if (element.nextSibling !is PsiWhiteSpace) {
+          element.insertElementAfter(factory.createWhiteSpace(" "))
+        }
+      }
+
+    }
+    if (element.text in listOf(",")) {
+      if (element.nextSibling !is PsiWhiteSpace) {
+        element.insertElementAfter(factory.createWhiteSpace(" "))
+      }
+    }
   }
 
 }

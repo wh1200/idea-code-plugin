@@ -12,6 +12,9 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.After
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.Before
 import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
@@ -54,7 +57,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
       val factory = KtPsiFactory(klass.project)
       klass.getBody()?.let { body ->
         val oldEntries = body.getChildrenOfType<KtEnumEntry>()
-        if (oldEntries.size > 0) {
+        if (oldEntries.isNotEmpty()) {
           val commentMap = oldEntries.associateBy({ it }, {
             if (it.lastChild is PsiComment) {
               it.lastChild as PsiComment
@@ -113,23 +116,35 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
   }
 
   override fun visitClassBody(classBody: KtClassBody, data: Any?) {
+    val parent = classBody.parent
     val lBrace = classBody.lBrace
     val rBrace = classBody.rBrace
     if (lBrace != null && rBrace != null) {
-      if (rBrace.prevSibling !is PsiWhiteSpace) {
-        rBrace.insertElementBefore(factory.createNewLine(
-            when (lBrace) {
-              rBrace.prevSibling -> 1
-              else -> 2
-            })
-        )
+      if (parent is KtObjectDeclaration && parent.isCompanion()) { // 伴随对象body前后不留空行
+        clearBlankLineBeforeOrAfter(lBrace, After)
+        clearBlankLineBeforeOrAfter(rBrace, Before)
       } else {
-        if (rBrace.prevSibling === lBrace.nextSibling && rBrace.prevSibling.getLineCount() != 1) {
-          rBrace.prevSibling.replace(factory.createNewLine(1))
-        } else if (classBody.rBrace!!.prevSibling.getLineCount() != 2) {
-          rBrace.prevSibling.replace(factory.createNewLine(2))
-        } else if (classBody.lBrace!!.nextSibling.getLineCount() != 2) {
-          lBrace.nextSibling.replace(factory.createNewLine(2))
+        if (rBrace.prevSibling !is PsiWhiteSpace) {
+          rBrace.insertElementBefore(factory.createNewLine(
+              when (lBrace) {
+                rBrace.prevSibling -> 1
+                else -> 2
+              })
+          )
+        } else {
+          if (rBrace.prevSiblingIgnoreWhitespace === lBrace) { // 如果classBody没有内容的话，右括号保持换行，左右括号之间不留空行
+            if (rBrace.prevSibling.getLineCount() != 1) {
+              rBrace.prevSibling.replace(factory.createNewLine(1))
+            }
+          } else {
+            // 如果classBody有内容，则左括号后和右括号前各留一个空行
+            if (rBrace.prevSibling.getLineCount() != 2) {
+              rBrace.prevSibling.replace(factory.createNewLine(2))
+            }
+            if (lBrace.nextSibling.getLineCount() != 2) {
+              lBrace.nextSibling.replace(factory.createNewLine(2))
+            }
+          }
         }
       }
     }
@@ -178,21 +193,11 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     val body = function.body
     if (body != null) {
       // 方法开头和结束不能留有空行
-      val lBrace = body.lBrace
-      val rBrace = body.rBrace
-      if (lBrace != null) {
-        if (lBrace.nextSibling !is PsiWhiteSpace) {
-          lBrace.insertAfter(factory.createNewLine())
-        } else if (lBrace.nextSibling.getLineCount() != 1) {
-          lBrace.nextSibling.replace(factory.createNewLine())
-        }
+      body.lBrace?.apply {
+        clearBlankLineBeforeOrAfter(this, After)
       }
-      if (rBrace != null) {
-        if (rBrace.prevSibling !is PsiWhiteSpace) {
-          rBrace.insertBefore(factory.createNewLine())
-        } else if (rBrace.prevSibling.getLineCount() != 1) {
-          rBrace.prevSibling.replace(factory.createNewLine())
-        }
+      body.rBrace?.apply {
+        clearBlankLineBeforeOrAfter(this, Before)
       }
     }
     super.visitNamedFunction(function, data)
@@ -211,6 +216,23 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
       elementAfterDirective.replace(factory.createNewLine(2))
     }
     super.visitPackageDirective(directive, data)
+  }
+
+  private fun clearBlankLineBeforeOrAfter(el: PsiElement, type: SpaceQuickFix.Type) {
+    val whiteSpaceEl = when (type) {
+      Before -> el.prevSibling
+      After -> el.nextSibling
+      else -> null
+    }
+    if (whiteSpaceEl !is PsiWhiteSpace) {
+      if (type == Before) {
+        el.insertElementBefore(factory.createNewLine())
+      } else if (type == After) {
+        el.insertElementAfter(factory.createNewLine())
+      }
+    } else if (whiteSpaceEl.getLineCount() != 1) {
+      whiteSpaceEl.replace(factory.createNewLine())
+    }
   }
 
 }

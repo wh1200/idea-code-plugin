@@ -6,15 +6,18 @@ package com.wuhao.code.check.inspection.visitor
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
+import com.intellij.lang.jvm.JvmModifier
 import com.intellij.psi.*
 import com.intellij.psi.JavaTokenType.*
+import com.intellij.psi.impl.source.PsiClassImpl
 import com.wuhao.code.check.*
+import com.wuhao.code.check.enums.NamingMethod
 import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.Before
-import com.wuhao.code.check.inspection.fix.java.CamelCaseFix
 import com.wuhao.code.check.inspection.fix.java.ExtractToVariableFix
 import com.wuhao.code.check.inspection.fix.java.JavaConsolePrintFix
+import com.wuhao.code.check.inspection.fix.java.JavaElementNameFix
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 
@@ -28,7 +31,6 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     JavaElementVisitor(), BaseCodeFormatVisitor {
 
   companion object {
-
     /**
      * 检查前面是否有空格
      * @param checkElement 被检查的元素
@@ -55,7 +57,6 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
         }
       }
     }
-
   }
 
   override fun support(language: Language): Boolean {
@@ -76,17 +77,23 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
 
   override fun visitIdentifier(identifier: PsiIdentifier) {
     // 方法名、字段名长度不能少于2个字符
-    if (identifier.text.length <= 1
-        && identifier.parent !is PsiTypeParameter) {
+    if (identifier.text.length <= 1 && identifier.parent !is PsiTypeParameter) {
       if ((identifier.parent is PsiMethod || identifier.parent is PsiClass)
           || (identifier.parent is PsiField && identifier.getAncestor(2) is PsiClass)) {
-        holder.registerError(identifier, Messages.nameMustNotLessThan2Chars, RenameIdentifierFix())
+        holder.registerError(identifier, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, RenameIdentifierFix())
       }
     }
     val namedElement = identifier.parent
-    if (namedElement is PsiMethod || namedElement is PsiClass || namedElement is PsiVariable) {
-      if (!identifier.text.isCamelCase) {
-        holder.registerError(identifier, "命名格式错误，格式必须符合驼峰命名法", CamelCaseFix())
+    if (namedElement is PsiClassImpl || namedElement is PsiEnumConstant) {
+      checkNaming(identifier, NamingMethod.Pascal)
+    } else if (namedElement is PsiField || namedElement is PsiLocalVariable
+        || (namedElement is PsiMethod && !namedElement.isConstructor)) {
+      if (namedElement is PsiField
+          && namedElement.hasModifier(JvmModifier.STATIC)
+          && namedElement.hasModifier(JvmModifier.FINAL)) {
+        checkNaming(identifier, NamingMethod.Constant)
+      } else {
+        checkNaming(identifier, NamingMethod.Camel)
       }
     }
   }
@@ -104,7 +111,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
         && expression.text.length > 1) {
       if (expression.firstChild.node.elementType != STRING_LITERAL
           || expression.textLength > MAX_STRING_ARGUMENT_LENGTH) {
-        holder.registerError(expression, Messages.noConstantArgument,
+        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT,
             ExtractToVariableFix())
       }
     }
@@ -130,6 +137,12 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
       ) {
         holder.registerError(expression, "使用日志向控制台输出", JavaConsolePrintFix())
       }
+    }
+  }
+
+  private fun checkNaming(identifier: PsiIdentifier, method: NamingMethod) {
+    if (!method.test(identifier.text)) {
+      holder.registerError(identifier, "命名格式错误，格式必须符合${method.zhName}命名法", JavaElementNameFix(method))
     }
   }
 

@@ -36,6 +36,21 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
 
   private val settingsSerializer = DefaultArrangementSettingsSerializer(getDefaultSettings())
 
+  companion object {
+    private fun getDefaultSettings(): StdArrangementSettings {
+      val groupingRules = ContainerUtilRt.newArrayList(ArrangementGroupingRule(GETTERS_AND_SETTERS))
+      val matchRules = ContainerUtilRt.newArrayList<StdArrangementMatchRule>()
+      val aliasTokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
+        definitionRules = listOf(StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.PRIVATE).map {
+          StdArrangementMatchRule(
+              StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
+          )
+        }
+      })
+      return StdArrangementExtendableSettings.createByMatchRules(groupingRules, matchRules, aliasTokens)
+    }
+  }
+
   override fun getBlankLines(settings: CodeStyleSettings,
                              parentEntry: ArrangementEntry?,
                              previousEntry: ArrangementEntry?,
@@ -84,6 +99,23 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
     return parseInfo.entries
   }
 
+  override fun parseWithNew(
+      root: PsiElement, document: Document?,
+      ranges: MutableCollection<TextRange>, element: PsiElement,
+      settings: ArrangementSettings): Pair<ArrangementEntry, List<ArrangementEntry>>? {
+    val existingEntriesInfo = KotlinArrangementParseInfo()
+    root.accept(KotlinArrangementVisitor(existingEntriesInfo, document, ranges, settings))
+
+    val newEntryInfo = KotlinArrangementParseInfo()
+    element.accept(KotlinArrangementVisitor(newEntryInfo, document, setOf(element.textRange), settings))
+    return if (newEntryInfo.entries.size != 1) {
+      null
+    } else {
+      Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo
+          .entries[0], existingEntriesInfo.entries)
+    }
+  }
+
   private fun setupPropertyInitializationDependencies(propertyDependencyRoots: List<KotlinArrangementEntryDependencyInfo>) {
     val dependencyMap = propertyDependencyRoots.associateBy({ it }, { it.dependentEntriesInfos })
     for (root in propertyDependencyRoots) {
@@ -105,40 +137,6 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
         anchorProperty.addDependency(propertyInInitializer)
       }
     }
-  }
-
-  override fun parseWithNew(
-      root: PsiElement, document: Document?,
-      ranges: MutableCollection<TextRange>, element: PsiElement,
-      settings: ArrangementSettings): Pair<ArrangementEntry, List<ArrangementEntry>>? {
-    val existingEntriesInfo = KotlinArrangementParseInfo()
-    root.accept(KotlinArrangementVisitor(existingEntriesInfo, document, ranges, settings))
-
-    val newEntryInfo = KotlinArrangementParseInfo()
-    element.accept(KotlinArrangementVisitor(newEntryInfo, document, setOf(element.textRange), settings))
-    return if (newEntryInfo.entries.size != 1) {
-      null
-    } else {
-      Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo
-          .entries[0], existingEntriesInfo.entries)
-    }
-  }
-
-  companion object {
-
-    private fun getDefaultSettings(): StdArrangementSettings {
-      val groupingRules = ContainerUtilRt.newArrayList(ArrangementGroupingRule(GETTERS_AND_SETTERS))
-      val matchRules = ContainerUtilRt.newArrayList<StdArrangementMatchRule>()
-      val aliasTokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
-        definitionRules = listOf(StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.PRIVATE).map {
-          StdArrangementMatchRule(
-              StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-          )
-        }
-      })
-      return StdArrangementExtendableSettings.createByMatchRules(groupingRules, matchRules, aliasTokens)
-    }
-
   }
 
 }

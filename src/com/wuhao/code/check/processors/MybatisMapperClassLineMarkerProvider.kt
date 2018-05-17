@@ -29,6 +29,12 @@ import java.io.File
  */
 class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
+  companion object {
+    val ICON_FILE = IconLoader.getIcon("/icons/arrow_down.png")
+    const val MAPPER_ANNOTATION_TEXT = "@Mapper"
+    const val MAPPER_CLASS = "org.apache.ibatis.annotations.Mapper"
+  }
+
   override fun collectNavigationMarkers(element: PsiElement,
                                         result: MutableCollection<in RelatedItemLineMarkerInfo<*>>) {
     val mapperInfo = resolveMapperInfo(element)
@@ -42,7 +48,7 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
         val psiFile = psiManager.findFile(file) ?: file.toPsiFile(project)
         if (psiFile != null) {
           val tag = findTag(psiFile as XmlFile, mapperInfo)
-          val builder = NavigationGutterIconBuilder.create(FILE).setTargets(listOf(tag))
+          val builder = NavigationGutterIconBuilder.create(ICON_FILE).setTargets(listOf(tag))
               .setTooltipText("跳转至Mapper文件")
           result.add(builder.createLineMarkerInfo(element))
         }
@@ -113,14 +119,6 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
    * @param methodName 对应的方法名称
    */
   private data class MapperInfo(val isMethod: Boolean, val mapperName: String, val methodName: String? = null)
-
-  companion object {
-
-    val FILE = IconLoader.getIcon("/icons/arrow_down.png")
-    const val MAPPER_ANNOTATION_TEXT = "@Mapper"
-    const val MAPPER_CLASS = "org.apache.ibatis.annotations.Mapper"
-
-  }
 
 }
 

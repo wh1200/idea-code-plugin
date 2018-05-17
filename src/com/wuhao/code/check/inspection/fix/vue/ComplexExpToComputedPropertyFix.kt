@@ -90,9 +90,9 @@ class ComplexExpToComputedPropertyFix : LocalQuickFix {
       }, el)!!.psi
       el.firstChild.replace(newPlaceholder)
       val element = el.firstChild
-//      val newDescriptor = ProblemDescriptorImpl(element, element, "test",
-//          arrayOf(RenameIdentifierFix()), ProblemHighlightType.ERROR, false, null, false)
-//      RenameIdentifierFix().applyFix(project, newDescriptor)
+      //      val newDescriptor = ProblemDescriptorImpl(element, element, "test",
+      //          arrayOf(RenameIdentifierFix()), ProblemHighlightType.ERROR, false, null, false)
+      //      RenameIdentifierFix().applyFix(project, newDescriptor)
       renameElement(element)
     }
   }

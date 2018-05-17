@@ -13,10 +13,7 @@ import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
 import org.jetbrains.kotlin.idea.core.moveCaret
-import org.jetbrains.kotlin.psi.KtBlockExpression
-import org.jetbrains.kotlin.psi.KtElement
-import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.psi.KtPsiFactory
+import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
@@ -55,6 +52,14 @@ val PsiElement.prevSiblingIgnoreWhitespace: PsiElement?
 val KtNamedFunction.body: KtBlockExpression?
   get() {
     return this.getChildOfType()
+  }
+
+/**
+ * 判断kotlin属性是否val
+ */
+val KtProperty.isVal: Boolean
+  get() {
+    return !this.isVar
   }
 
 /**

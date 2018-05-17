@@ -27,7 +27,7 @@ class VueAttrsWhitespaceFixPostProcessor : PostFormatProcessor {
   }
 
   override fun processText(file: PsiFile, textRange: TextRange, styleSettings: CodeStyleSettings): TextRange {
-    if (file is HtmlFileImpl && file.language.displayName == LanguageNames.vue) {
+    if (file is HtmlFileImpl && file.language.displayName == LanguageNames.VUE) {
       val templateTag = file.document?.children?.firstOrNull { it is XmlTag && it.name == "template" }
       if (templateTag != null) {
         object : RecursiveVisitor() {

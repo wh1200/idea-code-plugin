@@ -20,8 +20,6 @@ import com.wuhao.code.check.insertElementBefore
  */
 class SpaceQuickFix(private val type: Type) : LocalQuickFix {
 
-
-
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val element = descriptor.psiElement
     when (type) {
@@ -40,7 +38,7 @@ class SpaceQuickFix(private val type: Type) : LocalQuickFix {
   }
 
   override fun getFamilyName(): String {
-    return Messages.fixSpace
+    return Messages.FIX_SPACE
   }
 
   private fun insertSpaceAfter(element: PsiElement) {

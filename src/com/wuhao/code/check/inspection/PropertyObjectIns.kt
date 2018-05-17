@@ -29,6 +29,10 @@ class PropertyClassCreateInspection : LocalInspectionTool() {
 
   private val myQuickFix = MyQuickFix()
 
+  companion object {
+    private val LOG = Logger.getInstance("#com.intellij.codeInspection.PropertyClassCreateInspection")
+  }
+
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
     return object : PsiElementVisitor() {
 
@@ -151,12 +155,6 @@ class PropertyClassCreateInspection : LocalInspectionTool() {
     fun getPropertyFieldsMap(cls: PsiClass): String {
       return getPropertyFieldsMap("", cls)
     }
-
-  }
-
-  companion object {
-
-    private val LOG = Logger.getInstance("#com.intellij.codeInspection.PropertyClassCreateInspection")
 
   }
 

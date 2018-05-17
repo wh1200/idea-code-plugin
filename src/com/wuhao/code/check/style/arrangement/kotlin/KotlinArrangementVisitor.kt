@@ -82,6 +82,100 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
   private val myProcessedSectionsComments = ContainerUtil.newHashSet<PsiComment>()
   private val myStack = Stack<KotlinElementArrangementEntry>()
 
+  companion object {
+    const val MAX_METHOD_LOOKUP_DEPTH = 3
+
+    private val MODIFIERS = ContainerUtilRt.newHashMap<KtModifierKeywordToken, ArrangementSettingsToken>().apply {
+      put(KtTokens.PROTECTED_KEYWORD, PROTECTED)
+      put(KtTokens.PRIVATE_KEYWORD, PRIVATE)
+      put(KtTokens.OPEN_KEYWORD, OPEN)
+      put(KtTokens.LATEINIT_KEYWORD, LATEINIT)
+      put(KtTokens.PUBLIC_KEYWORD, PUBLIC)
+      put(KtTokens.INTERNAL_KEYWORD, INTERNAL)
+      put(KtTokens.INLINE_KEYWORD, INLINE)
+      put(KtTokens.FINAL_KEYWORD, FINAL)
+      put(KtTokens.SEALED_KEYWORD, SEALED)
+      put(KtTokens.ABSTRACT_KEYWORD, ABSTRACT)
+      put(KtTokens.CONST_KEYWORD, CONST)
+      put(KtTokens.EXTERNAL_KEYWORD, EXTERNAL)
+    }
+
+    init {
+
+    }
+
+    private fun getComments(element: PsiElement): List<PsiComment> {
+      val children = element.children
+      val comments = ContainerUtil.newArrayList<PsiComment>()
+      for (e in children) {
+        if (e is PsiComment) {
+          comments.add(e)
+        } else if (e !is PsiWhiteSpace) {
+          return comments
+        }
+      }
+      return comments
+    }
+
+    private fun getElementRangeWithoutComments(element: PsiElement): TextRange {
+      val children = element.children
+      assert(children.size > 1 && children[0] is PsiComment)
+
+      var i = 0
+      var child = children[i]
+      while (child is PsiWhiteSpace || child is PsiComment) {
+        child = children[++i]
+      }
+
+      return TextRange(child.textRange.startOffset, element.textRange.endOffset)
+    }
+
+    private fun getPreviousNonWsComment(element: PsiElement?, minOffset: Int): PsiElement? {
+      if (element == null) {
+        return null
+      }
+      var e = element
+      while (e != null && e.textRange.startOffset >= minOffset) {
+        if (e is PsiWhiteSpace || e is PsiComment) {
+          e = e.prevSibling
+          continue
+        }
+        return e
+      }
+      return null
+    }
+
+    private fun hasLineBreak(text: CharSequence, range: TextRange): Boolean {
+      var i = range.startOffset
+      val end = range.endOffset
+      while (i < end) {
+        if (text[i] == '\n') {
+          return true
+        }
+        i++
+      }
+      return false
+    }
+
+
+    private fun parseModifiers(modifierList: KtModifierList?, entry: KotlinElementArrangementEntry) {
+      if (modifierList == null) {
+        return
+      }
+      for (modifier in KOTLIN_MODIFIERS) {
+        if (modifierList.hasModifier(modifier)) {
+          val arrangementModifier = MODIFIERS[modifier]
+          if (arrangementModifier != null) {
+            entry.addModifier(arrangementModifier)
+          }
+        }
+      }
+      if (modifierList.visibilityModifier() == null) {
+        entry.addModifier(PACKAGE_PRIVATE)
+      }
+    }
+  }
+
   override fun visitClass(clazz: KtClass, data: Any?) {
     // 不对枚举元素排序
     if (clazz is KtEnumEntry) {
@@ -424,102 +518,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
         return true
       }
       return false
-    }
-
-  }
-
-  companion object {
-
-    val MAX_METHOD_LOOKUP_DEPTH = 3
-
-    private val MODIFIERS = ContainerUtilRt.newHashMap<KtModifierKeywordToken, ArrangementSettingsToken>().apply {
-      put(KtTokens.PROTECTED_KEYWORD, PROTECTED)
-      put(KtTokens.PRIVATE_KEYWORD, PRIVATE)
-      put(KtTokens.OPEN_KEYWORD, OPEN)
-      put(KtTokens.LATEINIT_KEYWORD, LATEINIT)
-      put(KtTokens.PUBLIC_KEYWORD, PUBLIC)
-      put(KtTokens.INTERNAL_KEYWORD, INTERNAL)
-      put(KtTokens.INLINE_KEYWORD, INLINE)
-      put(KtTokens.FINAL_KEYWORD, FINAL)
-      put(KtTokens.SEALED_KEYWORD, SEALED)
-      put(KtTokens.ABSTRACT_KEYWORD, ABSTRACT)
-      put(KtTokens.CONST_KEYWORD, CONST)
-      put(KtTokens.EXTERNAL_KEYWORD, EXTERNAL)
-    }
-
-    init {
-
-    }
-
-    private fun getComments(element: PsiElement): List<PsiComment> {
-      val children = element.children
-      val comments = ContainerUtil.newArrayList<PsiComment>()
-      for (e in children) {
-        if (e is PsiComment) {
-          comments.add(e)
-        } else if (e !is PsiWhiteSpace) {
-          return comments
-        }
-      }
-      return comments
-    }
-
-    private fun getElementRangeWithoutComments(element: PsiElement): TextRange {
-      val children = element.children
-      assert(children.size > 1 && children[0] is PsiComment)
-
-      var i = 0
-      var child = children[i]
-      while (child is PsiWhiteSpace || child is PsiComment) {
-        child = children[++i]
-      }
-
-      return TextRange(child.textRange.startOffset, element.textRange.endOffset)
-    }
-
-    private fun getPreviousNonWsComment(element: PsiElement?, minOffset: Int): PsiElement? {
-      if (element == null) {
-        return null
-      }
-      var e = element
-      while (e != null && e.textRange.startOffset >= minOffset) {
-        if (e is PsiWhiteSpace || e is PsiComment) {
-          e = e.prevSibling
-          continue
-        }
-        return e
-      }
-      return null
-    }
-
-    private fun hasLineBreak(text: CharSequence, range: TextRange): Boolean {
-      var i = range.startOffset
-      val end = range.endOffset
-      while (i < end) {
-        if (text[i] == '\n') {
-          return true
-        }
-        i++
-      }
-      return false
-    }
-
-
-    private fun parseModifiers(modifierList: KtModifierList?, entry: KotlinElementArrangementEntry) {
-      if (modifierList == null) {
-        return
-      }
-      for (modifier in KOTLIN_MODIFIERS) {
-        if (modifierList.hasModifier(modifier)) {
-          val arrangementModifier = MODIFIERS[modifier]
-          if (arrangementModifier != null) {
-            entry.addModifier(arrangementModifier)
-          }
-        }
-      }
-      if (modifierList.visibilityModifier() == null) {
-        entry.addModifier(PACKAGE_PRIVATE)
-      }
     }
 
   }

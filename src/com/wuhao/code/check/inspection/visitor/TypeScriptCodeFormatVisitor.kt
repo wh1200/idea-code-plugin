@@ -21,8 +21,12 @@ import com.wuhao.code.check.registerError
 open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVisitor(),
     BaseCodeFormatVisitor {
 
+  companion object {
+    val TS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.ts\$".toRegex()
+  }
+
   override fun support(language: Language): Boolean {
-    return language.displayName == LanguageNames.typescript
+    return language.displayName == LanguageNames.TYPESCRIPT
   }
 
   override fun visitElement(element: PsiElement) {
@@ -39,12 +43,6 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
         }
       }
     }
-  }
-
-  companion object {
-
-    val TS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.ts\$".toRegex()
-
   }
 
 }

@@ -26,6 +26,12 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
 
   private val myStack = Stack<XmlElementArrangementEntry>()
 
+  companion object {
+    const val SCRIPT_TAG = "script"
+    const val STYLE_TAG = "style"
+    const val TEMPLATE_TAG = "template"
+  }
+
   override fun visitFile(file: PsiFile?) {
     if (file is XmlFile) {
       val tag = file.rootTag
@@ -94,14 +100,6 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     } finally {
       myStack.pop()
     }
-  }
-
-  companion object {
-
-    const val SCRIPT_TAG = "script"
-    const val STYLE_TAG = "style"
-    const val TEMPLATE_TAG = "template"
-
   }
 
 }

@@ -43,6 +43,87 @@ class HttpRequest private constructor() {
   private var url: String? = null
   private var username: String? = null
 
+  companion object {
+    const val BUFFER_SIZE = 4096
+
+    var log: Log = LogFactory.getLog(HttpRequest::class.java)
+
+    fun decodeUnicode(str: String): String {
+      val set = Charset.forName("UTF-16")
+      val p = Pattern.compile("\\\\u([0-9a-fA-F]{4})")
+      val m = p.matcher(str)
+      var start = 0
+      var start2: Int
+      val sb = StringBuilder()
+      while (m.find(start)) {
+        start2 = m.start()
+        if (start2 > start) {
+          val seg = str.substring(start, start2)
+          sb.append(seg)
+        }
+        val code = m.group(1)
+        val len = 16
+        val i = Integer.valueOf(code, len)
+        val bb = ByteArray(4)
+        bb[0] = (i shr 8 and 0xFF).toByte()
+        bb[1] = (i and 0xFF).toByte()
+        val b = ByteBuffer.wrap(bb)
+        sb.append(set.decode(b).toString().trim { it <= ' ' })
+        start = m.end()
+      }
+      start2 = str.length
+      if (start2 > start) {
+        val seg = str.substring(start, start2)
+        sb.append(seg)
+      }
+      return sb.toString()
+    }
+
+    fun newDelete(): HttpRequest {
+      return HttpRequest().deleteMethod()
+    }
+
+    fun newDelete(url: String): HttpRequest {
+      return HttpRequest().deleteMethod(url)
+    }
+
+    fun newGet(): HttpRequest {
+      return HttpRequest().getMethod()
+    }
+
+    fun newGet(url: String): HttpRequest {
+      return HttpRequest().getMethod(url)
+    }
+
+    fun newHead(): HttpRequest {
+      return HttpRequest().headMethod()
+    }
+
+    fun newHead(url: String): HttpRequest {
+      return HttpRequest().headMethod(url)
+    }
+
+    fun newInstance(): HttpRequest {
+      return HttpRequest()
+    }
+
+    fun newPost(): HttpRequest {
+      return HttpRequest().postMethod()
+    }
+
+    fun newPost(url: String): HttpRequest {
+      return HttpRequest().postMethod(url)
+    }
+
+    fun newPut(): HttpRequest {
+      return HttpRequest().putMethod()
+    }
+
+    fun newPut(url: String): HttpRequest {
+      return HttpRequest().putMethod(url)
+    }
+  }
+
   init {
     this.params = HashMap()
     this.headers = HashMap()
@@ -159,11 +240,6 @@ class HttpRequest private constructor() {
     return this
   }
 
-  private fun withUrl(url: String): HttpRequest {
-    this.url = url
-    return this
-  }
-
   private fun containsFile(): Boolean {
     for (key in params!!.keys) {
       if (params[key] != null && (params[key] is File || params[key] is Part)) {
@@ -272,6 +348,11 @@ class HttpRequest private constructor() {
       listener!!.end()
     }
     return output.toByteArray()
+  }
+
+  private fun withUrl(url: String): HttpRequest {
+    this.url = url
+    return this
   }
 
   /**
@@ -477,89 +558,6 @@ class HttpRequest private constructor() {
   private open inner class RequestThread internal constructor() : Thread() {
 
     var result: HttpResult? = null
-
-  }
-
-  companion object {
-
-    const val BUFFER_SIZE = 4096
-
-    var log: Log = LogFactory.getLog(HttpRequest::class.java)
-
-    fun decodeUnicode(str: String): String {
-      val set = Charset.forName("UTF-16")
-      val p = Pattern.compile("\\\\u([0-9a-fA-F]{4})")
-      val m = p.matcher(str)
-      var start = 0
-      var start2: Int
-      val sb = StringBuilder()
-      while (m.find(start)) {
-        start2 = m.start()
-        if (start2 > start) {
-          val seg = str.substring(start, start2)
-          sb.append(seg)
-        }
-        val code = m.group(1)
-        val len = 16
-        val i = Integer.valueOf(code, len)
-        val bb = ByteArray(4)
-        bb[0] = (i shr 8 and 0xFF).toByte()
-        bb[1] = (i and 0xFF).toByte()
-        val b = ByteBuffer.wrap(bb)
-        sb.append(set.decode(b).toString().trim { it <= ' ' })
-        start = m.end()
-      }
-      start2 = str.length
-      if (start2 > start) {
-        val seg = str.substring(start, start2)
-        sb.append(seg)
-      }
-      return sb.toString()
-    }
-
-    fun newDelete(): HttpRequest {
-      return HttpRequest().deleteMethod()
-    }
-
-    fun newDelete(url: String): HttpRequest {
-      return HttpRequest().deleteMethod(url)
-    }
-
-    fun newGet(): HttpRequest {
-      return HttpRequest().getMethod()
-    }
-
-    fun newGet(url: String): HttpRequest {
-      return HttpRequest().getMethod(url)
-    }
-
-    fun newHead(): HttpRequest {
-      return HttpRequest().headMethod()
-    }
-
-    fun newHead(url: String): HttpRequest {
-      return HttpRequest().headMethod(url)
-    }
-
-    fun newInstance(): HttpRequest {
-      return HttpRequest()
-    }
-
-    fun newPost(): HttpRequest {
-      return HttpRequest().postMethod()
-    }
-
-    fun newPost(url: String): HttpRequest {
-      return HttpRequest().postMethod(url)
-    }
-
-    fun newPut(): HttpRequest {
-      return HttpRequest().putMethod()
-    }
-
-    fun newPut(url: String): HttpRequest {
-      return HttpRequest().putMethod(url)
-    }
 
   }
 

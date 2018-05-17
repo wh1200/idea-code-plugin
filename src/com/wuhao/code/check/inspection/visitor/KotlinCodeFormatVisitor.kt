@@ -24,24 +24,21 @@ import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor.Companion.s
 import org.jetbrains.kotlin.KtNodeTypes.*
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
-import org.jetbrains.kotlin.lexer.KtKeywordToken
 import org.jetbrains.kotlin.lexer.KtTokens.CONST_KEYWORD
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.containingClassOrObject
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 
 /**
- * Created by 吴昊 on 18-4-26.
+ * kotlin代码格式检查访问器
+ * Created by 吴昊 on 18/4/26.
+ *
  * @author 吴昊
  * @since 1.1
  */
 class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), BaseCodeFormatVisitor {
-
-  companion object {
-
-    val KOTLIN_PROPERTY_TYPES = listOf("val", "var")
-
-  }
 
   override fun support(language: Language): Boolean {
     return language == KotlinLanguage.INSTANCE
@@ -61,7 +58,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
         && expression.parent.getChildOfType<KtValueArgumentName>() == null
         && expression.textLength > 1) {
       if (expression.node.elementType != STRING_TEMPLATE || expression.textLength >= MAX_STRING_ARGUMENT_LENGTH) {
-        holder.registerError(expression, Messages.noConstantArgument, ExtractConstantToPropertyFix())
+        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
       }
     }
   }
@@ -69,19 +66,10 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   override fun visitElement(element: PsiElement) {
     when (element) {
       is LeafPsiElement -> {
-        // 检查变量名称，不得少于2个字符
-        if ((element.text in KOTLIN_PROPERTY_TYPES)
-            && element.elementType is KtKeywordToken) {
-          val paramNameLength = element.nextSibling?.nextSibling?.text?.length
-          if (paramNameLength != null && paramNameLength <= 1) {
-            //            holder.registerError(element.nextSibling.nextSibling, "变量名称不得少于两个字符")
-          }
-        }
         // Kotlin中不需要使用分号
         if (element.text == ";" && element.parent !is KtLiteralStringTemplateEntry
             && element.parent !is KtEnumEntry) {
-          holder.registerError(element, "Kotlin中代码不需要以;结尾",
-              KotlinCommaFix())
+          holder.registerError(element, "Kotlin中代码不需要以;结尾", KotlinCommaFix())
         }
       }
     }
@@ -113,18 +101,38 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     if (!Camel.test(function.name!!)) {
       registerNameError(function, Camel)
     }
+    if (function.name!!.length == 1) {
+      // 检查成员属性名称，不得少于2个字符
+      holder.registerError(
+          function.nameIdentifier ?: function,
+          Messages.NAME_MUST_NOT_LESS_THAN2_CHARS,
+          RenameIdentifierFix()
+      )
+    }
   }
 
   override fun visitProperty(property: KtProperty, data: Any?) {
     val name = property.name!!
-    if (property.hasModifier(CONST_KEYWORD)) {
-      if (!Constant.test(name)) {
+    val classOrObject = property.containingClassOrObject
+    if (property.hasModifier(CONST_KEYWORD)
+        || (property.isVal && (property.isTopLevel
+            || (property.isMember && classOrObject is KtObjectDeclaration)))) {
+      if (classOrObject is KtObjectDeclaration && classOrObject.isCompanion()) {
+        if (!Constant.test(name) && !Camel.test(name)) {
+          registerNameError(property, Constant)
+          registerNameError(property, Camel)
+        }
+      } else if (!Constant.test(name) && property.typeReference == null) {
         registerNameError(property, Constant)
       }
     } else {
       if (!Camel.test(name)) {
         registerNameError(property, Camel)
       }
+    }
+    if ((property.isMember || property.isTopLevel) && name.length == 1) {
+      // 检查成员属性名称，不得少于2个字符
+      holder.registerError(property.nameIdentifier ?: property, "成员属性名称不得少于两个字符", RenameIdentifierFix())
     }
     super.visitProperty(property, data)
   }
@@ -133,22 +141,25 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     // 使用日志输入代替System.out
     if (expression.text == "println") {
       if (expression.ancestorOfType<KtFunction>() == null
-          || !expression.getAncestorsOfType<KtFunction>().any { func ->
-            func.annotationEntries.map { annotationEntry ->
-              annotationEntry.toLightAnnotation()
-            }.any { lightAnnotation ->
-              lightAnnotation?.qualifiedName == JUNIT_TEST_ANNOTATION_CLASS_NAME
-            }
-          }
-      ) {
+          || !isInJUnitTestMethod(expression)) {
         holder.registerError(expression, "使用日志向控制台输出", KotlinConsolePrintFix())
+      }
+    }
+  }
+
+  private fun isInJUnitTestMethod(expression: KtReferenceExpression): Boolean {
+    return expression.getAncestorsOfType<KtFunction>().any { func ->
+      func.annotationEntries.map { annotationEntry ->
+        annotationEntry.toLightAnnotation()
+      }.any { lightAnnotation ->
+        lightAnnotation?.qualifiedName == JUNIT_TEST_ANNOTATION_CLASS_NAME
       }
     }
   }
 
   private fun registerNameError(element: KtCallableDeclaration, method: NamingMethod) {
     holder.registerError(element.nameIdentifier ?: element,
-        "属性名称应该遵${method.zhName}命名法", KotlinNameFix(method))
+        "名称应该遵${method.zhName}命名法", KotlinNameFix(method))
   }
 
 }

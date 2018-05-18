@@ -12,6 +12,7 @@ import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.lang.javascript.dialects.ECMA6LanguageDialect
 import com.intellij.lang.javascript.dialects.TypeScriptLanguageDialect
+import com.intellij.lang.xml.XMLLanguage
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
@@ -21,7 +22,6 @@ import com.wuhao.code.check.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
 import com.wuhao.code.check.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.PluginStart
 import com.wuhao.code.check.registerError
-import org.apache.xmlbeans.XmlLanguage
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueLanguage
 import org.jetbrains.vuejs.language.VueJSLanguage
@@ -44,13 +44,13 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
   }
 
   override fun support(language: Language): Boolean {
-    return language is KotlinLanguage
-        || language is JavaLanguage
+    return language is KotlinLanguage ||
+        language is JavaLanguage
         || language is JavascriptLanguage
         || language is TypeScriptLanguageDialect
         || language is ECMA6LanguageDialect
         || language is VueLanguage
-        || language is XmlLanguage
+        || language is XMLLanguage
         || language is VueJSLanguage
   }
 

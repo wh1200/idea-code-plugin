@@ -17,10 +17,10 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTypesUtil
 import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.ancestorOfType
+import com.wuhao.code.check.ktPsiFactory
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
-import org.jetbrains.kotlin.psi.KtPsiFactory
 
 /**
  * Created by 吴昊 on 2017/7/28.
@@ -82,7 +82,7 @@ class PropertyClassCreateInspection : LocalInspectionTool() {
         val file = descriptor.psiElement as KtFile
         if (file.classes.size == 1) {
           val cls = file.classes[0]
-          val factory = KtPsiFactory(project)
+          val factory = file.ktPsiFactory
           val fieldStr = getPropertyFieldsMap(cls)
           val newCls = factory.createObject("""object Q${cls.name} {
             $fieldStr

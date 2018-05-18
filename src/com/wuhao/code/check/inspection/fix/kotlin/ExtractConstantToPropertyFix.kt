@@ -28,7 +28,7 @@ class ExtractConstantToPropertyFix : LocalQuickFix {
               || it is KtQualifiedExpression || it is KtProperty
         }.last()
     val propertyName = resolveParameterName(constant)
-    val factory = KtPsiFactory(project)
+    val factory = constant.ktPsiFactory
     val property = factory.createProperty("val $propertyName = ${constant.text}")
     val newProperty = property.insertBefore(exp)
     val newValueArgument = constant.parent

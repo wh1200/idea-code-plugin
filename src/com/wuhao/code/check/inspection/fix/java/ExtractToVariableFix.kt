@@ -20,7 +20,7 @@ class ExtractToVariableFix : LocalQuickFix {
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val el = descriptor.endElement as PsiLiteralExpression
-    val factory = el.psiFactory
+    val factory = el.psiElementFactory
     val name = resolveParameterName(el)
     val statement = el.parents().firstOrNull { it is PsiExpressionStatement || it is PsiField }
     if (statement != null) {

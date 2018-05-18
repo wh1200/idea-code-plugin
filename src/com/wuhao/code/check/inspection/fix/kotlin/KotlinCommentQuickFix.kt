@@ -13,10 +13,10 @@ import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BL
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_START
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_STRING
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.CLASS_COMMENT
+import com.wuhao.code.check.ktPsiFactory
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFunction
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
-import org.jetbrains.kotlin.psi.KtPsiFactory
 
 /**
  * 注释修复
@@ -43,7 +43,7 @@ class KotlinCommentQuickFix : LocalQuickFix {
         is KtFunction -> buildFunctionComment(measureElement)
         else -> BLOCK_COMMENT_STRING
       }
-      val factory = KtPsiFactory(project)
+      val factory = element.ktPsiFactory
       val comment = factory.createComment(commentString)
       if (element is LeafPsiElement) {
         element.parent.addBefore(comment, element.parent.firstChild)

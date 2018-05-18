@@ -6,14 +6,20 @@ package com.wuhao.code.check
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.newvfs.impl.VirtualDirectoryImpl
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiElementFactory
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
 import org.jetbrains.kotlin.idea.core.moveCaret
-import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.KtBlockExpression
+import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.psi.KtProperty
+import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
@@ -99,29 +105,36 @@ inline fun <reified T> PsiElement.isFirstChildOfType(): Boolean {
   return this.parent != null && this.parent.children.firstOrNull { it is T } == this
 }
 
-/**
- * 获取java psi元素的工厂类
- * @param element psi元素
- * @return
- */
-fun getPsiElementFactory(element: PsiElement): PsiElementFactoryImpl {
-  return PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(element.project))
-}
+private val PSI_ELEMENT_FACTORY_CACHE = HashMap<Project, PsiElementFactory>()
 
 /**
- * 返回当前psi元素工厂类
+ * 获取java psi元素的工厂类
+ * @return
  */
-val PsiElement.psiFactory: PsiElementFactoryImpl
+val PsiElement.psiElementFactory: PsiElementFactory
   get() {
-    return PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(this.project))
+    if (PSI_ELEMENT_FACTORY_CACHE[this.project] == null) {
+      PSI_ELEMENT_FACTORY_CACHE[this.project] = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(this.project))
+    }
+    return PSI_ELEMENT_FACTORY_CACHE[this.project]!!
   }
+private val KT_PSI_FACTORY_CACHE = HashMap<Project, KtPsiFactory>()
 
 /**
  * 获取kt元素的工厂类
  */
-val KtElement.ktFactory: KtPsiFactory
+val PsiElement.ktPsiFactory: KtPsiFactory
+  get() = this.project.ktPsiFactory
+
+/**
+ * 获取kt元素的工厂类
+ */
+val Project.ktPsiFactory:KtPsiFactory
   get() {
-    return KtPsiFactory(this.project)
+    if (KT_PSI_FACTORY_CACHE[this] == null) {
+      KT_PSI_FACTORY_CACHE[this] = KtPsiFactory(this)
+    }
+    return KT_PSI_FACTORY_CACHE[this]!!
   }
 
 /**
@@ -190,37 +203,53 @@ fun renameElement(element: PsiElement,
   val handler = VariableInplaceRenameHandler()
   handler.invoke(realElement.project, editor, realElement.containingFile, context)
 }
-//val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
-//  get() {
-//    val list = ArrayList<VirtualFile>()
-//    getCachedChildren(list, this)
-//    return list
-//  }
 
-//val PsiElement.posterity: ArrayList<PsiElement>
-//  get() {
-//    val list = ArrayList<PsiElement>()
-//    getChildren(list, this)
-//    return list
-//  }
+/**
+ * 获取目录下所有缓存的文件
+ */
+val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
+  get() {
+    val list = ArrayList<VirtualFile>()
+    getCachedChildren(list, this)
+    return list
+  }
 
-//private fun getChildren(list: ArrayList<PsiElement>, psiElement: PsiElement) {
-//  if (psiElement.children.isNotEmpty()) {
-//    list.addAll(psiElement.children)
-//    psiElement.children.forEach {
-//      getChildren(list, it)
-//    }
-//  }
-//}
+/**
+ * 获取所有后代元素
+ */
+val PsiElement.posterity: ArrayList<PsiElement>
+  get() {
+    val list = ArrayList<PsiElement>()
+    getChildren(list, this)
+    return list
+  }
 
-//private fun getCachedChildren(list: ArrayList<VirtualFile>, virtualDirectoryImpl: VirtualDirectoryImpl) {
-//  list.addAll(virtualDirectoryImpl.cachedChildren.filter { !it.isDirectory })
-//  virtualDirectoryImpl.cachedChildren.filter { it is VirtualDirectoryImpl }
-//    .forEach {
-//      getCachedChildren(list, it as VirtualDirectoryImpl)
-//    }
-//}
+/**
+ *
+ * @param list
+ * @param psiElement
+ */
+private fun getChildren(list: ArrayList<PsiElement>, psiElement: PsiElement) {
+  if (psiElement.children.isNotEmpty()) {
+    list.addAll(psiElement.children)
+    psiElement.children.forEach {
+      getChildren(list, it)
+    }
+  }
+}
 
+/**
+ *
+ * @param list
+ * @param virtualDirectoryImpl
+ */
+private fun getCachedChildren(list: ArrayList<VirtualFile>, virtualDirectoryImpl: VirtualDirectoryImpl) {
+  list.addAll(virtualDirectoryImpl.cachedChildren.filter { !it.isDirectory })
+  virtualDirectoryImpl.cachedChildren.filter { it is VirtualDirectoryImpl }
+      .forEach {
+        getCachedChildren(list, it as VirtualDirectoryImpl)
+      }
+}
 
 /**
  * 获取指定类型的最近的祖先元素

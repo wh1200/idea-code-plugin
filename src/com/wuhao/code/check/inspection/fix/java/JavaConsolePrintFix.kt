@@ -12,7 +12,7 @@ import com.intellij.psi.PsiImportList
 import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiReferenceExpression
 import com.wuhao.code.check.getNewLine
-import com.wuhao.code.check.getPsiElementFactory
+import com.wuhao.code.check.psiElementFactory
 import com.wuhao.code.check.insertElementAfter
 import org.jetbrains.uast.getContainingClass
 
@@ -34,7 +34,7 @@ class JavaConsolePrintFix : LocalQuickFix {
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val el = descriptor.endElement
-    val factory = getPsiElementFactory(el)
+    val factory = el.psiElementFactory
     if (el.firstChild is PsiReferenceExpression) {
       val clazz = el.getContainingClass()
       if (clazz != null) {

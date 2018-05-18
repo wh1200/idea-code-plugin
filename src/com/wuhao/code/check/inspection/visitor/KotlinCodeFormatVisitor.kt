@@ -98,16 +98,19 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
         holder.registerError(function, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行")
       }
     }
-    if (!Camel.test(function.name!!)) {
-      registerNameError(function, Camel)
-    }
-    if (function.name!!.length == 1) {
-      // 检查成员属性名称，不得少于2个字符
-      holder.registerError(
-          function.nameIdentifier ?: function,
-          Messages.NAME_MUST_NOT_LESS_THAN2_CHARS,
-          RenameIdentifierFix()
-      )
+    val name = function.name
+    if (name != null) {
+      if (!Camel.test(name)) {
+        registerNameError(function, Camel)
+      }
+      if (name.length == 1) {
+        // 检查成员属性名称，不得少于2个字符
+        holder.registerError(
+            function.nameIdentifier ?: function,
+            Messages.NAME_MUST_NOT_LESS_THAN2_CHARS,
+            RenameIdentifierFix()
+        )
+      }
     }
   }
 

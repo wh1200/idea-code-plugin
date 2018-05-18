@@ -37,8 +37,7 @@ class FixKotlinPostProcessor : PostFormatProcessor {
 
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
     if (source.language is KotlinLanguage) {
-      val factory = KtPsiFactory(source.project)
-      source.accept(KotlinFixVisitor(factory))
+      source.accept(KotlinFixVisitor(source.ktPsiFactory))
     }
     return TextRange(0, source.endOffset)
   }
@@ -54,7 +53,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
 
   override fun visitClass(klass: KtClass, data: Any?) {
     if (klass.isEnum()) {
-      val factory = KtPsiFactory(klass.project)
+      val factory = klass.ktPsiFactory
       klass.getBody()?.let { body ->
         val oldEntries = body.getChildrenOfType<KtEnumEntry>()
         if (oldEntries.isNotEmpty()) {

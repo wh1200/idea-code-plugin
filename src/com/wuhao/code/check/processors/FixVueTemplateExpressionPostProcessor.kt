@@ -16,10 +16,10 @@ import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.LanguageNames
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
+import com.wuhao.code.check.ktPsiFactory
 import com.wuhao.code.check.lang.RecursiveVisitor
 import com.wuhao.code.check.lang.vue.isInjectAttribute
 import com.wuhao.code.check.style.arrangement.vue.VueRecursiveVisitor
-import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
 /**
@@ -62,7 +62,7 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
 class JSExpressionVisitor : RecursiveVisitor() {
 
   override fun visitElement(element: PsiElement) {
-    val factory = KtPsiFactory(element.project)
+    val factory = element.ktPsiFactory
     if (element.text in listOf(",", "+", "-", "*", "/", "?",
             ":", ">", "<", "=", "!=", "===", "==", "===",
             ">=", "<=", "||", "%",

@@ -11,7 +11,7 @@ import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.ancestors
-import org.jetbrains.kotlin.psi.KtPsiFactory
+import com.wuhao.code.check.ktPsiFactory
 
 /**
  * vue模板标签属性排序及格式化
@@ -35,7 +35,7 @@ class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : Loca
     }
 
     fun fixWhitespace(el: XmlTag) {
-      val factory = KtPsiFactory(el.project)
+      val factory = el.ktPsiFactory
       el.attributes.forEachIndexed { index, it ->
         val spaceBefore = it.prevSibling as PsiWhiteSpace
         if (it.value == null && spaceBefore.textContains('\n')) {

@@ -13,13 +13,13 @@ import com.wuhao.code.check.*
 import com.wuhao.code.check.enums.NamingMethod
 import com.wuhao.code.check.enums.NamingMethod.Camel
 import com.wuhao.code.check.enums.NamingMethod.Constant
-import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.After
 import com.wuhao.code.check.inspection.fix.kotlin.ExtractConstantToPropertyFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommaFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinConsolePrintFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinNameFix
+import com.wuhao.code.check.inspection.inspections.CodeFormatInspection
 import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor.Companion.shouldHaveSpaceBeforeOrAfter
 import org.jetbrains.kotlin.KtNodeTypes.*
 import org.jetbrains.kotlin.asJava.toLightAnnotation

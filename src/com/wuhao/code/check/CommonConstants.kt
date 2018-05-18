@@ -51,7 +51,7 @@ fun ProblemsHolder.registerError(element: PsiElement, message: String) {
  * @param fix 修复方法
  */
 fun ProblemsHolder.registerError(element: PsiElement, message: String, fix: LocalQuickFix) {
-  this.registerProblem(element, message, ProblemHighlightType.ERROR, fix)
+  this.registerProblem(element, message, fix)
 }
 
 

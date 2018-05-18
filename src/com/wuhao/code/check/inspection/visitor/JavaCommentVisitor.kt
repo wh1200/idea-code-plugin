@@ -24,6 +24,7 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
 
   companion object {
     const val ENTITY_CLASS = "javax.persistence.Entity"
+    const val SPRING_DOCUMENT_CLASS = "org.springframework.data.elasticsearch.annotations.Document"
     const val TABLE_CLASS = "javax.persistence.Table"
   }
 
@@ -43,7 +44,7 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
         holder.registerError(clazz, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
       }
     }
-    if (clazz.annotations.any { it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS) }) {
+    if (clazz.annotations.any { it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS, SPRING_DOCUMENT_CLASS) }) {
       clazz.fields.filter {
         !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
             && it.firstChild !is PsiDocComment

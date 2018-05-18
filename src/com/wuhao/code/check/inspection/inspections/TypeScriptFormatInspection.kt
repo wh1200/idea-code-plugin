@@ -1,23 +1,22 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.inspection
+package com.wuhao.code.check.inspection.inspections
 
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
+import com.wuhao.code.check.constants.InspectionNames.TYPESCRIPT_FORMAT
 import com.wuhao.code.check.inspection.visitor.CodeFormatVisitor
-import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor
+import com.wuhao.code.check.inspection.visitor.TypeScriptCodeFormatVisitor
 
 /**
  * @author 吴昊
  * @since 1.0
  */
-class JavaFormatInspection : BaseInspection(
-    "Java代码格式检查",
-    "aegis.code.check.validation.java") {
+class TypeScriptFormatInspection : BaseInspection(TYPESCRIPT_FORMAT) {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
-    return CodeFormatVisitor(JavaCodeFormatVisitor(holder), holder)
+    return CodeFormatVisitor(TypeScriptCodeFormatVisitor(holder))
   }
 
 }

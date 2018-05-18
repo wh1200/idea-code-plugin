@@ -16,10 +16,9 @@ import com.intellij.testFramework.builders.ModuleFixtureBuilder
 import com.intellij.testFramework.createGlobalContextForTool
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
-import com.intellij.util.containers.ContainerUtil
-import com.wuhao.code.check.inspection.JavaCommentInspection
-import com.wuhao.code.check.inspection.JavaFormatInspection
-import com.wuhao.code.check.inspection.KotlinFormatInspection
+import com.wuhao.code.check.inspection.inspections.JavaCommentInspection
+import com.wuhao.code.check.inspection.inspections.JavaFormatInspection
+import com.wuhao.code.check.inspection.inspections.KotlinFormatInspection
 import java.io.File
 
 
@@ -29,6 +28,10 @@ import java.io.File
  * @since 1.2.6
  */
 class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>() {
+
+  companion object {
+    const val BASE_PATH = "testData/src/"
+  }
 
   override fun getBasePath(): String {
     return File("").absolutePath
@@ -147,12 +150,6 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     InspectionTestUtil.runTool(toolWrapper, scope, globalContext)
     (myFixture.tempDirFixture as? LightTempDirTestFixtureImpl)?.deleteAll()
     return globalContext.getPresentation(toolWrapper).problemDescriptors
-  }
-
-  companion object {
-
-    const val BASE_PATH = "testData/src/"
-
   }
 
 }

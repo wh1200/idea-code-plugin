@@ -30,11 +30,8 @@ object KotlinModifier {
   val PROTECTED: ArrangementSettingsToken = invertible("PROTECTED", StdArrangementTokenType.MODIFIER)
   val PUBLIC: ArrangementSettingsToken = invertible("PUBLIC", StdArrangementTokenType.MODIFIER)
   val SEALED: ArrangementSettingsToken = invertible("SEALED", StdArrangementTokenType.MODIFIER)
-  private val TOKENS = collectFields(KotlinModifier::class.java)
 
-  fun values(): Set<ArrangementSettingsToken> {
-    return TOKENS.value
-  }
+  fun values() = collectFields<ArrangementSettingsToken>(KotlinModifier::class.java)
 
   private fun compositeToken(id: String,
                              type: StdArrangementTokenType,

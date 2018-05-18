@@ -1,10 +1,8 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.inspection
+package com.wuhao.code.check.inspection.inspections
 
-import com.intellij.codeInsight.daemon.GroupNames
-import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
@@ -17,6 +15,10 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTypesUtil
 import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.ancestorOfType
+import com.wuhao.code.check.constants.InspectionNames.PROPERTY_CLASS
+import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor.Companion.ENTITY_CLASS
+import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor.Companion.SPRING_DOCUMENT_CLASS
+import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor.Companion.TABLE_CLASS
 import com.wuhao.code.check.ktPsiFactory
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.psi.KtFile
@@ -25,7 +27,7 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 /**
  * Created by 吴昊 on 2017/7/28.
  */
-class PropertyClassCreateInspection : LocalInspectionTool() {
+class PropertyClassCreateInspection : BaseInspection(PROPERTY_CLASS) {
 
   private val myQuickFix = MyQuickFix()
 
@@ -39,31 +41,15 @@ class PropertyClassCreateInspection : LocalInspectionTool() {
       override fun visitFile(el: PsiFile) {
         if (el.language is KotlinLanguage && el is KtFile && el.classes.size == 1) {
           if (el.classes[0].annotations.any {
-                it.qualifiedName in listOf("javax.persistence.Entity",
-                    "org.springframework.data.elasticsearch.annotations.Document")
+                it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS,
+                    SPRING_DOCUMENT_CLASS)
               }) {
-            holder.registerProblem(el, "create property class", myQuickFix)
+            holder.registerProblem(el, "创建属性名称对象", myQuickFix)
           }
         }
       }
 
     }
-  }
-
-  override fun getDisplayName(): String {
-    return "create property class"
-  }
-
-  override fun getGroupDisplayName(): String {
-    return GroupNames.BUGS_GROUP_NAME
-  }
-
-  override fun getShortName(): String {
-    return "EntityPropertyClassCreation"
-  }
-
-  override fun isEnabledByDefault(): Boolean {
-    return true
   }
 
   override fun loadDescription(): String? {

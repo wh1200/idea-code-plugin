@@ -12,12 +12,12 @@ import com.intellij.psi.JavaTokenType.*
 import com.intellij.psi.impl.source.PsiClassImpl
 import com.wuhao.code.check.*
 import com.wuhao.code.check.enums.NamingMethod
-import com.wuhao.code.check.inspection.CodeFormatInspection
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.Before
 import com.wuhao.code.check.inspection.fix.java.ExtractToVariableFix
 import com.wuhao.code.check.inspection.fix.java.JavaConsolePrintFix
 import com.wuhao.code.check.inspection.fix.java.JavaElementNameFix
+import com.wuhao.code.check.inspection.inspections.CodeFormatInspection
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 

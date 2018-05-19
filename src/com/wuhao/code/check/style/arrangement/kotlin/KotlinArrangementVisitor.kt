@@ -16,7 +16,7 @@ import com.intellij.util.Functions
 import com.intellij.util.containers.ContainerUtil
 import com.intellij.util.containers.ContainerUtilRt
 import com.intellij.util.containers.Stack
-import com.wuhao.code.check.KOTLIN_MODIFIERS
+import com.wuhao.code.check.constants.KOTLIN_MODIFIERS
 import com.wuhao.code.check.style.KotlinEntryType.CLASS
 import com.wuhao.code.check.style.KotlinEntryType.COMPANION_OBJECT
 import com.wuhao.code.check.style.KotlinEntryType.DATA_CLASS

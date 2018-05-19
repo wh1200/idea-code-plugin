@@ -11,7 +11,7 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
-import com.wuhao.code.check.MAPPER_RELATIVE_PATH
+import com.wuhao.code.check.constants.MAPPER_RELATIVE_PATH
 import com.wuhao.code.check.processors.MybatisMapperFileLineMarkerProvider.Companion.ID_ATTR_NAME
 import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 import org.jetbrains.kotlin.lexer.KtTokens

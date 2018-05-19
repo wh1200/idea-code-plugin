@@ -36,18 +36,18 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
     source.accept(object : JavaRecursiveElementVisitor() {
 
       override fun visitClass(aClass: PsiClass) {
-        setBoth2(aClass)
+        aClass.setBlankLineBoth(1)
         super.visitClass(aClass)
       }
 
       override fun visitDocComment(comment: PsiDocComment) {
-        fixBlankLineAfter(comment, 1, ktFactory)
+        comment.setBlankLineAfter()
         super.visitDocComment(comment)
       }
 
       override fun visitElement(element: PsiElement) {
         if (element.parent is PsiClass && element is PsiJavaToken && element.text == "{") {
-          fixBlankLineAfter(element, 2, ktFactory)
+          element.setBlankLineAfter(1)
         }
         super.visitElement(element)
       }
@@ -56,18 +56,18 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
         val nextField = field.getNextSiblingIgnoringWhitespace()
         val prevField = field.getPrevSiblingIgnoringWhitespaceAndComments()
         if (prevField !is PsiField) {
-          fixBlankLineBefore(field, 2, ktFactory)
+          field.setBlankLineBefore(1)
         }
         if (nextField is PsiField) {
-          fixBlankLineAfter(field, 1, ktFactory)
+          field.setBlankLineAfter()
         } else {
-          fixBlankLineAfter(field, 2, ktFactory)
+          field.setBlankLineAfter(1)
         }
         super.visitField(field)
       }
 
       override fun visitImportList(list: PsiImportList) {
-        setBoth2(list)
+        list.setBlankLineBoth(1)
         super.visitImportList(list)
       }
 
@@ -88,7 +88,7 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
             } else {
               val newAnnotation = modifierList.firstChild.insertElementBefore(annotation)
               if (modifierList.getChildrenOfType<PsiAnnotation>().isNotEmpty()) {
-                newAnnotation.insertElementBefore(getNewLine(method.project))
+                newAnnotation.setBlankLineBefore()
               }
             }
           }
@@ -96,44 +96,29 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
         val nextMethod = method.getNextSiblingIgnoringWhitespace()
         val prevMethod = method.getPrevSiblingIgnoringWhitespaceAndComments()
         if (prevMethod !is PsiMethod) {
-          fixBlankLineBefore(method, 2, ktFactory)
+          method.setBlankLineBefore(1)
         }
         if (nextMethod is PsiMethod) {
           if (method.modifiers.contentEquals(nextMethod.modifiers)) {
-            fixBlankLineAfter(method, 2, ktFactory)
+            method.setBlankLineAfter(1)
           } else {
-            fixBlankLineAfter(method, 3, ktFactory)
+            method.setBlankLineAfter(2)
           }
         } else {
-          fixBlankLineAfter(method, 3, ktFactory)
+          method.setBlankLineAfter(2)
         }
         super.visitMethod(method)
       }
 
       override fun visitPackageStatement(statement: PsiPackageStatement) {
-        fixBlankLineBefore(statement, 1, ktFactory)
-        fixBlankLineAfter(statement, 2, ktFactory)
+        statement.setBlankLineBefore()
+        statement.setBlankLineAfter(1)
         super.visitPackageStatement(statement)
-      }
-
-      private fun setBoth2(element: PsiElement) {
-        fixBlankLineBefore(element, 2, ktFactory)
-        fixBlankLineAfter(element, 2, ktFactory)
       }
 
     })
     fixWhiteSpace(source.lastChild, 2, ktFactory)
     return TextRange(0, source.endOffset)
-  }
-
-  private fun fixBlankLineAfter(element: PsiElement, blankLineCount: Int, factory: KtPsiFactory) {
-    val whiteSpaceElement = element.nextSibling
-    fixWhiteSpace(whiteSpaceElement, blankLineCount, factory)
-  }
-
-  private fun fixBlankLineBefore(element: PsiElement, blankLineCount: Int, factory: KtPsiFactory) {
-    val whiteSpaceElement = element.prevSibling
-    fixWhiteSpace(whiteSpaceElement, blankLineCount, factory)
   }
 
   private fun fixWhiteSpace(whiteSpaceElement: PsiElement?, blankLineCount: Int, factory: KtPsiFactory) {

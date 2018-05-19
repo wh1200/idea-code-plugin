@@ -56,7 +56,7 @@ class KotlinConsolePrintFix : LocalQuickFix {
             val field = factory.createProperty(fieldString)
             companion.getBody()?.lBrace?.apply {
               insertElementAfter(field)
-              insertElementAfter(getNewLine(project))
+              insertElementAfter(project.getNewLine())
             }
           }
         }

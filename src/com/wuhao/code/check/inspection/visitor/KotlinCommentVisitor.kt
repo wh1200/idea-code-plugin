@@ -9,7 +9,11 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
-import com.wuhao.code.check.Messages.CLASS_COMMENT_REQUIRED
+import com.wuhao.code.check.constants.Messages
+import com.wuhao.code.check.constants.Messages.CLASS_COMMENT_REQUIRED
+import com.wuhao.code.check.constants.hasDocComment
+import com.wuhao.code.check.constants.isFirstLevelProperty
+import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.inspection.fix.DeleteFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommentQuickFix
 import org.jetbrains.kotlin.idea.KotlinLanguage
@@ -102,8 +106,8 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
         registerErrorExceptFirst(docsBeforeDirective)
       }
     } else {
-      if (element.firstChild is KDoc && element.prevSiblingIgnoreWhitespace is KDoc) {
-        holder.registerError(element.prevSiblingIgnoreWhitespace!!, Messages.REDUNDANT_COMMENT, DeleteFix())
+      if (element.firstChild is KDoc && element.prevIgnoreWs is KDoc) {
+        holder.registerError(element.prevIgnoreWs!!, Messages.REDUNDANT_COMMENT, DeleteFix())
       }
     }
   }
@@ -120,8 +124,8 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
   }
 
   private fun visitDocSection(section: KDocSection) {
-    if (section.prevSiblingIgnoreWhitespace is LeafPsiElement
-        && (section.prevSiblingIgnoreWhitespace as LeafPsiElement).elementType == KDocTokens.START) {
+    if (section.prevIgnoreWs is LeafPsiElement
+        && (section.prevIgnoreWs as LeafPsiElement).elementType == KDocTokens.START) {
       val textElement = section.allChildren.firstOrNull { it is LeafPsiElement && it.elementType == KDocTokens.TEXT }
       if ((section.firstChild as LeafPsiElement).elementType == KDocTokens.LEADING_ASTERISK
           && section.firstChild.text != "*") {

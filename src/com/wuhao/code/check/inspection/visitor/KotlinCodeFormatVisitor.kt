@@ -9,18 +9,23 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.*
+import com.wuhao.code.check.ancestorOfType
+import com.wuhao.code.check.constants.JUNIT_TEST_ANNOTATION_CLASS_NAME
+import com.wuhao.code.check.constants.MAX_STRING_ARGUMENT_LENGTH
+import com.wuhao.code.check.constants.Messages
+import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.enums.NamingMethod
 import com.wuhao.code.check.enums.NamingMethod.Camel
 import com.wuhao.code.check.enums.NamingMethod.Constant
+import com.wuhao.code.check.getAncestorsOfType
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.After
-import com.wuhao.code.check.inspection.fix.kotlin.ExtractConstantToPropertyFix
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommaFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinConsolePrintFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinNameFix
 import com.wuhao.code.check.inspection.inspections.CodeFormatInspection
 import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor.Companion.shouldHaveSpaceBeforeOrAfter
+import com.wuhao.code.check.isVal
 import org.jetbrains.kotlin.KtNodeTypes.*
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
@@ -46,7 +51,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
   override fun visitClassBody(classBody: KtClassBody, data: Any?) {
     if (classBody.prevSibling !is PsiWhiteSpace) {
-      holder.registerError(classBody.lBrace!!, "前面应当有空格", SpaceQuickFix(SpaceQuickFix.Type.BeforeParent))
+      holder.registerError(classBody.lBrace!!, "前面应当有空格", SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
     }
     super.visitClassBody(classBody, data)
   }
@@ -58,7 +63,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
         && expression.parent.getChildOfType<KtValueArgumentName>() == null
         && expression.textLength > 1) {
       if (expression.node.elementType != STRING_TEMPLATE || expression.textLength >= MAX_STRING_ARGUMENT_LENGTH) {
-        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
+//        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
       }
     }
   }
@@ -115,27 +120,29 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   }
 
   override fun visitProperty(property: KtProperty, data: Any?) {
-    val name = property.name!!
-    val classOrObject = property.containingClassOrObject
-    if (property.hasModifier(CONST_KEYWORD)
-        || (property.isVal && (property.isTopLevel
-            || (property.isMember && classOrObject is KtObjectDeclaration)))) {
-      if (classOrObject is KtObjectDeclaration && classOrObject.isCompanion()) {
-        if (!Constant.test(name) && !Camel.test(name)) {
+    val name = property.name
+    if (name != null) {
+      val classOrObject = property.containingClassOrObject
+      if (property.hasModifier(CONST_KEYWORD)
+          || (property.isVal && (property.isTopLevel
+              || (property.isMember && classOrObject is KtObjectDeclaration)))) {
+        if (classOrObject is KtObjectDeclaration && classOrObject.isCompanion()) {
+          if (!Constant.test(name) && !Camel.test(name)) {
+            registerNameError(property, Constant)
+            registerNameError(property, Camel)
+          }
+        } else if (!Constant.test(name) && property.typeReference == null) {
           registerNameError(property, Constant)
+        }
+      } else {
+        if (!Camel.test(name)) {
           registerNameError(property, Camel)
         }
-      } else if (!Constant.test(name) && property.typeReference == null) {
-        registerNameError(property, Constant)
       }
-    } else {
-      if (!Camel.test(name)) {
-        registerNameError(property, Camel)
+      if ((property.isMember || property.isTopLevel) && name.length == 1) {
+        // 检查成员属性名称，不得少于2个字符
+        holder.registerError(property.nameIdentifier ?: property, "成员属性名称不得少于两个字符", RenameIdentifierFix())
       }
-    }
-    if ((property.isMember || property.isTopLevel) && name.length == 1) {
-      // 检查成员属性名称，不得少于2个字符
-      holder.registerError(property.nameIdentifier ?: property, "成员属性名称不得少于两个字符", RenameIdentifierFix())
     }
     super.visitProperty(property, data)
   }

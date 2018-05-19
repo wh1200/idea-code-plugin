@@ -1,7 +1,7 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check
+package com.wuhao.code.check.constants
 
 /**
  * 提示消息常量类

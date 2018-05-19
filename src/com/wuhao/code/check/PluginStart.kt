@@ -40,6 +40,8 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.*
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.*
 import com.intellij.psi.css.CssFileType
+import com.wuhao.code.check.constants.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
+import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.InspectionNames
 import com.wuhao.code.check.style.KotlinModifier.LATEINIT
 import com.wuhao.code.check.style.KotlinModifier.OPEN
@@ -188,8 +190,8 @@ class PluginStart : StartupActivity {
 
   private fun setSeverity(project: Project) {
     val weight = 350
-    val severityRegistrar = SeverityRegistrar.getSeverityRegistrar(null)
-    val color = Color(255, 200, 0)
+    val severityRegistrar = SeverityRegistrar.getSeverityRegistrar(project)
+    val color = Color(255, 134, 67)
     severityRegistrar.registerSeverity(
         SeverityRegistrar.SeverityBasedTextAttributes(
             TextAttributes().apply {
@@ -197,7 +199,7 @@ class PluginStart : StartupActivity {
               this.backgroundColor = color
               this.errorStripeColor = color
             },
-            HighlightInfoType.HighlightInfoTypeImpl(HighlightSeverity(CODE_FORMAT_SEVERITY_NAME, weight),
+            HighlightInfoType.HighlightInfoTypeImpl(HighlightSeverity(CODE_FORMAT_SEVERITY_NAME, 350),
                 CodeInsightColors.WARNINGS_ATTRIBUTES)
         ), color
     )

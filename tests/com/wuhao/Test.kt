@@ -3,19 +3,12 @@
  */
 package com.wuhao
 
-import com.wuhao.code.check.constants.InspectionNames
 import org.junit.Test
 
 /**
  * Created by 吴昊 on 18-4-25.
  */
 class Test5 {
-
-  @Test
-  fun test2(){
-    val values = InspectionNames.values()
-    println(values.size)
-  }
 
   @Test
   fun regexTest() {
@@ -47,6 +40,15 @@ class Test5 {
     println(getWordCount("MyNewNAME"))
     println(getWordCount("test-myname"))
     println(getWordCount("test-my_name"))
+  }
+
+  @Test
+  fun test2() {
+    var a = 10
+    do {
+      println(a)
+      a--
+    } while (a > 1)
   }
 
   @Test

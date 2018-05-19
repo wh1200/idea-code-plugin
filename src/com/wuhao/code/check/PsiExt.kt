@@ -15,7 +15,10 @@ import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
 import org.jetbrains.kotlin.idea.core.moveCaret
+import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtProperty
@@ -43,11 +46,23 @@ val PsiElement.ancestors: List<PsiElement>
 /**
  * 获取当前元素之前的第一个非空白元素
  */
-val PsiElement.prevSiblingIgnoreWhitespace: PsiElement?
+val PsiElement.prevIgnoreWs: PsiElement?
   get() {
     var sibling = this.prevSibling
     while (sibling != null && sibling is PsiWhiteSpace) {
       sibling = sibling.prevSibling
+    }
+    return sibling
+  }
+
+/**
+ * 获取当前元素并列的下一个非空白元素
+ */
+val PsiElement.nextIgnoreWs: PsiElement?
+  get() {
+    var sibling = this.nextSibling
+    while (sibling != null && sibling is PsiWhiteSpace) {
+      sibling = sibling.nextSibling
     }
     return sibling
   }
@@ -109,7 +124,7 @@ private val PSI_ELEMENT_FACTORY_CACHE = HashMap<Project, PsiElementFactory>()
 
 /**
  * 获取java psi元素的工厂类
- * @return
+ * @return java psi元素的工厂类
  */
 val PsiElement.psiElementFactory: PsiElementFactory
   get() {
@@ -129,7 +144,7 @@ val PsiElement.ktPsiFactory: KtPsiFactory
 /**
  * 获取kt元素的工厂类
  */
-val Project.ktPsiFactory:KtPsiFactory
+val Project.ktPsiFactory: KtPsiFactory
   get() {
     if (KT_PSI_FACTORY_CACHE[this] == null) {
       KT_PSI_FACTORY_CACHE[this] = KtPsiFactory(this)
@@ -147,8 +162,17 @@ fun getWhiteSpace(project: Project): PsiWhiteSpace {
 /**
  * 获取空行元素
  */
-fun getNewLine(project: Project): PsiWhiteSpace {
-  return KtPsiFactory(project).createNewLine() as PsiWhiteSpace
+fun Project.getNewLine(): PsiWhiteSpace {
+  return this.ktPsiFactory.createNewLine() as PsiWhiteSpace
+}
+
+/**
+ * 创建空白行元素
+ * @param count 换行数
+ * @return 空白行元素
+ */
+fun PsiElement.getNewLine(count: Int = 1): PsiWhiteSpace {
+  return this.ktPsiFactory.createNewLine(count) as PsiWhiteSpace
 }
 
 /**
@@ -168,6 +192,18 @@ val PsiElement.depth: Int
     analyzeDepth(this.children.toList())
     return depth
   }
+
+/**
+ * 和当前元素并列的前一个元素
+ */
+val PsiElement.prev: PsiElement
+  get() = this.prevSibling
+
+/**
+ * 和当前元素并列的后一个元素
+ */
+val PsiElement.next: PsiElement
+  get() = this.nextSibling
 
 /**
  * 是否是父元素的第一个子元素
@@ -275,6 +311,76 @@ inline fun <reified T> PsiElement.getPrevContinuousSiblingsOfType(): ArrayList<T
     sibling = sibling.prevSibling
   }
   return result
+}
+
+/**
+ * 清除空白行
+ * @param position 需要清除的位置
+ */
+fun PsiElement.clearBlankLineBeforeOrAfter(position: SpaceQuickFix.Position) {
+  val factory = this.ktPsiFactory
+  val whiteSpaceEl = when (position) {
+    Before -> this.prev
+    After -> this.next
+    else -> null
+  }
+  if (whiteSpaceEl !is PsiWhiteSpace) {
+    if (position == Before) {
+      this.insertElementBefore(factory.createNewLine())
+    } else if (position == After) {
+      this.insertElementAfter(factory.createNewLine())
+    }
+  } else if (whiteSpaceEl.getLineCount() != 1) {
+    whiteSpaceEl.replace(factory.createNewLine())
+  }
+}
+
+/**
+ * 在当前元素后面添加空行
+ * @param blankLines 空白行数
+ */
+fun PsiElement.setBlankLineAfter(blankLines: Int = 0) {
+  setBlankLine(blankLines, After)
+}
+
+/**
+ * 在当前元素前面添加空行
+ * @param blankLines 空白行数
+ */
+fun PsiElement.setBlankLineBefore(blankLines: Int = 0) {
+  setBlankLine(blankLines, Before)
+}
+
+/**
+ * 在当前元素前后添加空行
+ * @param blankLines 空白行数
+ */
+fun PsiElement.setBlankLineBoth(blankLines: Int = 0 ){
+  setBlankLine(blankLines, Both)
+}
+
+/**
+ * 在当前元素的指定位置添加空行
+ * @param blankLines 空白行数
+ * @param position 添加空白行的位置
+ */
+private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Position) {
+  val factory = this.ktPsiFactory
+  val lineBreaks = blankLines + 1
+  if (position == Before || position == Both) {
+    if (this.prev !is PsiWhiteSpace) {
+      this.insertElementBefore(factory.createNewLine(lineBreaks))
+    } else if (this.prev.getLineCount() != lineBreaks) {
+      this.prev.replace(factory.createNewLine(lineBreaks))
+    }
+  }
+  if (position == After || position == Both) {
+    if (this.next !is PsiWhiteSpace) {
+      this.insertElementAfter(factory.createNewLine(lineBreaks))
+    } else if (this.next.getLineCount() != lineBreaks) {
+      this.next.replace(factory.createNewLine(lineBreaks))
+    }
+  }
 }
 
 /**

@@ -12,10 +12,10 @@ import com.intellij.lang.javascript.psi.JSFile
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.wuhao.code.check.LanguageNames
+import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.inspection.fix.FileNameFix
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
-import com.wuhao.code.check.registerError
+import com.wuhao.code.check.constants.registerError
 
 /**
  * javascript文件代码格式检查访问器

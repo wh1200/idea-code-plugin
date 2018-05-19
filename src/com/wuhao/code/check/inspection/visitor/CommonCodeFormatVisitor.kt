@@ -18,10 +18,10 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.JavaCodeStyleSettings
-import com.wuhao.code.check.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
-import com.wuhao.code.check.DEFAULT_INDENT_SPACE_COUNT
+import com.wuhao.code.check.constants.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
+import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.PluginStart
-import com.wuhao.code.check.registerError
+import com.wuhao.code.check.constants.registerError
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueLanguage
 import org.jetbrains.vuejs.language.VueJSLanguage
@@ -44,8 +44,8 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
   }
 
   override fun support(language: Language): Boolean {
-    return language is KotlinLanguage ||
-        language is JavaLanguage
+    return language is KotlinLanguage
+        || language is JavaLanguage
         || language is JavascriptLanguage
         || language is TypeScriptLanguageDialect
         || language is ECMA6LanguageDialect
@@ -54,16 +54,19 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
         || language is VueJSLanguage
   }
 
+
   override fun visitFile(file: PsiFile) {
     this.checkEncoding(file)
     this.checkIndent(file)
   }
+
 
   private fun checkEncoding(element: PsiElement) {
     if (element is PsiFile && element.virtualFile != null && element.virtualFile.charset != StandardCharsets.UTF_8) {
       holder.registerError(element, "${element.name}的编码为${element.virtualFile.charset}，应该使用UTF-8")
     }
   }
+
 
   private fun checkIndent(element: PsiElement) {
     if (element is PsiFile) {
@@ -77,6 +80,7 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
           override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             PluginStart.setIndent(element.fileType, element.language, CodeStyle.getSettings(element.project))
           }
+
 
           override fun getFamilyName(): String {
             return "设置缩进"

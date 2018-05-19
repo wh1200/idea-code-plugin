@@ -7,6 +7,7 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
 import com.wuhao.code.check.*
+import com.wuhao.code.check.constants.PROPERTY_NAME_PLACEHOLDER
 import org.jetbrains.kotlin.descriptors.FunctionDescriptor
 import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
 import org.jetbrains.kotlin.psi.*
@@ -33,7 +34,7 @@ class ExtractConstantToPropertyFix : LocalQuickFix {
     val newProperty = property.insertBefore(exp)
     val newValueArgument = constant.parent
         .replace(factory.createArgument(propertyName))
-    newProperty.insertElementAfter(getNewLine(project))
+    newProperty.insertElementAfter(project.getNewLine())
     renameElement(newValueArgument)
   }
 

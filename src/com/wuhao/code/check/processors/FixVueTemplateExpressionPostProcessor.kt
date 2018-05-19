@@ -13,7 +13,7 @@ import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlTag
-import com.wuhao.code.check.LanguageNames
+import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
 import com.wuhao.code.check.ktPsiFactory

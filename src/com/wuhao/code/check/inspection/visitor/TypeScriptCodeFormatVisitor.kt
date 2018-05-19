@@ -10,9 +10,9 @@ import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.impl.JSObjectLiteralExpressionImpl
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.wuhao.code.check.LanguageNames
+import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
-import com.wuhao.code.check.registerError
+import com.wuhao.code.check.constants.registerError
 
 /**
  * Created by 吴昊 on 2018/4/28.

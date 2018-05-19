@@ -49,7 +49,7 @@ class KotlinPreFixVisitor(val factory: KtPsiFactory) : KotlinRecursiveVisitor() 
       val spaceAfter = element.parent.nextSibling
       if (spaceBefore is PsiWhiteSpace && spaceBefore.getLineCount() == 0
           && spaceAfter is PsiWhiteSpace && spaceAfter.getLineCount() == 1) {
-        spaceBefore.replace(getNewLine(element.project))
+        spaceBefore.replace(element.getNewLine())
         spaceAfter.replace(getWhiteSpace(element.project))
       }
     }

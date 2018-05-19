@@ -9,8 +9,8 @@ import com.intellij.psi.PsiKeyword.*
 import com.intellij.psi.impl.source.tree.ElementType
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Type.*
-import com.wuhao.code.check.registerError
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
+import com.wuhao.code.check.constants.registerError
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.lexer.KtTokens.*
@@ -52,7 +52,7 @@ class SpaceChecker {
 
   private fun checkOnlyOneSpaceBeforeOrAfter(element: PsiElement,
                                              holder: ProblemsHolder,
-                                             position: SpaceQuickFix.Type) {
+                                             position: SpaceQuickFix.Position) {
     if (position == Both) {
       checkOnlyOneSpaceBeforeOrAfter(element, holder, Before)
       checkOnlyOneSpaceBeforeOrAfter(element, holder, After)
@@ -69,7 +69,7 @@ class SpaceChecker {
             else -> "后面"
           }
           holder.registerError(element, "${element.text} ${positionDescription}应当只有1个空格",
-              SpaceQuickFix(SpaceQuickFix.Type.After))
+              SpaceQuickFix(SpaceQuickFix.Position.After))
         }
       }
     }
@@ -97,7 +97,7 @@ class SpaceChecker {
         element
       }
       holder.registerError(actionElement, "$keyword 之前应当有空格",
-          SpaceQuickFix(SpaceQuickFix.Type.BeforeParent))
+          SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
     } else {
       checkOnlyOneSpaceBeforeOrAfter(element, holder, Before)
     }

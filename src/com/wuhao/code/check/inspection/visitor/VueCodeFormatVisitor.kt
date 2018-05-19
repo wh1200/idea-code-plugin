@@ -16,8 +16,8 @@ import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
-import com.wuhao.code.check.LanguageNames
-import com.wuhao.code.check.Messages
+import com.wuhao.code.check.constants.LanguageNames
+import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.depth
 import com.wuhao.code.check.inspection.fix.vue.ComplexExpToComputedPropertyFix
 import com.wuhao.code.check.inspection.fix.vue.VueComponentNameFix
@@ -29,7 +29,7 @@ import com.wuhao.code.check.lang.vue.VueDirectives.FOR
 import com.wuhao.code.check.lang.vue.VueDirectives.IF
 import com.wuhao.code.check.lang.vue.VueDirectives.ON
 import com.wuhao.code.check.lang.vue.isInjectAttribute
-import com.wuhao.code.check.registerError
+import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.SCRIPT_TAG
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.STYLE_TAG
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.TEMPLATE_TAG

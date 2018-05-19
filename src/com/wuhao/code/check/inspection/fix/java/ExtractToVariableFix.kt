@@ -9,6 +9,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.util.parents
 import com.wuhao.code.check.*
+import com.wuhao.code.check.constants.PROPERTY_NAME_PLACEHOLDER
 
 /**
  * 将方法直接引用的数值或字符串参数提取为变量
@@ -28,11 +29,11 @@ class ExtractToVariableFix : LocalQuickFix {
         is PsiField -> {
           val newField = factory.createFieldFromText("""${statement.modifiers.joinToString(" ").toLowerCase()} ${el.type!!
               .presentableText} $name = ${el.text};""", null)
-          statement.insertElementsBefore(newField, getNewLine(project))
+          statement.insertElementsBefore(newField, project.getNewLine())
         }
         else -> {
           val declarationStatement = factory.createVariableDeclarationStatement(name, el.type!!, el)
-          statement.insertElementsBefore(declarationStatement, getNewLine(project))
+          statement.insertElementsBefore(declarationStatement, project.getNewLine())
         }
       }
       val newArgument = el.replace(factory.createIdentifier(name))

@@ -7,8 +7,8 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
-import com.wuhao.code.check.DEFAULT_JAVA_KOTLIN_TEMPLATE_URL
-import com.wuhao.code.check.DEFAULT_VUE_TEMPLATE_URL
+import com.wuhao.code.check.constants.DEFAULT_JAVA_KOTLIN_TEMPLATE_URL
+import com.wuhao.code.check.constants.DEFAULT_VUE_TEMPLATE_URL
 import com.wuhao.code.check.ui.PluginSettings.Companion.CONFIG_NAME
 import org.jdom.Element
 import kotlin.reflect.full.memberProperties

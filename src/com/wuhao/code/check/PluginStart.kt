@@ -189,7 +189,6 @@ class PluginStart : StartupActivity {
   }
 
   private fun setSeverity(project: Project) {
-    val weight = 350
     val severityRegistrar = SeverityRegistrar.getSeverityRegistrar(project)
     val color = Color(255, 134, 67)
     severityRegistrar.registerSeverity(

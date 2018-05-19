@@ -12,10 +12,7 @@ import com.intellij.psi.*
 import com.intellij.psi.JavaTokenType.*
 import com.intellij.psi.impl.source.PsiClassImpl
 import com.wuhao.code.check.ancestorOfType
-import com.wuhao.code.check.constants.JUNIT_TEST_ANNOTATION_CLASS_NAME
-import com.wuhao.code.check.constants.MAX_STRING_ARGUMENT_LENGTH
-import com.wuhao.code.check.constants.Messages
-import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.constants.*
 import com.wuhao.code.check.enums.NamingMethod
 import com.wuhao.code.check.enums.NamingMethod.*
 import com.wuhao.code.check.getAncestor
@@ -24,7 +21,6 @@ import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
 import com.wuhao.code.check.inspection.fix.java.JavaConsolePrintFix
 import com.wuhao.code.check.inspection.fix.java.JavaElementNameFix
-import com.wuhao.code.check.inspection.inspections.CodeFormatInspection
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 
@@ -72,8 +68,8 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
 
 
   override fun visitFile(file: PsiFile) {
-    if (file.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FILE) {
-      holder.registerError(file, "文件长度不允许超过${CodeFormatInspection.MAX_LINES_PER_FILE}行")
+    if (file.getLineCount() > MAX_LINES_PER_FILE) {
+      holder.registerError(file, "文件长度不允许超过${MAX_LINES_PER_FILE}行")
     }
   }
 
@@ -131,9 +127,9 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
 
   override fun visitMethod(method: PsiMethod) {
     // 方法长度不能超过指定长度
-    if (method.nameIdentifier != null && method.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FUNCTION) {
+    if (method.nameIdentifier != null && method.getLineCount() > MAX_LINES_PER_FUNCTION) {
       holder.registerError(method.nameIdentifier!!,
-          "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行")
+          "方法长度不能超过${MAX_LINES_PER_FUNCTION}行")
     }
   }
 

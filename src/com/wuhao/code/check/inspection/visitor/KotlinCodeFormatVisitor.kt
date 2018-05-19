@@ -10,10 +10,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.ancestorOfType
-import com.wuhao.code.check.constants.JUNIT_TEST_ANNOTATION_CLASS_NAME
-import com.wuhao.code.check.constants.MAX_STRING_ARGUMENT_LENGTH
-import com.wuhao.code.check.constants.Messages
-import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.constants.*
 import com.wuhao.code.check.enums.NamingMethod
 import com.wuhao.code.check.enums.NamingMethod.Camel
 import com.wuhao.code.check.enums.NamingMethod.Constant
@@ -23,7 +20,6 @@ import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommaFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinConsolePrintFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinNameFix
-import com.wuhao.code.check.inspection.inspections.CodeFormatInspection
 import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor.Companion.shouldHaveSpaceBeforeOrAfter
 import com.wuhao.code.check.isVal
 import org.jetbrains.kotlin.KtNodeTypes.*
@@ -81,8 +77,8 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   }
 
   override fun visitFile(file: PsiFile) {
-    if (file.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FILE) {
-      holder.registerError(file, "文件长度不允许超过${CodeFormatInspection.MAX_LINES_PER_FILE}行")
+    if (file.getLineCount() > MAX_LINES_PER_FILE) {
+      holder.registerError(file, "文件长度不允许超过${MAX_LINES_PER_FILE}行")
     }
   }
 
@@ -96,11 +92,11 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     // 方法长度不能超过指定长度
-    if (function.getLineCount() > CodeFormatInspection.MAX_LINES_PER_FUNCTION) {
+    if (function.getLineCount() > MAX_LINES_PER_FUNCTION) {
       if (function.nameIdentifier != null) {
-        holder.registerError(function.nameIdentifier!!, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行")
+        holder.registerError(function.nameIdentifier!!, "方法长度不能超过${MAX_LINES_PER_FUNCTION}行")
       } else {
-        holder.registerError(function, "方法长度不能超过${CodeFormatInspection.MAX_LINES_PER_FUNCTION}行")
+        holder.registerError(function, "方法长度不能超过${MAX_LINES_PER_FUNCTION}行")
       }
     }
     val name = function.name

@@ -12,6 +12,14 @@ import java.util.logging.Logger
 
 
 /**
+ * java和kotlin文件最大长度
+ */
+const val MAX_LINES_PER_FILE = 1500
+/**
+ * java和kotlin方法最大长度
+ */
+const val MAX_LINES_PER_FUNCTION = 100
+/**
  * 修改字段、属性或变量名称时的临时名称
  */
 const val PROPERTY_NAME_PLACEHOLDER = "_tmp"
@@ -19,7 +27,7 @@ const val PROPERTY_NAME_PLACEHOLDER = "_tmp"
 /**
  * 直接使用字符串作为参数时允许的最大长度
  */
-const val MAX_STRING_ARGUMENT_LENGTH = 1000
+const val MAX_STRING_ARGUMENT_LENGTH = 200
 
 /**
  * junit的Test注解的类名称
@@ -43,6 +51,7 @@ const val DEFAULT_JAVA_KOTLIN_TEMPLATE_URL = "http://git2.aegis-info.com/templat
 fun ProblemsHolder.registerError(element: PsiElement, message: String) {
   this.registerProblem(element, message, ProblemHighlightType.ERROR)
 }
+
 
 /**
  * 注册元素错误提示信息，并提供修复方法

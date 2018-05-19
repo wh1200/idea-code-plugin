@@ -15,11 +15,6 @@ import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor
  */
 class CodeFormatInspection : BaseInspection(CODE_FORMAT) {
 
-  companion object {
-    const val MAX_LINES_PER_FILE = 800
-    const val MAX_LINES_PER_FUNCTION = 100
-  }
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
     return CodeFormatVisitor(CommonCodeFormatVisitor(holder))
   }

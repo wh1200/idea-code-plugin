@@ -34,8 +34,7 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
 
   override fun visitFile(file: PsiFile?) {
     if (file is XmlFile) {
-      val tag = file.rootTag
-      tag?.accept(this)
+      file.rootTag?.accept(this)
     }
   }
 

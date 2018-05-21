@@ -27,6 +27,7 @@ import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
+import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
 import org.jetbrains.kotlin.lexer.KtTokens.CONST_KEYWORD
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.containingClassOrObject
@@ -45,12 +46,14 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     return language == KotlinLanguage.INSTANCE
   }
 
+
   override fun visitClassBody(classBody: KtClassBody, data: Any?) {
     if (classBody.prevSibling !is PsiWhiteSpace) {
       holder.registerError(classBody.lBrace!!, "前面应当有空格", SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
     }
     super.visitClassBody(classBody, data)
   }
+
 
   override fun visitConstantExpression(expression: KtConstantExpression, data: Any?) {
     // 不能使用未声明的数字作为参数
@@ -59,10 +62,11 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
         && expression.parent.getChildOfType<KtValueArgumentName>() == null
         && expression.textLength > 1) {
       if (expression.node.elementType != STRING_TEMPLATE || expression.textLength >= MAX_STRING_ARGUMENT_LENGTH) {
-//        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
+        //        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
       }
     }
   }
+
 
   override fun visitElement(element: PsiElement) {
     when (element) {
@@ -76,19 +80,34 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     }
   }
 
+
   override fun visitFile(file: PsiFile) {
     if (file.getLineCount() > MAX_LINES_PER_FILE) {
       holder.registerError(file, "文件长度不允许超过${MAX_LINES_PER_FILE}行")
     }
   }
 
+
   override fun visitForExpression(expression: KtForExpression, data: Any?) {
     shouldHaveSpaceBeforeOrAfter(expression.rightParenthesis, holder, After)
   }
 
+
   override fun visitIfExpression(expression: KtIfExpression, data: Any?) {
     shouldHaveSpaceBeforeOrAfter(expression.rightParenthesis, holder, After)
   }
+
+
+  override fun visitLambdaExpression(expression: KtLambdaExpression, data: Any?) {
+    val lambdaAncestors = expression.getAncestorsOfType<KtLambdaExpression>()
+    if (expression.parent is KtLambdaArgument) {
+      val argument = expression.parent as KtLambdaArgument
+      val list = argument.resolveMainReferenceToDescriptors()
+      list.forEach {
+      }
+    }
+  }
+
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     // 方法长度不能超过指定长度
@@ -115,6 +134,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     }
   }
 
+
   override fun visitProperty(property: KtProperty, data: Any?) {
     val name = property.name
     if (name != null) {
@@ -140,8 +160,8 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
         holder.registerError(property.nameIdentifier ?: property, "成员属性名称不得少于两个字符", RenameIdentifierFix())
       }
     }
-    super.visitProperty(property, data)
   }
+
 
   override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?) {
     // 使用日志输入代替System.out
@@ -153,6 +173,12 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     }
   }
 
+
+  override fun visitWhenExpression(expression: KtWhenExpression, data: Any?) {
+    super.visitWhenExpression(expression, data)
+  }
+
+
   private fun isInJUnitTestMethod(expression: KtReferenceExpression): Boolean {
     return expression.getAncestorsOfType<KtFunction>().any { func ->
       func.annotationEntries.map { annotationEntry ->
@@ -162,6 +188,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
       }
     }
   }
+
 
   private fun registerNameError(element: KtCallableDeclaration, method: NamingMethod) {
     holder.registerError(element.nameIdentifier ?: element,

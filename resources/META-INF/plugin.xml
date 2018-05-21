@@ -140,6 +140,8 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <postStartupActivity implementation="com.wuhao.code.check.PluginStart"/>
+    <lang.rearranger language="LESS"
+                     implementationClass="com.wuhao.code.check.style.arrangement.less.LessRearranger"/>
     <lang.rearranger language="kotlin"
                      implementationClass="com.wuhao.code.check.style.arrangement.kotlin.KotlinRearranger"/>
     <lang.rearranger language="Vue"

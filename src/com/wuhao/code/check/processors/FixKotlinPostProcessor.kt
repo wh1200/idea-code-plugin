@@ -12,8 +12,6 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
 import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -50,7 +48,9 @@ class FixKotlinPostProcessor : PostFormatProcessor {
 class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisitor() {
 
   companion object {
-    private const val BLANK_LINES_BETWEEN_FUNCTIONS = 2
+    private const val BLANK_LINES_AFTER_PACKAGE_DIRECTIVE = 1
+    private const val BLANK_LINES_BETWEEN_FUNCTIONS = 1
+    private const val BLANK_LINES_BETWEEN_TOP_LEVEL_PROPERTIES = 1
   }
 
   override fun visitClass(klass: KtClass, data: Any?) {
@@ -74,14 +74,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
               .map { entry ->
                 val comment = commentMap[entry]
                 val commentText = comment?.text ?: ""
-                var text = if (entry.text.endsWith(";")) {
-                  entry.text.dropLast(1)
-                } else {
-                  entry.text.trim()
-                }
-                if (!text.endsWith(",")) {
-                  text += ","
-                }
+                val text = entry.text.removeEnds(";").appendIfNotEndsWith(",")
                 commentStringMap[text] = commentText
                 text
               }
@@ -122,19 +115,14 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     val rBrace = classBody.rBrace
     if (lBrace != null && rBrace != null) {
       if (parent is KtObjectDeclaration && parent.isCompanion()) { // 伴随对象body前后不留空行
-        lBrace.clearBlankLineBeforeOrAfter(After)
-        rBrace.clearBlankLineBeforeOrAfter(Before)
+        lBrace.setBlankLineAfter()
+        rBrace.setBlankLineBefore()
       } else {
-        when {
-          lBrace.next == rBrace -> lBrace.setBlankLineAfter()
-          rBrace.prev !is PsiWhiteSpace -> lBrace.setBlankLineAfter(1)
-          rBrace.prevIgnoreWs === lBrace -> // 如果classBody没有内容的话，右括号保持换行，左右括号之间不留空行
-            rBrace.setBlankLineBefore()
-          else -> {
-            // 如果classBody有内容，则左括号后和右括号前各留一个空行
-            lBrace.setBlankLineAfter(1)
-            rBrace.setBlankLineBefore(1)
-          }
+        if (lBrace.nextIgnoreWs == rBrace) { //如果class body为空，则不留空行
+          lBrace.setBlankLineAfter()
+        } else {
+          lBrace.setBlankLineAfter(1)
+          rBrace.setBlankLineBefore(1)
         }
       }
     }
@@ -153,6 +141,14 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
       if (lastEntryComma is LeafPsiElement && lastEntryComma.elementType == KtTokens.COMMA) {
         lastEntryComma.delete()
       }
+    }
+    if (enumEntry.prevIgnoreWs !is KtEnumEntry) {
+      enumEntry.setBlankLineBefore(1) //第一个枚举元素之前留一个空白行
+    }
+    if (enumEntry.nextIgnoreWs is KtEnumEntry) {
+      enumEntry.setBlankLineAfter() //枚举元素之间不留空白行
+    } else { //最后一个枚举元素后留一个空白行
+      enumEntry.setBlankLineAfter(1)
     }
     super.visitEnumEntry(enumEntry, data)
   }
@@ -179,8 +175,8 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     val body = function.body
     if (body != null) {
       // 方法开头和结束不能留有空行
-      body.lBrace?.clearBlankLineBeforeOrAfter(After)
-      body.rBrace?.clearBlankLineBeforeOrAfter(Before)
+      body.lBrace?.setBlankLineAfter()
+      body.rBrace?.setBlankLineBefore()
     }
     if (function.nextIgnoreWs is KtNamedFunction) {
       function.setBlankLineAfter(BLANK_LINES_BETWEEN_FUNCTIONS)
@@ -193,8 +189,15 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     if (directive.prevIgnoreWs is PsiComment || directive.prevIgnoreWs is KDoc) {
       directive.setBlankLineBefore()
     }
-    directive.setBlankLineAfter(1)
+    directive.setBlankLineAfter(BLANK_LINES_AFTER_PACKAGE_DIRECTIVE)
     super.visitPackageDirective(directive, data)
+  }
+
+  override fun visitProperty(property: KtProperty, data: Any?) {
+    if (property.isTopLevel && property.nextIgnoreWs is KtProperty) {
+      property.setBlankLineAfter(BLANK_LINES_BETWEEN_TOP_LEVEL_PROPERTIES)
+    }
+    super.visitProperty(property, data)
   }
 
 }

@@ -45,13 +45,12 @@ import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.InspectionNames
 import com.wuhao.code.check.style.KotlinModifier.LATEINIT
 import com.wuhao.code.check.style.KotlinModifier.OPEN
-import com.wuhao.code.check.style.arrangement.JavaRearrangeRules
-import com.wuhao.code.check.style.arrangement.KotlinRearrangeRules
-import com.wuhao.code.check.style.arrangement.RuleDescription
-import com.wuhao.code.check.style.arrangement.VueRearrangeRules
+import com.wuhao.code.check.style.arrangement.*
 import com.wuhao.code.check.template.KotlinTemplates
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.plugins.less.LESSFileType
+import org.jetbrains.plugins.less.LESSLanguage
 import org.jetbrains.vuejs.VueFileType
 import org.jetbrains.vuejs.VueLanguage
 import java.awt.Color
@@ -119,6 +118,14 @@ class PluginStart : StartupActivity {
     return StdArrangementExtendableSettings(listOf(), sections, tokens)
   }
 
+  private fun createLessSettings(): StdArrangementSettings {
+    return StdArrangementExtendableSettings(
+        listOf(),
+        createSections(LessRearrangeRules.get()),
+        listOf()
+    )
+  }
+
   private fun createMatcher(rule: RuleDescription): StdArrangementEntryMatcher {
     return StdArrangementEntryMatcher(
         ArrangementCompositeMatchCondition().apply {
@@ -142,8 +149,11 @@ class PluginStart : StartupActivity {
   }
 
   private fun createVueSettings(): StdArrangementSettings {
-    val sections = createSections(VueRearrangeRules.get())
-    return StdArrangementExtendableSettings(listOf(), sections, listOf())
+    return StdArrangementExtendableSettings(
+        listOf(),
+        createSections(VueRearrangeRules.get()),
+        listOf()
+    )
   }
 
   private fun setIndent(settings: CodeStyleSettings) {
@@ -152,6 +162,7 @@ class PluginStart : StartupActivity {
         KotlinFileType.INSTANCE,
         JavaScriptFileType.INSTANCE,
         TypeScriptFileType.INSTANCE,
+        LESSFileType.LESS,
         VueFileType.INSTANCE,
         XmlFileType.INSTANCE,
         CssFileType.INSTANCE
@@ -163,6 +174,7 @@ class PluginStart : StartupActivity {
         is JavaScriptFileType -> JavascriptLanguage.INSTANCE
         is VueFileType -> VueLanguage.INSTANCE
         is CssFileType -> CSSLanguage.INSTANCE
+        is LESSFileType -> LESSLanguage.INSTANCE
         else -> null
       }
       setIndent(fileType, language, settings)
@@ -186,6 +198,7 @@ class PluginStart : StartupActivity {
     setLanguageArrangeSettings(myLastRunSettings, settings, JavaLanguage.INSTANCE, createJavaSettings())
     setLanguageArrangeSettings(myLastRunSettings, settings, KotlinLanguage.INSTANCE, createKotlinSettings())
     setLanguageArrangeSettings(myLastRunSettings, settings, VueLanguage.INSTANCE, createVueSettings())
+    setLanguageArrangeSettings(myLastRunSettings, settings, LESSLanguage.INSTANCE, createLessSettings())
   }
 
   private fun setSeverity(project: Project) {

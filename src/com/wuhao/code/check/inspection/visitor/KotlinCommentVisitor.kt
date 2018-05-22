@@ -8,14 +8,14 @@ import com.intellij.lang.Language
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.Messages.CLASS_COMMENT_REQUIRED
 import com.wuhao.code.check.constants.hasDocComment
-import com.wuhao.code.check.constants.isFirstLevelProperty
 import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.getPrevContinuousSiblingsOfTypeIgnoreWhitespace
 import com.wuhao.code.check.inspection.fix.DeleteFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommentQuickFix
+import com.wuhao.code.check.prevIgnoreWs
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.kdoc.lexer.KDocTokens
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -81,7 +81,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
   override fun visitProperty(property: KtProperty, data: Any?) {
     checkRedundantComment(property)
     // 一等属性(非private)必须添加注释
-    if (property.isFirstLevelProperty() && !property.hasDocComment()
+    if (property.isTopLevel && !property.hasDocComment()
         && !property.hasModifier(KtTokens.PRIVATE_KEYWORD)) {
       registerPropertyCommentMissingError(property)
     }

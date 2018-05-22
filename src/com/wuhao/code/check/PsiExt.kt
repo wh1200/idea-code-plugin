@@ -12,6 +12,8 @@ import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementFactory
 import com.intellij.psi.PsiWhiteSpace
+import com.intellij.psi.css.CssElement
+import com.intellij.psi.css.CssElementFactory
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
@@ -59,6 +61,14 @@ val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
     val list = ArrayList<VirtualFile>()
     getCachedChildren(list, this)
     return list
+  }
+
+/**
+ * css元素工厂类
+ */
+val CssElement.cssElementFactory: CssElementFactory
+  get() {
+    return CssElementFactory.getInstance(this.project)
   }
 
 /**

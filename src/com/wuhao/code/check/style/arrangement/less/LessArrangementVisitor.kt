@@ -8,8 +8,10 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.codeStyle.arrangement.DefaultArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
 import com.intellij.psi.css.CssDeclaration
+import com.intellij.psi.css.CssRuleset
 import com.intellij.util.containers.Stack
 import com.wuhao.code.check.style.LessEntryType.CSS_ELEMENT
+import com.wuhao.code.check.style.LessEntryType.CSS_RULESET
 
 /**
  * vue排序访问器
@@ -17,8 +19,7 @@ import com.wuhao.code.check.style.LessEntryType.CSS_ELEMENT
  * @since 1.3.1
  */
 class LessArrangementVisitor(private val myInfo: LessArrangementParseInfo,
-                             private val myRanges: Collection<TextRange>)
-  : LessRecursiveVisitor() {
+                             private val myRanges: Collection<TextRange>) : LessRecursiveVisitor() {
 
   private val myStack = Stack<LessElementArrangementEntry>()
 
@@ -30,6 +31,12 @@ class LessArrangementVisitor(private val myInfo: LessArrangementParseInfo,
         true
     )
     processEntry(entry, null)
+  }
+
+  override fun visitCssRuleset(ruleset: CssRuleset) {
+    val entry = createNewEntry(
+        ruleset.textRange, CSS_RULESET, ruleset.presentableText, true)
+    processEntry(entry, ruleset)
   }
 
   private fun createNewEntry(range: TextRange,

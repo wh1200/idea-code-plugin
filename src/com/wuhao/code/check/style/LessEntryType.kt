@@ -11,5 +11,6 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokenType
 object LessEntryType {
 
   val CSS_ELEMENT: ArrangementSettingsToken = invertible("CSS_ELEMENT", StdArrangementTokenType.ENTRY_TYPE)
+  val CSS_RULESET: ArrangementSettingsToken = invertible("CSS_RULESET", StdArrangementTokenType.ENTRY_TYPE)
 
 }

@@ -203,7 +203,7 @@ class PluginStart : StartupActivity {
 
   private fun setSeverity(project: Project) {
     val severityRegistrar = SeverityRegistrar.getSeverityRegistrar(project)
-    val color = Color(255, 134, 67)
+    val color = Color(255, 227, 96)
     severityRegistrar.registerSeverity(
         SeverityRegistrar.SeverityBasedTextAttributes(
             TextAttributes().apply {

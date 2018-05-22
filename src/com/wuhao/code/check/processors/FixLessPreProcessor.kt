@@ -70,7 +70,7 @@ class LessPreFixVisitor() : LessRecursiveVisitor() {
     super.visitCssRuleset(ruleset)
   }
 
-  override fun visitCssRulesetList(rulesetList: CssRulesetList?) {
+  override fun visitCssRulesetList(rulesetList: CssRulesetList) {
     rulesetList.setBlankLineBefore(1)
     rulesetList.setBlankLineAfter(1)
     super.visitCssRulesetList(rulesetList)

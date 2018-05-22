@@ -6,16 +6,22 @@ package com.wuhao.code.check
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.newvfs.impl.VirtualDirectoryImpl
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiElementFactory
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
 import org.jetbrains.kotlin.idea.core.moveCaret
+import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.psi.KtBlockExpression
-import org.jetbrains.kotlin.psi.KtElement
 import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
@@ -40,11 +46,23 @@ val PsiElement.ancestors: List<PsiElement>
 /**
  * 获取当前元素之前的第一个非空白元素
  */
-val PsiElement.prevSiblingIgnoreWhitespace: PsiElement?
+val PsiElement.prevIgnoreWs: PsiElement?
   get() {
     var sibling = this.prevSibling
     while (sibling != null && sibling is PsiWhiteSpace) {
       sibling = sibling.prevSibling
+    }
+    return sibling
+  }
+
+/**
+ * 获取当前元素并列的下一个非空白元素
+ */
+val PsiElement.nextIgnoreWs: PsiElement?
+  get() {
+    var sibling = this.nextSibling
+    while (sibling != null && sibling is PsiWhiteSpace) {
+      sibling = sibling.nextSibling
     }
     return sibling
   }
@@ -55,6 +73,14 @@ val PsiElement.prevSiblingIgnoreWhitespace: PsiElement?
 val KtNamedFunction.body: KtBlockExpression?
   get() {
     return this.getChildOfType()
+  }
+
+/**
+ * 判断kotlin属性是否val
+ */
+val KtProperty.isVal: Boolean
+  get() {
+    return !this.isVar
   }
 
 /**
@@ -94,29 +120,36 @@ inline fun <reified T> PsiElement.isFirstChildOfType(): Boolean {
   return this.parent != null && this.parent.children.firstOrNull { it is T } == this
 }
 
-/**
- * 获取java psi元素的工厂类
- * @param element psi元素
- * @return
- */
-fun getPsiElementFactory(element: PsiElement): PsiElementFactoryImpl {
-  return PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(element.project))
-}
+private val PSI_ELEMENT_FACTORY_CACHE = HashMap<Project, PsiElementFactory>()
 
 /**
- * 返回当前psi元素工厂类
+ * 获取java psi元素的工厂类
+ * @return java psi元素的工厂类
  */
-val PsiElement.psiFactory: PsiElementFactoryImpl
+val PsiElement.psiElementFactory: PsiElementFactory
   get() {
-    return PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(this.project))
+    if (PSI_ELEMENT_FACTORY_CACHE[this.project] == null) {
+      PSI_ELEMENT_FACTORY_CACHE[this.project] = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(this.project))
+    }
+    return PSI_ELEMENT_FACTORY_CACHE[this.project]!!
   }
+private val KT_PSI_FACTORY_CACHE = HashMap<Project, KtPsiFactory>()
 
 /**
  * 获取kt元素的工厂类
  */
-val KtElement.ktFactory: KtPsiFactory
+val PsiElement.ktPsiFactory: KtPsiFactory
+  get() = this.project.ktPsiFactory
+
+/**
+ * 获取kt元素的工厂类
+ */
+val Project.ktPsiFactory: KtPsiFactory
   get() {
-    return KtPsiFactory(this.project)
+    if (KT_PSI_FACTORY_CACHE[this] == null) {
+      KT_PSI_FACTORY_CACHE[this] = KtPsiFactory(this)
+    }
+    return KT_PSI_FACTORY_CACHE[this]!!
   }
 
 /**
@@ -129,8 +162,17 @@ fun getWhiteSpace(project: Project): PsiWhiteSpace {
 /**
  * 获取空行元素
  */
-fun getNewLine(project: Project): PsiWhiteSpace {
-  return KtPsiFactory(project).createNewLine() as PsiWhiteSpace
+fun Project.getNewLine(): PsiWhiteSpace {
+  return this.ktPsiFactory.createNewLine() as PsiWhiteSpace
+}
+
+/**
+ * 创建空白行元素
+ * @param count 换行数
+ * @return 空白行元素
+ */
+fun PsiElement.getNewLine(count: Int = 1): PsiWhiteSpace {
+  return this.ktPsiFactory.createNewLine(count) as PsiWhiteSpace
 }
 
 /**
@@ -150,6 +192,18 @@ val PsiElement.depth: Int
     analyzeDepth(this.children.toList())
     return depth
   }
+
+/**
+ * 和当前元素并列的前一个元素
+ */
+val PsiElement.prev: PsiElement
+  get() = this.prevSibling
+
+/**
+ * 和当前元素并列的后一个元素
+ */
+val PsiElement.next: PsiElement
+  get() = this.nextSibling
 
 /**
  * 是否是父元素的第一个子元素
@@ -185,37 +239,53 @@ fun renameElement(element: PsiElement,
   val handler = VariableInplaceRenameHandler()
   handler.invoke(realElement.project, editor, realElement.containingFile, context)
 }
-//val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
-//  get() {
-//    val list = ArrayList<VirtualFile>()
-//    getCachedChildren(list, this)
-//    return list
-//  }
 
-//val PsiElement.posterity: ArrayList<PsiElement>
-//  get() {
-//    val list = ArrayList<PsiElement>()
-//    getChildren(list, this)
-//    return list
-//  }
+/**
+ * 获取目录下所有缓存的文件
+ */
+val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
+  get() {
+    val list = ArrayList<VirtualFile>()
+    getCachedChildren(list, this)
+    return list
+  }
 
-//private fun getChildren(list: ArrayList<PsiElement>, psiElement: PsiElement) {
-//  if (psiElement.children.isNotEmpty()) {
-//    list.addAll(psiElement.children)
-//    psiElement.children.forEach {
-//      getChildren(list, it)
-//    }
-//  }
-//}
+/**
+ * 获取所有后代元素
+ */
+val PsiElement.posterity: ArrayList<PsiElement>
+  get() {
+    val list = ArrayList<PsiElement>()
+    getChildren(list, this)
+    return list
+  }
 
-//private fun getCachedChildren(list: ArrayList<VirtualFile>, virtualDirectoryImpl: VirtualDirectoryImpl) {
-//  list.addAll(virtualDirectoryImpl.cachedChildren.filter { !it.isDirectory })
-//  virtualDirectoryImpl.cachedChildren.filter { it is VirtualDirectoryImpl }
-//    .forEach {
-//      getCachedChildren(list, it as VirtualDirectoryImpl)
-//    }
-//}
+/**
+ *
+ * @param list
+ * @param psiElement
+ */
+private fun getChildren(list: ArrayList<PsiElement>, psiElement: PsiElement) {
+  if (psiElement.children.isNotEmpty()) {
+    list.addAll(psiElement.children)
+    psiElement.children.forEach {
+      getChildren(list, it)
+    }
+  }
+}
 
+/**
+ *
+ * @param list
+ * @param virtualDirectoryImpl
+ */
+private fun getCachedChildren(list: ArrayList<VirtualFile>, virtualDirectoryImpl: VirtualDirectoryImpl) {
+  list.addAll(virtualDirectoryImpl.cachedChildren.filter { !it.isDirectory })
+  virtualDirectoryImpl.cachedChildren.filter { it is VirtualDirectoryImpl }
+      .forEach {
+        getCachedChildren(list, it as VirtualDirectoryImpl)
+      }
+}
 
 /**
  * 获取指定类型的最近的祖先元素
@@ -241,6 +311,76 @@ inline fun <reified T> PsiElement.getPrevContinuousSiblingsOfType(): ArrayList<T
     sibling = sibling.prevSibling
   }
   return result
+}
+
+/**
+ * 清除空白行
+ * @param position 需要清除的位置
+ */
+fun PsiElement.clearBlankLineBeforeOrAfter(position: SpaceQuickFix.Position) {
+  val factory = this.ktPsiFactory
+  val whiteSpaceEl = when (position) {
+    Before -> this.prev
+    After -> this.next
+    else -> null
+  }
+  if (whiteSpaceEl !is PsiWhiteSpace) {
+    if (position == Before) {
+      this.insertElementBefore(factory.createNewLine())
+    } else if (position == After) {
+      this.insertElementAfter(factory.createNewLine())
+    }
+  } else if (whiteSpaceEl.getLineCount() != 1) {
+    whiteSpaceEl.replace(factory.createNewLine())
+  }
+}
+
+/**
+ * 在当前元素后面添加空行
+ * @param blankLines 空白行数
+ */
+fun PsiElement.setBlankLineAfter(blankLines: Int = 0) {
+  setBlankLine(blankLines, After)
+}
+
+/**
+ * 在当前元素前面添加空行
+ * @param blankLines 空白行数
+ */
+fun PsiElement.setBlankLineBefore(blankLines: Int = 0) {
+  setBlankLine(blankLines, Before)
+}
+
+/**
+ * 在当前元素前后添加空行
+ * @param blankLines 空白行数
+ */
+fun PsiElement.setBlankLineBoth(blankLines: Int = 0 ){
+  setBlankLine(blankLines, Both)
+}
+
+/**
+ * 在当前元素的指定位置添加空行
+ * @param blankLines 空白行数
+ * @param position 添加空白行的位置
+ */
+private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Position) {
+  val factory = this.ktPsiFactory
+  val lineBreaks = blankLines + 1
+  if (position == Before || position == Both) {
+    if (this.prev !is PsiWhiteSpace) {
+      this.insertElementBefore(factory.createNewLine(lineBreaks))
+    } else if (this.prev.getLineCount() != lineBreaks) {
+      this.prev.replace(factory.createNewLine(lineBreaks))
+    }
+  }
+  if (position == After || position == Both) {
+    if (this.next !is PsiWhiteSpace) {
+      this.insertElementAfter(factory.createNewLine(lineBreaks))
+    } else if (this.next.getLineCount() != lineBreaks) {
+      this.next.replace(factory.createNewLine(lineBreaks))
+    }
+  }
 }
 
 /**
@@ -344,6 +484,16 @@ fun PsiElement.firstChild(predicate: (PsiElement) -> Boolean): PsiElement? {
  */
 fun PsiElement.insertElementBefore(element: PsiElement): PsiElement {
   return this.parent.addBefore(element, this)
+}
+
+/**
+ * 在当前元素前面插入多个元素
+ * @param elements 待插入的元素
+ */
+fun PsiElement.insertElementsBefore(vararg elements: PsiElement) {
+  elements.forEach {
+    this.insertElementBefore(it)
+  }
 }
 
 /**

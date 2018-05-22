@@ -13,7 +13,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.xml.XmlTag
-import com.wuhao.code.check.Messages
+import com.wuhao.code.check.constants.Messages
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 import org.jetbrains.kotlin.psi.KtFile
@@ -26,6 +26,17 @@ import java.io.File
  * @since 1.1
  */
 class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
+
+  companion object {
+    const val DELETE = "delete"
+    val ICON_FILE = IconLoader.getIcon("/icons/arrow_up.png")
+    const val ID_ATTR_NAME = "id"
+    const val INSERT = "insert"
+    const val MAPPER_NAMESPACE_ATTR_NAME = "namespace"
+    const val MAPPER_TAG_NAME = "mapper"
+    const val SELECT = "select"
+    const val UPDATE = "update"
+  }
 
   override fun collectNavigationMarkers(element: PsiElement,
                                         result: MutableCollection<in RelatedItemLineMarkerInfo<*>>) {
@@ -73,8 +84,8 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
   }
 
   private fun createLineMarkerInfo(source: PsiElement, target: PsiElement): RelatedItemLineMarkerInfo<*> {
-    val builder = NavigationGutterIconBuilder.create(FILE).setTargets(listOf(target))
-        .setTooltipText(Messages.jumpToInterface)
+    val builder = NavigationGutterIconBuilder.create(ICON_FILE).setTargets(listOf(target))
+        .setTooltipText(Messages.JUMP_TO_INTERFACE)
     return builder.createLineMarkerInfo(source)
   }
 
@@ -130,19 +141,6 @@ class MybatisMapperFileLineMarkerProvider : RelatedItemLineMarkerProvider() {
     fun getKotlinClasspath(): String {
       return className.replace(".", File.separator) + ".kt"
     }
-
-  }
-
-  companion object {
-
-    const val DELETE = "delete"
-    val FILE = IconLoader.getIcon("/icons/arrow_up.png")
-    const val ID_ATTR_NAME = "id"
-    const val INSERT = "insert"
-    const val MAPPER_NAMESPACE_ATTR_NAME = "namespace"
-    const val MAPPER_TAG_NAME = "mapper"
-    const val SELECT = "select"
-    const val UPDATE = "update"
 
   }
 

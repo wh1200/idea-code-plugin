@@ -25,6 +25,10 @@ import org.jetbrains.kotlin.psi.psiUtil.containingClass
  */
 class KotlinConsolePrintFix : LocalQuickFix {
 
+  companion object {
+    private const val PRINT_DECLARATION = "println"
+  }
+
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val el = descriptor.endElement
     val factory = KtPsiFactory(project)
@@ -52,13 +56,13 @@ class KotlinConsolePrintFix : LocalQuickFix {
             val field = factory.createProperty(fieldString)
             companion.getBody()?.lBrace?.apply {
               insertElementAfter(field)
-              insertElementAfter(getNewLine(project))
+              insertElementAfter(project.getNewLine())
             }
           }
         }
       }
       val callExpression = el.parent as KtCallExpression
-      if (el.text.startsWith(printDeclaration)) {
+      if (el.text.startsWith(PRINT_DECLARATION)) {
         callExpression.replace(factory.createExpression("$LOG_FIELD_NAME.info${callExpression.valueArgumentList?.text}"))
       } else if (el.text.startsWith(ERROR_DECLARATION)) {
         callExpression.replace(factory.createExpression("$LOG_FIELD_NAME.error${callExpression.valueArgumentList?.text}"))
@@ -77,12 +81,6 @@ class KotlinConsolePrintFix : LocalQuickFix {
           import $LOG_FACTORY_PREFERENCE
           """.trimMargin()
     ) as KtFile).importList!!
-  }
-
-  companion object {
-
-    private const val printDeclaration = "println"
-
   }
 
 }

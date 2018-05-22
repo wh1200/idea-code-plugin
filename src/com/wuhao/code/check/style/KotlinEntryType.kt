@@ -3,12 +3,10 @@
  */
 package com.wuhao.code.check.style
 
-import com.intellij.openapi.util.NotNullLazyValue
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettingsToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokenType
 import com.intellij.psi.codeStyle.arrangement.std.StdInvertibleArrangementSettingsToken
-import com.intellij.util.containers.ContainerUtilRt
 
 /**
  * kotlin排序类型
@@ -38,6 +36,7 @@ object KotlinEntryType {
  * token id到token的映射map
  */
 internal val TOKENS_BY_ID = HashMap<String, StdArrangementSettingsToken>()
+
 /**
  *
  * @param id
@@ -55,24 +54,17 @@ fun invertible(id: String, type: StdArrangementTokenType): StdArrangementSetting
  * @param clazz
  * @return
  */
-fun collectFields(clazz: Class<*>): NotNullLazyValue<Set<ArrangementSettingsToken>> {
-  return object : NotNullLazyValue<Set<ArrangementSettingsToken>>() {
-
-    override fun compute(): Set<ArrangementSettingsToken> {
-      val result = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()
-      for (field in clazz.fields) {
-        if (ArrangementSettingsToken::class.java.isAssignableFrom(field.type)) {
-          try {
-            result.add(field.get(null) as ArrangementSettingsToken)
-          } catch (e: IllegalAccessException) {
-            assert(false) { e }
-          }
-
-        }
+inline fun <reified T> collectFields(clazz: Class<*>): HashSet<T> {
+  val result = HashSet<T>()
+  for (field in clazz.declaredFields) {
+    if (field.type == T::class.java) {
+      try {
+        result.add(field.get(null) as T)
+      } catch (e: IllegalAccessException) {
+        assert(false) { e }
       }
-      return result
     }
-
   }
+  return result
 }
 

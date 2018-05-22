@@ -22,6 +22,16 @@ import com.wuhao.code.check.ui.PluginSettings
  */
 class JavaBlockCommentFix : LocalQuickFix {
 
+  companion object {
+    const val BLOCK_COMMENT_END = "*/"
+    const val BLOCK_COMMENT_START = """/**
+*
+"""
+    const val BLOCK_COMMENT_STRING = BLOCK_COMMENT_START + BLOCK_COMMENT_END
+    val CLASS_COMMENT = "$BLOCK_COMMENT_START* @author ${PluginSettings.NULLABLE_INSTANCE?.user} \n* @since " +
+        "\n$BLOCK_COMMENT_END"
+  }
+
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val element = descriptor.psiElement
     val measureElement = if (element is PsiIdentifier) {
@@ -57,18 +67,6 @@ class JavaBlockCommentFix : LocalQuickFix {
     }
     commentBuilder.append(BLOCK_COMMENT_END)
     return commentBuilder.toString()
-  }
-
-  companion object {
-
-    const val BLOCK_COMMENT_END = "*/"
-    const val BLOCK_COMMENT_START = """/**
-*
-"""
-    const val BLOCK_COMMENT_STRING = BLOCK_COMMENT_START + BLOCK_COMMENT_END
-    val CLASS_COMMENT = "$BLOCK_COMMENT_START* @author ${PluginSettings.nullableInstance?.user} \n* @since " +
-        "\n$BLOCK_COMMENT_END"
-
   }
 
 }

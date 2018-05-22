@@ -9,9 +9,9 @@ import com.intellij.codeInsight.lookup.LookupElementDecorator
 import com.intellij.spring.boot.SpringBootConfigFileConstants.APPLICATION_YML
 import com.intellij.spring.boot.application.metadata.SpringBootApplicationMetaConfigKeyManager
 import com.intellij.util.ProcessingContext
-import com.wuhao.code.check.JAVA_VALUE_ANNOTATION_PATTERN
-import com.wuhao.code.check.KOTLIN_VALUE_ANNOTATION_PATTERN
-import com.wuhao.code.check.RESOURCES_PATH
+import com.wuhao.code.check.constants.JAVA_VALUE_ANNOTATION_PATTERN
+import com.wuhao.code.check.constants.KOTLIN_VALUE_ANNOTATION_PATTERN
+import com.wuhao.code.check.constants.RESOURCES_PATH
 import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 
 /**

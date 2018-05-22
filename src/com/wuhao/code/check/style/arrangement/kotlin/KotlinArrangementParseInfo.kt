@@ -18,20 +18,28 @@ class KotlinArrangementParseInfo {
   val entries: List<KotlinElementArrangementEntry>
     get() = myEntries
   private val myEntries = ArrayList<KotlinElementArrangementEntry>()
-  private val myProperties = LinkedHashMap<KtProperty, KotlinElementArrangementEntry>()
   private val myFunctionEntriesMap = HashMap<KtNamedFunction, KotlinElementArrangementEntry>()
+  private val myProperties = LinkedHashMap<KtProperty, KotlinElementArrangementEntry>()
   private val myPropertyDependencies = ContainerUtil.newHashMap<KtProperty, HashSet<KtProperty>>()
 
   fun addEntry(entry: KotlinElementArrangementEntry) {
     myEntries.add(entry)
   }
 
-  fun onPropertyEntryCreated(property: KtProperty, entry: KotlinElementArrangementEntry) {
-    myProperties[property] = entry
+  fun getProperties(): Collection<KotlinElementArrangementEntry> {
+    return myProperties.values
+  }
+
+  fun getPropertyDependencyRoots(): List<KotlinArrangementEntryDependencyInfo> {
+    return PropertyDependenciesManager(myPropertyDependencies, myProperties).roots
   }
 
   fun onMethodEntryCreated(method: KtNamedFunction, entry: KotlinElementArrangementEntry) {
     myFunctionEntriesMap[method] = entry
+  }
+
+  fun onPropertyEntryCreated(property: KtProperty, entry: KotlinElementArrangementEntry) {
+    myProperties[property] = entry
   }
 
   fun registerPropertyInitializationDependency(property: KtProperty, referencedProperty: KtProperty) {
@@ -41,14 +49,6 @@ class KotlinArrangementParseInfo {
       myPropertyDependencies[property] = properties
     }
     properties.add(referencedProperty)
-  }
-
-  fun getProperties(): Collection<KotlinElementArrangementEntry> {
-    return myProperties.values
-  }
-
-  fun getPropertyDependencyRoots(): List<KotlinArrangementEntryDependencyInfo> {
-    return PropertyDependenciesManager(myPropertyDependencies, myProperties).roots
   }
 
 }

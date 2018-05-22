@@ -28,7 +28,7 @@ import java.util.zip.ZipInputStream
  */
 abstract class CreateProjectAction : AnAction() {
 
-  protected var pluginSettings = PluginSettings.instance
+  protected var pluginSettings = PluginSettings.INSTANCE
 
   override fun actionPerformed(e: AnActionEvent) {
     val prepareCreateInfo = prepareCreate(e, getTemplateUrl())

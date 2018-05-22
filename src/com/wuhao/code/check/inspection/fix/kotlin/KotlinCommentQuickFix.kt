@@ -13,10 +13,10 @@ import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BL
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_START
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_STRING
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.CLASS_COMMENT
+import com.wuhao.code.check.ktPsiFactory
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFunction
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
-import org.jetbrains.kotlin.psi.KtPsiFactory
 
 /**
  * 注释修复
@@ -24,6 +24,10 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
  * @since 1.1
  */
 class KotlinCommentQuickFix : LocalQuickFix {
+
+  companion object {
+    private val LOG = Logger.getInstance("com.intellij.codeInspection.PropertyClassCreateInspection")
+  }
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     try {
@@ -34,12 +38,12 @@ class KotlinCommentQuickFix : LocalQuickFix {
         element
       }
       val commentString = when (measureElement) {
-            is KtClass -> CLASS_COMMENT
-            is KtObjectDeclaration -> CLASS_COMMENT
-            is KtFunction -> buildFunctionComment(measureElement)
-            else -> BLOCK_COMMENT_STRING
-          }
-      val factory = KtPsiFactory(project)
+        is KtClass -> CLASS_COMMENT
+        is KtObjectDeclaration -> CLASS_COMMENT
+        is KtFunction -> buildFunctionComment(measureElement)
+        else -> BLOCK_COMMENT_STRING
+      }
+      val factory = element.ktPsiFactory
       val comment = factory.createComment(commentString)
       if (element is LeafPsiElement) {
         element.parent.addBefore(comment, element.parent.firstChild)
@@ -69,12 +73,6 @@ class KotlinCommentQuickFix : LocalQuickFix {
     }
     commentBuilder.append(BLOCK_COMMENT_END)
     return commentBuilder.toString()
-  }
-
-  companion object {
-
-    private val LOG = Logger.getInstance("com.intellij.codeInspection.PropertyClassCreateInspection")
-
   }
 
 }

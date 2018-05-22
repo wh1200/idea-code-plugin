@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.http
 
 import org.apache.commons.httpclient.Header
@@ -26,10 +25,6 @@ class HttpResult {
    */
   var exception: Exception? = null
   /**
-   * http响应头
-   */
-  private var headers: MutableMap<String, String>? = null
-  /**
    * http响应的内容
    */
   var response: String? = null
@@ -37,6 +32,19 @@ class HttpResult {
    * http请求的状态
    */
   var status: Int = 0
+  /**
+   * http响应头
+   */
+  private var headers: MutableMap<String, String>? = null
+
+  fun getHeaders(): Map<String, String>? {
+    return headers
+  }
+
+  fun setHeaders(headers: Array<Header>) {
+    this.headers = HashMap()
+    Arrays.stream(headers).forEach { header -> this.headers!![header.name] = header.value }
+  }
 
   override fun toString(): String {
     val sb = StringBuilder()
@@ -50,12 +58,5 @@ class HttpResult {
     return sb.toString()
   }
 
-  fun getHeaders(): Map<String, String>? {
-    return headers
-  }
-
-  fun setHeaders(headers: Array<Header>) {
-    this.headers = HashMap()
-    Arrays.stream(headers).forEach { header -> this.headers!![header.name] = header.value }
-  }
 }
+

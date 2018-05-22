@@ -8,8 +8,8 @@ import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.spring.boot.SpringBootConfigFileConstants
-import com.wuhao.code.check.JAVA_VALUE_ANNOTATION_PATTERN
-import com.wuhao.code.check.RESOURCES_PATH
+import com.wuhao.code.check.constants.JAVA_VALUE_ANNOTATION_PATTERN
+import com.wuhao.code.check.constants.RESOURCES_PATH
 import com.wuhao.code.check.ancestors
 import com.wuhao.code.check.lang.RecursiveVisitor
 import org.jetbrains.kotlin.idea.refactoring.toPsiFile

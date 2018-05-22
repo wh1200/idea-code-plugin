@@ -12,16 +12,16 @@ import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.lang.javascript.dialects.ECMA6LanguageDialect
 import com.intellij.lang.javascript.dialects.TypeScriptLanguageDialect
+import com.intellij.lang.xml.XMLLanguage
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.JavaCodeStyleSettings
-import com.wuhao.code.check.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
-import com.wuhao.code.check.DEFAULT_INDENT_SPACE_COUNT
+import com.wuhao.code.check.constants.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
+import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.PluginStart
-import com.wuhao.code.check.registerError
-import org.apache.xmlbeans.XmlLanguage
+import com.wuhao.code.check.constants.registerError
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueLanguage
 import org.jetbrains.vuejs.language.VueJSLanguage
@@ -37,6 +37,12 @@ import java.nio.charset.StandardCharsets
  */
 class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVisitor(), BaseCodeFormatVisitor {
 
+  companion object {
+    const val ACTION_PREFIX = "@"
+    const val CUSTOM_ATTR_PREFIX = ":"
+    const val DIRECTIVE_PREFIX = "v-"
+  }
+
   override fun support(language: Language): Boolean {
     return language is KotlinLanguage
         || language is JavaLanguage
@@ -44,20 +50,23 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
         || language is TypeScriptLanguageDialect
         || language is ECMA6LanguageDialect
         || language is VueLanguage
-        || language is XmlLanguage
+        || language is XMLLanguage
         || language is VueJSLanguage
   }
+
 
   override fun visitFile(file: PsiFile) {
     this.checkEncoding(file)
     this.checkIndent(file)
   }
 
+
   private fun checkEncoding(element: PsiElement) {
     if (element is PsiFile && element.virtualFile != null && element.virtualFile.charset != StandardCharsets.UTF_8) {
       holder.registerError(element, "${element.name}的编码为${element.virtualFile.charset}，应该使用UTF-8")
     }
   }
+
 
   private fun checkIndent(element: PsiElement) {
     if (element is PsiFile) {
@@ -72,6 +81,7 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
             PluginStart.setIndent(element.fileType, element.language, CodeStyle.getSettings(element.project))
           }
 
+
           override fun getFamilyName(): String {
             return "设置缩进"
           }
@@ -84,14 +94,6 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
         holder.registerError(element, "${element.fileType.name}文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格")
       }
     }
-  }
-
-  companion object {
-
-    const val ACTION_PREFIX = "@"
-    const val CUSTOM_ATTR_PREFIX = ":"
-    const val DIRECTIVE_PREFIX = "v-"
-
   }
 
 }

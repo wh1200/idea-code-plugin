@@ -11,7 +11,7 @@ import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.ancestors
-import org.jetbrains.kotlin.psi.KtPsiFactory
+import com.wuhao.code.check.ktPsiFactory
 
 /**
  * vue模板标签属性排序及格式化
@@ -20,17 +20,7 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
  */
 class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : LocalQuickFix {
 
-  override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-    val el = descriptor.psiElement as XmlTag
-    fixElement(el, sortedAttributes)
-  }
-
-  override fun getFamilyName(): String {
-    return "属性重新排序"
-  }
-
   companion object {
-
     fun comparePrefix(nameList: List<String>, prefix: String): Int {
       return when {
         nameList.all { it.startsWith(prefix) } -> nameList[0].compareTo(nameList[1])
@@ -45,7 +35,7 @@ class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : Loca
     }
 
     fun fixWhitespace(el: XmlTag) {
-      val factory = KtPsiFactory(el.project)
+      val factory = el.ktPsiFactory
       el.attributes.forEachIndexed { index, it ->
         val spaceBefore = it.prevSibling as PsiWhiteSpace
         if (it.value == null && spaceBefore.textContains('\n')) {
@@ -69,7 +59,15 @@ class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : Loca
             }
       }
     }
+  }
 
+  override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+    val el = descriptor.psiElement as XmlTag
+    fixElement(el, sortedAttributes)
+  }
+
+  override fun getFamilyName(): String {
+    return "属性重新排序"
   }
 
 }

@@ -1,6 +1,5 @@
 package com.wuhao.code.check.template
 
-import com.intellij.facet.FacetManager
 import com.intellij.ide.IdeBundle
 import com.intellij.ide.fileTemplates.CreateFromTemplateHandler
 import com.intellij.ide.fileTemplates.FileTemplate
@@ -16,7 +15,6 @@ import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.ui.PluginSettings
 import org.jetbrains.kotlin.idea.KotlinFileType
-import org.jetbrains.kotlin.idea.util.projectStructure.allModules
 
 /**
  * @author 吴昊
@@ -30,14 +28,6 @@ class CreateFromKotlinTemplateHandler : CreateFromTemplateHandler {
 
   @Throws(IncorrectOperationException::class)
   override fun createFromTemplate(project: Project, directory: PsiDirectory, fileName: String, template: FileTemplate, templateText: String, props: Map<String, Any>): PsiElement {
-    project.allModules()
-        .forEach {
-          val facetManager = FacetManager.getInstance(it)
-          facetManager.allFacets.forEach {
-            println(it.name)
-          }
-        }
-    //    MavenProjectsManager.getInstance(project)
     var copyFileName = fileName
     copyFileName = this.checkAppendExtension(copyFileName, template)
     if (FileTypeManager.getInstance().isFileIgnored(copyFileName)) {
@@ -67,7 +57,7 @@ class CreateFromKotlinTemplateHandler : CreateFromTemplateHandler {
   }
 
   override fun prepareProperties(props: MutableMap<String, Any>) {
-    props["USER"] = PluginSettings.instance.user
+    props["USER"] = PluginSettings.INSTANCE.user
   }
 
   private fun checkAppendExtension(fileName: String, template: FileTemplate): String {

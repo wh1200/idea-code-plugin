@@ -12,8 +12,8 @@ import com.intellij.psi.PsiImportList
 import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiReferenceExpression
 import com.wuhao.code.check.getNewLine
-import com.wuhao.code.check.getPsiElementFactory
 import com.wuhao.code.check.insertElementAfter
+import com.wuhao.code.check.psiElementFactory
 import org.jetbrains.uast.getContainingClass
 
 /**
@@ -23,9 +23,18 @@ import org.jetbrains.uast.getContainingClass
  */
 class JavaConsolePrintFix : LocalQuickFix {
 
+  companion object {
+
+    const val ERROR_DECLARATION = "System.err.print"
+    const val LOG_FACTORY_PREFERENCE = "org.slf4j.LoggerFactory"
+    const val LOG_FIELD_NAME = "LOG"
+    const val LOG_PREFERENCE = "org.slf4j.Logger"
+    private const val PRINT_DECLARATION = "System.out.print"
+  }
+
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val el = descriptor.endElement
-    val factory = getPsiElementFactory(el)
+    val factory = el.psiElementFactory
     if (el.firstChild is PsiReferenceExpression) {
       val clazz = el.getContainingClass()
       if (clazz != null) {
@@ -49,7 +58,7 @@ class JavaConsolePrintFix : LocalQuickFix {
             val field = factory.createFieldFromText(fieldString, clazz)
             clazz.lBrace!!.apply {
               insertElementAfter(field)
-              insertElementAfter(getNewLine(project))
+              insertElementAfter(project.getNewLine())
             }
           }
         }
@@ -75,16 +84,6 @@ class JavaConsolePrintFix : LocalQuickFix {
                   |import $LOG_FACTORY_PREFERENCE;
                 """.trimMargin()
     ) as PsiJavaFile).importList!!
-  }
-
-  companion object {
-
-    const val LOG_FACTORY_PREFERENCE = "org.slf4j.LoggerFactory"
-    const val LOG_FIELD_NAME = "LOG"
-    const val LOG_PREFERENCE = "org.slf4j.Logger"
-    const val ERROR_DECLARATION = "System.err.print"
-    private const val PRINT_DECLARATION = "System.out.print"
-
   }
 
 }

@@ -1,7 +1,6 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.http
 
 /**
@@ -11,10 +10,9 @@ package com.wuhao.code.check.http
 interface RequestProgressListener {
 
   /**
-   * 请求开始时调用一次
-   * @param total 发送内容的字节数
+   * 请求结束时调用一次
    */
-  fun start(total: Long)
+  fun end()
 
   /**
    * 请求过程中连续调用
@@ -25,7 +23,10 @@ interface RequestProgressListener {
   fun inProgress(size: Long, currentTotal: Long, total: Long)
 
   /**
-   * 请求结束时调用一次
+   * 请求开始时调用一次
+   * @param total 发送内容的字节数
    */
-  fun end()
+  fun start(total: Long)
+
 }
+

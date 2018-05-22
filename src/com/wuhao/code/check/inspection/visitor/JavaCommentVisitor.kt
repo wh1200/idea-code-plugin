@@ -9,9 +9,9 @@ import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.jvm.JvmModifier
 import com.intellij.psi.*
 import com.intellij.psi.javadoc.PsiDocComment
-import com.wuhao.code.check.Messages
+import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix
-import com.wuhao.code.check.registerError
+import com.wuhao.code.check.constants.registerError
 
 /**
  * Java代码格式检查访问器
@@ -21,6 +21,12 @@ import com.wuhao.code.check.registerError
  */
 class JavaCommentVisitor(val holder: ProblemsHolder) :
     JavaElementVisitor(), BaseCodeFormatVisitor {
+
+  companion object {
+    const val ENTITY_CLASS = "javax.persistence.Entity"
+    const val SPRING_DOCUMENT_CLASS = "org.springframework.data.elasticsearch.annotations.Document"
+    const val TABLE_CLASS = "javax.persistence.Table"
+  }
 
   override fun support(language: Language): Boolean {
     return language == JavaLanguage.INSTANCE
@@ -33,17 +39,17 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
   override fun visitClass(clazz: PsiClass) {
     if (clazz !is PsiTypeParameter && (clazz.firstChild == null || clazz.firstChild !is PsiDocComment) && clazz !is PsiAnonymousClass) {
       if (clazz.nameIdentifier != null) {
-        holder.registerError(clazz.nameIdentifier!!, Messages.classCommentRequired, JavaBlockCommentFix())
+        holder.registerError(clazz.nameIdentifier!!, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
       } else {
-        holder.registerError(clazz, Messages.classCommentRequired, JavaBlockCommentFix())
+        holder.registerError(clazz, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
       }
     }
-    if (clazz.annotations.any { it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS) }) {
+    if (clazz.annotations.any { it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS, SPRING_DOCUMENT_CLASS) }) {
       clazz.fields.filter {
         !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
             && it.firstChild !is PsiDocComment
       }.forEach { fieldElement ->
-        holder.registerError(fieldElement.nameIdentifier, Messages.commentRequired,
+        holder.registerError(fieldElement.nameIdentifier, Messages.COMMENT_REQUIRED,
             JavaBlockCommentFix())
       }
     }
@@ -59,16 +65,8 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
         method
       }
       holder.registerError(elementToRegisterProblem,
-          Messages.interfaceMethodCommentRequired, JavaBlockCommentFix())
+          Messages.INTERFACE_METHOD_COMMENT_REQUIRED, JavaBlockCommentFix())
     }
-  }
-
-
-  companion object {
-
-    const val ENTITY_CLASS = "javax.persistence.Entity"
-    const val TABLE_CLASS = "javax.persistence.Table"
-
   }
 
 }

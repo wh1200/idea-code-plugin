@@ -13,6 +13,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.*
+import com.wuhao.code.check.constants.PROPERTY_NAME_PLACEHOLDER
 import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor.Companion.COMPUTED_ATTRIBUTE
 import com.wuhao.code.check.lang.vue.VueDirectives.FOR
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor
@@ -90,9 +91,9 @@ class ComplexExpToComputedPropertyFix : LocalQuickFix {
       }, el)!!.psi
       el.firstChild.replace(newPlaceholder)
       val element = el.firstChild
-//      val newDescriptor = ProblemDescriptorImpl(element, element, "test",
-//          arrayOf(RenameIdentifierFix()), ProblemHighlightType.ERROR, false, null, false)
-//      RenameIdentifierFix().applyFix(project, newDescriptor)
+      //      val newDescriptor = ProblemDescriptorImpl(element, element, "test",
+      //          arrayOf(RenameIdentifierFix()), ProblemHighlightType.ERROR, false, null, false)
+      //      RenameIdentifierFix().applyFix(project, newDescriptor)
       renameElement(element)
     }
   }

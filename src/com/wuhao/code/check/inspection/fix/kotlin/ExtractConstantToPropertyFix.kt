@@ -7,7 +7,11 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
 import com.wuhao.code.check.*
+import com.wuhao.code.check.constants.PROPERTY_NAME_PLACEHOLDER
+import org.jetbrains.kotlin.descriptors.FunctionDescriptor
+import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.resolve.source.getPsi
 
 /**
  * 将常量参数导出为变量
@@ -24,18 +28,37 @@ class ExtractConstantToPropertyFix : LocalQuickFix {
           it is KtCallExpression
               || it is KtQualifiedExpression || it is KtProperty
         }.last()
-    val propertyName = PROPERTY_NAME_PLACEHOLDER
-    val factory = KtPsiFactory(project)
+    val propertyName = resolveParameterName(constant)
+    val factory = constant.ktPsiFactory
     val property = factory.createProperty("val $propertyName = ${constant.text}")
     val newProperty = property.insertBefore(exp)
     val newValueArgument = constant.parent
         .replace(factory.createArgument(propertyName))
-    newProperty.insertElementAfter(getNewLine(project))
+    newProperty.insertElementAfter(project.getNewLine())
     renameElement(newValueArgument)
   }
 
   override fun getFamilyName(): String {
     return "提取为变量"
+  }
+
+  private fun resolveParameterName(constant: KtConstantExpression): String {
+    val argument = constant.ancestorOfType<KtValueArgument>()
+    if (argument != null) {
+      val argumentList = argument.parent as KtValueArgumentList
+      val index = argumentList.arguments.indexOf(argument)
+      val call = argumentList.ancestorOfType<KtCallExpression>()
+      val exp = call?.firstChild as KtNameReferenceExpression?
+      exp?.resolveMainReferenceToDescriptors()?.forEach { ref ->
+        if (ref is FunctionDescriptor) {
+          val psi = ref.source.getPsi()
+          if (psi is KtNamedFunction && psi.valueParameters.size == argumentList.arguments.size) {
+            return psi.valueParameters[index].name ?: PROPERTY_NAME_PLACEHOLDER
+          }
+        }
+      }
+    }
+    return PROPERTY_NAME_PLACEHOLDER
   }
 
 }

@@ -12,9 +12,10 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
 import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
 import org.jetbrains.kotlin.idea.KotlinLanguage
-import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
@@ -34,8 +35,7 @@ class FixKotlinPostProcessor : PostFormatProcessor {
 
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
     if (source.language is KotlinLanguage) {
-      val factory = KtPsiFactory(source.project)
-      source.accept(KotlinFixVisitor(factory))
+      source.accept(KotlinFixVisitor(source.ktPsiFactory))
     }
     return TextRange(0, source.endOffset)
   }
@@ -49,12 +49,16 @@ class FixKotlinPostProcessor : PostFormatProcessor {
  */
 class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisitor() {
 
+  companion object {
+    private const val BLANK_LINES_BETWEEN_FUNCTIONS = 2
+  }
+
   override fun visitClass(klass: KtClass, data: Any?) {
     if (klass.isEnum()) {
-      val factory = KtPsiFactory(klass.project)
+      val factory = klass.ktPsiFactory
       klass.getBody()?.let { body ->
         val oldEntries = body.getChildrenOfType<KtEnumEntry>()
-        if (oldEntries.size > 0) {
+        if (oldEntries.isNotEmpty()) {
           val commentMap = oldEntries.associateBy({ it }, {
             if (it.lastChild is PsiComment) {
               it.lastChild as PsiComment
@@ -103,7 +107,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
           val newEntries = body.getChildrenOfType<KtEnumEntry>()
           newEntries.forEach { newEntry ->
             if (newEntry.nextSibling is KtEnumEntry) {
-              newEntry.insertElementAfter(factory.createNewLine())
+              newEntry.setBlankLineAfter()
             }
           }
         }
@@ -113,23 +117,24 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
   }
 
   override fun visitClassBody(classBody: KtClassBody, data: Any?) {
+    val parent = classBody.parent
     val lBrace = classBody.lBrace
     val rBrace = classBody.rBrace
     if (lBrace != null && rBrace != null) {
-      if (rBrace.prevSibling !is PsiWhiteSpace) {
-        rBrace.insertElementBefore(factory.createNewLine(
-            when (lBrace) {
-              rBrace.prevSibling -> 1
-              else -> 2
-            })
-        )
+      if (parent is KtObjectDeclaration && parent.isCompanion()) { // 伴随对象body前后不留空行
+        lBrace.clearBlankLineBeforeOrAfter(After)
+        rBrace.clearBlankLineBeforeOrAfter(Before)
       } else {
-        if (rBrace.prevSibling === lBrace.nextSibling && rBrace.prevSibling.getLineCount() != 1) {
-          rBrace.prevSibling.replace(factory.createNewLine(1))
-        } else if (classBody.rBrace!!.prevSibling.getLineCount() != 2) {
-          rBrace.prevSibling.replace(factory.createNewLine(2))
-        } else if (classBody.lBrace!!.nextSibling.getLineCount() != 2) {
-          lBrace.nextSibling.replace(factory.createNewLine(2))
+        when {
+          lBrace.next == rBrace -> lBrace.setBlankLineAfter()
+          rBrace.prev !is PsiWhiteSpace -> lBrace.setBlankLineAfter(1)
+          rBrace.prevIgnoreWs === lBrace -> // 如果classBody没有内容的话，右括号保持换行，左右括号之间不留空行
+            rBrace.setBlankLineBefore()
+          else -> {
+            // 如果classBody有内容，则左括号后和右括号前各留一个空行
+            lBrace.setBlankLineAfter(1)
+            rBrace.setBlankLineBefore(1)
+          }
         }
       }
     }
@@ -138,11 +143,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
 
   override fun visitDoc(doc: KDoc) {
     //去掉注释与被注释代码之间的空行
-    if (doc.nextSibling !is PsiWhiteSpace) {
-      doc.insertAfter(factory.createNewLine())
-    } else if (doc.nextSibling.getLineCount() != 1) {
-      doc.nextSibling.replace(factory.createNewLine())
-    }
+    doc.setBlankLineAfter()
   }
 
   override fun visitEnumEntry(enumEntry: KtEnumEntry, data: Any?) {
@@ -161,11 +162,11 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     val thens = expression.children.filter { it is KtContainerNodeForControlStructureBody }
     thens.forEach { then ->
       if (then.firstChild !is KtBlockExpression && then.firstChild !is KtIfExpression) {
-        if (then.prevSibling is PsiWhiteSpace) {
-          then.prevSibling.replace(factory.createWhiteSpace(" "))
+        if (then.prev is PsiWhiteSpace) {
+          then.prev.replace(factory.createWhiteSpace(" "))
         }
-        if (then.nextSibling is PsiWhiteSpace) {
-          then.nextSibling.replace(factory.createWhiteSpace(" "))
+        if (then.next is PsiWhiteSpace) {
+          then.next.replace(factory.createWhiteSpace(" "))
         }
         val block = factory.createBlock(then.text)
         then.replace(block)
@@ -178,38 +179,21 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     val body = function.body
     if (body != null) {
       // 方法开头和结束不能留有空行
-      val lBrace = body.lBrace
-      val rBrace = body.rBrace
-      if (lBrace != null) {
-        if (lBrace.nextSibling !is PsiWhiteSpace) {
-          lBrace.insertAfter(factory.createNewLine())
-        } else if (lBrace.nextSibling.getLineCount() != 1) {
-          lBrace.nextSibling.replace(factory.createNewLine())
-        }
-      }
-      if (rBrace != null) {
-        if (rBrace.prevSibling !is PsiWhiteSpace) {
-          rBrace.insertBefore(factory.createNewLine())
-        } else if (rBrace.prevSibling.getLineCount() != 1) {
-          rBrace.prevSibling.replace(factory.createNewLine())
-        }
-      }
+      body.lBrace?.clearBlankLineBeforeOrAfter(After)
+      body.rBrace?.clearBlankLineBeforeOrAfter(Before)
+    }
+    if (function.nextIgnoreWs is KtNamedFunction) {
+      function.setBlankLineAfter(BLANK_LINES_BETWEEN_FUNCTIONS)
     }
     super.visitNamedFunction(function, data)
   }
 
   override fun visitPackageDirective(directive: KtPackageDirective, data: Any?) {
-    val elementBeforePackageDirective = directive.prevSibling
     //版权声明与包声明之间不允许有空行
-    if (elementBeforePackageDirective != null
-        && elementBeforePackageDirective is PsiWhiteSpace
-        && elementBeforePackageDirective.getLineCount() != 1) {
-      elementBeforePackageDirective.replace(factory.createNewLine())
+    if (directive.prevIgnoreWs is PsiComment || directive.prevIgnoreWs is KDoc) {
+      directive.setBlankLineBefore()
     }
-    val elementAfterDirective = directive.nextSibling
-    if (elementAfterDirective is PsiWhiteSpace && elementAfterDirective.getLineCount() != 2) {
-      elementAfterDirective.replace(factory.createNewLine(2))
-    }
+    directive.setBlankLineAfter(1)
     super.visitPackageDirective(directive, data)
   }
 

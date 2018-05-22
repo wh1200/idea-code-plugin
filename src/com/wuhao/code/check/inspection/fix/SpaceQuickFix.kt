@@ -8,7 +8,7 @@ import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
-import com.wuhao.code.check.Messages
+import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.getWhiteSpace
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
@@ -18,21 +18,19 @@ import com.wuhao.code.check.insertElementBefore
  * @author 吴昊
  * @since 1.2.1
  */
-class SpaceQuickFix(private val type: Type) : LocalQuickFix {
-
-
+class SpaceQuickFix(private val type: Position) : LocalQuickFix {
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val element = descriptor.psiElement
     when (type) {
-      SpaceQuickFix.Type.After -> {
+      SpaceQuickFix.Position.After -> {
         insertSpaceAfter(element)
       }
-      SpaceQuickFix.Type.Before -> {
+      SpaceQuickFix.Position.Before -> {
         insertSpaceBefore(element)
       }
-      SpaceQuickFix.Type.BeforeParent -> insertSpaceBefore(element.parent)
-      SpaceQuickFix.Type.Both -> {
+      SpaceQuickFix.Position.BeforeParent -> insertSpaceBefore(element.parent)
+      SpaceQuickFix.Position.Both -> {
         insertSpaceBefore(element)
         insertSpaceAfter(element)
       }
@@ -40,7 +38,7 @@ class SpaceQuickFix(private val type: Type) : LocalQuickFix {
   }
 
   override fun getFamilyName(): String {
-    return Messages.fixSpace
+    return Messages.FIX_SPACE
   }
 
   private fun insertSpaceAfter(element: PsiElement) {
@@ -60,15 +58,26 @@ class SpaceQuickFix(private val type: Type) : LocalQuickFix {
   }
 
   /**
-   *
+   * 对psi元素做操作时，操作作用的位置（相对于psi元素）
    * @author 吴昊
    * @since 1.2.1
    */
-  enum class Type {
-
+  enum class Position {
+    /**
+     * psi元素之后
+     */
     After,
+    /**
+     * psi元素之前
+     */
     Before,
+    /**
+     * psi元素的父元素之前
+     */
     BeforeParent,
+    /**
+     * psi元素之前和之后
+     */
     Both;
 
   }

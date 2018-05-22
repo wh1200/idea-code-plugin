@@ -1,23 +1,22 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.inspection
+package com.wuhao.code.check.inspection.inspections
 
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
+import com.wuhao.code.check.constants.InspectionNames.KOTLIN_COMMENT
 import com.wuhao.code.check.inspection.visitor.CodeFormatVisitor
-import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor
+import com.wuhao.code.check.inspection.visitor.KotlinCommentVisitor
 
 /**
  * @author 吴昊
  * @since 1.0
  */
-class VueFormatInspection : BaseInspection(
-    "Vue代码格式检查",
-    "aegis.code.check.validation.vue") {
+class KotlinCommentInspection : BaseInspection(KOTLIN_COMMENT) {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
-    return CodeFormatVisitor(VueCodeFormatVisitor(holder))
+    return CodeFormatVisitor(KotlinCommentVisitor(holder), holder)
   }
 
 }

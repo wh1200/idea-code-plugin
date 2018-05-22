@@ -23,11 +23,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jacksonfilterfileplugin.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jacksonfilterfileplugin.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons-io-2.5.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/module_aegiscodecheckplugin.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/idea-code-plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/idea-code-plugin.iml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -49,15 +50,49 @@
       <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
-              <caret line="265" column="2" selection-start-line="265" selection-start-column="2" selection-end-line="265" selection-end-column="2" />
+            <state relative-caret-position="275">
+              <caret line="192" column="52" selection-start-line="192" selection-start-column="52" selection-end-line="192" selection-end-column="52" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file leaf-file-name="PluginStart.kt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2278">
+              <caret line="61" column="11" lean-forward="true" selection-start-line="61" selection-start-column="11" selection-end-line="61" selection-end-column="11" />
+              <folding>
+                <element signature="e#85#3190#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CommonConstants.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="485">
+              <caret line="83" column="10" selection-start-line="83" selection-start-column="10" selection-end-line="83" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GotoSpringBootConfigPropertyDeclarationHandler.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpringBootConfigValueInjectCodeCompletion.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -122,8 +157,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -134,35 +169,26 @@
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="eu.ydp.idea.ts.spec.generator.settings.spec.template" value="import {$ClassName$} from '$TestsRelativePath$../src/$classRelativePath$/$ClassName$';&#10;&#10;describe('$ClassName$', () =&gt; {&#10;  let $ObjName$:$ClassName$;&#10;&#10;  beforeEach(() =&gt; {&#10;    $ObjName$ = new $ClassName$();&#10;  });&#10;&#10;  describe('', () =&gt; {&#10;    it('', () =&gt; {&#10;      // given&#10;&#10;      // when&#10;&#10;      // then&#10;    });&#10;  });&#10;});&#10;" />
+    <property name="last_opened_file_path" value="$APPLICATION_HOME_DIR$/plugins/yaml/lib/yaml.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="C:/Program Files/nodejs/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.28390804" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="PsiViewer.ProjectComponent">
     <option name="HIGHLIGHT" value="false" />
@@ -251,60 +277,65 @@
       <updated>1526957032851</updated>
       <workItem from="1526957034196" duration="802000" />
       <workItem from="1526967501810" duration="1045000" />
+      <workItem from="1526970919041" duration="693000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1847000" />
+    <option name="totallyTimeSpent" value="2540000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Messages" order="17" weight="0.328125" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info id="Image Layers" />
+      <window_info anchor="right" id="Capture Analysis" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="JRebel Console" order="9" side_tool="true" />
+      <window_info anchor="right" id="PsiViewer" order="10" />
       <window_info anchor="right" id="Maven Projects" order="4" />
-      <window_info anchor="bottom" id="JRebel Executor" order="10" />
       <window_info anchor="bottom" id="Database Changes" order="26" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="20" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3290993" />
+      <window_info anchor="bottom" id="Terminal" order="22" weight="0.32700893" />
+      <window_info id="Capture Tool" />
       <window_info id="Designer" order="2" />
-      <window_info anchor="bottom" id="YouTrack" order="12" />
-      <window_info anchor="bottom" id="TeamCity" order="13" />
-      <window_info anchor="bottom" id="Tail" order="14" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14967811" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="News Feed" order="6" />
-      <window_info id="UI Designer" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="17" weight="0.3290993" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-      <window_info anchor="bottom" id="Regex Tester" order="18" />
-      <window_info anchor="right" id="PsiViewer" order="10" />
-      <window_info anchor="bottom" id="GitLabIntegration" order="19" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3290993" />
-      <window_info anchor="bottom" id="Version Control" order="20" />
-      <window_info anchor="bottom" id="CheckStyle" order="21" />
-      <window_info anchor="bottom" id="Terminal" order="22" weight="0.32794458" />
-      <window_info anchor="right" id="Api Debugger" order="9" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14967811" />
-      <window_info anchor="bottom" id="Reviews" order="23" />
-      <window_info id="JRebel" order="4" side_tool="true" />
-      <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info anchor="right" id="Key Promoter" order="8" />
-      <window_info anchor="bottom" id="JProfiler" order="24" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Usages" order="16" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="10" side_tool="true" weight="0.32939914" />
-      <window_info anchor="bottom" id="Inspector" order="15" side_tool="true" />
+      <window_info id="UI Designer" order="3" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39955357" />
+      <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
+      <window_info anchor="bottom" id="TeamCity" order="13" />
+      <window_info anchor="bottom" id="YouTrack" order="12" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="GitLabIntegration" order="19" />
+      <window_info id="JRebel" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="CheckStyle" order="21" />
+      <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="10" side_tool="true" weight="0.32939914" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Tail" order="14" />
+      <window_info anchor="right" id="News Feed" order="6" />
+      <window_info anchor="bottom" id="Usages" order="16" />
+      <window_info anchor="bottom" id="JProfiler" order="24" />
+      <window_info anchor="right" id="Api Debugger" order="9" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="JRebel Executor" order="10" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="JRebel Console" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" id="Key Promoter" order="8" />
+      <window_info anchor="bottom" id="Reviews" order="23" />
+      <window_info anchor="bottom" id="Inspector" order="15" side_tool="true" />
+      <window_info anchor="bottom" id="Regex Tester" order="18" />
       <window_info anchor="bottom" id="Dependencies Viewer" order="25" />
     </layout>
   </component>
@@ -317,6 +348,13 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5562">
+          <caret line="206" lean-forward="true" selection-start-line="206" selection-end-line="206" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6897">
           <caret line="209" column="34" selection-start-line="209" selection-start-column="31" selection-end-line="209" selection-end-column="34" />
         </state>
@@ -324,13 +362,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="265" column="2" selection-start-line="265" selection-start-column="2" selection-end-line="265" selection-end-column="2" />
+        <state relative-caret-position="275">
+          <caret line="192" column="52" selection-start-line="192" selection-start-column="52" selection-end-line="192" selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="485">
+          <caret line="83" column="10" selection-start-line="83" selection-start-column="10" selection-end-line="83" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2278">
+          <caret line="61" column="11" lean-forward="true" selection-start-line="61" selection-start-column="11" selection-end-line="61" selection-end-column="11" />
+          <folding>
+            <element signature="e#85#3190#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">
@@ -349,7 +415,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited>Kotlin</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -372,7 +438,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>IntelliJ IDEA IU-181.4445.78</last-edited>
+          <last-edited>IntelliJ IDEA IU-181.4668.68</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -384,7 +450,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>idea-code-plugin</last-edited>
+          <last-edited>Kotlin|idea-code-plugin</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

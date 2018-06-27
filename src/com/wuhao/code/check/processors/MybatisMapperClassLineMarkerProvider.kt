@@ -32,7 +32,6 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
   companion object {
     val ICON_FILE = IconLoader.getIcon("/icons/arrow_down.png")
-    const val MAPPER_ANNOTATION_TEXT = "@Mapper"
     const val MAPPER_CLASS = "org.apache.ibatis.annotations.Mapper"
   }
 
@@ -78,7 +77,7 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
   private fun isMapperInterface(clazz: KtClass?): Boolean {
     return clazz != null && clazz.isInterface()
-        && clazz.hasAnnotation(MAPPER_ANNOTATION_TEXT)
+        && clazz.hasAnnotation(MAPPER_CLASS)
   }
 
 

@@ -1,9 +1,198 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/src" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="e3819eb7-157d-429e-9026-47ea22c0a4b2" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-idea-plugin.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/MyRecursiveElementVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/PluginStart$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/PluginStart.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/PsiExtKt$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/PsiExtKt$depth$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/PsiExtKt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/StringExtKt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/action/CreateJavaKotlinProjectAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/action/CreateProjectAction$PrepareInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/action/CreateProjectAction$getNewProjectName$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/action/CreateProjectAction$openProject$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/action/CreateProjectAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/action/CreateVueProjectAction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion$SpringBootConfigPropertiesCompletionProvider$addCompletions$1$insertHandler$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion$SpringBootConfigPropertiesCompletionProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/constants/CommonConstantsKt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/constants/InspectionNames$NameData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/constants/InspectionNames.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/constants/LanguageNames.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/constants/Messages.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/constants/PsiPatternConstantsKt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/enums/NamingMethod.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler$getGotoDeclarationTargets$1$visitElement$key$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler$getGotoDeclarationTargets$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/gotohandler/MyGotoDeclarationHandler2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest$Delete.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest$Get.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest$Head.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest$Method.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest$Post$run$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest$Post.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest$Put.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest$RequestThread.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpResult$setHeaders$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpResult.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/RequestProgressListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/BaseNameFix$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/BaseNameFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/DeleteFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/FileNameFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/JsPropertySortFix$applyFix$$inlined$sortedBy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/JsPropertySortFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/SpaceQuickFix$Position.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/SpaceQuickFix$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/SpaceQuickFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/java/ExtractToVariableFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/java/JavaBlockCommentFix$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/java/JavaBlockCommentFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/java/JavaConsolePrintFix$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/java/JavaConsolePrintFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/java/JavaElementNameFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/kotlin/ExtractConstantToPropertyFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/kotlin/KotlinCommaFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/kotlin/KotlinCommentQuickFix$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/kotlin/KotlinCommentQuickFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/kotlin/KotlinCommentQuickFixKt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/kotlin/KotlinConsolePrintFix$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/kotlin/KotlinConsolePrintFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/kotlin/KotlinNameFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix$applyFix$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix$applyFix$obj$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix$applyFix$obj$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix$applyFix$obj$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix$applyFix$script$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/vue/VueComponentNameFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/vue/VueShortAttrFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/vue/VueTemplateTagFix$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/fix/vue/VueTemplateTagFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/BaseInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/CheckProvider$getInspectionClasses$classFiles$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/CheckProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/CodeFormatInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/JavaCommentInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/JavaFormatInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection$MyQuickFix$getPropertyFieldsMap$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection$MyQuickFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection$buildVisitor$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/JavaScriptFormatInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/KotlinCommentInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/KotlinFormatInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection$MyQuickFix$getPropertyFieldsMap$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection$MyQuickFix.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection$buildVisitor$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/TypeScriptFormatInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/inspections/VueFormatInspection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/BaseCodeFormatVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/CodeFormatVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor$checkIndent$indentFix$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor$Companion$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/JavaCommentVisitor$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/JavaCommentVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/JavaScriptCodeFormatVisitor$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/JavaScriptCodeFormatVisitor$remindReorderProperties$$inlined$sortedBy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/JavaScriptCodeFormatVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/KotlinCodeFormatVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/SpaceChecker$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/SpaceChecker$WhenMappings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/SpaceChecker.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor$visitElement$$inlined$sortedBy$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor$VueJsVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor$visitXmlAttribute$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/lang/RecursiveVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/lang/javascript/psi/JSRecursiveElementVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/lang/vue/ExtKt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/lang/vue/VueAttrNames.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/lang/vue/VueDirectives.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor$processText$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessorKt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/FixKotlinPreProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/FixVueTemplateExpressionPostProcessor$processText$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/FixVueTemplateExpressionPostProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/JSExpressionVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/KotlinPreFixVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider$MapperInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/MybatisMapperFileLineMarkerProvider$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/MybatisMapperFileLineMarkerProvider$MapperInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/MybatisMapperFileLineMarkerProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/VueAttrFixPreProcessor$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/VueAttrFixPreProcessor$process$1$transferCustomTagName$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/VueAttrFixPreProcessor$process$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/VueAttrFixPreProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/VueAttrsWhitespaceFixPostProcessor$processText$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/processors/VueAttrsWhitespaceFixPostProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/KotlinEntryType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/KotlinEntryTypeKt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/KotlinModifier.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/BaseRules.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/JavaRearrangeRules.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/KotlinRearrangeRules.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/RuleDescription.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/VueRearrangeRules.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementEntryDependencyInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementParseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementVisitor$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementVisitor$MethodBodyProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementVisitor$ObjectBodyProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementVisitor$getReferencedProperties$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementVisitor$mySectionDetector$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementVisitor$processEntry$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinElementArrangementEntry.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinRearranger$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinRearranger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinRecursiveVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/KotlinSectionArrangementEntry.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/kotlin/PropertyDependenciesManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/vue/VueArrangementOrderToken$getEntryComparator$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/vue/VueArrangementOrderToken.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/vue/VueArrangementParseInfo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/vue/VueElementArrangementEntry.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/vue/VueRearranger$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/vue/VueRearranger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/style/arrangement/vue/VueRecursiveVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/template/CreateFromKotlinTemplateHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/template/KotlinTemplates.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/ui/AegisPluginSettings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/ui/AegisPluginSettingsConfigurable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/ui/PluginSettings$Companion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/ui/PluginSettings.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,95 +204,72 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="217">
-              <caret line="7" column="2" lean-forward="true" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
+              <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="aegis-idea-plugin.iml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/aegis-idea-plugin.iml">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file leaf-file-name="MyGotoDeclarationHandler2.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyGotoDeclarationHandler2.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-136">
+              <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
+            </state>
+          </provider>
         </entry>
       </file>
-      <file leaf-file-name="FixKotlinPostProcessor.kt" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt">
+      <file leaf-file-name="MybatisMapperClassLineMarkerProvider.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="216" column="16" selection-start-line="216" selection-start-column="16" selection-end-line="216" selection-end-column="16" />
+            <state relative-caret-position="304">
+              <caret line="34" selection-start-line="34" selection-end-line="34" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="e#96#1308#0" expanded="true" />
+                <element signature="e#96#1008#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FixKotlinPreProcessor.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt">
+      <file leaf-file-name="PsiExt.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="37" selection-start-line="37" selection-end-line="37" />
+            <state relative-caret-position="273">
+              <caret line="573" column="68" selection-start-line="573" selection-start-column="68" selection-end-line="573" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PsiAnnotation.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/java/java-psi-api/src/com/intellij/psi/PsiAnnotation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="183">
+              <caret line="56" column="9" selection-start-line="56" selection-start-column="9" selection-end-line="56" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClsAnnotationImpl.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/java/java-psi-impl/src/com/intellij/psi/impl/compiled/ClsAnnotationImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="183">
+              <caret line="101" column="16" selection-start-line="101" selection-start-column="16" selection-end-line="101" selection-end-column="16" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#3840#3841#0" expanded="true" />
+                <element signature="e#3905#3906#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KotlinCommentVisitor.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt">
+      <file leaf-file-name="KtLightAnnotationForSourceEntry.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Kotlin/lib/kotlin-plugin.jar!/org/jetbrains/kotlin/asJava/elements/KtLightAnnotationForSourceEntry.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="41" column="51" selection-start-line="41" selection-start-column="51" selection-end-line="41" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PropertyClassCreateInspection.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1736">
-              <caret line="77" column="88" selection-start-line="77" selection-start-column="88" selection-end-line="77" selection-end-column="88" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JavaPropertyClassCreateInspection.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1550">
-              <caret line="66" column="104" selection-start-line="66" selection-start-column="104" selection-end-line="66" selection-end-column="104" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CommonCodeFormatVisitor.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="620">
-              <caret line="44" column="17" selection-start-line="44" selection-start-column="17" selection-end-line="44" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PluginStart.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4588">
-              <caret line="208" column="39" selection-start-line="208" selection-start-column="39" selection-end-line="208" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CodeInsightColors.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/platform/core-api/src/com/intellij/openapi/editor/colors/CodeInsightColors.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
+            <state relative-caret-position="183">
+              <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -132,6 +298,7 @@
       <find>SuppressWarnings</find>
       <find>comment</find>
       <find>warnings</find>
+      <find>mapper</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -151,8 +318,9 @@
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" />
-        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider.kt" />
+        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
       </list>
     </option>
   </component>
@@ -184,7 +352,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -232,22 +400,178 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
               <item name="processors" type="462c0819:PsiDirectoryNode" />
-              <item name="FixKotlinPreProcessor.kt" type="24436e51:KtFileTreeNode" />
+              <item name="MybatisMapperClassLineMarkerProvider" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="PsiExt.kt" type="24436e51:KtFileTreeNode" />
             </path>
             <path>
               <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+              <item name="PsiAnnotation" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+              <item name="compiled" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+              <item name="compiled" type="462c0819:PsiDirectoryNode" />
+              <item name="ClsAnnotationImpl" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="kotlin-plugin.jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="kotlin-plugin.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="jetbrains" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="kotlin-plugin.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="jetbrains" type="462c0819:PsiDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="kotlin-plugin.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="jetbrains" type="462c0819:PsiDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="asJava" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="kotlin-plugin.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="jetbrains" type="462c0819:PsiDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="asJava" type="462c0819:PsiDirectoryNode" />
+              <item name="elements" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="kotlin-plugin.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="jetbrains" type="462c0819:PsiDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="asJava" type="462c0819:PsiDirectoryNode" />
+              <item name="elements" type="462c0819:PsiDirectoryNode" />
+              <item name="KtLightAnnotationForSourceEntry" type="2c5a2ef7:KtClassOrObjectTreeNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="AndroidView" />
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="kdock&#9;null&#9;null&#10;psielementfa&#9;PSI&#9;JAVA://com.intellij.psi.PsiElementFactory&#10;DefaultCreateFromTemplateHandler&#9;FILE&#9;jar:///Applications/IntelliJ IDEA.app/Contents/lib/platform-impl.jar!/com/intellij/ide/fileTemplates/DefaultCreateFromTemplateHandler.class&#10;ktfac&#9;FILE&#9;jar:///Applications/IntelliJ IDEA.app/Contents/plugins/Kotlin/lib/kotlin-plugin.jar!/org/jetbrains/kotlin/psi/KtPsiFactory.class&#10;ktpsifa&#9;null&#9;null&#10;KtProperty&#9;PSI&#9;JAVA://org.jetbrains.kotlin.psi.KtProperty&#10;KtPureClassOrObject&#9;PSI&#9;JAVA://org.jetbrains.kotlin.psi.KtPureClassOrObject&#10;KtClassOrObject&#9;null&#9;null&#10;ktobject&#9;null&#9;null&#10;kotlinco&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="userdao&#9;FILE&#9;jar:///Users/wuhao/Downloads/intellij-community-master.zip!/intellij-community-master/java/java-tests/testData/codeInsight/completion/smartType/UserDataListAddAll-out.java&#10;kdock&#9;null&#9;null&#10;psielementfa&#9;PSI&#9;JAVA://com.intellij.psi.PsiElementFactory&#10;DefaultCreateFromTemplateHandler&#9;FILE&#9;jar:///Applications/IntelliJ IDEA.app/Contents/lib/platform-impl.jar!/com/intellij/ide/fileTemplates/DefaultCreateFromTemplateHandler.class&#10;ktfac&#9;FILE&#9;jar:///Applications/IntelliJ IDEA.app/Contents/plugins/Kotlin/lib/kotlin-plugin.jar!/org/jetbrains/kotlin/psi/KtPsiFactory.class&#10;ktpsifa&#9;null&#9;null&#10;KtProperty&#9;PSI&#9;JAVA://org.jetbrains.kotlin.psi.KtProperty&#10;KtPureClassOrObject&#9;PSI&#9;JAVA://org.jetbrains.kotlin.psi.KtPureClassOrObject&#10;KtClassOrObject&#9;null&#9;null&#10;ktobject&#9;null&#9;null&#10;kotlinco&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -256,7 +580,7 @@
     <property name="node.js.selected.package.eslint" value="/usr/local/lib/node_modules/eslint" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.28390804" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -393,7 +717,8 @@
       <workItem from="1530110162305" duration="515000" />
       <workItem from="1530110703868" duration="1972000" />
       <workItem from="1530113804711" duration="1449000" />
-      <workItem from="1530117066268" duration="133000" />
+      <workItem from="1530117066268" duration="258000" />
+      <workItem from="1530117422248" duration="1225000" />
     </task>
     <servers />
   </component>
@@ -412,7 +737,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23955000" />
+    <option name="totallyTimeSpent" value="25305000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -432,7 +757,7 @@
       <window_info id="UI Designer" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.33480826" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.3259587" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.14159292" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="bottom" id="Regex Tester" order="7" />
@@ -443,11 +768,11 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.41740412" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="JRebel" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -471,10 +796,10 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="9" weight="0.3259587" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Tail" order="10" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="12" />
       <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="JRebel Executor" order="13" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="JRebel Console" order="14" side_tool="true" />
@@ -486,7 +811,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Regex Tester" order="15" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Tail" order="10" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.33480826" />
     </layout-to-restore>
   </component>
@@ -577,41 +902,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/KotlinCommentInspection.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Kotlin/lib/kotlin-plugin.jar!/org/jetbrains/kotlin/psi/KtLiteralStringTemplateEntry.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Kotlin/lib/kotlin-plugin.jar!/org/jetbrains/kotlin/psi/KtObjectDeclaration.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Kotlin/lib/kotlin-plugin.jar!/org/jetbrains/kotlin/psi/KtClassOrObject.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Kotlin/lib/kotlin-plugin.jar!/org/jetbrains/kotlin/psi/KtPureClassOrObject.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="142">
@@ -724,13 +1014,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/platform/core-api/src/com/intellij/openapi/vfs/VirtualFileSystem.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
@@ -782,16 +1065,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/style/KotlinEntryType.kt">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1426">
-          <caret line="59" column="9" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixVueTemplateExpressionPostProcessor.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -849,13 +1122,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18600">
-          <caret line="624" selection-start-line="624" selection-end-line="624" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
@@ -902,16 +1168,9 @@
     <entry file="file://$PROJECT_DIR$/aegis-idea-plugin.iml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="7" column="2" lean-forward="true" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
+        <state relative-caret-position="651">
           <caret line="37" selection-start-line="37" selection-end-line="37" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
@@ -921,12 +1180,83 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
+        <state relative-caret-position="5921">
           <caret line="216" column="16" selection-start-line="216" selection-start-column="16" selection-end-line="216" selection-end-column="16" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#96#1308#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1084">
+          <caret line="59" column="7" selection-start-line="59" selection-start-column="7" selection-end-line="59" selection-end-column="7" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/java/java-tests/testData/codeInsight/completion/smartType/UserDataListAddAll-out.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-318" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyGotoDeclarationHandler2.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-136">
+          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Kotlin/lib/kotlin-plugin.jar!/org/jetbrains/kotlin/asJava/elements/KtLightAnnotationForSourceEntry.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/java/java-psi-impl/src/com/intellij/psi/impl/compiled/ClsAnnotationImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="101" column="16" selection-start-line="101" selection-start-column="16" selection-end-line="101" selection-end-column="16" />
+          <folding>
+            <element signature="e#3840#3841#0" expanded="true" />
+            <element signature="e#3905#3906#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/java/java-psi-api/src/com/intellij/psi/PsiAnnotation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="56" column="9" selection-start-line="56" selection-start-column="9" selection-end-line="56" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="573" column="68" selection-start-line="573" selection-start-column="68" selection-end-line="573" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+          <folding>
+            <element signature="e#96#1008#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
         </state>
       </provider>
     </entry>

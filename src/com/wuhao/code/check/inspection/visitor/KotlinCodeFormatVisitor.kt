@@ -15,6 +15,7 @@ import com.wuhao.code.check.enums.NamingMethod
 import com.wuhao.code.check.enums.NamingMethod.Camel
 import com.wuhao.code.check.enums.NamingMethod.Constant
 import com.wuhao.code.check.getAncestorsOfType
+import com.wuhao.code.check.hasSuppress
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommaFix
@@ -22,7 +23,9 @@ import com.wuhao.code.check.inspection.fix.kotlin.KotlinConsolePrintFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinNameFix
 import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor.Companion.shouldHaveSpaceBeforeOrAfter
 import com.wuhao.code.check.isVal
-import org.jetbrains.kotlin.KtNodeTypes.*
+import org.jetbrains.kotlin.KtNodeTypes.FLOAT_CONSTANT
+import org.jetbrains.kotlin.KtNodeTypes.INTEGER_CONSTANT
+import org.jetbrains.kotlin.KtNodeTypes.STRING_TEMPLATE
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
@@ -45,12 +48,14 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     return language == KotlinLanguage.INSTANCE
   }
 
+
   override fun visitClassBody(classBody: KtClassBody, data: Any?) {
     if (classBody.prevSibling !is PsiWhiteSpace) {
       holder.registerError(classBody.lBrace!!, "前面应当有空格", SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
     }
     super.visitClassBody(classBody, data)
   }
+
 
   override fun visitConstantExpression(expression: KtConstantExpression, data: Any?) {
     // 不能使用未声明的数字作为参数
@@ -64,6 +69,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     }
   }
 
+
   override fun visitElement(element: PsiElement) {
     when (element) {
       is LeafPsiElement -> {
@@ -76,19 +82,23 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     }
   }
 
+
   override fun visitFile(file: PsiFile) {
     if (file.getLineCount() > MAX_LINES_PER_FILE) {
       holder.registerError(file, "文件长度不允许超过${MAX_LINES_PER_FILE}行")
     }
   }
 
+
   override fun visitForExpression(expression: KtForExpression, data: Any?) {
     shouldHaveSpaceBeforeOrAfter(expression.rightParenthesis, holder, After)
   }
 
+
   override fun visitIfExpression(expression: KtIfExpression, data: Any?) {
     shouldHaveSpaceBeforeOrAfter(expression.rightParenthesis, holder, After)
   }
+
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     // 方法长度不能超过指定长度
@@ -115,7 +125,11 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     }
   }
 
+
   override fun visitProperty(property: KtProperty, data: Any?) {
+    if (property.hasSuppress(CommonCodeFormatVisitor.WARNINGS)) {
+      return
+    }
     val name = property.name
     if (name != null) {
       val classOrObject = property.containingClassOrObject
@@ -143,6 +157,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     super.visitProperty(property, data)
   }
 
+
   override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?) {
     // 使用日志输入代替System.out
     if (expression.text == "println") {
@@ -153,6 +168,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     }
   }
 
+
   private fun isInJUnitTestMethod(expression: KtReferenceExpression): Boolean {
     return expression.getAncestorsOfType<KtFunction>().any { func ->
       func.annotationEntries.map { annotationEntry ->
@@ -162,6 +178,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
       }
     }
   }
+
 
   private fun registerNameError(element: KtCallableDeclaration, method: NamingMethod) {
     holder.registerError(element.nameIdentifier ?: element,

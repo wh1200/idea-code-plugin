@@ -11,6 +11,7 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.util.IncorrectOperationException
+import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_END
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_START
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_STRING
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.CLASS_COMMENT
@@ -88,5 +89,6 @@ private fun buildFunctionComment(element: KtFunction): String {
   if (element.hasDeclaredReturnType()) {
     commentBuilder.append("* @return \n")
   }
+  commentBuilder.append(BLOCK_COMMENT_END)
   return commentBuilder.toString()
 }

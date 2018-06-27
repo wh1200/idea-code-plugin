@@ -18,9 +18,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.JavaCodeStyleSettings
+import com.wuhao.code.check.PluginStart
 import com.wuhao.code.check.constants.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
-import com.wuhao.code.check.PluginStart
 import com.wuhao.code.check.constants.registerError
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueLanguage
@@ -41,6 +41,8 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
     const val ACTION_PREFIX = "@"
     const val CUSTOM_ATTR_PREFIX = ":"
     const val DIRECTIVE_PREFIX = "v-"
+    const val API_MODEL_PROPERTY = "io.swagger.annotations.ApiModelProperty"
+    const val WARNINGS = "warnings"
   }
 
   override fun support(language: Language): Boolean {

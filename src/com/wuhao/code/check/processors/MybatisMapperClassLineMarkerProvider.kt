@@ -12,6 +12,7 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.constants.MAPPER_RELATIVE_PATH
+import com.wuhao.code.check.hasAnnotation
 import com.wuhao.code.check.processors.MybatisMapperFileLineMarkerProvider.Companion.ID_ATTR_NAME
 import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 import org.jetbrains.kotlin.lexer.KtTokens
@@ -56,6 +57,7 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
     }
   }
 
+
   private fun findTag(xmlFile: XmlFile, mapperInfo: MybatisMapperClassLineMarkerProvider.MapperInfo): XmlTag? {
     val mapperTag = xmlFile.document!!.getChildOfType<XmlTag>()
     return if (mapperInfo.isMethod) {
@@ -67,15 +69,18 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
     }
   }
 
+
   private fun isMapperInterface(clazz: PsiClass?): Boolean {
     return clazz != null && clazz.isInterface
         && clazz.annotations.any { it.qualifiedName == MAPPER_CLASS }
   }
 
+
   private fun isMapperInterface(clazz: KtClass?): Boolean {
     return clazz != null && clazz.isInterface()
-        && clazz.annotationEntries.any { it.text == MAPPER_ANNOTATION_TEXT }
+        && clazz.hasAnnotation(MAPPER_ANNOTATION_TEXT)
   }
+
 
   private fun resolveMapperInfo(el: PsiElement): MapperInfo? {
     if (el is PsiIdentifier

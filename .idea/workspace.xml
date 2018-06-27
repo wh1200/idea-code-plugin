@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e3819eb7-157d-429e-9026-47ea22c0a4b2" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/less.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,23 +15,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="72" selection-start-line="72" selection-end-line="73" />
+            <state relative-caret-position="217">
+              <caret line="7" column="2" lean-forward="true" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FixKotlinPostProcessor.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="aegis-idea-plugin.iml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/aegis-idea-plugin.iml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="FixKotlinPostProcessor.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6169">
-              <caret line="224" selection-start-line="224" selection-end-line="224" />
+            <state relative-caret-position="164">
+              <caret line="216" column="16" selection-start-line="216" selection-start-column="16" selection-end-line="216" selection-end-column="16" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#96#1308#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FixKotlinPreProcessor.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="333">
+              <caret line="37" selection-start-line="37" selection-end-line="37" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -92,24 +108,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PsiElement.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/platform/core-api/src/com/intellij/psi/PsiElement.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11222">
-              <caret line="391" column="13" selection-start-line="391" selection-start-column="13" selection-end-line="391" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PsiExt.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18600">
-              <caret line="624" selection-start-line="624" selection-end-line="624" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
@@ -149,12 +147,12 @@
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixVueTemplateExpressionPostProcessor.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" />
         <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" />
       </list>
     </option>
   </component>
@@ -209,6 +207,32 @@
               <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="META-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="processors" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="processors" type="462c0819:PsiDirectoryNode" />
+              <item name="FixKotlinPreProcessor.kt" type="24436e51:KtFileTreeNode" />
             </path>
             <path>
               <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
@@ -368,7 +392,8 @@
       <workItem from="1530069540826" duration="19168000" />
       <workItem from="1530110162305" duration="515000" />
       <workItem from="1530110703868" duration="1972000" />
-      <workItem from="1530113804711" duration="1001000" />
+      <workItem from="1530113804711" duration="1449000" />
+      <workItem from="1530117066268" duration="133000" />
     </task>
     <servers />
   </component>
@@ -387,45 +412,46 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23374000" />
+    <option name="totallyTimeSpent" value="23955000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="JRebel Console" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="JRebel Executor" order="7" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="JRebel Executor" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info anchor="bottom" id="Tail" order="7" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="UI Designer" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.33480826" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.33480826" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.3259587" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="bottom" id="Regex Tester" order="7" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="right" id="PsiViewer" order="3" weight="0.32980457" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.40560472" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.11504425" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.40560472" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.41740412" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="JRebel" order="2" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.3259587" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
     <layout-to-restore>
       <window_info id="Designer" order="2" />
@@ -445,10 +471,10 @@
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="9" weight="0.3259587" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Tail" order="10" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="12" />
       <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="JRebel Executor" order="13" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="JRebel Console" order="14" side_tool="true" />
@@ -460,7 +486,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Regex Tester" order="15" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Tail" order="10" />
       <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.33480826" />
     </layout-to-restore>
   </component>
@@ -551,20 +577,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/BaseCodeFormatVisitor.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CodeFormatVisitor.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-118">
-          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/KotlinCommentInspection.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
@@ -769,13 +781,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/style/KotlinEntryType.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -791,9 +797,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
           <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -815,16 +818,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5797">
           <caret line="192" column="13" selection-start-line="192" selection-start-column="13" selection-end-line="192" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="37" selection-start-line="37" selection-end-line="37" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -860,17 +853,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18600">
           <caret line="624" selection-start-line="624" selection-end-line="624" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6169">
-          <caret line="224" selection-start-line="224" selection-end-line="224" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#96#1308#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -916,10 +898,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/aegis-idea-plugin.zip" />
+    <entry file="file://$PROJECT_DIR$/aegis-idea-plugin.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="72" selection-start-line="72" selection-end-line="73" />
+        <state relative-caret-position="217">
+          <caret line="7" column="2" lean-forward="true" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="216" column="16" selection-start-line="216" selection-start-column="16" selection-end-line="216" selection-end-column="16" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#96#1308#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1004,7 +1011,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.28390804" />
               </list>
             </option>
           </splitter-proportions>

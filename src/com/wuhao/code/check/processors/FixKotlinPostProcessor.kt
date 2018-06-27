@@ -214,7 +214,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
           }
         }
         if (function.getChildOfType<KtTypeReference>() != null
-            && section.hasTag(KDocKnownTag.RETURN)) {
+            && !section.hasTag(KDocKnownTag.RETURN)) {
           section = section.replace(factory.createDocSection("""${section.text}
             | * @return """.trimMargin())) as KDocSection
         }

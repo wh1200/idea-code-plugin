@@ -8,14 +8,17 @@ import com.intellij.lang.Language
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.Messages.CLASS_COMMENT_REQUIRED
 import com.wuhao.code.check.constants.hasDocComment
 import com.wuhao.code.check.constants.isFirstLevelProperty
 import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.getPrevContinuousSiblingsOfTypeIgnoreWhitespace
+import com.wuhao.code.check.hasDoc
 import com.wuhao.code.check.inspection.fix.DeleteFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommentQuickFix
+import com.wuhao.code.check.isInterfaceFun
+import com.wuhao.code.check.prevIgnoreWs
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.kdoc.lexer.KDocTokens
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -54,13 +57,11 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     checkRedundantComment(function)
     // 一等方法必须添加注释
-    if (function.parent is KtFile && function.firstChild !is KDoc) {
+    if (function.isTopLevel && function.firstChild !is KDoc) {
       holder.registerError(function.nameIdentifier!!, "一等方法必须添加注释", KotlinCommentQuickFix())
     }
     // 接口方法必须添加注释
-    val containingClass = function.containingClass()
-    if (containingClass != null && containingClass.isInterface()
-        && function.firstChild !is KDoc) {
+    if (function.isInterfaceFun() && !function.hasDoc()) {
       holder.registerError(function.nameIdentifier ?: function,
           Messages.INTERFACE_METHOD_COMMENT_REQUIRED, KotlinCommentQuickFix())
     }

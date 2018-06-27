@@ -19,10 +19,12 @@ import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
 import org.jetbrains.kotlin.idea.core.moveCaret
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
+import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.psi.KtBlockExpression
 import org.jetbrains.kotlin.psi.KtNamedFunction
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtPsiFactory
+import org.jetbrains.kotlin.psi.psiUtil.containingClass
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
@@ -133,6 +135,7 @@ val PsiElement.psiElementFactory: PsiElementFactory
     }
     return PSI_ELEMENT_FACTORY_CACHE[this.project]!!
   }
+
 private val KT_PSI_FACTORY_CACHE = HashMap<Project, KtPsiFactory>()
 
 /**
@@ -298,7 +301,6 @@ inline fun <reified T> PsiElement.ancestorOfType(): T? {
   return el as T?
 }
 
-
 /**
  * 获取当前元素之前连续的同类型元素
  * @return 符合条件的同类型元素
@@ -355,7 +357,7 @@ fun PsiElement.setBlankLineBefore(blankLines: Int = 0) {
  * 在当前元素前后添加空行
  * @param blankLines 空白行数
  */
-fun PsiElement.setBlankLineBoth(blankLines: Int = 0 ){
+fun PsiElement.setBlankLineBoth(blankLines: Int = 0) {
   setBlankLine(blankLines, Both)
 }
 
@@ -413,6 +415,22 @@ inline fun <reified T> PsiElement.getContinuousAncestorsOfType(): ArrayList<T> {
 }
 
 /**
+ * 判断kotlin方法是否接口方法
+ * @return
+ */
+fun KtNamedFunction.isInterfaceFun(): Boolean {
+  val containingClass = this.containingClass()
+  return containingClass != null && containingClass.isInterface()
+}
+
+/**
+ * 判断kotlin方式是否有注释
+ */
+fun KtNamedFunction.hasDoc(): Boolean {
+  return this.firstChild is KDoc
+}
+
+/**
  * 获取连续的指定类型的所有的祖先元素
  */
 inline fun <reified T> PsiElement.getContinuousAncestorsMatches(
@@ -426,7 +444,6 @@ inline fun <reified T> PsiElement.getContinuousAncestorsMatches(
   }
   return result
 }
-
 
 /**
  * 获取指定类型的所有的祖先元素

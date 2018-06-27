@@ -14,6 +14,7 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
+import com.wuhao.code.check.inspection.fix.kotlin.buildComment
 import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -184,6 +185,9 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     }
     if (function.nextIgnoreWs is KtNamedFunction) {
       function.setBlankLineAfter(BLANK_LINES_BETWEEN_FUNCTIONS)
+    }
+    if (function.isInterfaceFun() && !function.hasDoc()) {
+      function.addBefore(buildComment(function), function.firstChild)
     }
     super.visitNamedFunction(function, data)
   }

@@ -199,8 +199,9 @@
   <application-components/>
   <depends>org.jetbrains.kotlin</depends>
   <depends>com.intellij.modules.json</depends>
-  <!--<depends>com.intellij.spring</depends>-->
-  <!--<depends>com.intellij.spring.boot</depends>-->
+  <depends>com.intellij.spring</depends>
+  <depends>com.intellij.spring.boot</depends>
   <depends>org.jetbrains.plugins.vue</depends>
+  <depends>org.jetbrains.plugins.less</depends>
 </idea-plugin>
 

@@ -7,9 +7,10 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.util.IncorrectOperationException
-import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_END
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_START
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.BLOCK_COMMENT_STRING
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix.Companion.CLASS_COMMENT
@@ -37,14 +38,7 @@ class KotlinCommentQuickFix : LocalQuickFix {
       } else {
         element
       }
-      val commentString = when (measureElement) {
-        is KtClass -> CLASS_COMMENT
-        is KtObjectDeclaration -> CLASS_COMMENT
-        is KtFunction -> buildFunctionComment(measureElement)
-        else -> BLOCK_COMMENT_STRING
-      }
-      val factory = element.ktPsiFactory
-      val comment = factory.createComment(commentString)
+      val comment = buildComment(measureElement)
       if (element is LeafPsiElement) {
         element.parent.addBefore(comment, element.parent.firstChild)
       } else {
@@ -63,17 +57,36 @@ class KotlinCommentQuickFix : LocalQuickFix {
     return "添加注释"
   }
 
-  private fun buildFunctionComment(element: KtFunction): String {
-    val commentBuilder = StringBuilder(BLOCK_COMMENT_START)
-    element.valueParameterList?.parameters?.forEach {
-      commentBuilder.append("* @param ${it.name}\n")
-    }
-    if (element.hasDeclaredReturnType()) {
-      commentBuilder.append("* @return \n")
-    }
-    commentBuilder.append(BLOCK_COMMENT_END)
-    return commentBuilder.toString()
-  }
 
 }
 
+/**
+ * 构建kotlin注释元素
+ * @param element
+ * @return
+ */
+fun buildComment(element: PsiElement): PsiComment {
+  val commentString = when (element) {
+    is KtClass -> CLASS_COMMENT
+    is KtObjectDeclaration -> CLASS_COMMENT
+    is KtFunction -> buildFunctionComment(element)
+    else -> BLOCK_COMMENT_STRING
+  }
+  return  element.ktPsiFactory.createComment(commentString)
+}
+
+/**
+ * 构建kotlin方法注释
+ * @param element kotlin方法元素
+ * @return
+ */
+private fun buildFunctionComment(element: KtFunction): String {
+  val commentBuilder = StringBuilder(BLOCK_COMMENT_START)
+  element.valueParameterList?.parameters?.forEach {
+    commentBuilder.append("* @param ${it.name}\n")
+  }
+  if (element.hasDeclaredReturnType()) {
+    commentBuilder.append("* @return \n")
+  }
+  return commentBuilder.toString()
+}

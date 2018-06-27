@@ -74,7 +74,7 @@
     <codeStyleSettings language="CSS">
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />
-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="TAB_SIZE" value="2" />
         <option name="SMART_TABS" value="true" />
       </indentOptions>
@@ -85,6 +85,20 @@
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="TAB_SIZE" value="2" />
       </indentOptions>
+      <arrangement>
+        <rules>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <XML_ATTRIBUTE />
+                </AND>
+              </match>
+              <order>BY_VUE_ATTR</order>
+            </rule>
+          </section>
+        </rules>
+      </arrangement>
     </codeStyleSettings>
     <codeStyleSettings language="JAVA">
       <option name="RIGHT_MARGIN" value="120" />
@@ -97,12 +111,43 @@
       <option name="WRAP_ON_TYPING" value="1" />
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />
-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="TAB_SIZE" value="2" />
         <option name="SMART_TABS" value="true" />
         <option name="USE_RELATIVE_INDENTS" value="true" />
       </indentOptions>
       <arrangement>
+        <tokens>
+          <token id="visibility" name="visibility">
+            <rules>
+              <rule>
+                <match>
+                  <PUBLIC>true</PUBLIC>
+                </match>
+              </rule>
+              <rule>
+                <match>
+                  <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
+                </match>
+              </rule>
+              <rule>
+                <match>
+                  <PROTECTED>true</PROTECTED>
+                </match>
+              </rule>
+              <rule>
+                <match>
+                  <PRIVATE>true</PRIVATE>
+                </match>
+              </rule>
+              <rule>
+                <match>
+                  <LATEINIT>true</LATEINIT>
+                </match>
+              </rule>
+            </rules>
+          </token>
+        </tokens>
         <groups>
           <group>
             <type>GETTERS_AND_SETTERS</type>
@@ -128,6 +173,7 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -140,6 +186,7 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -152,6 +199,7 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -164,6 +212,7 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -175,6 +224,7 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -186,6 +236,7 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -197,6 +248,7 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -208,6 +260,7 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -218,6 +271,7 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -229,6 +283,7 @@
                   <PUBLIC>true</PUBLIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -240,6 +295,7 @@
                   <PROTECTED>true</PROTECTED>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -251,6 +307,7 @@
                   <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -262,6 +319,7 @@
                   <PRIVATE>true</PRIVATE>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -272,6 +330,7 @@
                   <PUBLIC>true</PUBLIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -282,6 +341,7 @@
                   <PROTECTED>true</PROTECTED>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -292,6 +352,7 @@
                   <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -308,7 +369,9 @@
           <section>
             <rule>
               <match>
-                <FIELD>true</FIELD>
+                <AND>
+                  <FIELD>true</FIELD>
+                </AND>
               </match>
               <order>BY_NAME</order>
             </rule>
@@ -316,15 +379,73 @@
           <section>
             <rule>
               <match>
-                <INITIALIZER_BLOCK>true</INITIALIZER_BLOCK>
+                <AND>
+                  <INITIALIZER_BLOCK>true</INITIALIZER_BLOCK>
+                </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
             <rule>
               <match>
-                <CONSTRUCTOR>true</CONSTRUCTOR>
+                <AND>
+                  <CONSTRUCTOR>true</CONSTRUCTOR>
+                </AND>
               </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FINAL>true</FINAL>
+                  <METHOD>true</METHOD>
+                  <PUBLIC>true</PUBLIC>
+                  <STATIC>true</STATIC>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FINAL>true</FINAL>
+                  <METHOD>true</METHOD>
+                  <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
+                  <STATIC>true</STATIC>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FINAL>true</FINAL>
+                  <METHOD>true</METHOD>
+                  <PROTECTED>true</PROTECTED>
+                  <STATIC>true</STATIC>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FINAL>true</FINAL>
+                  <METHOD>true</METHOD>
+                  <PRIVATE>true</PRIVATE>
+                  <STATIC>true</STATIC>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -379,6 +500,54 @@
             <rule>
               <match>
                 <AND>
+                  <FINAL>true</FINAL>
+                  <METHOD>true</METHOD>
+                  <PUBLIC>true</PUBLIC>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FINAL>true</FINAL>
+                  <METHOD>true</METHOD>
+                  <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FINAL>true</FINAL>
+                  <METHOD>true</METHOD>
+                  <PROTECTED>true</PROTECTED>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FINAL>true</FINAL>
+                  <METHOD>true</METHOD>
+                  <PRIVATE>true</PRIVATE>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
                   <METHOD>true</METHOD>
                   <PUBLIC>true</PUBLIC>
                 </AND>
@@ -391,7 +560,7 @@
               <match>
                 <AND>
                   <METHOD>true</METHOD>
-                  <visibility />
+                  <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
                 </AND>
               </match>
               <order>BY_NAME</order>
@@ -400,15 +569,53 @@
           <section>
             <rule>
               <match>
-                <ENUM>true</ENUM>
+                <AND>
+                  <METHOD>true</METHOD>
+                  <PROTECTED>true</PROTECTED>
+                </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
             <rule>
               <match>
-                <INTERFACE>true</INTERFACE>
+                <AND>
+                  <METHOD>true</METHOD>
+                  <PRIVATE>true</PRIVATE>
+                </AND>
               </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <METHOD>true</METHOD>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <ENUM>true</ENUM>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <INTERFACE>true</INTERFACE>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
@@ -419,13 +626,17 @@
                   <STATIC>true</STATIC>
                 </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
           <section>
             <rule>
               <match>
-                <CLASS>true</CLASS>
+                <AND>
+                  <CLASS>true</CLASS>
+                </AND>
               </match>
+              <order>BY_NAME</order>
             </rule>
           </section>
         </rules>
@@ -450,28 +661,49 @@
       <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />
-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
         <option name="TAB_SIZE" value="2" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="LESS">
       <indentOptions>
-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="TAB_SIZE" value="2" />
         <option name="SMART_TABS" value="true" />
       </indentOptions>
+      <arrangement>
+        <rules>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <CSS_ELEMENT>true</CSS_ELEMENT>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <CSS_RULESET>true</CSS_RULESET>
+                </AND>
+              </match>
+            </rule>
+          </section>
+        </rules>
+      </arrangement>
     </codeStyleSettings>
     <codeStyleSettings language="TypeScript">
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />
-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
         <option name="TAB_SIZE" value="2" />
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="XML">
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />
-        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="TAB_SIZE" value="2" />
       </indentOptions>
     </codeStyleSettings>
@@ -481,6 +713,473 @@
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
         <option name="TAB_SIZE" value="2" />
       </indentOptions>
+      <arrangement>
+        <tokens>
+          <token id="visibility" name="visibility">
+            <rules>
+              <rule>
+                <match>
+                  <OPEN>true</OPEN>
+                </match>
+              </rule>
+              <rule>
+                <match>
+                  <PUBLIC>true</PUBLIC>
+                </match>
+              </rule>
+              <rule>
+                <match>
+                  <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
+                </match>
+              </rule>
+              <rule>
+                <match>
+                  <PROTECTED>true</PROTECTED>
+                </match>
+              </rule>
+              <rule>
+                <match>
+                  <PRIVATE>true</PRIVATE>
+                </match>
+              </rule>
+              <rule>
+                <match>
+                  <LATEINIT>true</LATEINIT>
+                </match>
+              </rule>
+            </rules>
+          </token>
+        </tokens>
+        <groups />
+        <rules>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <OPEN>true</OPEN>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <INTERNAL>true</INTERNAL>
+                  <OPEN>true</OPEN>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <OPEN>true</OPEN>
+                  <PROPERTY>true</PROPERTY>
+                  <PROTECTED>true</PROTECTED>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <OPEN>true</OPEN>
+                  <PRIVATE>true</PRIVATE>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <LATEINIT>true</LATEINIT>
+                  <OPEN>true</OPEN>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <INTERNAL>true</INTERNAL>
+                  <LATEINIT>true</LATEINIT>
+                  <OPEN>true</OPEN>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <LATEINIT>true</LATEINIT>
+                  <OPEN>true</OPEN>
+                  <PROPERTY>true</PROPERTY>
+                  <PROTECTED>true</PROTECTED>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <LATEINIT>true</LATEINIT>
+                  <OPEN>true</OPEN>
+                  <PRIVATE>true</PRIVATE>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <INTERNAL>true</INTERNAL>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <PROPERTY>true</PROPERTY>
+                  <PROTECTED>true</PROTECTED>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <PRIVATE>true</PRIVATE>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <LATEINIT>true</LATEINIT>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <INTERNAL>true</INTERNAL>
+                  <LATEINIT>true</LATEINIT>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <LATEINIT>true</LATEINIT>
+                  <PROPERTY>true</PROPERTY>
+                  <PROTECTED>true</PROTECTED>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <LATEINIT>true</LATEINIT>
+                  <PRIVATE>true</PRIVATE>
+                  <PROPERTY>true</PROPERTY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <COMPANION_OBJECT>true</COMPANION_OBJECT>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <COMPANION_OBJECT>true</COMPANION_OBJECT>
+                  <PRIVATE>true</PRIVATE>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <INITIALIZER_BLOCK>true</INITIALIZER_BLOCK>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <SECONDARY_CONSTRUCTOR>true</SECONDARY_CONSTRUCTOR>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <ENUM_ENTRY>true</ENUM_ENTRY>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <OPEN>true</OPEN>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <INTERNAL>true</INTERNAL>
+                  <OPEN>true</OPEN>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <OPEN>true</OPEN>
+                  <PROTECTED>true</PROTECTED>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <OPEN>true</OPEN>
+                  <PRIVATE>true</PRIVATE>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <OPEN>true</OPEN>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <INTERNAL>true</INTERNAL>
+                  <OPEN>true</OPEN>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <OPEN>true</OPEN>
+                  <PROTECTED>true</PROTECTED>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <OPEN>true</OPEN>
+                  <PRIVATE>true</PRIVATE>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <INTERNAL>true</INTERNAL>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <PROTECTED>true</PROTECTED>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FUNCTION>true</FUNCTION>
+                  <PRIVATE>true</PRIVATE>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <INNER>true</INNER>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <INTERFACE>true</INTERFACE>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <OBJECT>true</OBJECT>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <DATA_CLASS>true</DATA_CLASS>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <CLASS>true</CLASS>
+                </AND>
+              </match>
+              <order>BY_NAME</order>
+            </rule>
+          </section>
+        </rules>
+      </arrangement>
     </codeStyleSettings>
   </code_scheme>
 </component>

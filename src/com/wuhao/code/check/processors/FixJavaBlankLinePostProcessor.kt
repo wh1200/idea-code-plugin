@@ -134,6 +134,8 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
 }
 
 private val PsiMethod.isOverrideMethod: Boolean
-  get() = SuperMethodsSearch.search(this, null, true, false)
-      .findFirst() != null
+  get() {
+    return SuperMethodsSearch.search(this, null, true, false)
+        .findFirst() != null
+  }
 

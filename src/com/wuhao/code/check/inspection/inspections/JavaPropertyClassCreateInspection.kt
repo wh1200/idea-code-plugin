@@ -15,6 +15,7 @@ import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.ancestorOfType
 import com.wuhao.code.check.constants.InspectionNames.JAVA_PROPERTY_CLASS
 import com.wuhao.code.check.hasAnnotation
+import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.ALL
 import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 
@@ -63,7 +64,7 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
           val cls = file.classes[0]
           val fieldStr = getPropertyFieldsMap(cls)
           val newFile = PsiFileFactory.getInstance(project)
-              .createFileFromText("Q${cls.name}.java", JavaLanguage.INSTANCE, """@SuppressWarnings("ALL")
+              .createFileFromText("Q${cls.name}.java", JavaLanguage.INSTANCE, """@SuppressWarnings("$ALL")
             |public class Q${cls.name} {
             |$fieldStr
             |}""".trimMargin())

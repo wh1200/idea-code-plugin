@@ -14,6 +14,7 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
+import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
@@ -21,12 +22,12 @@ import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Both
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.core.moveCaret
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
+import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.containingClass
-import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
-import org.jetbrains.kotlin.psi.psiUtil.isObjectLiteral
-import org.jetbrains.kotlin.psi.psiUtil.startOffset
+import org.jetbrains.kotlin.psi.psiUtil.*
 
 /**
  * 获取psi元素的所有祖先元素，按距离从近到远
@@ -613,5 +614,34 @@ fun KtAnnotated.hasSuppress(name: String): Boolean {
     }
   }
   return false
+}
+
+
+/**
+ * 注释中是否包含指定标签
+ * @param tag 指定的标签
+ * @return 包含标签返回true，反之false
+ */
+fun KDocSection.hasTag(tag: KDocKnownTag): Boolean {
+  return getChildrenOfType<KDocTag>().any { it.knownTag == KDocKnownTag.RETURN }
+}
+
+
+/**
+ *
+ * @param tag
+ * @param content
+ * @return
+ */
+fun KtPsiFactory.createDocSection(content: String): KDocSection {
+  val docSection = this.createComment("""/**
+    |$content
+    | */
+  """.trimMargin()).getChildOfType<KDocSection>()
+  if (docSection != null) {
+    return docSection
+  } else {
+    throw IncorrectOperationException("Incorrect doc section")
+  }
 }
 

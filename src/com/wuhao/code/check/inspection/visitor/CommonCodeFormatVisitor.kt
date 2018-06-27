@@ -42,7 +42,7 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
     const val CUSTOM_ATTR_PREFIX = ":"
     const val DIRECTIVE_PREFIX = "v-"
     const val API_MODEL_PROPERTY = "io.swagger.annotations.ApiModelProperty"
-    const val WARNINGS = "warnings"
+    const val ALL = "ALL"
   }
 
   override fun support(language: Language): Boolean {

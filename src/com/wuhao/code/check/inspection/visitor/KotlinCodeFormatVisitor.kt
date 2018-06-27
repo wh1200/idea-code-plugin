@@ -127,7 +127,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
 
   override fun visitProperty(property: KtProperty, data: Any?) {
-    if (property.hasSuppress(CommonCodeFormatVisitor.WARNINGS)) {
+    if (property.hasSuppress(CommonCodeFormatVisitor.ALL)) {
       return
     }
     val name = property.name

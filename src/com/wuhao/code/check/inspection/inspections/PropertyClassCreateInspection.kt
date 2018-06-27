@@ -15,6 +15,7 @@ import com.intellij.psi.util.PsiTypesUtil
 import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.InspectionNames.PROPERTY_CLASS
+import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.ALL
 import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor.Companion.ENTITY_CLASS
 import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor.Companion.SPRING_DOCUMENT_CLASS
 import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor.Companion.TABLE_CLASS
@@ -69,12 +70,12 @@ class PropertyClassCreateInspection : BaseInspection(PROPERTY_CLASS) {
           val cls = file.classes[0]
           val factory = file.ktPsiFactory
           val fieldStr = getPropertyFieldsMap(cls)
-          val newCls = factory.createObject("""@Suppress("warnings")
+          val newCls = factory.createObject("""@Suppress("$ALL")
             object Q${cls.name} {
             $fieldStr
           }""")
           val field = factory.createProperty("""q${cls.name?.take(1)?.toLowerCase() + cls.name?.substring(1)}""".trimMargin(), null, false, "Q${cls.name}")
-          field.firstChild.insertElementBefore(factory.createModifierList("""@Suppress("warnings")"""))
+          field.firstChild.insertElementBefore(factory.createModifierList("""@Suppress("$ALL")"""))
           file.add(newCls)
           file.add(field)
         }

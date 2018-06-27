@@ -39,7 +39,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
 
   override fun visitClass(klass: KtClass, data: Any?) {
     checkRedundantComment(klass)
-    if (klass.hasSuppress(CommonCodeFormatVisitor.WARNINGS)) {
+    if (klass.hasSuppress(CommonCodeFormatVisitor.ALL)) {
       return
     }
     if (klass !is KtEnumEntry && klass.nameIdentifier != null) {
@@ -52,7 +52,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
 
   override fun visitElement(element: PsiElement) {
     val clazz = element.getContainingClass()
-    if (clazz != null && clazz is KtAnnotated && clazz.hasSuppress(CommonCodeFormatVisitor.WARNINGS)) {
+    if (clazz != null && clazz is KtAnnotated && clazz.hasSuppress(CommonCodeFormatVisitor.ALL)) {
       return
     }
     when (element) {
@@ -65,7 +65,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     checkRedundantComment(function)
-    if (function.hasSuppress(CommonCodeFormatVisitor.WARNINGS)) {
+    if (function.hasSuppress(CommonCodeFormatVisitor.ALL)) {
       return
     }
     // 一等方法必须添加注释
@@ -81,7 +81,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
 
 
   override fun visitObjectDeclaration(declaration: KtObjectDeclaration, data: Any?) {
-    if (declaration.hasSuppress(CommonCodeFormatVisitor.WARNINGS)) {
+    if (declaration.hasSuppress(CommonCodeFormatVisitor.ALL)) {
       return
     }
     if (!declaration.isCompanion() && declaration.nameIdentifier != null) {
@@ -100,7 +100,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
 
   override fun visitProperty(property: KtProperty, data: Any?) {
     checkRedundantComment(property)
-    if (property.hasSuppress(CommonCodeFormatVisitor.WARNINGS)) {
+    if (property.hasSuppress(CommonCodeFormatVisitor.ALL)) {
       return
     }
     // 一等属性(非private)必须添加注释

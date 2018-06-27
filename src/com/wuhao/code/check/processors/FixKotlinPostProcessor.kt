@@ -17,10 +17,15 @@ import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
 import com.wuhao.code.check.inspection.fix.kotlin.buildComment
 import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocLink
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
+import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
 /**
@@ -33,6 +38,7 @@ class FixKotlinPostProcessor : PostFormatProcessor {
   override fun processElement(source: PsiElement, settings: CodeStyleSettings): PsiElement {
     return source
   }
+
 
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
     if (source.language is KotlinLanguage) {
@@ -117,6 +123,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     super.visitClass(klass, data)
   }
 
+
   override fun visitClassBody(classBody: KtClassBody, data: Any?) {
     val parent = classBody.parent
     val lBrace = classBody.lBrace
@@ -127,11 +134,11 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
         rBrace.clearBlankLineBeforeOrAfter(Before)
       } else {
         when {
-          lBrace.next == rBrace -> lBrace.setBlankLineAfter()
-          rBrace.prev !is PsiWhiteSpace -> lBrace.setBlankLineAfter(1)
+          lBrace.next == rBrace          -> lBrace.setBlankLineAfter()
+          rBrace.prev !is PsiWhiteSpace  -> lBrace.setBlankLineAfter(1)
           rBrace.prevIgnoreWs === lBrace -> // 如果classBody没有内容的话，右括号保持换行，左右括号之间不留空行
             rBrace.setBlankLineBefore()
-          else -> {
+          else                           -> {
             // 如果classBody有内容，则左括号后和右括号前各留一个空行
             lBrace.setBlankLineAfter(1)
             rBrace.setBlankLineBefore(1)
@@ -142,10 +149,12 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     super.visitClassBody(classBody, data)
   }
 
+
   override fun visitDoc(doc: KDoc) {
     //去掉注释与被注释代码之间的空行
     doc.setBlankLineAfter()
   }
+
 
   override fun visitEnumEntry(enumEntry: KtEnumEntry, data: Any?) {
     // 删除最后一个枚举元素后面的逗号
@@ -158,10 +167,11 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     super.visitEnumEntry(enumEntry, data)
   }
 
+
   override fun visitIfExpression(expression: KtIfExpression, data: Any?) {
     //给if和else if以及else后的代码块添加大括号
-    val thens = expression.children.filter { it is KtContainerNodeForControlStructureBody }
-    thens.forEach { then ->
+    val thenList = expression.children.filter { it is KtContainerNodeForControlStructureBody }
+    thenList.forEach { then ->
       if (then.firstChild !is KtBlockExpression && then.firstChild !is KtIfExpression) {
         if (then.prev is PsiWhiteSpace) {
           then.prev.replace(factory.createWhiteSpace(" "))
@@ -176,6 +186,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     super.visitIfExpression(expression, data)
   }
 
+
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     val body = function.body
     if (body != null) {
@@ -186,11 +197,32 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     if (function.nextIgnoreWs is KtNamedFunction) {
       function.setBlankLineAfter(BLANK_LINES_BETWEEN_FUNCTIONS)
     }
-    if (function.isInterfaceFun() && !function.hasDoc()) {
-      function.addBefore(buildComment(function), function.firstChild)
+    if (function.isInterfaceFun()) {
+      if (!function.hasDoc()) {
+        function.addBefore(buildComment(function), function.firstChild)
+      } else {
+        val doc = function.firstChild as KDoc
+        var section = doc.getChildOfType<KDocSection>()!!
+        val tags = section.getChildrenOfType<KDocTag>()
+        val existsParams = tags.filter { it.knownTag == KDocKnownTag.PARAM }
+            .mapNotNull { it.getChildOfType<KDocLink>() }
+            .map { it.getLinkText() }
+        function.valueParameters.forEach {
+          if (!existsParams.contains(it.name)) {
+            section = section.replace(factory.createDocSection("""${section.text}
+            | * @param ${it.name}""".trimMargin())) as KDocSection
+          }
+        }
+        if (function.getChildOfType<KtTypeReference>() != null
+            && section.hasTag(KDocKnownTag.RETURN)) {
+          section = section.replace(factory.createDocSection("""${section.text}
+            | * @return """.trimMargin())) as KDocSection
+        }
+      }
     }
     super.visitNamedFunction(function, data)
   }
+
 
   override fun visitPackageDirective(directive: KtPackageDirective, data: Any?) {
     //版权声明与包声明之间不允许有空行

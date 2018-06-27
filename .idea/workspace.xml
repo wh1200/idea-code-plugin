@@ -3,16 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e3819eb7-157d-429e-9026-47ea22c0a4b2" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/less.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCodeFormatVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixVueTemplateExpressionPostProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixVueTemplateExpressionPostProcessor.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +19,8 @@
       <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+            <state relative-caret-position="350">
+              <caret line="72" selection-start-line="72" selection-end-line="73" />
             </state>
           </provider>
         </entry>
@@ -36,8 +28,8 @@
       <file leaf-file-name="FixKotlinPostProcessor.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="224" lean-forward="true" selection-start-line="224" selection-end-line="224" />
+            <state relative-caret-position="6169">
+              <caret line="224" selection-start-line="224" selection-end-line="224" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#96#1308#0" expanded="true" />
@@ -49,7 +41,7 @@
       <file leaf-file-name="KotlinCommentVisitor.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
+            <state relative-caret-position="527">
               <caret line="41" column="51" selection-start-line="41" selection-start-column="51" selection-end-line="41" selection-end-column="51" />
             </state>
           </provider>
@@ -58,7 +50,7 @@
       <file leaf-file-name="PropertyClassCreateInspection.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
+            <state relative-caret-position="1736">
               <caret line="77" column="88" selection-start-line="77" selection-start-column="88" selection-end-line="77" selection-end-column="88" />
             </state>
           </provider>
@@ -67,7 +59,7 @@
       <file leaf-file-name="JavaPropertyClassCreateInspection.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
+            <state relative-caret-position="1550">
               <caret line="66" column="104" selection-start-line="66" selection-start-column="104" selection-end-line="66" selection-end-column="104" />
             </state>
           </provider>
@@ -76,7 +68,7 @@
       <file leaf-file-name="CommonCodeFormatVisitor.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
+            <state relative-caret-position="620">
               <caret line="44" column="17" selection-start-line="44" selection-start-column="17" selection-end-line="44" selection-end-column="17" />
             </state>
           </provider>
@@ -85,7 +77,7 @@
       <file leaf-file-name="PluginStart.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="77">
+            <state relative-caret-position="4588">
               <caret line="208" column="39" selection-start-line="208" selection-start-column="39" selection-end-line="208" selection-end-column="39" />
             </state>
           </provider>
@@ -94,7 +86,7 @@
       <file leaf-file-name="CodeInsightColors.java" pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/platform/core-api/src/com/intellij/openapi/editor/colors/CodeInsightColors.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
+            <state relative-caret-position="217">
               <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
             </state>
           </provider>
@@ -103,7 +95,7 @@
       <file leaf-file-name="PsiElement.java" pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/platform/core-api/src/com/intellij/psi/PsiElement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
+            <state relative-caret-position="11222">
               <caret line="391" column="13" selection-start-line="391" selection-start-column="13" selection-end-line="391" selection-end-column="13" />
             </state>
           </provider>
@@ -112,7 +104,7 @@
       <file leaf-file-name="PsiExt.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
+            <state relative-caret-position="18600">
               <caret line="624" selection-start-line="624" selection-end-line="624" />
             </state>
           </provider>
@@ -183,8 +175,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="y" value="23" />
     <option name="width" value="1280" />
-    <option name="height" value="800" />
+    <option name="height" value="719" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -193,12 +186,18 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
@@ -213,347 +212,7 @@
             </path>
             <path>
               <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="inspection" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="inspection" type="462c0819:PsiDirectoryNode" />
-              <item name="inspections" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="inspection" type="462c0819:PsiDirectoryNode" />
-              <item name="inspections" type="462c0819:PsiDirectoryNode" />
-              <item name="PropertyClassCreateInspection" type="2c5a2ef7:KtClassOrObjectTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="inspection" type="462c0819:PsiDirectoryNode" />
-              <item name="inspections" type="462c0819:PsiDirectoryNode" />
-              <item name="PropertyClassCreateInspection" type="2c5a2ef7:KtClassOrObjectTreeNode" />
-              <item name="MyQuickFix" type="2c5a2ef7:KtClassOrObjectTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="inspection" type="462c0819:PsiDirectoryNode" />
-              <item name="visitor" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="inspection" type="462c0819:PsiDirectoryNode" />
-              <item name="visitor" type="462c0819:PsiDirectoryNode" />
-              <item name="CommonCodeFormatVisitor" type="2c5a2ef7:KtClassOrObjectTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="inspection" type="462c0819:PsiDirectoryNode" />
-              <item name="visitor" type="462c0819:PsiDirectoryNode" />
-              <item name="CommonCodeFormatVisitor" type="2c5a2ef7:KtClassOrObjectTreeNode" />
-              <item name="Companion" type="2c5a2ef7:KtClassOrObjectTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="inspection" type="462c0819:PsiDirectoryNode" />
-              <item name="visitor" type="462c0819:PsiDirectoryNode" />
-              <item name="KotlinCommentVisitor" type="2c5a2ef7:KtClassOrObjectTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="processors" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="style" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="PluginStart" type="2c5a2ef7:KtClassOrObjectTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="PsiElementFactory" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="PsiJavaParserFacade" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="PsiModifierListOwner" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="impl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="impl" type="462c0819:PsiDirectoryNode" />
-              <item name="PsiElementFactoryImpl" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="impl" type="462c0819:PsiDirectoryNode" />
-              <item name="PsiJavaParserFacadeImpl" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInspection" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInspection" type="462c0819:PsiDirectoryNode" />
-              <item name="LocalInspectionTool" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="editor" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="editor" type="462c0819:PsiDirectoryNode" />
-              <item name="colors" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="editor" type="462c0819:PsiDirectoryNode" />
-              <item name="colors" type="462c0819:PsiDirectoryNode" />
-              <item name="CodeInsightColors" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="Messages" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="TestDialog" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="PsiElement" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-181.4445.78 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="PsiElementVisitor" type="1a9f42e2:ClassTreeNode" />
             </path>
           </expand>
           <select />
@@ -561,7 +220,6 @@
       </pane>
       <pane id="AndroidView" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -574,7 +232,7 @@
     <property name="node.js.selected.package.eslint" value="/usr/local/lib/node_modules/eslint" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.28390804" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -709,7 +367,8 @@
       <workItem from="1530068796450" duration="718000" />
       <workItem from="1530069540826" duration="19168000" />
       <workItem from="1530110162305" duration="515000" />
-      <workItem from="1530110703868" duration="1758000" />
+      <workItem from="1530110703868" duration="1972000" />
+      <workItem from="1530113804711" duration="1001000" />
     </task>
     <servers />
   </component>
@@ -728,11 +387,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22159000" />
+    <option name="totallyTimeSpent" value="23374000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -746,9 +404,8 @@
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="UI Designer" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.33480826" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.33480826" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.3259587" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="bottom" id="Regex Tester" order="7" />
@@ -756,18 +413,19 @@
       <window_info anchor="right" id="PsiViewer" order="3" weight="0.32980457" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.40560472" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32890856" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.11504425" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="JRebel" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.3259587" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
     <layout-to-restore>
       <window_info id="Designer" order="2" />
@@ -791,7 +449,6 @@
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="12" />
       <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="JRebel Executor" order="13" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="JRebel Console" order="14" side_tool="true" />
@@ -801,8 +458,9 @@
       <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info anchor="right" id="Theme Preview" order="9" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Regex Tester" order="15" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.33480826" />
     </layout-to-restore>
   </component>
@@ -1193,22 +851,22 @@
     </entry>
     <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/platform/core-api/src/com/intellij/psi/PsiElement.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
+        <state relative-caret-position="11222">
           <caret line="391" column="13" selection-start-line="391" selection-start-column="13" selection-end-line="391" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
+        <state relative-caret-position="18600">
           <caret line="624" selection-start-line="624" selection-end-line="624" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="224" lean-forward="true" selection-start-line="224" selection-end-line="224" />
+        <state relative-caret-position="6169">
+          <caret line="224" selection-start-line="224" selection-end-line="224" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#96#1308#0" expanded="true" />
@@ -1218,50 +876,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
+        <state relative-caret-position="527">
           <caret line="41" column="51" selection-start-line="41" selection-start-column="51" selection-end-line="41" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
+        <state relative-caret-position="1736">
           <caret line="77" column="88" selection-start-line="77" selection-start-column="88" selection-end-line="77" selection-end-column="88" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
+        <state relative-caret-position="1550">
           <caret line="66" column="104" selection-start-line="66" selection-start-column="104" selection-end-line="66" selection-end-column="104" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
+        <state relative-caret-position="620">
           <caret line="44" column="17" selection-start-line="44" selection-start-column="17" selection-end-line="44" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/Downloads/intellij-community-master.zip!/intellij-community-master/platform/core-api/src/com/intellij/openapi/editor/colors/CodeInsightColors.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
+        <state relative-caret-position="217">
           <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
+        <state relative-caret-position="4588">
           <caret line="208" column="39" selection-start-line="208" selection-start-column="39" selection-end-line="208" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+        <state relative-caret-position="350">
+          <caret line="72" selection-start-line="72" selection-end-line="73" />
         </state>
       </provider>
     </entry>

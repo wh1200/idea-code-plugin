@@ -69,6 +69,9 @@
           default is
           to use slf4j.
         </li>
+        <li>
+          Automatically add comments to interface methods when formatting code. [1.3.8]
+        </li>
       </ul>
       <h3>Spring Framework Related</h3>
       <ul>

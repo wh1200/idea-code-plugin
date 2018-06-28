@@ -20,6 +20,7 @@ object InspectionNames {
   val JAVA_PROPERTY_CLASS = NameData("Java属性名称类", "aegis.code.check.validation.name.java.object")
   val TYPESCRIPT_FORMAT = NameData("Typescript代码格式检查", "aegis.code.check.validation.typescript.format")
   val VUE_FORMAT = NameData("Vue代码格式检查", "aegis.code.check.validation.vue.format")
+  val MYBATIS =  NameData("MyBatis映射文件检查", "aegis.code.check.validation.xml.mybatis")
 
   fun values() = collectFields<NameData>(InspectionNames::class.java)
 

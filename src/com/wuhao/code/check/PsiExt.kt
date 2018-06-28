@@ -8,6 +8,7 @@ package com.wuhao.code.check
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.roots.JavaProjectRootsUtil
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.newvfs.impl.VirtualDirectoryImpl
 import com.intellij.psi.*
@@ -22,12 +23,14 @@ import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Both
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.core.moveCaret
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
+import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
+import java.io.File
 
 /**
  * 获取psi元素的所有祖先元素，按距离从近到远
@@ -102,7 +105,6 @@ inline fun <reified T> PsiElement.getPrevSiblingsOfType(): List<T> {
   return list
 }
 
-
 /**
  *
  * @return
@@ -116,7 +118,6 @@ fun PsiElement.getPrevSiblings(): List<PsiElement> {
   }
   return list
 }
-
 
 /**
  * 取第一个特定类型的子元素
@@ -165,14 +166,12 @@ fun getWhiteSpace(project: Project): PsiWhiteSpace {
   return KtPsiFactory(project).createWhiteSpace() as PsiWhiteSpace
 }
 
-
 /**
  * 获取空行元素
  */
 fun Project.getNewLine(): PsiWhiteSpace {
   return this.ktPsiFactory.createNewLine() as PsiWhiteSpace
 }
-
 
 /**
  * 创建空白行元素
@@ -282,7 +281,6 @@ private fun getChildren(list: ArrayList<PsiElement>, psiElement: PsiElement) {
   }
 }
 
-
 /**
  *
  * @param list
@@ -296,7 +294,6 @@ private fun getCachedChildren(list: ArrayList<VirtualFile>, virtualDirectoryImpl
       }
 }
 
-
 /**
  * 获取指定类型的最近的祖先元素
  */
@@ -307,7 +304,6 @@ inline fun <reified T> PsiElement.ancestorOfType(): T? {
   }
   return el as T?
 }
-
 
 /**
  * 获取当前元素之前连续的同类型元素
@@ -322,7 +318,6 @@ inline fun <reified T> PsiElement.getPrevContinuousSiblingsOfType(): ArrayList<T
   }
   return result
 }
-
 
 /**
  * 清除空白行
@@ -346,7 +341,6 @@ fun PsiElement.clearBlankLineBeforeOrAfter(position: SpaceQuickFix.Position) {
   }
 }
 
-
 /**
  * 在当前元素后面添加空行
  * @param blankLines 空白行数
@@ -354,7 +348,6 @@ fun PsiElement.clearBlankLineBeforeOrAfter(position: SpaceQuickFix.Position) {
 fun PsiElement.setBlankLineAfter(blankLines: Int = 0) {
   setBlankLine(blankLines, After)
 }
-
 
 /**
  * 在当前元素前面添加空行
@@ -364,7 +357,6 @@ fun PsiElement.setBlankLineBefore(blankLines: Int = 0) {
   setBlankLine(blankLines, Before)
 }
 
-
 /**
  * 在当前元素前后添加空行
  * @param blankLines 空白行数
@@ -372,7 +364,6 @@ fun PsiElement.setBlankLineBefore(blankLines: Int = 0) {
 fun PsiElement.setBlankLineBoth(blankLines: Int = 0) {
   setBlankLine(blankLines, Both)
 }
-
 
 /**
  * 在当前元素的指定位置添加空行
@@ -398,7 +389,6 @@ private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Pos
   }
 }
 
-
 /**
  * 获取当前元素之前连续的同类型元素，且排除空白元素
  * @return 符合条件的同类型元素
@@ -415,7 +405,6 @@ inline fun <reified T> PsiElement.getPrevContinuousSiblingsOfTypeIgnoreWhitespac
   return result
 }
 
-
 /**
  * 获取连续的指定类型的所有的祖先元素
  */
@@ -429,7 +418,6 @@ inline fun <reified T> PsiElement.getContinuousAncestorsOfType(): ArrayList<T> {
   return result
 }
 
-
 /**
  * 判断kotlin方法是否接口方法
  * @return
@@ -439,14 +427,12 @@ fun KtNamedFunction.isInterfaceFun(): Boolean {
   return containingClass != null && containingClass.isInterface()
 }
 
-
 /**
  * 判断kotlin方式是否有注释
  */
 fun KtNamedFunction.hasDoc(): Boolean {
   return this.firstChild is KDoc
 }
-
 
 /**
  * 获取连续的指定类型的所有的祖先元素
@@ -463,7 +449,6 @@ inline fun <reified T> PsiElement.getContinuousAncestorsMatches(
   return result
 }
 
-
 /**
  * 获取指定类型的所有的祖先元素
  */
@@ -479,7 +464,6 @@ inline fun <reified T> PsiElement.getAncestorsOfType(): ArrayList<T> {
   return result
 }
 
-
 /**
  * 获取指定类型的同级元素
  */
@@ -490,7 +474,6 @@ inline fun <reified T> PsiElement.getSiblingsOfType(): List<PsiElement> {
     return this.parent.children.filter { it is T }
   }
 }
-
 
 /**
  * 按距离获取祖先元素，0为parent，如果没有找到则返回null
@@ -507,7 +490,6 @@ fun PsiElement.getAncestor(level: Int): PsiElement? {
   return el
 }
 
-
 /**
  * 选择符合条件的第一个子元素
  * @param predicate 筛选条件
@@ -517,7 +499,6 @@ fun PsiElement.firstChild(predicate: (PsiElement) -> Boolean): PsiElement? {
   return this.children.firstOrNull(predicate)
 }
 
-
 /**
  * 在当前psi元素前插入元素
  * @param element 待插入的元素
@@ -525,7 +506,6 @@ fun PsiElement.firstChild(predicate: (PsiElement) -> Boolean): PsiElement? {
 fun PsiElement.insertElementBefore(element: PsiElement): PsiElement {
   return this.parent.addBefore(element, this)
 }
-
 
 /**
  * 在当前元素前面插入多个元素
@@ -537,7 +517,6 @@ fun PsiElement.insertElementsBefore(vararg elements: PsiElement) {
   }
 }
 
-
 /**
  * 在当前psi元素后插入元素
  * @param element 待插入的元素
@@ -545,7 +524,6 @@ fun PsiElement.insertElementsBefore(vararg elements: PsiElement) {
 fun PsiElement.insertElementAfter(element: PsiElement): PsiElement {
   return this.parent.addAfter(element, this)
 }
-
 
 /**
  * 将当前psi元素插入到指定元素后面
@@ -555,7 +533,6 @@ fun PsiElement.insertAfter(element: PsiElement): PsiElement {
   return element.insertElementAfter(this)
 }
 
-
 /**
  * 将当前psi元素插入到指定元素前面
  * @param element 指定的元素
@@ -563,7 +540,6 @@ fun PsiElement.insertAfter(element: PsiElement): PsiElement {
 fun PsiElement.insertBefore(element: PsiElement): PsiElement {
   return element.insertElementBefore(this)
 }
-
 
 /**
  * 判断元素是否带有指定注解
@@ -574,7 +550,6 @@ fun KtAnnotated.hasAnnotation(annotation: String): Boolean {
   return this.annotationEntries.any { it.toLightAnnotation()?.qualifiedName == annotation }
 }
 
-
 /**
  * 判断元素是否带有指定注解
  * @param annotation 指定注解名称
@@ -583,7 +558,6 @@ fun KtAnnotated.hasAnnotation(annotation: String): Boolean {
 fun PsiModifierListOwner.hasAnnotation(annotation: String): Boolean {
   return this.annotations.any { it.qualifiedName == annotation }
 }
-
 
 /**
  * 查找文件中指定名称的对象类
@@ -595,7 +569,6 @@ fun KtFile.findObjectClass(name: String): Boolean {
     it.name == name && it is KtClassOrObject && it.isObjectLiteral()
   }
 }
-
 
 /**
  *
@@ -616,16 +589,14 @@ fun KtAnnotated.hasSuppress(name: String): Boolean {
   return false
 }
 
-
 /**
  * 注释中是否包含指定标签
  * @param tag 指定的标签
  * @return 包含标签返回true，反之false
  */
 fun KDocSection.hasTag(tag: KDocKnownTag): Boolean {
-  return getChildrenOfType<KDocTag>().any { it.knownTag == KDocKnownTag.RETURN }
+  return getChildrenOfType<KDocTag>().any { it.knownTag == tag }
 }
-
 
 /**
  *
@@ -643,5 +614,35 @@ fun KtPsiFactory.createDocSection(content: String): KDocSection {
   } else {
     throw IncorrectOperationException("Incorrect doc section")
   }
+}
+
+/**
+ * 根据类名获取psi file
+ * @param className 类名
+ * @return
+ */
+fun Project.findPsiFile(className: String?): PsiFile? {
+  if (className != null) {
+    val sourceRoots = JavaProjectRootsUtil.getSuitableDestinationSourceRoots(this)
+    val psiManager = PsiManager.getInstance(this)
+    sourceRoots.forEach {
+      val classFile = findSourceFile(it, className)
+      if (classFile != null) {
+        return psiManager.findFile(classFile) ?: classFile.toPsiFile(this)
+      }
+    }
+  }
+  return null
+}
+
+/**
+ * 根据类名查找源文件
+ * @param root
+ * @param className
+ * @return
+ */
+private fun findSourceFile(root: VirtualFile, className: String): VirtualFile? {
+  val javaFile = root.findFileByRelativePath(File.separator + className.replace(".", File.separator) + ".java")
+  return javaFile ?: root.findFileByRelativePath(File.separator + className.replace(".", File.separator) + ".kt")
 }
 

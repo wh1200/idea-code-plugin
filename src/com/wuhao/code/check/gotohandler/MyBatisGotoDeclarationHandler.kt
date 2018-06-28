@@ -8,15 +8,23 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.XmlRecursiveElementVisitor
 import com.intellij.psi.xml.*
+import com.wuhao.code.check.findPsiFile
 import com.wuhao.code.check.getResultMap
+import com.wuhao.code.check.getSQL
 import com.wuhao.code.check.id
 import com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider
+import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.EXTENDS_ATTR
+import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.ID_ATTR
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.INCLUDE_TAG
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.REF_ID_ATTR
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.RESULT_MAP_ATTR
+import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.RESULT_MAP_TAG
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.SQL_TAG
+import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.TYPE_ATTR
+import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.isMethodTag
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.resolveMapperClassOrMethod
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
 /**
  * Created by 吴昊 on 2017/7/18.
@@ -37,29 +45,57 @@ class MyBatisGotoDeclarationHandler : GotoDeclarationHandler {
           return arrayOf(tag)
         }
       } else {
-        if (el.language is XMLLanguage) {
-          if (el is XmlTag) {
-            val mapId = el.getAttributeValue(RESULT_MAP_ATTR)
-            val resultMapTag = el.getResultMap(mapId)
-            if (resultMapTag != null) {
-              return arrayOf(resultMapTag)
-            }
-          }
-          if (el is XmlToken) {
-            val mapperClassOrMethod = resolveMapperClassOrMethod(el,2)
-            if (mapperClassOrMethod != null) {
-              return arrayOf(mapperClassOrMethod)
-            }
-            val value = el.parent
-            if (value is XmlAttributeValue) {
-              val file = value.containingFile
-              if (file is XmlFile) {
-                val sql = findSql(value)
-                return if (sql != null) {
-                  arrayOf(sql)
-                } else {
-                  findIncludes(value).toTypedArray()
+        if (el.language is XMLLanguage && el is XmlToken && el.parent is XmlAttributeValue) {
+          val value = el.parent as XmlAttributeValue
+          val attribute = value.parent as XmlAttribute
+          val tag = attribute.parent
+          val file = value.containingFile as XmlFile
+          when (attribute.name) {
+            TYPE_ATTR       -> {
+              if (tag.name == RESULT_MAP_TAG) {
+                val psiFile = el.project.findPsiFile(attribute.value)
+                if (psiFile != null) {
+                  return arrayOf(psiFile)
                 }
+              }
+            }
+            ID_ATTR         -> {
+              if (isMethodTag(tag)) {
+                val mapperClassOrMethod = resolveMapperClassOrMethod(tag)
+                if (mapperClassOrMethod != null) {
+                  return arrayOf(mapperClassOrMethod)
+                }
+              } else {
+                when (tag.name) {
+                  SQL_TAG        -> {
+                    return findIncludes(value).toTypedArray()
+                  }
+                  RESULT_MAP_TAG -> {
+                    return file.rootTag!!.getChildrenOfType<XmlTag>().filter {
+                      it.getAttributeValue(RESULT_MAP_ATTR) == attribute.value
+                          || it.getAttributeValue(EXTENDS_ATTR) == attribute.value
+                    }.toTypedArray()
+                  }
+                }
+              }
+            }
+            REF_ID_ATTR     -> {
+              val sql = el.getSQL(attribute.value)
+              if (sql != null) {
+                return arrayOf(sql)
+              }
+            }
+            EXTENDS_ATTR    -> {
+              val resultMapTag = el.getResultMap(attribute.value)
+              if (resultMapTag != null) {
+                return arrayOf(resultMapTag)
+              }
+            }
+            RESULT_MAP_ATTR -> {
+              val mapId = attribute.value
+              val resultMapTag = el.getResultMap(mapId)
+              if (resultMapTag != null) {
+                return arrayOf(resultMapTag)
               }
             }
           }
@@ -89,23 +125,6 @@ class MyBatisGotoDeclarationHandler : GotoDeclarationHandler {
 
     }
     return result
-  }
-
-  private fun findSql(value: PsiElement): PsiElement? {
-    val file = value.containingFile as XmlFile
-    val mapper = file.rootTag!!
-    val attr = value.parent as XmlAttribute
-    val tag = attr.parent as XmlTag
-    if (attr.name == REF_ID_ATTR && tag.name == INCLUDE_TAG) {
-      val refId = attr.value
-      val sql = mapper.subTags.firstOrNull {
-        it.name == SQL_TAG && it.id == refId
-      }
-      if (sql != null) {
-        return sql
-      }
-    }
-    return null
   }
 
 }

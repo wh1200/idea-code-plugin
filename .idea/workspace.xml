@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3819eb7-157d-429e-9026-47ea22c0a4b2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/wuhao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperFileLineMarkerProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperFileLineMarkerProvider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,6 +17,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="217">
+              <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="MybatisMapperFileLineMarkerProvider.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperFileLineMarkerProvider.kt">
           <provider selected="true" editor-type-id="text-editor">
@@ -74,16 +78,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_Arrays.kt" pinned="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Kotlin/kotlinc/lib/kotlin-stdlib-sources.jar!/generated/_Arrays.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="892" selection-start-line="892" selection-end-line="892" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MyBatisGotoDeclarationHandler.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MyBatisGotoDeclarationHandler.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1771">
@@ -195,11 +190,11 @@
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/constants/InspectionNames.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/MyBatisExt.kt" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperFileLineMarkerProvider.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt" />
+        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
       </list>
     </option>
   </component>
@@ -605,7 +600,7 @@
       <workItem from="1530117422248" duration="1432000" />
       <workItem from="1530121149087" duration="2888000" />
       <workItem from="1530144704396" duration="9237000" />
-      <workItem from="1530169717262" duration="5658000" />
+      <workItem from="1530169717262" duration="5890000" />
     </task>
     <servers />
   </component>
@@ -624,7 +619,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43295000" />
+    <option name="totallyTimeSpent" value="43527000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -652,7 +647,7 @@
       <window_info anchor="right" id="PsiViewer" order="3" weight="0.32980457" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.40560472" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.40707964" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.40707964" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19788274" />
       <window_info id="JRebel" order="2" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="3" />
@@ -1047,13 +1042,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-142">
-          <caret line="165" selection-start-line="165" selection-end-line="165" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Kotlin/kotlinc/lib/kotlin-stdlib-sources.jar!/generated/_Arrays.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
@@ -1137,6 +1125,13 @@
           <folding>
             <element signature="e#42#1682#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
         </state>
       </provider>
     </entry>

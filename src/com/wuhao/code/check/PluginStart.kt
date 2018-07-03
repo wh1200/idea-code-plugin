@@ -9,12 +9,16 @@ import com.intellij.codeInsight.actions.LastRunReformatCodeOptionsProvider
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.SeverityRegistrar
 import com.intellij.ide.fileTemplates.FileTemplateManager
+import com.intellij.ide.highlighter.HtmlFileType
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.ide.util.PropertiesComponent
+import com.intellij.json.JsonFileType
+import com.intellij.json.JsonLanguage
 import com.intellij.lang.Language
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.lang.css.CSSLanguage
+import com.intellij.lang.html.HTMLLanguage
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.JavascriptLanguage
@@ -47,6 +51,8 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.BRE
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.BY_NAME
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.KEEP
 import com.intellij.psi.css.CssFileType
+import com.intellij.sql.SqlFileType
+import com.intellij.sql.psi.SqlLanguage
 import com.wuhao.code.check.constants.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.InspectionNames
@@ -60,6 +66,8 @@ import org.jetbrains.plugins.less.LESSFileType
 import org.jetbrains.plugins.less.LESSLanguage
 import org.jetbrains.vuejs.VueFileType
 import org.jetbrains.vuejs.VueLanguage
+import org.jetbrains.yaml.YAMLFileType
+import org.jetbrains.yaml.YAMLLanguage
 import java.awt.Color
 
 /**
@@ -93,6 +101,8 @@ class PluginStart : StartupActivity {
     setIndent(settings)
     setTemplates(project)
     setSeverity(project)
+    val sqlStyleSettings = settings.getCommonSettings(SqlLanguage.INSTANCE)
+    println("... $sqlStyleSettings")
   }
 
   private fun createJavaSettings(): StdArrangementSettings {
@@ -100,14 +110,12 @@ class PluginStart : StartupActivity {
         ArrangementGroupingRule(GETTERS_AND_SETTERS, KEEP),
         ArrangementGroupingRule(OVERRIDDEN_METHODS, BY_NAME),
         ArrangementGroupingRule(DEPENDENT_METHODS, BREADTH_FIRST)
-    )
+                              )
     val sections = createSections(JavaRearrangeRules.get())
     val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
       definitionRules = listOf(PUBLIC, PACKAGE_PRIVATE,
-          PROTECTED, PRIVATE, LATEINIT).map {
-        StdArrangementMatchRule(
-            StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-        )
+                               PROTECTED, PRIVATE, LATEINIT).map {
+        StdArrangementMatchRule(StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it)))
       }
     })
     return StdArrangementExtendableSettings(groupingRules, sections, tokens)
@@ -119,7 +127,7 @@ class PluginStart : StartupActivity {
       definitionRules = listOf(OPEN, PUBLIC, PACKAGE_PRIVATE, PROTECTED, PRIVATE, LATEINIT).map {
         StdArrangementMatchRule(
             StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-        )
+                               )
       }
     })
     return StdArrangementExtendableSettings(listOf(), sections, tokens)
@@ -127,20 +135,15 @@ class PluginStart : StartupActivity {
 
   private fun createLessSettings(): StdArrangementSettings {
     return StdArrangementExtendableSettings(
-        listOf(),
-        createSections(LessRearrangeRules.get()),
-        listOf()
-    )
+        listOf(), createSections(LessRearrangeRules.get()), listOf())
   }
 
   private fun createMatcher(rule: RuleDescription): StdArrangementEntryMatcher {
-    return StdArrangementEntryMatcher(
-        ArrangementCompositeMatchCondition().apply {
-          rule.template.forEach { token ->
-            this.addOperand(ArrangementAtomMatchCondition(token))
-          }
-        }
-    )
+    return StdArrangementEntryMatcher(ArrangementCompositeMatchCondition().apply {
+      rule.template.forEach { token ->
+        this.addOperand(ArrangementAtomMatchCondition(token))
+      }
+    })
   }
 
   private fun createSections(rules: List<RuleDescription>): List<ArrangementSectionRule> {
@@ -157,10 +160,7 @@ class PluginStart : StartupActivity {
 
   private fun createVueSettings(): StdArrangementSettings {
     return StdArrangementExtendableSettings(
-        listOf(),
-        createSections(VueRearrangeRules.get()),
-        listOf()
-    )
+        listOf(), createSections(VueRearrangeRules.get()), listOf())
   }
 
   private fun setIndent(settings: CodeStyleSettings) {
@@ -170,19 +170,27 @@ class PluginStart : StartupActivity {
         JavaScriptFileType.INSTANCE,
         TypeScriptFileType.INSTANCE,
         LESSFileType.LESS,
+        SqlFileType.INSTANCE,
+        JsonFileType.INSTANCE,
+        YAMLFileType.YML,
         VueFileType.INSTANCE,
         XmlFileType.INSTANCE,
+        HtmlFileType.INSTANCE,
         CssFileType.INSTANCE
-    )
+                                   )
     setIndentFileTypes.forEach { fileType ->
       val language = when (fileType) {
-        is JavaFileType -> JavaLanguage.INSTANCE
-        is KotlinFileType -> KotlinLanguage.INSTANCE
+        is JavaFileType       -> JavaLanguage.INSTANCE
+        is KotlinFileType     -> KotlinLanguage.INSTANCE
+        is SqlFileType        -> SqlLanguage.INSTANCE
         is JavaScriptFileType -> JavascriptLanguage.INSTANCE
-        is VueFileType -> VueLanguage.INSTANCE
-        is CssFileType -> CSSLanguage.INSTANCE
-        is LESSFileType -> LESSLanguage.INSTANCE
-        else -> null
+        is JsonFileType       -> JsonLanguage.INSTANCE
+        is YAMLFileType       -> YAMLLanguage.INSTANCE
+        is VueFileType        -> VueLanguage.INSTANCE
+        is HtmlFileType       -> HTMLLanguage.INSTANCE
+        is CssFileType        -> CSSLanguage.INSTANCE
+        is LESSFileType       -> LESSLanguage.INSTANCE
+        else                  -> null
       }
       setIndent(fileType, language, settings)
     }
@@ -219,9 +227,7 @@ class PluginStart : StartupActivity {
               this.errorStripeColor = color
             },
             HighlightInfoType.HighlightInfoTypeImpl(HighlightSeverity(CODE_FORMAT_SEVERITY_NAME, 350),
-                CodeInsightColors.WARNINGS_ATTRIBUTES)
-        ), color
-    )
+                                                    CodeInsightColors.WARNINGS_ATTRIBUTES)), color)
     val severity = severityRegistrar.getSeverity(PluginStart.CODE_FORMAT_SEVERITY_NAME)
     val inspectionProfile = InspectionProfileManager.getInstance(project)
         .currentProfile

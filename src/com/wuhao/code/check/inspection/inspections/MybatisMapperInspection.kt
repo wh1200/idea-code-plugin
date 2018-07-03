@@ -30,28 +30,31 @@ class MybatisMapperInspection : BaseInspection(MYBATIS) {
 
       override fun visitXmlAttribute(attribute: XmlAttribute) {
         val tag = attribute.parent
-        val nameToken = attribute.valueElement!!.getChildrenOfType<XmlToken>().firstOrNull { it.text != "\"" }
-        if (nameToken != null) {
-          when (attribute.name) {
-            RESULT_MAP_ATTR -> {
-              if (isMethodTag(tag)) {
+        val valueElement = attribute.valueElement
+        if (valueElement != null) {
+          val nameToken = valueElement.getChildrenOfType<XmlToken>().firstOrNull { it.text != "\"" }
+          if (nameToken != null) {
+            when (attribute.name) {
+              RESULT_MAP_ATTR -> {
+                if (isMethodTag(tag)) {
+                  val resultMap = tag.getResultMap(attribute.value)
+                  if (resultMap == null) {
+                    holder.registerError(nameToken, "resultMap不存在")
+                  }
+                }
+              }
+              EXTENDS_ATTR    -> {
                 val resultMap = tag.getResultMap(attribute.value)
                 if (resultMap == null) {
                   holder.registerError(nameToken, "resultMap不存在")
                 }
               }
-            }
-            EXTENDS_ATTR    -> {
-              val resultMap = tag.getResultMap(attribute.value)
-              if (resultMap == null) {
-                holder.registerError(nameToken, "resultMap不存在")
-              }
-            }
-            REF_ID_ATTR     -> {
-              if (tag.name == INCLUDE_TAG) {
-                val sql = tag.getSQL(attribute.value)
-                if (sql == null) {
-                  holder.registerError(nameToken, "sql模板不存在")
+              REF_ID_ATTR     -> {
+                if (tag.name == INCLUDE_TAG) {
+                  val sql = tag.getSQL(attribute.value)
+                  if (sql == null) {
+                    holder.registerError(nameToken, "sql模板不存在")
+                  }
                 }
               }
             }

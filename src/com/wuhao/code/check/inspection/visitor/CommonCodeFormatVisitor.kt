@@ -39,10 +39,10 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
 
   companion object {
     const val ACTION_PREFIX = "@"
+    const val ALL = "ALL"
+    const val API_MODEL_PROPERTY = "io.swagger.annotations.ApiModelProperty"
     const val CUSTOM_ATTR_PREFIX = ":"
     const val DIRECTIVE_PREFIX = "v-"
-    const val API_MODEL_PROPERTY = "io.swagger.annotations.ApiModelProperty"
-    const val ALL = "ALL"
   }
 
   override fun support(language: Language): Boolean {
@@ -56,19 +56,16 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
         || language is VueJSLanguage
   }
 
-
   override fun visitFile(file: PsiFile) {
     this.checkEncoding(file)
     this.checkIndent(file)
   }
-
 
   private fun checkEncoding(element: PsiElement) {
     if (element is PsiFile && element.virtualFile != null && element.virtualFile.charset != StandardCharsets.UTF_8) {
       holder.registerError(element, "${element.name}的编码为${element.virtualFile.charset}，应该使用UTF-8")
     }
   }
-
 
   private fun checkIndent(element: PsiElement) {
     if (element is PsiFile) {
@@ -83,14 +80,13 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
             PluginStart.setIndent(element.fileType, element.language, CodeStyle.getSettings(element.project))
           }
 
-
           override fun getFamilyName(): String {
             return "设置缩进"
           }
 
         }
         holder.registerError(element, "${element.fileType.name}文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
-            indentFix)
+                             indentFix)
       }
       if (continuationIndent != DEFAULT_CONTINUATION_INDENT_SPACE_COUNT) {
         holder.registerError(element, "${element.fileType.name}文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格")

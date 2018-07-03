@@ -9,12 +9,16 @@ import com.intellij.codeInsight.actions.LastRunReformatCodeOptionsProvider
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.SeverityRegistrar
 import com.intellij.ide.fileTemplates.FileTemplateManager
+import com.intellij.ide.highlighter.HtmlFileType
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.ide.util.PropertiesComponent
+import com.intellij.json.JsonFileType
+import com.intellij.json.JsonLanguage
 import com.intellij.lang.Language
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.lang.css.CSSLanguage
+import com.intellij.lang.html.HTMLLanguage
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.JavascriptLanguage
@@ -40,6 +44,10 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.*
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.*
 import com.intellij.psi.css.CssFileType
+import com.intellij.sql.SqlFileType
+import com.intellij.sql.formatter.settings.SqlCodeStyleSettings
+import com.intellij.sql.formatter.settings.SqlCodeStyleSettings.*
+import com.intellij.sql.psi.SqlLanguage
 import com.wuhao.code.check.constants.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.InspectionNames
@@ -53,6 +61,8 @@ import org.jetbrains.plugins.less.LESSFileType
 import org.jetbrains.plugins.less.LESSLanguage
 import org.jetbrains.vuejs.VueFileType
 import org.jetbrains.vuejs.VueLanguage
+import org.jetbrains.yaml.YAMLFileType
+import org.jetbrains.yaml.YAMLLanguage
 import java.awt.Color
 
 /**
@@ -86,6 +96,12 @@ class PluginStart : StartupActivity {
     setIndent(settings)
     setTemplates(project)
     setSeverity(project)
+    val sqlStyleSettings = settings.getCustomSettings(SqlCodeStyleSettings::class.java)
+    if (sqlStyleSettings != null) {
+      sqlStyleSettings.KEYWORD_CASE = TO_UPPER
+      sqlStyleSettings.TYPE_CASE = AS_KEYWORDS
+      sqlStyleSettings.IDENTIFIER_CASE = TO_LOWER
+    }
   }
 
   private fun createJavaSettings(): StdArrangementSettings {
@@ -163,16 +179,24 @@ class PluginStart : StartupActivity {
         JavaScriptFileType.INSTANCE,
         TypeScriptFileType.INSTANCE,
         LESSFileType.LESS,
+        SqlFileType.INSTANCE,
+        JsonFileType.INSTANCE,
+        YAMLFileType.YML,
         VueFileType.INSTANCE,
         XmlFileType.INSTANCE,
+        HtmlFileType.INSTANCE,
         CssFileType.INSTANCE
     )
     setIndentFileTypes.forEach { fileType ->
       val language = when (fileType) {
         is JavaFileType -> JavaLanguage.INSTANCE
         is KotlinFileType -> KotlinLanguage.INSTANCE
+        is SqlFileType -> SqlLanguage.INSTANCE
         is JavaScriptFileType -> JavascriptLanguage.INSTANCE
+        is JsonFileType -> JsonLanguage.INSTANCE
+        is YAMLFileType -> YAMLLanguage.INSTANCE
         is VueFileType -> VueLanguage.INSTANCE
+        is HtmlFileType -> HTMLLanguage.INSTANCE
         is CssFileType -> CSSLanguage.INSTANCE
         is LESSFileType -> LESSLanguage.INSTANCE
         else -> null

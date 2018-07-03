@@ -15,6 +15,7 @@ import com.wuhao.code.check.enums.NamingMethod
 import com.wuhao.code.check.enums.NamingMethod.Camel
 import com.wuhao.code.check.enums.NamingMethod.Constant
 import com.wuhao.code.check.getAncestorsOfType
+import com.wuhao.code.check.hasSuppress
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommaFix
@@ -22,7 +23,9 @@ import com.wuhao.code.check.inspection.fix.kotlin.KotlinConsolePrintFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinNameFix
 import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor.Companion.shouldHaveSpaceBeforeOrAfter
 import com.wuhao.code.check.isVal
-import org.jetbrains.kotlin.KtNodeTypes.*
+import org.jetbrains.kotlin.KtNodeTypes.FLOAT_CONSTANT
+import org.jetbrains.kotlin.KtNodeTypes.INTEGER_CONSTANT
+import org.jetbrains.kotlin.KtNodeTypes.STRING_TEMPLATE
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
@@ -98,6 +101,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   }
 
 
+
   override fun visitLambdaExpression(expression: KtLambdaExpression, data: Any?) {
     val lambdaAncestors = expression.getAncestorsOfType<KtLambdaExpression>()
     if (expression.parent is KtLambdaArgument) {
@@ -136,6 +140,9 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
 
   override fun visitProperty(property: KtProperty, data: Any?) {
+    if (property.hasSuppress(CommonCodeFormatVisitor.ALL)) {
+      return
+    }
     val name = property.name
     if (name != null) {
       val classOrObject = property.containingClassOrObject
@@ -163,6 +170,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   }
 
 
+
   override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?) {
     // 使用日志输入代替System.out
     if (expression.text == "println") {
@@ -177,6 +185,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   override fun visitWhenExpression(expression: KtWhenExpression, data: Any?) {
     super.visitWhenExpression(expression, data)
   }
+
 
 
   private fun isInJUnitTestMethod(expression: KtReferenceExpression): Boolean {

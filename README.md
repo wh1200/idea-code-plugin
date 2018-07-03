@@ -56,6 +56,21 @@ formatted.
 - .vue file template, if the property value is a complex expression, can be extracted as a calculated property.
 
 
+1.3.8 更新内容 
+
+1. 增加接口格式化代码补全注释
+   对于接口类，格式化代码时如果方法没有注释则会根据参数和返回值自动生成模板注释，但注释内的文字说明需自行补充
+1. 增加属性名称类的生成
+   
+   对于带有Entity、Table或Documented注解的类，生成一个以属性名称为成员变量的类（Kotlin在同一个文件中生成，Java在同一个包下面生成），目的是在进行查询（不管是es、mongodb还是关系型数据库）时，对属性名称的引用使用变量而不是直接的字符串常量，这样既可以避免不必要的拼写错误，更重要的是在重构属性名称的时候可以很方便的一次性修改
+1. mybatis的mapper接口类与对应xml文件：
+   1. 从mapper接口类的方法前生成导航图标可以跳转到xml对应的sql定义
+   2. 从xml的sql定义可以通过前面的图标跳转到对应的mapper接口方法
+   3. 从sql模板引用（include标签）的refid可以链接到对应的sql模板定义
+   4. 从sql模板定义（sql标签）可以直接跳转到引用模板的地方
+   5. 可以不用mybatis插件（要收费，比较贵）
+   
+
 ## Build
 
 Copy the project code to the local, open the project using idea, configure the IntelliJ Platform Plugin SDK, and add the following in the Classpath configuration of the SDK:/Applications/IntelliJ IDEA.app/Contents/plugins/JavaScriptLanguage/lib/javascript-openapi.jar

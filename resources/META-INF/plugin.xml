@@ -69,6 +69,9 @@
           default is
           to use slf4j.
         </li>
+        <li>
+          Automatically add comments to interface methods when formatting code. [1.3.8]
+        </li>
       </ul>
       <h3>Spring Framework Related</h3>
       <ul>
@@ -159,7 +162,7 @@
                             implementation="com.wuhao.code.check.inspection.inspections.CheckProvider"/>
     <gotoDeclarationHandler
         implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
-    <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyGotoDeclarationHandler2"/>
+    <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyBatisGotoDeclarationHandler"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrFixPreProcessor"
                         id="VueAttrFixProcessor" order="last"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPreProcessor"
@@ -175,13 +178,13 @@
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPostProcessor"
                          id="FixKotlinProcessor" order="last"/>
     <codeInsight.lineMarkerProvider
-        implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"
+        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
         id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>
     <codeInsight.lineMarkerProvider
-        implementationClass="com.wuhao.code.check.processors.MybatisMapperClassLineMarkerProvider"
+        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
         id="MybatisMapperClassLineMarkerProviderKotlin" language="kotlin"/>
     <codeInsight.lineMarkerProvider
-        implementationClass="com.wuhao.code.check.processors.MybatisMapperFileLineMarkerProvider"
+        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider"
         id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
     <applicationConfigurable
         instance="com.wuhao.code.check.ui.AegisPluginSettingsConfigurable"/>

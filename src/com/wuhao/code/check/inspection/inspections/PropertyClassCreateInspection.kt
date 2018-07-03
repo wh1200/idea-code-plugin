@@ -11,18 +11,18 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiField
-import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTypesUtil
 import com.intellij.util.IncorrectOperationException
-import com.wuhao.code.check.ancestorOfType
+import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.InspectionNames.PROPERTY_CLASS
+import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.ALL
 import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor.Companion.ENTITY_CLASS
 import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor.Companion.SPRING_DOCUMENT_CLASS
 import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor.Companion.TABLE_CLASS
-import com.wuhao.code.check.ktPsiFactory
-import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
+import org.jetbrains.kotlin.psi.KtVisitor
 
 /**
  * Created by 吴昊 on 2017/7/28.
@@ -36,21 +36,21 @@ class PropertyClassCreateInspection : BaseInspection(PROPERTY_CLASS) {
   }
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
-    return object : PsiElementVisitor() {
+    return object : KtVisitor<Any, Any>() {
 
-      override fun visitFile(el: PsiFile) {
-        if (el.language is KotlinLanguage && el is KtFile && el.classes.size == 1) {
-          if (el.classes[0].annotations.any {
-                it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS,
-                    SPRING_DOCUMENT_CLASS)
-              }) {
-            holder.registerProblem(el, "创建属性名称对象", myQuickFix)
+      override fun visitClass(klass: KtClass, data: Any?) {
+        if (klass.hasAnnotation(ENTITY_CLASS) || klass.hasAnnotation(TABLE_CLASS)
+            || klass.hasAnnotation(SPRING_DOCUMENT_CLASS)) {
+          val file = klass.containingKtFile
+          if (!file.findObjectClass("Q${klass.name}")) {
+            holder.registerProblem(klass.containingKtFile, "创建属性名称对象", myQuickFix)
           }
         }
       }
 
     }
   }
+
 
   override fun loadDescription(): String? {
     return "为Entity class 生成一个属性名称的Object类"
@@ -70,10 +70,12 @@ class PropertyClassCreateInspection : BaseInspection(PROPERTY_CLASS) {
           val cls = file.classes[0]
           val factory = file.ktPsiFactory
           val fieldStr = getPropertyFieldsMap(cls)
-          val newCls = factory.createObject("""object Q${cls.name} {
+          val newCls = factory.createObject("""@Suppress("$ALL")
+            object Q${cls.name} {
             $fieldStr
           }""")
-          val field = factory.createProperty("q${cls.name?.take(1)?.toLowerCase() + cls.name?.substring(1)}", null, false, "Q${cls.name}")
+          val field = factory.createProperty("""q${cls.name?.take(1)?.toLowerCase() + cls.name?.substring(1)}""".trimMargin(), null, false, "Q${cls.name}")
+          field.firstChild.insertElementBefore(factory.createModifierList("""@Suppress("$ALL")"""))
           file.add(newCls)
           file.add(field)
         }
@@ -81,6 +83,7 @@ class PropertyClassCreateInspection : BaseInspection(PROPERTY_CLASS) {
         LOG.error(e)
       }
     }
+
 
     fun buildPropertyName(prefix: String, name: String): String {
       return if (prefix.isEmpty()) {
@@ -90,13 +93,16 @@ class PropertyClassCreateInspection : BaseInspection(PROPERTY_CLASS) {
       }
     }
 
+
     override fun getFamilyName(): String {
       return name
     }
 
+
     override fun getName(): String {
-      return "create property object class"
+      return "创建属性对象类"
     }
+
 
     fun getPropertyFields(cls: PsiClass): List<PsiField> {
       return cls.allFields.filter {
@@ -109,6 +115,7 @@ class PropertyClassCreateInspection : BaseInspection(PROPERTY_CLASS) {
       }
     }
 
+
     fun getPropertyFieldsMap(prefix: String, cls: PsiClass): String {
       return getPropertyFields(cls).joinToString("\n") {
         val typeClass = PsiTypesUtil.getPsiClass(it.type)
@@ -117,26 +124,24 @@ class PropertyClassCreateInspection : BaseInspection(PROPERTY_CLASS) {
             ""
           } else {
             "$prefix."
-          }}${it
-              .name}""""
+          }}${it.name}""""
         } else if (typeClass != null && !typeClass.qualifiedName!!.startsWith("java.")) {
           """const val ${buildPropertyName(prefix, it.name)} = "${if (prefix.isEmpty()) {
             ""
           } else {
             "$prefix."
-          }}${it
-              .name}"
+          }}${it.name}"
               ${getPropertyFieldsMap(buildPropertyName(prefix, it.name), typeClass)}"""
         } else {
           """const val ${buildPropertyName(prefix, it.name)} = "${if (prefix.isEmpty()) {
             ""
           } else {
             "$prefix."
-          }}${it
-              .name}" """
+          }}${it.name}" """
         }
       }
     }
+
 
     fun getPropertyFieldsMap(cls: PsiClass): String {
       return getPropertyFieldsMap("", cls)

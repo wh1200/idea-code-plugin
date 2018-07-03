@@ -24,8 +24,8 @@ import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
 /**
  * 格式化代码时自动修复模板中标签属性的换行
- * @author
- * @since
+ * @author wuhao
+ * @since 1.1
  */
 class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
 

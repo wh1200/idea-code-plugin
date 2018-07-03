@@ -6,10 +6,7 @@ package com.wuhao.code.check.inspection.fix.java
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiClass
-import com.intellij.psi.PsiIdentifier
-import com.intellij.psi.PsiMethod
-import com.intellij.psi.PsiPrimitiveType
+import com.intellij.psi.*
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.wuhao.code.check.ui.PluginSettings
@@ -39,18 +36,22 @@ class JavaBlockCommentFix : LocalQuickFix {
     } else {
       element
     }
+    val commentElement = buildComment(measureElement, element)
+    if (element is PsiIdentifier) {
+      element.parent.addBefore(commentElement, element.parent.firstChild)
+    } else {
+      element.addBefore(commentElement, element.firstChild)
+    }
+  }
+
+  private fun buildComment(measureElement: PsiElement, element: PsiElement): PsiElement {
     val commentText = when (measureElement) {
       is PsiClass -> CLASS_COMMENT
       is PsiMethod -> buildMethodComment(measureElement)
       else -> BLOCK_COMMENT_STRING
     }
     val factory = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(element.project))
-    val commentElement = factory.createCommentFromText(commentText, element)
-    if (element is PsiIdentifier) {
-      element.parent.addBefore(commentElement, element.parent.firstChild)
-    } else {
-      element.addBefore(commentElement, element.firstChild)
-    }
+    return factory.createCommentFromText(commentText, element)
   }
 
   override fun getFamilyName(): String {

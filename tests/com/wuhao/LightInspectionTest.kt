@@ -83,6 +83,7 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
   }
 
   protected fun applySingleQuickFix(quickFixName: String) {
+    myFixture.project
     val availableIntentions = myFixture.filterAvailableIntentions(quickFixName)
     myFixture.availableIntentions.forEach {
       println("${it.familyName}/${it.javaClass}")
@@ -132,7 +133,6 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     val toolWrapper = LocalInspectionToolWrapper(inspection)
     myFixture.testDataPath = "testData"
     val file = File(myFixture.testDataPath + File.separator + path)
-    println("当前路径：" + file.absolutePath)
     val sourceDir = if (file.isFile) {
       myFixture.psiManager.findFile(myFixture.copyFileToProject(path, path.replace(file.name, "")))
           ?: throw AssertionError("Could not find $file")

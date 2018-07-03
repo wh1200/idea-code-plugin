@@ -10,16 +10,12 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.arrangement.*
 import com.intellij.psi.codeStyle.arrangement.group.ArrangementGroupingRule
-import com.intellij.psi.codeStyle.arrangement.match.StdArrangementEntryMatcher
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementMatchRule
-import com.intellij.psi.codeStyle.arrangement.model.ArrangementAtomMatchCondition
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementExtendableSettings
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementRuleAliasToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.XML_ATTRIBUTE
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.XML_TAG
-import com.intellij.util.containers.ContainerUtilRt
 
 /**
  * vue代码排序器，主要对vue的模板标签属性进行排序
@@ -32,15 +28,9 @@ class VueRearranger : Rearranger<ArrangementEntry> {
 
   companion object {
     private fun getDefaultSettings(): StdArrangementSettings {
-      val groupingRules = ContainerUtilRt.newArrayList(ArrangementGroupingRule(StdArrangementTokens.Grouping.GETTERS_AND_SETTERS))
-      val matchRules = ContainerUtilRt.newArrayList<StdArrangementMatchRule>()
-      val aliasTokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
-        definitionRules = listOf(StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.PRIVATE).map {
-          StdArrangementMatchRule(
-              StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-          )
-        }
-      })
+      val groupingRules = listOf<ArrangementGroupingRule>()
+      val matchRules = ArrayList<StdArrangementMatchRule>()
+      val aliasTokens = listOf<StdArrangementRuleAliasToken>()
       return StdArrangementExtendableSettings.createByMatchRules(groupingRules, matchRules, aliasTokens)
     }
   }
@@ -71,7 +61,6 @@ class VueRearranger : Rearranger<ArrangementEntry> {
   override fun parse(root: PsiElement, document: Document?,
                      ranges: MutableCollection<TextRange>,
                      settings: ArrangementSettings): List<ArrangementEntry> {
-    // Following entries are subject to arrangement: attribute of tag in vue template.
     val parseInfo = VueArrangementParseInfo()
     root.accept(VueArrangementVisitor(parseInfo, ranges))
     return parseInfo.entries

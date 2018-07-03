@@ -12,7 +12,6 @@ import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.Messages.CLASS_COMMENT_REQUIRED
 import com.wuhao.code.check.constants.hasDocComment
-import com.wuhao.code.check.constants.isFirstLevelProperty
 import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.inspection.fix.DeleteFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommentQuickFix
@@ -104,7 +103,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
       return
     }
     // 一等属性(非private)必须添加注释
-    if (property.isFirstLevelProperty() && !property.hasDocComment()
+    if (property.isTopLevel && !property.hasDocComment()
         && !property.hasModifier(KtTokens.PRIVATE_KEYWORD)) {
       registerPropertyCommentMissingError(property)
     }

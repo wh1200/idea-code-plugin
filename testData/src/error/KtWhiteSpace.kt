@@ -16,6 +16,8 @@ class KtWhiteSpace {
     val c = a > 1
     val d = a > 1
     val e = b || c || d
+    val list1 = listOf<String>()
+    val list2 = listOf<String>()
   }
 
   companion object {

@@ -23,15 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/com/wuhao/CreateProjectTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-idea-plugin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/http/HttpRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/http/HttpRequest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.jar" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -214,31 +206,6 @@
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="action" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -262,10 +229,10 @@
     <property name="last_opened_file_path" value="$USER_HOME$/IdeaProjects/idea-code-plugin" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="C:/Program Files/nodejs/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.28390804" />
-    <property name="settings.editor.selected.configurable" value="Aegis Plugin Configuration" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="PsiViewer.ProjectComponent">
     <option name="HIGHLIGHT" value="false" />
@@ -395,7 +362,7 @@
       <workItem from="1526973302511" duration="1558000" />
       <workItem from="1526975713453" duration="4702000" />
       <workItem from="1530618126826" duration="2820000" />
-      <workItem from="1530621064571" duration="7346000" />
+      <workItem from="1530621064571" duration="8077000" />
     </task>
     <servers />
   </component>
@@ -414,15 +381,14 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20594000" />
+    <option name="totallyTimeSpent" value="21325000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="1" width="1728" height="892" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="17" visible="true" weight="0.32786885" />
+      <window_info anchor="bottom" id="Messages" order="17" weight="0.32786885" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="8" />
@@ -432,7 +398,7 @@
       <window_info anchor="bottom" id="Database Changes" order="26" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="20" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.328125" />
-      <window_info anchor="bottom" id="Terminal" order="22" weight="0.32700893" />
+      <window_info anchor="bottom" id="Terminal" order="22" visible="true" weight="0.32650274" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23067632" />
@@ -532,7 +498,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$APPLICATION_HOME_DIR$/plugins/CSS/lib/css.jar!/com/intellij/psi/css/impl/CssTokenImpl.class</url>
+          <url />
           <line>18</line>
           <properties />
           <option name="timeStamp" value="15" />
@@ -921,7 +887,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited />
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -944,7 +910,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>IntelliJ IDEA IU-181.4668.68</last-edited>
+          <last-edited />
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -968,7 +934,7 @@
       </state>
       <state key="ProjectJDKs.UI">
         <settings>
-          <last-edited>IntelliJ IDEA IU-181.4445.78</last-edited>
+          <last-edited />
           <splitter-proportions>
             <option name="proportions">
               <list>

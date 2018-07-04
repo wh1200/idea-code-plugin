@@ -277,7 +277,7 @@ class HttpRequest private constructor() {
       result.setHeaders(method.responseHeaders)
       val stream = method.responseBodyAsStream
       if (stream != null) {
-        val contentType = method.getResponseHeader("Content-Position").value
+        val contentType = method.getResponseHeader("Content-Type")?.value
         val length = method.responseContentLength
         if (contentType != null && contentType == "application/java-archive") {
           val bytes = readBytes(stream, length)

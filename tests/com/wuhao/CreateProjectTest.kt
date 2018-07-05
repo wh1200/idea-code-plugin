@@ -20,6 +20,9 @@ class CreateProjectTest {
     val gitPrivateToken = "yx-w-Fr3bfRyD1RC3XQD"
     val httpResult: HttpResult = HttpRequest.newGet(templateUrl)
         .withHeader("Private-Token", gitPrivateToken).execute()
+    httpResult.getHeaders()?.forEach {
+      println(it.key + ":" + it.value)
+    }
     println(httpResult.bytes)
     println(httpResult.response)
   }

@@ -23,7 +23,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-idea-plugin.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/http/HttpRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/http/HttpRequest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/com/wuhao/CreateProjectTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/com/wuhao/CreateProjectTest.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,11 +47,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="189">
               <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Test.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/com/wuhao/Test.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2194">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CreateProjectTest.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/com/wuhao/CreateProjectTest.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="230">
+              <caret line="21" column="58" lean-forward="true" selection-start-line="21" selection-start-column="58" selection-end-line="21" selection-end-column="58" />
+              <folding>
+                <element signature="e#19#129#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -75,11 +103,29 @@
       <file leaf-file-name="HttpRequest.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/http/HttpRequest.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="275" selection-start-line="275" selection-end-line="275" />
+            <state relative-caret-position="329">
+              <caret line="288" column="30" selection-start-line="288" selection-start-column="30" selection-end-line="288" selection-end-column="30" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MybatisMapperInspection.kt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="145">
+              <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JavaFormatInspection.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaFormatInspection.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -108,6 +154,7 @@
       <find>280</find>
       <find>content</find>
       <find>templateUrl</find>
+      <find>MybatisMapperInspection</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -127,10 +174,11 @@
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/http/HttpRequest.kt" />
-        <option value="$PROJECT_DIR$/tests/com/wuhao/CreateProjectTest.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt" />
+        <option value="$PROJECT_DIR$/tests/com/wuhao/CreateProjectTest.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/http/HttpRequest.kt" />
         <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt" />
       </list>
     </option>
   </component>
@@ -172,8 +220,8 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-6" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-7" />
     <option name="y" value="1" />
     <option name="width" value="1728" />
     <option name="height" value="892" />
@@ -206,7 +254,39 @@
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
+              <item name="inspections" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="tests" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="wuhao" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
@@ -259,7 +339,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Plugin.Plugin">
+  <component name="RunManager" selected="JUnit.CreateProjectTest.test">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -362,7 +442,7 @@
       <workItem from="1526973302511" duration="1558000" />
       <workItem from="1526975713453" duration="4702000" />
       <workItem from="1530618126826" duration="2820000" />
-      <workItem from="1530621064571" duration="8077000" />
+      <workItem from="1530621064571" duration="17114000" />
     </task>
     <servers />
   </component>
@@ -379,16 +459,23 @@
     <history-entry file="CreateProjectTest_test - 2018.07.04 at 08h 47m 57s.xml">
       <configuration name="CreateProjectTest.test" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="CreateProjectTest_test - 2018.07.05 at 11h 41m 23s.xml">
+      <configuration name="CreateProjectTest.test" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CreateProjectTest_test - 2018.07.05 at 11h 41m 40s.xml">
+      <configuration name="CreateProjectTest.test" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21325000" />
+    <option name="totallyTimeSpent" value="30362000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="1" width="1728" height="892" extended-state="0" />
+    <frame x="-8" y="-8" width="1732" height="903" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="17" weight="0.32786885" />
+      <window_info active="true" anchor="bottom" id="Messages" order="17" visible="true" weight="0.3270525" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="8" />
@@ -397,11 +484,11 @@
       <window_info anchor="right" id="Maven Projects" order="4" />
       <window_info anchor="bottom" id="Database Changes" order="26" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="20" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.328125" />
-      <window_info anchor="bottom" id="Terminal" order="22" visible="true" weight="0.32650274" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3270525" />
+      <window_info anchor="bottom" id="Terminal" order="22" weight="0.3001346" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23067632" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16626506" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -498,7 +585,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url />
+          <url>jar://$APPLICATION_HOME_DIR$/plugins/CSS/lib/css.jar!/com/intellij/psi/css/impl/CssTokenImpl.class</url>
           <line>18</line>
           <properties />
           <option name="timeStamp" value="15" />
@@ -522,21 +609,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider.kt" />
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/VueAttrFixPreProcessor.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="729">
-          <caret line="39" column="6" selection-start-line="39" selection-start-column="6" selection-end-line="39" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2052">
-          <caret line="83" column="10" selection-start-line="83" selection-start-column="10" selection-end-line="83" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="351">
@@ -810,25 +882,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/com/wuhao/Test.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-648">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/com/wuhao/CreateProjectTest.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="21" column="57" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
-          <folding>
-            <element signature="e#19#129#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/out/production/aegis-idea-plugin/com/wuhao/code/check/http/HttpRequest.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-302">
@@ -843,16 +896,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/http/HttpRequest.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="275" selection-start-line="275" selection-end-line="275" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="213">
@@ -863,10 +906,56 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$PROJECT_DIR$/aegis-idea-plugin.jar!/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/com/wuhao/Test.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2194">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/com/wuhao/CreateProjectTest.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="21" column="58" lean-forward="true" selection-start-line="21" selection-start-column="58" selection-end-line="21" selection-end-column="58" />
+          <folding>
+            <element signature="e#19#129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/http/HttpRequest.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="288" column="30" selection-start-line="288" selection-start-column="30" selection-end-line="288" selection-end-column="30" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaFormatInspection.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -887,7 +976,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited />
+          <last-edited>No facets are configured</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -910,7 +999,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited />
+          <last-edited>IntelliJ IDEA IU-181.4668.68</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -934,7 +1023,7 @@
       </state>
       <state key="ProjectJDKs.UI">
         <settings>
-          <last-edited />
+          <last-edited>IntelliJ IDEA IU-181.4445.78</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -946,7 +1035,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>KotlinJavaRuntime</last-edited>
+          <last-edited>aegis-idea-plugin</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

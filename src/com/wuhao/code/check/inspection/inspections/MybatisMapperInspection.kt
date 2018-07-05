@@ -3,7 +3,10 @@ package com.wuhao.code.check.inspection.inspections
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.XmlRecursiveElementVisitor
-import com.intellij.psi.xml.*
+import com.intellij.psi.xml.XmlAttribute
+import com.intellij.psi.xml.XmlFile
+import com.intellij.psi.xml.XmlTag
+import com.intellij.psi.xml.XmlToken
 import com.wuhao.code.check.constants.InspectionNames.MYBATIS
 import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.getResultMap
@@ -30,28 +33,31 @@ class MybatisMapperInspection : BaseInspection(MYBATIS) {
 
       override fun visitXmlAttribute(attribute: XmlAttribute) {
         val tag = attribute.parent
-        val nameToken = attribute.valueElement!!.getChildrenOfType<XmlToken>().firstOrNull { it.text != "\"" }
-        if (nameToken != null) {
-          when (attribute.name) {
-            RESULT_MAP_ATTR -> {
-              if (isMethodTag(tag)) {
+        val valueElement = attribute.valueElement
+        if (valueElement != null) {
+          val nameToken = valueElement.getChildrenOfType<XmlToken>().firstOrNull { it.text != "\"" }
+          if (nameToken != null) {
+            when (attribute.name) {
+              RESULT_MAP_ATTR -> {
+                if (isMethodTag(tag)) {
+                  val resultMap = tag.getResultMap(attribute.value)
+                  if (resultMap == null) {
+                    holder.registerError(nameToken, "resultMap不存在")
+                  }
+                }
+              }
+              EXTENDS_ATTR -> {
                 val resultMap = tag.getResultMap(attribute.value)
                 if (resultMap == null) {
                   holder.registerError(nameToken, "resultMap不存在")
                 }
               }
-            }
-            EXTENDS_ATTR    -> {
-              val resultMap = tag.getResultMap(attribute.value)
-              if (resultMap == null) {
-                holder.registerError(nameToken, "resultMap不存在")
-              }
-            }
-            REF_ID_ATTR     -> {
-              if (tag.name == INCLUDE_TAG) {
-                val sql = tag.getSQL(attribute.value)
-                if (sql == null) {
-                  holder.registerError(nameToken, "sql模板不存在")
+              REF_ID_ATTR -> {
+                if (tag.name == INCLUDE_TAG) {
+                  val sql = tag.getSQL(attribute.value)
+                  if (sql == null) {
+                    holder.registerError(nameToken, "sql模板不存在")
+                  }
                 }
               }
             }
@@ -59,14 +65,11 @@ class MybatisMapperInspection : BaseInspection(MYBATIS) {
         }
       }
 
-      override fun visitXmlDoctype(xmlDoctype: XmlDoctype) {
-      }
-
       override fun visitXmlFile(file: XmlFile) {
         val tags = file.rootTag?.getChildrenOfType<XmlTag>()
         if (tags != null) {
           val map = tags.groupBy { it.getAttributeValue(ID_ATTR) }
-          map.forEach { id, list ->
+          map.values.forEach { list ->
             if (list.size > 1) {
               list.drop(1).forEach {
                 val idValueElement = it.getAttribute(ID_ATTR)?.valueElement

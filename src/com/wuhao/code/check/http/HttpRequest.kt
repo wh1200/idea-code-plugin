@@ -278,12 +278,9 @@ class HttpRequest private constructor() {
       val stream = method.responseBodyAsStream
       if (stream != null) {
         val contentType = method.getResponseHeader("Content-Type")?.value
+        val acceptRanges = method.getResponseHeader("Accept-Ranges")?.value
         val length = method.responseContentLength
-        if (contentType != null && contentType == "application/java-archive") {
-          val bytes = readBytes(stream, length)
-          result.bytes = bytes
-          result.contentLength = length
-        } else if (method.getResponseHeader("Accept-Ranges") != null && method.getResponseHeader("Accept-Ranges").value == "bytes") {
+        if (acceptRanges == "bytes" || contentType == "application/java-archive") {
           val bytes = readBytes(stream, length)
           result.bytes = bytes
           result.contentLength = length

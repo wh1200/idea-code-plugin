@@ -12,6 +12,12 @@ This project was originally used for internal use by the company. The main purpo
 
 ## Features
 
+### 根据模板创建项目
+
+安装插件后，在设置中填写git private token，以及模板项目的地址（默认为本公司项目模板）
+
+使用IDEA菜单 File - New - 擎盾JavaKotlin项目  和  File - New - 擎盾VueJS项目 分别创建基于项目模板的 Java&Kotlin 和 VueJS 新项目
+
 ### Mandatory style
 - Some mandatory presets for code styles at project startup, including indentation and encoding
 - Forced code rearrangement

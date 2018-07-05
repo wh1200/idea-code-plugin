@@ -94,6 +94,7 @@ abstract class CreateProjectAction : AnAction() {
             unzip(httpResult.bytes!!, newProjectRoot)
             return PrepareInfo(newProjectName, newProjectRoot)
           } catch (e: Exception) {
+            e.printStackTrace()
             Messages.showErrorDialog(e.message, "错误")
           }
         }
@@ -126,8 +127,11 @@ abstract class CreateProjectAction : AnAction() {
       val zip = ZipInputStream(ByteArrayInputStream(bytes))
       var entry = zip.nextEntry
       while (entry != null) {
-        val entryFilePath = unzipFileDir.absolutePath + File.separator + entry.name.split(File.separator)
-            .drop(n = 1).joinToString(File.separator)
+        val entryFilePath = unzipFileDir.absolutePath + File.separator + if (!entry.name.contains("/")) {
+          entry.name
+        } else {
+          entry.name.split("/").drop(n = 1).joinToString(File.separator)
+        }
         val entryFile = File(entryFilePath)
         if (entry.isDirectory) {
           entryFile.mkdirs()

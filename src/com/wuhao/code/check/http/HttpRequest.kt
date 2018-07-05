@@ -1,6 +1,8 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
+@file:Suppress("unused")
+
 package com.wuhao.code.check.http
 
 import org.apache.commons.httpclient.HttpClient
@@ -464,28 +466,24 @@ class HttpRequest private constructor() {
         val data = ArrayList<NameValuePair>()
         val parts = ArrayList<Part>()
         params.forEach { key, value ->
-          if (value is Part) {
-            parts.add(value)
-          } else if (value is File) {
-            try {
+          when {
+            value is Part -> parts.add(value)
+            value is File -> try {
               parts.add(FilePart(key, value))
             } catch (e: FileNotFoundException) {
               e.printStackTrace()
             }
-
-          } else if (value is Date) {
-            data.add(NameValuePair(key, sdf.format(value)))
-          } else if (value is Collection<*>) {
-            for (v in value) {
+            value is Date -> data.add(NameValuePair(key, sdf.format(value)))
+            value is Collection<*> -> for (v in value) {
               data.add(NameValuePair(key, v.toString()))
             }
-          } else if (value.javaClass.isArray) {
-            val array = value as Array<*>
-            for (v in array) {
-              data.add(NameValuePair(key, v.toString()))
+            value.javaClass.isArray -> {
+              val array = value as Array<*>
+              for (v in array) {
+                data.add(NameValuePair(key, v.toString()))
+              }
             }
-          } else {
-            data.add(NameValuePair(key, value.toString()))
+            else -> data.add(NameValuePair(key, value.toString()))
           }
         }
         if (containsFile()) {

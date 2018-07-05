@@ -2,7 +2,7 @@ package com.wuhao.code.check.inspection.inspections
 
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
-import com.intellij.psi.XmlRecursiveElementVisitor
+import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
@@ -29,7 +29,7 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 class MybatisMapperInspection : BaseInspection(MYBATIS) {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
-    return object : XmlRecursiveElementVisitor() {
+    return object : XmlElementVisitor() {
 
       override fun visitXmlAttribute(attribute: XmlAttribute) {
         val tag = attribute.parent

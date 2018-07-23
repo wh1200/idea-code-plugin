@@ -23,7 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,8 +45,8 @@
       <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
+            <state relative-caret-position="127">
+              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -69,20 +69,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VueCodeFormatVisitor.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="VueCodeFormatVisitor.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
+            <state relative-caret-position="46">
               <caret line="64" column="10" selection-start-line="64" selection-start-column="10" selection-end-line="64" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommonCodeFormatVisitor.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CommonCodeFormatVisitor.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1705">
-              <caret line="79" column="16" selection-start-line="79" selection-start-column="16" selection-end-line="79" selection-end-column="16" />
+            <state relative-caret-position="106">
+              <caret line="79" column="12" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -186,8 +186,8 @@
         <option value="$PROJECT_DIR$/tests/com/wuhao/CreateProjectTest.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" />
-        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" />
+        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
       </list>
     </option>
   </component>
@@ -302,6 +302,24 @@
               <item name="check" type="462c0819:PsiDirectoryNode" />
               <item name="inspection" type="462c0819:PsiDirectoryNode" />
               <item name="visitor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
+              <item name="visitor" type="462c0819:PsiDirectoryNode" />
+              <item name="CommonCodeFormatVisitor" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+            </path>
+            <path>
+              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
+              <item name="visitor" type="462c0819:PsiDirectoryNode" />
+              <item name="VueCodeFormatVisitor" type="2c5a2ef7:KtClassOrObjectTreeNode" />
             </path>
           </expand>
           <select />
@@ -480,7 +498,7 @@
       <workItem from="1530621064571" duration="20064000" />
       <workItem from="1532352692835" duration="52000" />
       <workItem from="1532352826265" duration="150000" />
-      <workItem from="1532353038734" duration="1270000" />
+      <workItem from="1532353038734" duration="1629000" />
     </task>
     <servers />
   </component>
@@ -517,7 +535,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34784000" />
+    <option name="totallyTimeSpent" value="35143000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="6" />
@@ -538,7 +556,7 @@
       <window_info id="UI Designer" order="3" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.52220726" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="17" weight="0.3259587" />
+      <window_info active="true" anchor="bottom" id="Messages" order="17" visible="true" weight="0.3259587" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="bottom" id="Regex Tester" order="18" />
@@ -547,7 +565,7 @@
       <window_info anchor="bottom" id="Run" order="2" weight="0.5280236" />
       <window_info anchor="bottom" id="Version Control" order="20" />
       <window_info anchor="bottom" id="Terminal" order="22" weight="0.33480826" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.25325733" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25325733" />
       <window_info id="JRebel" order="4" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info id="Favorites" order="5" side_tool="true" />
@@ -977,20 +995,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1705">
-          <caret line="79" column="16" selection-start-line="79" selection-start-column="16" selection-end-line="79" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="31">
@@ -1007,8 +1011,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
+        <state relative-caret-position="46">
           <caret line="64" column="10" selection-start-line="64" selection-start-column="10" selection-end-line="64" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="79" column="12" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
         </state>
       </provider>
     </entry>

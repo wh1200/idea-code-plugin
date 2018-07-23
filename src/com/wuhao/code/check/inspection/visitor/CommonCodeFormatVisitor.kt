@@ -89,11 +89,11 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
           }
 
         }
-        holder.registerError(element, "${element.fileType.name}文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
-            indentFix)
+//        holder.registerError(element, "${element.fileType.name}文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
+//            indentFix)
       }
       if (continuationIndent != DEFAULT_CONTINUATION_INDENT_SPACE_COUNT) {
-        holder.registerError(element, "${element.fileType.name}文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格")
+//        holder.registerError(element, "${element.fileType.name}文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格")
       }
     }
   }

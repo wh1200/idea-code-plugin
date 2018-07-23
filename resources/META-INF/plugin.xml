@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check Plugin</name>
-  <version>1.3.8.4</version>
+  <version>1.3.15</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
@@ -143,6 +143,8 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <postStartupActivity implementation="com.wuhao.code.check.PluginStart"/>
+    <lang.rearranger language="LESS"
+                     implementationClass="com.wuhao.code.check.style.arrangement.less.LessRearranger"/>
     <lang.rearranger language="kotlin"
                      implementationClass="com.wuhao.code.check.style.arrangement.kotlin.KotlinRearranger"/>
     <lang.rearranger language="Vue"
@@ -165,6 +167,8 @@
                         id="VueAttrFixProcessor" order="last"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPreProcessor"
                         id="FixKotlinPreProcessor" order="first"/>
+    <preFormatProcessor implementation="com.wuhao.code.check.processors.FixLessPreProcessor"
+                        id="FixLessPreProcessor" order="first"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrsWhitespaceFixPostProcessor"
                          id="VueAttrsWhitespaceFixProcessor" order="last"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueTemplateExpressionPostProcessor"

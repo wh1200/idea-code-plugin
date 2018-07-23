@@ -39,7 +39,6 @@ class FixKotlinPostProcessor : PostFormatProcessor {
     return source
   }
 
-
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
     if (source.language is KotlinLanguage) {
       source.accept(KotlinFixVisitor(source.ktPsiFactory))
@@ -57,7 +56,9 @@ class FixKotlinPostProcessor : PostFormatProcessor {
 class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisitor() {
 
   companion object {
-    private const val BLANK_LINES_BETWEEN_FUNCTIONS = 2
+    private const val BLANK_LINES_AFTER_PACKAGE_DIRECTIVE = 1
+    private const val BLANK_LINES_BETWEEN_FUNCTIONS = 1
+    private const val BLANK_LINES_BETWEEN_TOP_LEVEL_PROPERTIES = 1
   }
 
   override fun visitClass(klass: KtClass, data: Any?) {
@@ -81,14 +82,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
               .map { entry ->
                 val comment = commentMap[entry]
                 val commentText = comment?.text ?: ""
-                var text = if (entry.text.endsWith(";")) {
-                  entry.text.dropLast(1)
-                } else {
-                  entry.text.trim()
-                }
-                if (!text.endsWith(",")) {
-                  text += ","
-                }
+                val text = entry.text.removeEnds(";").appendIfNotEndsWith(",")
                 commentStringMap[text] = commentText
                 text
               }
@@ -123,7 +117,6 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     super.visitClass(klass, data)
   }
 
-
   override fun visitClassBody(classBody: KtClassBody, data: Any?) {
     val parent = classBody.parent
     val lBrace = classBody.lBrace
@@ -134,11 +127,11 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
         rBrace.clearBlankLineBeforeOrAfter(Before)
       } else {
         when {
-          lBrace.next == rBrace          -> lBrace.setBlankLineAfter()
-          rBrace.prev !is PsiWhiteSpace  -> lBrace.setBlankLineAfter(1)
+          lBrace.next == rBrace -> lBrace.setBlankLineAfter()
+          rBrace.prev !is PsiWhiteSpace -> lBrace.setBlankLineAfter(1)
           rBrace.prevIgnoreWs === lBrace -> // 如果classBody没有内容的话，右括号保持换行，左右括号之间不留空行
             rBrace.setBlankLineBefore()
-          else                           -> {
+          else -> {
             // 如果classBody有内容，则左括号后和右括号前各留一个空行
             lBrace.setBlankLineAfter(1)
             rBrace.setBlankLineBefore(1)
@@ -149,12 +142,10 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     super.visitClassBody(classBody, data)
   }
 
-
   override fun visitDoc(doc: KDoc) {
     //去掉注释与被注释代码之间的空行
     doc.setBlankLineAfter()
   }
-
 
   override fun visitEnumEntry(enumEntry: KtEnumEntry, data: Any?) {
     // 删除最后一个枚举元素后面的逗号
@@ -164,9 +155,16 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
         lastEntryComma.delete()
       }
     }
+    if (enumEntry.prevIgnoreWs !is KtEnumEntry) {
+      enumEntry.setBlankLineBefore(1) //第一个枚举元素之前留一个空白行
+    }
+    if (enumEntry.nextIgnoreWs is KtEnumEntry) {
+      enumEntry.setBlankLineAfter() //枚举元素之间不留空白行
+    } else { //最后一个枚举元素后留一个空白行
+      enumEntry.setBlankLineAfter(1)
+    }
     super.visitEnumEntry(enumEntry, data)
   }
-
 
   override fun visitIfExpression(expression: KtIfExpression, data: Any?) {
     //给if和else if以及else后的代码块添加大括号
@@ -186,13 +184,12 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     super.visitIfExpression(expression, data)
   }
 
-
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     val body = function.body
     if (body != null) {
       // 方法开头和结束不能留有空行
-      body.lBrace?.clearBlankLineBeforeOrAfter(After)
-      body.rBrace?.clearBlankLineBeforeOrAfter(Before)
+      body.lBrace?.setBlankLineAfter()
+      body.rBrace?.setBlankLineBefore()
     }
     if (function.nextIgnoreWs is KtNamedFunction) {
       function.setBlankLineAfter(BLANK_LINES_BETWEEN_FUNCTIONS)
@@ -223,14 +220,20 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     super.visitNamedFunction(function, data)
   }
 
-
   override fun visitPackageDirective(directive: KtPackageDirective, data: Any?) {
     //版权声明与包声明之间不允许有空行
     if (directive.prevIgnoreWs is PsiComment || directive.prevIgnoreWs is KDoc) {
       directive.setBlankLineBefore()
     }
-    directive.setBlankLineAfter(1)
+    directive.setBlankLineAfter(BLANK_LINES_AFTER_PACKAGE_DIRECTIVE)
     super.visitPackageDirective(directive, data)
+  }
+
+  override fun visitProperty(property: KtProperty, data: Any?) {
+    if (property.isTopLevel && property.nextIgnoreWs is KtProperty) {
+      property.setBlankLineAfter(BLANK_LINES_BETWEEN_TOP_LEVEL_PROPERTIES)
+    }
+    super.visitProperty(property, data)
   }
 
 }

@@ -30,6 +30,7 @@ import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
+import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
 import org.jetbrains.kotlin.lexer.KtTokens.CONST_KEYWORD
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.containingClassOrObject
@@ -64,7 +65,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
         && expression.parent.getChildOfType<KtValueArgumentName>() == null
         && expression.textLength > 1) {
       if (expression.node.elementType != STRING_TEMPLATE || expression.textLength >= MAX_STRING_ARGUMENT_LENGTH) {
-//        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
+        //        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
       }
     }
   }
@@ -97,6 +98,18 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
   override fun visitIfExpression(expression: KtIfExpression, data: Any?) {
     shouldHaveSpaceBeforeOrAfter(expression.rightParenthesis, holder, After)
+  }
+
+
+
+  override fun visitLambdaExpression(expression: KtLambdaExpression, data: Any?) {
+    val lambdaAncestors = expression.getAncestorsOfType<KtLambdaExpression>()
+    if (expression.parent is KtLambdaArgument) {
+      val argument = expression.parent as KtLambdaArgument
+      val list = argument.resolveMainReferenceToDescriptors()
+      list.forEach {
+      }
+    }
   }
 
 
@@ -154,8 +167,8 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
         holder.registerError(property.nameIdentifier ?: property, "成员属性名称不得少于两个字符", RenameIdentifierFix())
       }
     }
-    super.visitProperty(property, data)
   }
+
 
 
   override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?) {
@@ -167,6 +180,12 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
       }
     }
   }
+
+
+  override fun visitWhenExpression(expression: KtWhenExpression, data: Any?) {
+    super.visitWhenExpression(expression, data)
+  }
+
 
 
   private fun isInJUnitTestMethod(expression: KtReferenceExpression): Boolean {

@@ -37,13 +37,6 @@ val KOTLIN_VALUE_ANNOTATION_PATTERN: PsiElementPattern.Capture<LeafPsiElement> =
                 .withText(VALUE_ANNOTATION_NAME)))
 
 /**
- * 是否一等kotlin属性
- */
-fun PsiElement.isFirstLevelProperty(): Boolean {
-  return this is KtProperty && this.parent is KtFile
-}
-
-/**
  * 判断是否有文档型注释
  */
 fun PsiElement.hasDocComment(): Boolean {

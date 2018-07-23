@@ -9,12 +9,16 @@ import com.intellij.codeInsight.actions.LastRunReformatCodeOptionsProvider
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.SeverityRegistrar
 import com.intellij.ide.fileTemplates.FileTemplateManager
+import com.intellij.ide.highlighter.HtmlFileType
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.ide.util.PropertiesComponent
+import com.intellij.json.JsonFileType
+import com.intellij.json.JsonLanguage
 import com.intellij.lang.Language
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.lang.css.CSSLanguage
+import com.intellij.lang.html.HTMLLanguage
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.JavascriptLanguage
@@ -36,31 +40,29 @@ import com.intellij.psi.codeStyle.arrangement.model.ArrangementCompositeMatchCon
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementExtendableSettings
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementRuleAliasToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.DEPENDENT_METHODS
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.GETTERS_AND_SETTERS
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.OVERRIDDEN_METHODS
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.PACKAGE_PRIVATE
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.PRIVATE
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.PROTECTED
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.PUBLIC
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.BREADTH_FIRST
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.BY_NAME
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.KEEP
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.*
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.*
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.*
 import com.intellij.psi.css.CssFileType
+import com.intellij.sql.SqlFileType
+import com.intellij.sql.formatter.settings.SqlCodeStyleSettings
+import com.intellij.sql.formatter.settings.SqlCodeStyleSettings.*
+import com.intellij.sql.psi.SqlLanguage
 import com.wuhao.code.check.constants.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.InspectionNames
 import com.wuhao.code.check.style.KotlinModifier.LATEINIT
 import com.wuhao.code.check.style.KotlinModifier.OPEN
-import com.wuhao.code.check.style.arrangement.JavaRearrangeRules
-import com.wuhao.code.check.style.arrangement.KotlinRearrangeRules
-import com.wuhao.code.check.style.arrangement.RuleDescription
-import com.wuhao.code.check.style.arrangement.VueRearrangeRules
+import com.wuhao.code.check.style.arrangement.*
 import com.wuhao.code.check.template.KotlinTemplates
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.plugins.less.LESSFileType
+import org.jetbrains.plugins.less.LESSLanguage
 import org.jetbrains.vuejs.VueFileType
 import org.jetbrains.vuejs.VueLanguage
+import org.jetbrains.yaml.YAMLFileType
+import org.jetbrains.yaml.YAMLLanguage
 import java.awt.Color
 
 /**
@@ -94,6 +96,12 @@ class PluginStart : StartupActivity {
     setIndent(settings)
     setTemplates(project)
     setSeverity(project)
+    val sqlStyleSettings = settings.getCustomSettings(SqlCodeStyleSettings::class.java)
+    if (sqlStyleSettings != null) {
+      sqlStyleSettings.KEYWORD_CASE = TO_UPPER
+      sqlStyleSettings.TYPE_CASE = AS_KEYWORDS
+      sqlStyleSettings.IDENTIFIER_CASE = TO_LOWER
+    }
   }
 
   private fun createJavaSettings(): StdArrangementSettings {
@@ -126,6 +134,14 @@ class PluginStart : StartupActivity {
     return StdArrangementExtendableSettings(listOf(), sections, tokens)
   }
 
+  private fun createLessSettings(): StdArrangementSettings {
+    return StdArrangementExtendableSettings(
+        listOf(),
+        createSections(LessRearrangeRules.get()),
+        listOf()
+    )
+  }
+
   private fun createMatcher(rule: RuleDescription): StdArrangementEntryMatcher {
     return StdArrangementEntryMatcher(
         ArrangementCompositeMatchCondition().apply {
@@ -149,8 +165,11 @@ class PluginStart : StartupActivity {
   }
 
   private fun createVueSettings(): StdArrangementSettings {
-    val sections = createSections(VueRearrangeRules.get())
-    return StdArrangementExtendableSettings(listOf(), sections, listOf())
+    return StdArrangementExtendableSettings(
+        listOf(),
+        createSections(VueRearrangeRules.get()),
+        listOf()
+    )
   }
 
   private fun setIndent(settings: CodeStyleSettings) {
@@ -159,17 +178,27 @@ class PluginStart : StartupActivity {
         KotlinFileType.INSTANCE,
         JavaScriptFileType.INSTANCE,
         TypeScriptFileType.INSTANCE,
+        LESSFileType.LESS,
+        SqlFileType.INSTANCE,
+        JsonFileType.INSTANCE,
+        YAMLFileType.YML,
         VueFileType.INSTANCE,
         XmlFileType.INSTANCE,
+        HtmlFileType.INSTANCE,
         CssFileType.INSTANCE
     )
     setIndentFileTypes.forEach { fileType ->
       val language = when (fileType) {
         is JavaFileType -> JavaLanguage.INSTANCE
         is KotlinFileType -> KotlinLanguage.INSTANCE
+        is SqlFileType -> SqlLanguage.INSTANCE
         is JavaScriptFileType -> JavascriptLanguage.INSTANCE
+        is JsonFileType -> JsonLanguage.INSTANCE
+        is YAMLFileType -> YAMLLanguage.INSTANCE
         is VueFileType -> VueLanguage.INSTANCE
+        is HtmlFileType -> HTMLLanguage.INSTANCE
         is CssFileType -> CSSLanguage.INSTANCE
+        is LESSFileType -> LESSLanguage.INSTANCE
         else -> null
       }
       setIndent(fileType, language, settings)
@@ -193,11 +222,12 @@ class PluginStart : StartupActivity {
     setLanguageArrangeSettings(myLastRunSettings, settings, JavaLanguage.INSTANCE, createJavaSettings())
     setLanguageArrangeSettings(myLastRunSettings, settings, KotlinLanguage.INSTANCE, createKotlinSettings())
     setLanguageArrangeSettings(myLastRunSettings, settings, VueLanguage.INSTANCE, createVueSettings())
+    setLanguageArrangeSettings(myLastRunSettings, settings, LESSLanguage.INSTANCE, createLessSettings())
   }
 
   private fun setSeverity(project: Project) {
     val severityRegistrar = SeverityRegistrar.getSeverityRegistrar(project)
-    val color = Color(255, 134, 67)
+    val color = Color(255, 227, 96)
     severityRegistrar.registerSeverity(
         SeverityRegistrar.SeverityBasedTextAttributes(
             TextAttributes().apply {

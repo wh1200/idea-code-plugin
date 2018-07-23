@@ -34,8 +34,7 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
 
   override fun visitFile(file: PsiFile?) {
     if (file is XmlFile) {
-      val tag = file.rootTag
-      tag?.accept(this)
+      file.rootTag?.accept(this)
     }
   }
 
@@ -46,9 +45,9 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
   }
 
   override fun visitXmlTag(tag: XmlTag) {
-    val entry = createNewEntry(
-        tag.textRange, XML_TAG, null, null, null, true)
     if (tag.name != SCRIPT_TAG && tag.name != STYLE_TAG) {
+      val entry = createNewEntry(
+          tag.textRange, XML_TAG, null, null, null, true)
       processEntry(entry, tag)
     }
   }

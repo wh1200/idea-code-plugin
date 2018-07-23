@@ -12,12 +12,14 @@ import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.javascript.psi.JSEmbeddedContent
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.openapi.project.Project
+import com.intellij.psi.XmlElementFactory
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
+import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.depth
 import com.wuhao.code.check.inspection.fix.vue.ComplexExpToComputedPropertyFix
 import com.wuhao.code.check.inspection.fix.vue.VueComponentNameFix
@@ -29,10 +31,8 @@ import com.wuhao.code.check.lang.vue.VueDirectives.FOR
 import com.wuhao.code.check.lang.vue.VueDirectives.IF
 import com.wuhao.code.check.lang.vue.VueDirectives.ON
 import com.wuhao.code.check.lang.vue.isInjectAttribute
-import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.SCRIPT_TAG
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.STYLE_TAG
-import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.TEMPLATE_TAG
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.vuejs.codeInsight.VueFileVisitor
@@ -45,7 +45,8 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
 
   companion object {
     const val COMPUTED_ATTRIBUTE = "computed"
-    const val MAX_TEMPLATE_LINES = 150
+    const val MAX_TEMPLATE_LINES = 300
+    const val TEMPLATE_TAG = "template"
   }
 
   override fun support(language: Language): Boolean {
@@ -58,19 +59,33 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
       holder.registerError(attribute, Messages.IF_AND_FOR_NOT_TOGETHER)
     }
     //v-for标签应当有:key属性
-    if (attribute.name == FOR && attribute.parent.getAttribute(KEY) == null) {
-      holder.registerError(attribute, Messages.FOR_TAG_SHOULD_HAVE_KEY_ATTR, object : LocalQuickFix {
+    if (attribute.name == FOR) {
+      if ((attribute.parent.name == TEMPLATE_TAG
+              && keyAttrOnChild(attribute.parent) == null)
+          || (attribute.parent.name != TEMPLATE_TAG && attribute.parent.getAttribute(KEY) == null)) {
+        holder.registerError(attribute, Messages.FOR_TAG_SHOULD_HAVE_KEY_ATTR, object : LocalQuickFix {
 
-        override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-          val tag = descriptor.psiElement.parent as XmlTag
-          tag.setAttribute(KEY, "")
-        }
+          override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+            val tag = descriptor.psiElement.parent as XmlTag
+            if (tag.name == TEMPLATE_TAG) {
+              val child = tag.getChildOfType<XmlTag>()
+              if (child != null) {
+                child.setAttribute(KEY, "")
+              } else {
+                val div = XmlElementFactory.getInstance(project).createTagFromText("<div :key=''></div>")
+                tag.add(div)
+              }
+            } else {
+              tag.setAttribute(KEY, "")
+            }
+          }
 
-        override fun getFamilyName(): String {
-          return "添加${KEY}属性"
-        }
+          override fun getFamilyName(): String {
+            return "添加${KEY}属性"
+          }
 
-      })
+        })
+      }
     }
     if (attribute.name == KEY && attribute.value.isNullOrBlank()) {
       holder.registerError(attribute, Messages.MISSING_ATTR_VALUE)
@@ -106,16 +121,20 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
             holder.registerProblem(tag, "template长度不得超过${MAX_TEMPLATE_LINES}行")
           }
         }
-        SCRIPT_TAG -> {
+        SCRIPT_TAG   -> {
           val script = tag.getChildOfType<JSEmbeddedContent>()
           if (script != null) {
             script.accept(VueJsVisitor())
           }
         }
-        STYLE_TAG -> {
+        STYLE_TAG    -> {
         }
       }
     }
+  }
+
+  private fun keyAttrOnChild(parent: XmlTag): XmlAttribute? {
+    return parent.getChildOfType<XmlTag>()?.getAttribute(KEY)
   }
 
   /**

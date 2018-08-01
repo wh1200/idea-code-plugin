@@ -12,7 +12,6 @@ import com.wuhao.code.check.findPsiFile
 import com.wuhao.code.check.getResultMap
 import com.wuhao.code.check.getSQL
 import com.wuhao.code.check.id
-import com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.EXTENDS_ATTR
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.ID_ATTR
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.INCLUDE_TAG
@@ -40,10 +39,10 @@ class MyBatisGotoDeclarationHandler : GotoDeclarationHandler {
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
     if (el != null) {
       if (el.language is KotlinLanguage || el.language is JavaLanguage) {
-        val tag = MybatisMapperClassLineMarkerProvider.resolveMapperXmlTag(el)
-        if (tag != null) {
-          return arrayOf(tag)
-        }
+//        val tag = MybatisMapperClassLineMarkerProvider.resolveMapperXmlTag(el)
+//        if (tag != null) {
+//          return arrayOf(tag)
+//        }
       } else {
         if (el.language is XMLLanguage && el is XmlToken && el.parent is XmlAttributeValue) {
           val value = el.parent as XmlAttributeValue

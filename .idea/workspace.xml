@@ -23,7 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -63,14 +64,53 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyBatisGotoDeclarationHandler.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MyBatisGotoDeclarationHandler.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="53" column="24" selection-start-line="53" selection-start-column="24" selection-end-line="53" selection-end-column="24" />
+            <state relative-caret-position="266">
+              <caret line="64" selection-start-line="64" selection-end-line="64" />
               <folding>
-                <element signature="e#42#1722#0" expanded="true" />
+                <element signature="e#42#1646#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MybatisMapperFileLineMarkerProvider.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperFileLineMarkerProvider.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="158">
+              <caret line="48" selection-start-line="48" selection-end-line="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PsiExt.kt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="600" selection-start-line="600" selection-end-line="600" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LineMarkersPass.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/codeInsight/daemon/impl/LineMarkersPass.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="293" selection-start-line="293" selection-end-line="293" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ApplicationImpl.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/openapi/application/impl/ApplicationImpl.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="1115" selection-start-line="1115" selection-end-line="1115" />
             </state>
           </provider>
         </entry>
@@ -105,33 +145,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PropertyClassCreateInspection.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="38" column="22" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KtVisitor.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Kotlin/lib/kotlin-plugin.jar!/org/jetbrains/kotlin/psi/KtVisitor.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JavaFormatInspection.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaFormatInspection.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="9" column="68" selection-start-line="9" selection-start-column="68" selection-end-line="9" selection-end-column="68" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -159,6 +172,7 @@
       <find>MybatisMapperInspection</find>
       <find>throw</find>
       <find>持续</find>
+      <find>cache</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -176,7 +190,6 @@
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixLessPreProcessor.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/http/HttpRequest.kt" />
@@ -185,6 +198,7 @@
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" />
         <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" />
       </list>
     </option>
   </component>
@@ -275,14 +289,7 @@
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="action" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="gotohandler" type="462c0819:PsiDirectoryNode" />
+              <item name="linemarker" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
@@ -334,6 +341,87 @@
               <item name="kotlin" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4668.68 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4668.68 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4668.68 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4668.68 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4668.68 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
+              <item name="daemon" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4668.68 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
+              <item name="daemon" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4668.68 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="openapi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4668.68 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="openapi" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-181.4668.68 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="openapi" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -379,7 +467,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.CreateProjectTest">
+  <component name="RunManager" selected="Plugin.Plugin">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -508,14 +596,11 @@
       <workItem from="1526975713453" duration="4702000" />
       <workItem from="1530618126826" duration="2820000" />
       <workItem from="1530621064571" duration="20721000" />
-      <workItem from="1533083836235" duration="1856000" />
+      <workItem from="1533083836235" duration="3568000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="CreateProjectTest_test - 2018.07.04 at 08h 47m 29s.xml">
-      <configuration name="CreateProjectTest.test" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="CreateProjectTest_test - 2018.07.04 at 08h 47m 39s.xml">
       <configuration name="CreateProjectTest.test" configurationId="JUnit" />
     </history-entry>
@@ -543,9 +628,12 @@
     <history-entry file="CreateProjectTest - 2018.07.05 at 12h 27m 58s.xml">
       <configuration name="CreateProjectTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="CreateProjectTest - 2018.08.01 at 09h 35m 52s.xml">
+      <configuration name="CreateProjectTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35825000" />
+    <option name="totallyTimeSpent" value="37537000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -553,7 +641,7 @@
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Messages" order="17" visible="true" weight="0.32700893" />
+      <window_info anchor="bottom" id="Messages" order="17" weight="0.32700893" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="8" />
@@ -573,7 +661,7 @@
       <window_info id="UI Designer" order="3" />
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.52220726" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39955357" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
       <window_info anchor="bottom" id="YouTrack" order="12" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
@@ -668,64 +756,156 @@
           <properties />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>63</line>
+          <properties />
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>60</line>
+          <properties />
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>61</line>
+          <properties />
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>51</line>
+          <properties />
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>88</line>
+          <properties />
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>82</line>
+          <properties />
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>50</line>
+          <properties />
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>72</line>
+          <properties />
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>70</line>
+          <properties />
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>69</line>
+          <properties />
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>74</line>
+          <properties />
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt</url>
+          <line>75</line>
+          <properties />
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt</url>
+          <line>601</line>
+          <properties />
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="37" />
+      <option name="time" value="60" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
-        <watch expression="newProjectRoot.exists()" language="kotlin" />
-        <watch expression="unzipFileDir.exists()" language="kotlin" />
-        <watch expression="entry.name" language="kotlin" />
-        <watch expression="unzipFileDir.absolutePath" language="kotlin" />
+        <watch expression="attribute.name == ID_ATTR" language="kotlin" />
+        <watch expression="mapperClassOrMethod" language="kotlin" />
+        <watch expression="File.separator + className.replace(&quot;.&quot;, File.separator) + &quot;.java&quot;" language="kotlin" />
+        <watch expression="File.separator + className.replace(&quot;.&quot;, File.separator) + &quot;.kt&quot;" language="kotlin" />
+        <watch expression="root.findFileByRelativePath(&quot;/com&quot;)" language="kotlin" />
+        <watch expression="root.findFileByRelativePath(&quot;/com/aegis&quot;)" language="kotlin" />
+        <watch expression="root" language="kotlin" />
+        <watch expression="(root as VirtualDirectoryImpl).cachedPosterity" language="kotlin" custom="import com.wuhao.code.check.cachedPosterity" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
       <expression>
-        <expression-string>unzipFileDir.absolutePath</expression-string>
+        <expression-string>root.findFileByRelativePath(&quot;/com/aegis&quot;)</expression-string>
         <language-id>kotlin</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>entry.name</expression-string>
+        <expression-string>root.findFileByRelativePath(&quot;\\com&quot;)</expression-string>
         <language-id>kotlin</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>unzipFileDir.exists()</expression-string>
+        <expression-string>root.findFileByRelativePath(&quot;\\com\\aegis&quot;)</expression-string>
         <language-id>kotlin</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>newProjectRoot.exists()</expression-string>
+        <expression-string>root.findFileByRelativePath(&quot;\\com\\aegis\\os\\model\\dao&quot;)</expression-string>
+        <language-id>kotlin</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>root.findFileByRelativePath(&quot;\\com\\aegis\\os\\model\\dao\\UserDAO.kt&quot;)</expression-string>
+        <language-id>kotlin</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(root as VirtualDirectoryImpl).cachedPosterity</expression-string>
+        <language-id>kotlin</language-id>
+        <custom-info>import com.wuhao.code.check.cachedPosterity</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>root</expression-string>
+        <language-id>kotlin</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>root.findFileByRelativePath(&quot;/com&quot;)</expression-string>
+        <language-id>kotlin</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>File.separator + className.replace(&quot;.&quot;, File.separator) + &quot;.kt&quot;</expression-string>
+        <language-id>kotlin</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>File.separator + className.replace(&quot;.&quot;, File.separator) + &quot;.java&quot;</expression-string>
         <language-id>kotlin</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6897">
-          <caret line="209" column="34" selection-start-line="209" selection-start-column="31" selection-end-line="209" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2052">
-          <caret line="83" column="10" selection-start-line="83" selection-start-column="10" selection-end-line="83" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/MybatisMapperClassLineMarkerProvider.kt" />
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/MyRecursiveElementVisitor.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -896,13 +1076,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4914">
-          <caret line="209" column="10" selection-start-line="209" selection-start-column="10" selection-end-line="209" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/src/src_database-openapi.zip!/com/intellij/sql/formatter/settings/SqlCodeStyleSettings.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1037,12 +1210,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/openapi/application/impl/ApplicationImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="1115" selection-start-line="1115" selection-end-line="1115" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="53" column="24" selection-start-line="53" selection-start-column="24" selection-end-line="53" selection-end-column="24" />
+        <state relative-caret-position="266">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
           <folding>
-            <element signature="e#42#1722#0" expanded="true" />
+            <element signature="e#42#1646#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/codeInsight/daemon/impl/LineMarkersPass.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="293" selection-start-line="293" selection-end-line="293" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperFileLineMarkerProvider.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="600" selection-start-line="600" selection-end-line="600" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>

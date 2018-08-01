@@ -30,7 +30,6 @@ import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
-import java.io.File
 
 /**
  * 获取psi元素的所有祖先元素，按距离从近到远
@@ -48,6 +47,7 @@ val PsiElement.ancestors: List<PsiElement>
     }
     return ancestors
   }
+
 /**
  * 获取kotlin方法的方法体（包含括号）
  */
@@ -55,6 +55,7 @@ val KtNamedFunction.body: KtBlockExpression?
   get() {
     return this.getChildOfType()
   }
+
 /**
  * 获取目录下所有缓存的文件
  */
@@ -64,6 +65,7 @@ val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
     getCachedChildren(list, this)
     return list
   }
+
 /**
  * css元素工厂类
  */
@@ -71,6 +73,7 @@ val CssElement.cssElementFactory: CssElementFactory
   get() {
     return CssElementFactory.getInstance(this.project)
   }
+
 /**
  * psi元素的深度
  */
@@ -88,6 +91,7 @@ val PsiElement.depth: Int
     analyzeDepth(this.children.toList())
     return depth
   }
+
 /**
  * 是否是父元素的第一个子元素
  */
@@ -95,6 +99,7 @@ val PsiElement.isFirstChild: Boolean
   get() {
     return this.parent != null && this.parent.firstChild == this
   }
+
 /**
  * 判断kotlin属性是否val
  */
@@ -102,11 +107,13 @@ val KtProperty.isVal: Boolean
   get() {
     return !this.isVar
   }
+
 /**
  * 获取kt元素的工厂类
  */
 val PsiElement.ktPsiFactory: KtPsiFactory
   get() = this.project.ktPsiFactory
+
 /**
  * 获取kt元素的工厂类
  */
@@ -117,11 +124,13 @@ val Project.ktPsiFactory: KtPsiFactory
     }
     return KT_PSI_FACTORY_CACHE[this]!!
   }
+
 /**
  * 和当前元素并列的后一个元素
  */
 val PsiElement.next: PsiElement
   get() = this.nextSibling
+
 /**
  * 获取当前元素并列的下一个非空白元素
  */
@@ -133,6 +142,7 @@ val PsiElement.nextIgnoreWs: PsiElement?
     }
     return sibling
   }
+
 /**
  * 获取所有后代元素
  */
@@ -142,11 +152,13 @@ val PsiElement.posterity: ArrayList<PsiElement>
     getChildren(list, this)
     return list
   }
+
 /**
  * 和当前元素并列的前一个元素
  */
 val PsiElement.prev: PsiElement
   get() = this.prevSibling
+
 /**
  * 获取当前元素之前的第一个非空白元素
  */
@@ -158,6 +170,7 @@ val PsiElement.prevIgnoreWs: PsiElement?
     }
     return sibling
   }
+
 /**
  * 获取java psi元素的工厂类
  * @return java psi元素的工厂类
@@ -169,7 +182,9 @@ val PsiElement.psiElementFactory: PsiElementFactory
     }
     return PSI_ELEMENT_FACTORY_CACHE[this.project]!!
   }
+
 private val KT_PSI_FACTORY_CACHE = HashMap<Project, KtPsiFactory>()
+
 private val PSI_ELEMENT_FACTORY_CACHE = HashMap<Project, PsiElementFactory>()
 
 /**
@@ -583,8 +598,8 @@ fun PsiElement.setBlankLineBoth(blankLines: Int = 0) {
  * @return
  */
 private fun findSourceFile(root: VirtualFile, className: String): VirtualFile? {
-  val javaFile = root.findFileByRelativePath(File.separator + className.replace(".", File.separator) + ".java")
-  return javaFile ?: root.findFileByRelativePath(File.separator + className.replace(".", File.separator) + ".kt")
+  val nameWithoutExtension = "/" + className.replace(".", "/")
+  return root.findFileByRelativePath("$nameWithoutExtension.java") ?: root.findFileByRelativePath("$nameWithoutExtension.kt")
 }
 
 /**

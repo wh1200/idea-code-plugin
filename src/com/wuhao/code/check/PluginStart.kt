@@ -10,7 +10,6 @@ import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.SeverityRegistrar
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.ide.highlighter.HtmlFileType
-import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.json.JsonFileType
@@ -19,7 +18,6 @@ import com.intellij.lang.Language
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.lang.css.CSSLanguage
 import com.intellij.lang.html.HTMLLanguage
-import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.lang.javascript.TypeScriptFileType
@@ -31,38 +29,29 @@ import com.intellij.openapi.startup.StartupActivity
 import com.intellij.profile.codeInspection.InspectionProfileManager
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
-import com.intellij.psi.codeStyle.arrangement.group.ArrangementGroupingRule
 import com.intellij.psi.codeStyle.arrangement.match.ArrangementSectionRule
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementEntryMatcher
 import com.intellij.psi.codeStyle.arrangement.match.StdArrangementMatchRule
 import com.intellij.psi.codeStyle.arrangement.model.ArrangementAtomMatchCondition
 import com.intellij.psi.codeStyle.arrangement.model.ArrangementCompositeMatchCondition
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementExtendableSettings
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementRuleAliasToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.*
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Modifier.*
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.*
+import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Order.BY_NAME
 import com.intellij.psi.css.CssFileType
-import com.intellij.sql.SqlFileType
 import com.intellij.sql.formatter.settings.SqlCodeStyleSettings
-import com.intellij.sql.formatter.settings.SqlCodeStyleSettings.*
-import com.intellij.sql.psi.SqlLanguage
+import com.intellij.sql.formatter.settings.SqlCodeStyleSettings.AS_KEYWORDS
+import com.intellij.sql.formatter.settings.SqlCodeStyleSettings.TO_LOWER
+import com.intellij.sql.formatter.settings.SqlCodeStyleSettings.TO_UPPER
 import com.wuhao.code.check.constants.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.InspectionNames
-import com.wuhao.code.check.style.KotlinModifier.LATEINIT
-import com.wuhao.code.check.style.KotlinModifier.OPEN
-import com.wuhao.code.check.style.arrangement.*
-import com.wuhao.code.check.template.KotlinTemplates
-import org.jetbrains.kotlin.idea.KotlinFileType
-import org.jetbrains.kotlin.idea.KotlinLanguage
+import com.wuhao.code.check.style.arrangement.LessRearrangeRules
+import com.wuhao.code.check.style.arrangement.RuleDescription
+import com.wuhao.code.check.style.arrangement.VueRearrangeRules
 import org.jetbrains.plugins.less.LESSFileType
 import org.jetbrains.plugins.less.LESSLanguage
 import org.jetbrains.vuejs.VueFileType
 import org.jetbrains.vuejs.VueLanguage
-import org.jetbrains.yaml.YAMLFileType
-import org.jetbrains.yaml.YAMLLanguage
 import java.awt.Color
 
 /**
@@ -94,44 +83,7 @@ class PluginStart : StartupActivity {
     setRearrange(settings)
     // 设定代码缩进
     setIndent(settings)
-    setTemplates(project)
     setSeverity(project)
-    val sqlStyleSettings = settings.getCustomSettings(SqlCodeStyleSettings::class.java)
-    if (sqlStyleSettings != null) {
-      sqlStyleSettings.KEYWORD_CASE = TO_UPPER
-      sqlStyleSettings.TYPE_CASE = AS_KEYWORDS
-      sqlStyleSettings.IDENTIFIER_CASE = TO_LOWER
-    }
-  }
-
-  private fun createJavaSettings(): StdArrangementSettings {
-    val groupingRules = listOf(
-        ArrangementGroupingRule(GETTERS_AND_SETTERS, KEEP),
-        ArrangementGroupingRule(OVERRIDDEN_METHODS, BY_NAME),
-        ArrangementGroupingRule(DEPENDENT_METHODS, BREADTH_FIRST)
-    )
-    val sections = createSections(JavaRearrangeRules.get())
-    val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
-      definitionRules = listOf(PUBLIC, PACKAGE_PRIVATE,
-          PROTECTED, PRIVATE, LATEINIT).map {
-        StdArrangementMatchRule(
-            StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-        )
-      }
-    })
-    return StdArrangementExtendableSettings(groupingRules, sections, tokens)
-  }
-
-  private fun createKotlinSettings(): StdArrangementSettings {
-    val sections = createSections(KotlinRearrangeRules.get())
-    val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
-      definitionRules = listOf(OPEN, PUBLIC, PACKAGE_PRIVATE, PROTECTED, PRIVATE, LATEINIT).map {
-        StdArrangementMatchRule(
-            StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-        )
-      }
-    })
-    return StdArrangementExtendableSettings(listOf(), sections, tokens)
   }
 
   private fun createLessSettings(): StdArrangementSettings {
@@ -174,14 +126,10 @@ class PluginStart : StartupActivity {
 
   private fun setIndent(settings: CodeStyleSettings) {
     val setIndentFileTypes = listOf(
-        JavaFileType.INSTANCE,
-        KotlinFileType.INSTANCE,
         JavaScriptFileType.INSTANCE,
         TypeScriptFileType.INSTANCE,
         LESSFileType.LESS,
-        SqlFileType.INSTANCE,
         JsonFileType.INSTANCE,
-        YAMLFileType.YML,
         VueFileType.INSTANCE,
         XmlFileType.INSTANCE,
         HtmlFileType.INSTANCE,
@@ -189,17 +137,13 @@ class PluginStart : StartupActivity {
     )
     setIndentFileTypes.forEach { fileType ->
       val language = when (fileType) {
-        is JavaFileType -> JavaLanguage.INSTANCE
-        is KotlinFileType -> KotlinLanguage.INSTANCE
-        is SqlFileType -> SqlLanguage.INSTANCE
         is JavaScriptFileType -> JavascriptLanguage.INSTANCE
-        is JsonFileType -> JsonLanguage.INSTANCE
-        is YAMLFileType -> YAMLLanguage.INSTANCE
-        is VueFileType -> VueLanguage.INSTANCE
-        is HtmlFileType -> HTMLLanguage.INSTANCE
-        is CssFileType -> CSSLanguage.INSTANCE
-        is LESSFileType -> LESSLanguage.INSTANCE
-        else -> null
+        is JsonFileType       -> JsonLanguage.INSTANCE
+        is VueFileType        -> VueLanguage.INSTANCE
+        is HtmlFileType       -> HTMLLanguage.INSTANCE
+        is CssFileType        -> CSSLanguage.INSTANCE
+        is LESSFileType       -> LESSLanguage.INSTANCE
+        else                  -> null
       }
       setIndent(fileType, language, settings)
     }
@@ -219,8 +163,6 @@ class PluginStart : StartupActivity {
     val myLastRunSettings = LastRunReformatCodeOptionsProvider(PropertiesComponent.getInstance())
     myLastRunSettings.saveRearrangeCodeState(true)
     myLastRunSettings.saveOptimizeImportsState(true)
-    setLanguageArrangeSettings(myLastRunSettings, settings, JavaLanguage.INSTANCE, createJavaSettings())
-    setLanguageArrangeSettings(myLastRunSettings, settings, KotlinLanguage.INSTANCE, createKotlinSettings())
     setLanguageArrangeSettings(myLastRunSettings, settings, VueLanguage.INSTANCE, createVueSettings())
     setLanguageArrangeSettings(myLastRunSettings, settings, LESSLanguage.INSTANCE, createLessSettings())
   }
@@ -247,14 +189,6 @@ class PluginStart : StartupActivity {
       val tools = inspectionProfile.getTools(it.shortName, project)
       tools.level = HighlightDisplayLevel(severity!!)
     }
-  }
-
-  private fun setTemplates(project: Project) {
-    val fileTemplateManager = FileTemplateManager.getInstance(project)
-    fileTemplateManager.getInternalTemplate("Kotlin File")?.text = KotlinTemplates.FILE
-    fileTemplateManager.getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.CLASS
-    fileTemplateManager.getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.ENUM
-    fileTemplateManager.getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.INTERFACE
   }
 
 }

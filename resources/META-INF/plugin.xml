@@ -145,47 +145,19 @@
     <postStartupActivity implementation="com.wuhao.code.check.PluginStart"/>
     <lang.rearranger language="LESS"
                      implementationClass="com.wuhao.code.check.style.arrangement.less.LessRearranger"/>
-    <lang.rearranger language="kotlin"
-                     implementationClass="com.wuhao.code.check.style.arrangement.kotlin.KotlinRearranger"/>
     <lang.rearranger language="Vue"
                      implementationClass="com.wuhao.code.check.style.arrangement.vue.VueRearranger"/>
-    <createFromTemplateHandler implementation="com.wuhao.code.check.template.CreateFromKotlinTemplateHandler"
-                               order="first"/>
-    <completion.contributor
-        implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
-        language="JAVA" order="FIRST"/>
-    <completion.contributor
-        implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
-        language="kotlin" order="FIRST"/>
     <inspectionToolProvider id="aegis.code.check.inspection"
                             order="FIRST"
                             implementation="com.wuhao.code.check.inspection.inspections.CheckProvider"/>
-    <gotoDeclarationHandler
-        implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
-    <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyBatisGotoDeclarationHandler"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrFixPreProcessor"
                         id="VueAttrFixProcessor" order="last"/>
-    <preFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPreProcessor"
-                        id="FixKotlinPreProcessor" order="first"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.FixLessPreProcessor"
                         id="FixLessPreProcessor" order="first"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrsWhitespaceFixPostProcessor"
                          id="VueAttrsWhitespaceFixProcessor" order="last"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixVueTemplateExpressionPostProcessor"
                          id="FixVueTemplateExpressionProcessor" order="first"/>
-    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaBlankLinePostProcessor"
-                         id="FixJavaBlankLineProcessor" order="last"/>
-    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPostProcessor"
-                         id="FixKotlinProcessor" order="last"/>
-    <codeInsight.lineMarkerProvider
-        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
-        id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>
-    <codeInsight.lineMarkerProvider
-        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
-        id="MybatisMapperClassLineMarkerProviderKotlin" language="kotlin"/>
-    <codeInsight.lineMarkerProvider
-        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider"
-        id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
     <applicationConfigurable
         instance="com.wuhao.code.check.ui.AegisPluginSettingsConfigurable"/>
     <applicationService
@@ -197,17 +169,10 @@
             description="新建Vue项目">
       <add-to-group group-id="NewGroup" anchor="first"/>
     </action>
-    <action id="CreateJavaKotlinProject" class="com.wuhao.code.check.action.CreateJavaKotlinProjectAction"
-            text="擎盾Java&amp;Kotlin项目" description="新建Vue项目">
-      <add-to-group group-id="NewGroup" anchor="first"/>
-    </action>
   </actions>
 
   <application-components/>
-  <!--<depends>org.jetbrains.kotlin</depends>-->
   <depends>com.intellij.modules.json</depends>
-  <!--<depends>com.intellij.spring</depends>-->
-  <!--<depends>com.intellij.spring.boot</depends>-->
   <depends>org.jetbrains.plugins.vue</depends>
   <depends>org.jetbrains.plugins.less</depends>
 </idea-plugin>

@@ -16,9 +16,6 @@ import com.intellij.testFramework.builders.ModuleFixtureBuilder
 import com.intellij.testFramework.createGlobalContextForTool
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
-import com.wuhao.code.check.inspection.inspections.JavaCommentInspection
-import com.wuhao.code.check.inspection.inspections.JavaFormatInspection
-import com.wuhao.code.check.inspection.inspections.KotlinFormatInspection
 import java.io.File
 
 

@@ -17,7 +17,6 @@ import com.wuhao.code.check.constants.PROPERTY_NAME_PLACEHOLDER
 import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor.Companion.COMPUTED_ATTRIBUTE
 import com.wuhao.code.check.lang.vue.VueDirectives.FOR
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor
-import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.vuejs.language.VueVForExpression
 
 /**

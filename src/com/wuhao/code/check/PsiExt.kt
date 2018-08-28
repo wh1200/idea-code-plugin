@@ -8,7 +8,6 @@ package com.wuhao.code.check
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.roots.JavaProjectRootsUtil
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.newvfs.impl.VirtualDirectoryImpl
 import com.intellij.psi.*
@@ -17,19 +16,9 @@ import com.intellij.psi.css.CssElementFactory
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
-import com.intellij.util.IncorrectOperationException
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
-import org.jetbrains.kotlin.asJava.toLightAnnotation
-import org.jetbrains.kotlin.idea.core.moveCaret
-import org.jetbrains.kotlin.idea.refactoring.getLineCount
-import org.jetbrains.kotlin.idea.refactoring.toPsiFile
-import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
-import org.jetbrains.kotlin.kdoc.psi.api.KDoc
-import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
-import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
-import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.*
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Both
 
 /**
  * 获取psi元素的所有祖先元素，按距离从近到远
@@ -46,14 +35,6 @@ val PsiElement.ancestors: List<PsiElement>
       }
     }
     return ancestors
-  }
-
-/**
- * 获取kotlin方法的方法体（包含括号）
- */
-val KtNamedFunction.body: KtBlockExpression?
-  get() {
-    return this.getChildOfType()
   }
 
 /**
@@ -98,31 +79,6 @@ val PsiElement.depth: Int
 val PsiElement.isFirstChild: Boolean
   get() {
     return this.parent != null && this.parent.firstChild == this
-  }
-
-/**
- * 判断kotlin属性是否val
- */
-val KtProperty.isVal: Boolean
-  get() {
-    return !this.isVar
-  }
-
-/**
- * 获取kt元素的工厂类
- */
-val PsiElement.ktPsiFactory: KtPsiFactory
-  get() = this.project.ktPsiFactory
-
-/**
- * 获取kt元素的工厂类
- */
-val Project.ktPsiFactory: KtPsiFactory
-  get() {
-    if (KT_PSI_FACTORY_CACHE[this] == null) {
-      KT_PSI_FACTORY_CACHE[this] = KtPsiFactory(this)
-    }
-    return KT_PSI_FACTORY_CACHE[this]!!
   }
 
 /**
@@ -183,8 +139,6 @@ val PsiElement.psiElementFactory: PsiElementFactory
     return PSI_ELEMENT_FACTORY_CACHE[this.project]!!
   }
 
-private val KT_PSI_FACTORY_CACHE = HashMap<Project, KtPsiFactory>()
-
 private val PSI_ELEMENT_FACTORY_CACHE = HashMap<Project, PsiElementFactory>()
 
 /**
@@ -196,76 +150,6 @@ inline fun <reified T> PsiElement.ancestorOfType(): T? {
     el = el.parent
   }
   return el as T?
-}
-
-/**
- * 清除空白行
- * @param position 需要清除的位置
- */
-fun PsiElement.clearBlankLineBeforeOrAfter(position: SpaceQuickFix.Position) {
-  val factory = this.ktPsiFactory
-  val whiteSpaceEl = when (position) {
-    Before -> this.prev
-    After -> this.next
-    else -> null
-  }
-  if (whiteSpaceEl !is PsiWhiteSpace) {
-    if (position == Before) {
-      this.insertElementBefore(factory.createNewLine())
-    } else if (position == After) {
-      this.insertElementAfter(factory.createNewLine())
-    }
-  } else if (whiteSpaceEl.getLineCount() != 1) {
-    whiteSpaceEl.replace(factory.createNewLine())
-  }
-}
-
-/**
- *
- * @param tag
- * @param content
- * @return
- */
-fun KtPsiFactory.createDocSection(content: String): KDocSection {
-  val docSection = this.createComment("""/**
-    |$content
-    | */
-  """.trimMargin()).getChildOfType<KDocSection>()
-  if (docSection != null) {
-    return docSection
-  } else {
-    throw IncorrectOperationException("Incorrect doc section")
-  }
-}
-
-/**
- * 查找文件中指定名称的对象类
- * @param name 类名称
- * @return 如果找到对应的对象类返回true，反之false
- */
-fun KtFile.findObjectClass(name: String): Boolean {
-  return this.classes.any {
-    it.name == name && it is KtClassOrObject && it.isObjectLiteral()
-  }
-}
-
-/**
- * 根据类名获取psi file
- * @param className 类名
- * @return
- */
-fun Project.findPsiFile(className: String?): PsiFile? {
-  if (className != null) {
-    val sourceRoots = JavaProjectRootsUtil.getSuitableDestinationSourceRoots(this)
-    val psiManager = PsiManager.getInstance(this)
-    sourceRoots.forEach {
-      val classFile = findSourceFile(it, className)
-      if (classFile != null) {
-        return psiManager.findFile(classFile) ?: classFile.toPsiFile(this)
-      }
-    }
-  }
-  return null
 }
 
 /**
@@ -308,6 +192,14 @@ inline fun <reified T> PsiElement.getAncestorsOfType(): ArrayList<T> {
 }
 
 /**
+ *
+ * @return
+ */
+inline fun <reified T> PsiElement.getChildOfType(): T? {
+  return this.children.firstOrNull { it is T } as T?
+}
+
+/**
  * 获取连续的指定类型的所有的祖先元素
  */
 inline fun <reified T> PsiElement.getContinuousAncestorsMatches(
@@ -333,22 +225,6 @@ inline fun <reified T> PsiElement.getContinuousAncestorsOfType(): ArrayList<T> {
     el = el.parent
   }
   return result
-}
-
-/**
- * 获取空行元素
- */
-fun Project.getNewLine(): PsiWhiteSpace {
-  return this.ktPsiFactory.createNewLine() as PsiWhiteSpace
-}
-
-/**
- * 创建空白行元素
- * @param count 换行数
- * @return 空白行元素
- */
-fun PsiElement.getNewLine(count: Int = 1): PsiWhiteSpace {
-  return this.ktPsiFactory.createNewLine(count) as PsiWhiteSpace
 }
 
 /**
@@ -423,63 +299,12 @@ inline fun <reified T> PsiElement.getSiblingsOfType(): List<PsiElement> {
 }
 
 /**
- * 获取空白元素
- */
-fun getWhiteSpace(project: Project): PsiWhiteSpace {
-  return KtPsiFactory(project).createWhiteSpace() as PsiWhiteSpace
-}
-
-/**
- * 判断元素是否带有指定注解
- * @param annotation 指定注解名称
- * @return
- */
-fun KtAnnotated.hasAnnotation(annotation: String): Boolean {
-  return this.annotationEntries.any { it.toLightAnnotation()?.qualifiedName == annotation }
-}
-
-/**
  * 判断元素是否带有指定注解
  * @param annotation 指定注解名称
  * @return
  */
 fun PsiModifierListOwner.hasAnnotation(annotation: String): Boolean {
   return this.annotations.any { it.qualifiedName == annotation }
-}
-
-/**
- * 判断kotlin方式是否有注释
- */
-fun KtNamedFunction.hasDoc(): Boolean {
-  return this.firstChild is KDoc
-}
-
-/**
- *
- * @param name
- * @return
- */
-fun KtAnnotated.hasSuppress(name: String): Boolean {
-  val annotated = this.ancestors.filter { it is KtAnnotated }
-      .map { it as KtAnnotated }
-  annotated.forEach {
-    val entry = it.annotationEntries.firstOrNull { it.typeReference?.text == "Suppress" || it.typeReference?.text == "kotlin.Suppress" }
-    if (entry != null) {
-      return entry.valueArguments.map {
-        it.getArgumentExpression()?.children?.firstOrNull()?.text
-      }.contains(name)
-    }
-  }
-  return false
-}
-
-/**
- * 注释中是否包含指定标签
- * @param tag 指定的标签
- * @return 包含标签返回true，反之false
- */
-fun KDocSection.hasTag(tag: KDocKnownTag): Boolean {
-  return getChildrenOfType<KDocTag>().any { it.knownTag == tag }
 }
 
 /**
@@ -529,15 +354,6 @@ fun PsiElement.insertElementsBefore(vararg elements: PsiElement) {
  */
 inline fun <reified T> PsiElement.isFirstChildOfType(): Boolean {
   return this.parent != null && this.parent.children.firstOrNull { it is T } == this
-}
-
-/**
- * 判断kotlin方法是否接口方法
- * @return
- */
-fun KtNamedFunction.isInterfaceFun(): Boolean {
-  val containingClass = this.containingClass()
-  return containingClass != null && containingClass.isInterface()
 }
 
 /**
@@ -592,17 +408,6 @@ fun PsiElement.setBlankLineBoth(blankLines: Int = 0) {
 }
 
 /**
- * 根据类名查找源文件
- * @param root
- * @param className
- * @return
- */
-private fun findSourceFile(root: VirtualFile, className: String): VirtualFile? {
-  val nameWithoutExtension = "/" + className.replace(".", "/")
-  return root.findFileByRelativePath("$nameWithoutExtension.java") ?: root.findFileByRelativePath("$nameWithoutExtension.kt")
-}
-
-/**
  *
  * @param list
  * @param virtualDirectoryImpl
@@ -625,30 +430,6 @@ private fun getChildren(list: ArrayList<PsiElement>, psiElement: PsiElement) {
     list.addAll(psiElement.children)
     psiElement.children.forEach {
       getChildren(list, it)
-    }
-  }
-}
-
-/**
- * 在当前元素的指定位置添加空行
- * @param blankLines 空白行数
- * @param position 添加空白行的位置
- */
-private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Position) {
-  val factory = this.ktPsiFactory
-  val lineBreaks = blankLines + 1
-  if (position == Before || position == Both) {
-    if (this.prev !is PsiWhiteSpace) {
-      this.insertElementBefore(factory.createNewLine(lineBreaks))
-    } else if (this.prev.getLineCount() != lineBreaks) {
-      this.prev.replace(factory.createNewLine(lineBreaks))
-    }
-  }
-  if (position == After || position == Both) {
-    if (this.next !is PsiWhiteSpace) {
-      this.insertElementAfter(factory.createNewLine(lineBreaks))
-    } else if (this.next.getLineCount() != lineBreaks) {
-      this.next.replace(factory.createNewLine(lineBreaks))
     }
   }
 }

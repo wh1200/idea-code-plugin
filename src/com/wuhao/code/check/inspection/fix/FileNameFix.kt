@@ -7,7 +7,7 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.refactoring.rename.RenamePsiFileProcessor
-import org.jetbrains.kotlin.idea.inspections.findExistingEditor
+import com.wuhao.code.check.findExistingEditor
 
 /**
  * javascript文件名修复

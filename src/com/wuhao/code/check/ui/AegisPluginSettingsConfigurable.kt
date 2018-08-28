@@ -19,7 +19,6 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
 
   override fun apply() {
     aegisPluginSettings?.let {
-      settings.javaKotlinTemplateUrl = it.javaKotlinTemplateUrlInput.text
       settings.reactTemplateUrl = it.reactTemplateUrlInput.text
       settings.gitPrivateToken = it.gitPrivateTokenInput.text
       settings.vueTemplateUrl = it.vueTemplateUrlInput.text
@@ -36,7 +35,6 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
       it.gitPrivateTokenInput.text = settings.gitPrivateToken
       it.vueTemplateUrlInput.text = settings.vueTemplateUrl
       it.reactTemplateUrlInput.text = settings.reactTemplateUrl
-      it.javaKotlinTemplateUrlInput.text = settings.javaKotlinTemplateUrl
       it.userInput.text = settings.user
       it.emailInput.text = settings.email
     }
@@ -56,7 +54,6 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
         || settings.vueTemplateUrl != aegisPluginSettings?.gitPrivateTokenInput?.text
         || settings.reactTemplateUrl != aegisPluginSettings?.reactTemplateUrlInput?.text
         || settings.user == aegisPluginSettings?.userInput?.text
-        || settings.javaKotlinTemplateUrl != aegisPluginSettings?.javaKotlinTemplateUrlInput?.text
   }
 
 }

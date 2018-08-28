@@ -15,9 +15,9 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.constants.Messages.CONVERT_TO_CLASS_COMPONENT
+import com.wuhao.code.check.getChildOfType
 import com.wuhao.code.check.insertElementsBefore
 import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix.Companion.lifeCycleMethods
-import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 
 /**
  * javascript对象属性排序

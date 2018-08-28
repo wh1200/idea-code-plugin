@@ -13,14 +13,11 @@ import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlTag
+import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.LanguageNames
-import com.wuhao.code.check.insertElementAfter
-import com.wuhao.code.check.insertElementBefore
-import com.wuhao.code.check.ktPsiFactory
 import com.wuhao.code.check.lang.RecursiveVisitor
 import com.wuhao.code.check.lang.vue.isInjectAttribute
 import com.wuhao.code.check.style.arrangement.vue.VueRecursiveVisitor
-import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
 /**
  * 格式化代码时自动修复模板中标签属性的换行
@@ -62,7 +59,7 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
 class JSExpressionVisitor : RecursiveVisitor() {
 
   override fun visitElement(element: PsiElement) {
-    val factory = element.ktPsiFactory
+    val factory = element.psiElementFactory
     if (element.text in listOf(",", "+", "-", "*", "/", "?",
             ":", ">", "<", "=", "!=", "===", "==", "===",
             ">=", "<=", "||", "%",

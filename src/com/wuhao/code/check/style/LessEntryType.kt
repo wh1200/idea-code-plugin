@@ -1,7 +1,6 @@
 package com.wuhao.code.check.style
 
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
-import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokenType
 
 /**
  *
@@ -10,7 +9,8 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokenType
  */
 object LessEntryType {
 
-  val CSS_ELEMENT: ArrangementSettingsToken = invertible("CSS_ELEMENT", StdArrangementTokenType.ENTRY_TYPE)
-  val CSS_RULESET: ArrangementSettingsToken = invertible("CSS_RULESET", StdArrangementTokenType.ENTRY_TYPE)
+  val CSS_ELEMENT: ArrangementSettingsToken = ArrangementSettingsToken("CSS_ELEMENT", "ENTRY_TYPE")
+  val CSS_RULESET: ArrangementSettingsToken = ArrangementSettingsToken("CSS_RULESET", "ENTRY_TYPE")
 
 }
+

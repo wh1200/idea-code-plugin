@@ -7,7 +7,11 @@ package com.wuhao.code.check
 
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.EditorFactory
+import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.newvfs.impl.VirtualDirectoryImpl
 import com.intellij.psi.*
@@ -16,6 +20,7 @@ import com.intellij.psi.css.CssElementFactory
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Both
@@ -71,6 +76,11 @@ val PsiElement.depth: Int
     }
     analyzeDepth(this.children.toList())
     return depth
+  }
+
+val PsiFile.endOffset: Int
+  get() {
+    return this.textRange.endOffset
   }
 
 /**
@@ -137,6 +147,11 @@ val PsiElement.psiElementFactory: PsiElementFactory
       PSI_ELEMENT_FACTORY_CACHE[this.project] = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(this.project))
     }
     return PSI_ELEMENT_FACTORY_CACHE[this.project]!!
+  }
+
+val PsiElement.startOffset: Int
+  get() {
+    return this.textRange.startOffset
   }
 
 private val PSI_ELEMENT_FACTORY_CACHE = HashMap<Project, PsiElementFactory>()
@@ -225,6 +240,22 @@ inline fun <reified T> PsiElement.getContinuousAncestorsOfType(): ArrayList<T> {
     el = el.parent
   }
   return result
+}
+
+fun PsiElement.getLineCount(): Int {
+  val doc = containingFile?.let { file -> PsiDocumentManager.getInstance(project).getDocument(file) }
+  if (doc != null) {
+    val spaceRange = textRange ?: TextRange.EMPTY_RANGE
+
+    if (spaceRange.endOffset <= doc.textLength) {
+      val startLine = doc.getLineNumber(spaceRange.startOffset)
+      val endLine = doc.getLineNumber(spaceRange.endOffset)
+
+      return endLine - startLine
+    }
+  }
+
+  return (text ?: "").count { it == '\n' } + 1
 }
 
 /**
@@ -357,6 +388,20 @@ inline fun <reified T> PsiElement.isFirstChildOfType(): Boolean {
 }
 
 /**
+ * 是否多行
+ * @return
+ */
+fun PsiElement.isMultiLine(): Boolean = getLineCount() > 1
+
+/**
+ * 移动光标
+ * @param offset
+ */
+fun Editor.moveCaret(offset: Int) {
+  this.caretModel.moveToOffset(offset)
+}
+
+/**
  * 重命名元素
  * @param element 待重命名的元素
  */
@@ -407,6 +452,23 @@ fun PsiElement.setBlankLineBoth(blankLines: Int = 0) {
   setBlankLine(blankLines, Both)
 }
 
+private fun PsiElementFactory.createNewLine(lineBreaks: Int): PsiElement {
+  return this.createIdentifier("public${"\n".repeat(lineBreaks)}static")
+      .findElementAt(3)!!
+}
+
+fun PsiElementFactory.createWhiteSpace(str: String): PsiElement {
+  return this.createIdentifier("public${str}static")
+      .findElementAt(3)!!
+}
+
+/**
+ * 获取空白元素
+ */
+fun getWhiteSpace(project: Project): PsiWhiteSpace {
+  return PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(project)).createWhiteSpace(" ") as PsiWhiteSpace
+}
+
 /**
  *
  * @param list
@@ -432,5 +494,41 @@ private fun getChildren(list: ArrayList<PsiElement>, psiElement: PsiElement) {
       getChildren(list, it)
     }
   }
+}
+
+/**
+ * 在当前元素的指定位置添加空行
+ * @param blankLines 空白行数
+ * @param position 添加空白行的位置
+ */
+private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Position) {
+  val factory = this.psiElementFactory
+  val lineBreaks = blankLines + 1
+  if (position == Before || position == Both) {
+    if (this.prev !is PsiWhiteSpace) {
+      this.insertElementBefore(factory.createNewLine(lineBreaks))
+    } else if (this.prev.getLineCount() != lineBreaks) {
+      this.prev.replace(factory.createNewLine(lineBreaks))
+    }
+  }
+  if (position == After || position == Both) {
+    if (this.next !is PsiWhiteSpace) {
+      this.insertElementAfter(factory.createNewLine(lineBreaks))
+    } else if (this.next.getLineCount() != lineBreaks) {
+      this.next.replace(factory.createNewLine(lineBreaks))
+    }
+  }
+}
+
+fun PsiElement.findExistingEditor(): Editor? {
+  val file = containingFile?.virtualFile ?: return null
+  val document = FileDocumentManager.getInstance().getDocument(file) ?: return null
+
+  val editorFactory = EditorFactory.getInstance()
+
+  val editors = editorFactory.getEditors(document)
+  return if (editors.isEmpty()) {
+    null
+  } else editors[0]
 }
 

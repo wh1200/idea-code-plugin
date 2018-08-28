@@ -33,6 +33,7 @@ import com.wuhao.code.check.lang.vue.VueDirectives.ON
 import com.wuhao.code.check.lang.vue.isInjectAttribute
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.SCRIPT_TAG
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.STYLE_TAG
+import org.jetbrains.kotlin.idea.core.replaced
 import org.jetbrains.kotlin.idea.refactoring.getLineCount
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.vuejs.codeInsight.VueFileVisitor
@@ -53,10 +54,32 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
     return language.displayName == LanguageNames.VUE
   }
 
+
   override fun visitXmlAttribute(attribute: XmlAttribute) {
     // v-if和v-for不应出现在同一元素之上
     if (attribute.name == FOR && attribute.parent.getAttribute(IF) != null) {
-      holder.registerError(attribute, Messages.IF_AND_FOR_NOT_TOGETHER)
+      holder.registerError(attribute, Messages.IF_AND_FOR_NOT_TOGETHER, object : LocalQuickFix {
+
+        override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+          val attr = descriptor.psiElement as XmlAttribute
+          val value = attr.value
+          val originTag = (descriptor.psiElement as XmlAttribute).parent
+          attr.delete()
+          val newTag = XmlElementFactory.getInstance(project)
+              .createTagFromText("""
+            <template v-for="$value">
+              ${originTag.text}
+            </template>
+          """.trimIndent())
+          originTag.replaced(newTag)
+        }
+
+
+        override fun getFamilyName(): String {
+          return "将v-for属性提取到template"
+        }
+
+      })
     }
     //v-for标签应当有:key属性
     if (attribute.name == FOR) {
@@ -80,6 +103,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
             }
           }
 
+
           override fun getFamilyName(): String {
             return "添加${KEY}属性"
           }
@@ -97,6 +121,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
     super.visitXmlAttribute(attribute)
   }
 
+
   override fun visitXmlAttributeValue(value: XmlAttributeValue) {
     if (isInjectAttribute(value.parent as XmlAttribute)
         && (value.parent as XmlAttribute).name != FOR
@@ -105,13 +130,15 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
       if (jsContent != null) {
         val depth = jsContent.depth
         if (depth >= 4) {
-          holder.registerProblem(jsContent, "复杂的属性应当声明在计算属性中", ProblemHighlightType.INFORMATION,
+          holder.registerProblem(jsContent, "复杂的属性应当声明在计算属性中",
+              ProblemHighlightType.INFORMATION,
               ComplexExpToComputedPropertyFix())
         }
       }
     }
     super.visitXmlAttributeValue(value)
   }
+
 
   override fun visitXmlTag(tag: XmlTag) {
     if (tag.parent is XmlDocument) {
@@ -131,10 +158,16 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
         }
       }
     }
+    super.visitXmlTag(tag)
   }
 
+
   private fun keyAttrOnChild(parent: XmlTag): XmlAttribute? {
-    return parent.getChildOfType<XmlTag>()?.getAttribute(KEY)
+    var son = parent.getChildOfType<XmlTag>()
+    while (son?.name == TEMPLATE_TAG) {
+      son = son.getChildOfType()
+    }
+    return son?.getAttribute(KEY)
   }
 
   /**

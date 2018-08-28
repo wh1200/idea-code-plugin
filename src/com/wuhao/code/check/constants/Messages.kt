@@ -3,6 +3,7 @@
  */
 package com.wuhao.code.check.constants
 
+
 /**
  * 提示消息常量类
  * @author 吴昊
@@ -12,6 +13,7 @@ object Messages {
 
   const val CLASS_COMMENT_REQUIRED = "缺少类注释"
   const val COMMENT_REQUIRED = "缺少注释"
+  const val CONVERT_TO_CLASS_COMPONENT = "转为class component"
   const val FIX_SPACE = "修复空格"
   const val FOR_SHORT = "应当进行缩写"
   const val FOR_TAG_SHOULD_HAVE_KEY_ATTR = "缺少:key属性"

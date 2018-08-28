@@ -14,15 +14,17 @@ import com.intellij.psi.impl.source.PsiClassImpl
 import com.wuhao.code.check.ancestorOfType
 import com.wuhao.code.check.constants.*
 import com.wuhao.code.check.enums.NamingMethod
-import com.wuhao.code.check.enums.NamingMethod.*
+import com.wuhao.code.check.enums.NamingMethod.Camel
+import com.wuhao.code.check.enums.NamingMethod.Constant
+import com.wuhao.code.check.enums.NamingMethod.Pascal
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.getAncestorsOfType
+import com.wuhao.code.check.getLineCount
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
 import com.wuhao.code.check.inspection.fix.java.JavaConsolePrintFix
 import com.wuhao.code.check.inspection.fix.java.JavaElementNameFix
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
-import org.jetbrains.kotlin.idea.refactoring.getLineCount
 
 /**
  * Java代码格式检查访问器

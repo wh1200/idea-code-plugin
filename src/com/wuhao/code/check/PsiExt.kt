@@ -7,8 +7,11 @@ package com.wuhao.code.check
 
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.JavaProjectRootsUtil
+import com.intellij.openapi.util.TextRange
+import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.newvfs.impl.VirtualDirectoryImpl
 import com.intellij.psi.*
@@ -19,17 +22,17 @@ import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
 import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Both
 import org.jetbrains.kotlin.asJava.toLightAnnotation
-import org.jetbrains.kotlin.idea.core.moveCaret
-import org.jetbrains.kotlin.idea.refactoring.getLineCount
-import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
+import java.io.File
 
 /**
  * 获取psi元素的所有祖先元素，按距离从近到远
@@ -206,8 +209,8 @@ fun PsiElement.clearBlankLineBeforeOrAfter(position: SpaceQuickFix.Position) {
   val factory = this.ktPsiFactory
   val whiteSpaceEl = when (position) {
     Before -> this.prev
-    After -> this.next
-    else -> null
+    After  -> this.next
+    else   -> null
   }
   if (whiteSpaceEl !is PsiWhiteSpace) {
     if (position == Before) {
@@ -333,6 +336,22 @@ inline fun <reified T> PsiElement.getContinuousAncestorsOfType(): ArrayList<T> {
     el = el.parent
   }
   return result
+}
+
+fun PsiElement.getLineCount(): Int {
+  val doc = containingFile?.let { file -> PsiDocumentManager.getInstance(project).getDocument(file) }
+  if (doc != null) {
+    val spaceRange = textRange ?: TextRange.EMPTY_RANGE
+
+    if (spaceRange.endOffset <= doc.textLength) {
+      val startLine = doc.getLineNumber(spaceRange.startOffset)
+      val endLine = doc.getLineNumber(spaceRange.endOffset)
+
+      return endLine - startLine
+    }
+  }
+
+  return (text ?: "").count { it == '\n' } + 1
 }
 
 /**
@@ -541,6 +560,20 @@ fun KtNamedFunction.isInterfaceFun(): Boolean {
 }
 
 /**
+ * 是否多行
+ * @return
+ */
+fun PsiElement.isMultiLine(): Boolean = getLineCount() > 1
+
+/**
+ * 移动光标
+ * @param offset
+ */
+fun Editor.moveCaret(offset: Int) {
+  this.caretModel.moveToOffset(offset)
+}
+
+/**
  * 重命名元素
  * @param element 待重命名的元素
  */
@@ -566,6 +599,12 @@ fun renameElement(element: PsiElement,
   val handler = VariableInplaceRenameHandler()
   handler.invoke(realElement.project, editor, realElement.containingFile, context)
 }
+
+fun File.toVirtualFile(): VirtualFile? = LocalFileSystem.getInstance().findFileByIoFile(this)
+
+fun File.toPsiFile(project: Project): PsiFile? = toVirtualFile()?.toPsiFile(project)
+
+fun VirtualFile.toPsiFile(project: Project): PsiFile? = PsiManager.getInstance(project).findFile(this)
 
 /**
  * 在当前元素后面添加空行
@@ -599,7 +638,8 @@ fun PsiElement.setBlankLineBoth(blankLines: Int = 0) {
  */
 private fun findSourceFile(root: VirtualFile, className: String): VirtualFile? {
   val nameWithoutExtension = "/" + className.replace(".", "/")
-  return root.findFileByRelativePath("$nameWithoutExtension.java") ?: root.findFileByRelativePath("$nameWithoutExtension.kt")
+  return root.findFileByRelativePath("$nameWithoutExtension.java")
+      ?: root.findFileByRelativePath("$nameWithoutExtension.kt")
 }
 
 /**

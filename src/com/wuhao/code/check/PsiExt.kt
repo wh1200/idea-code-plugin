@@ -17,8 +17,6 @@ import com.intellij.openapi.vfs.newvfs.impl.VirtualDirectoryImpl
 import com.intellij.psi.*
 import com.intellij.psi.css.CssElement
 import com.intellij.psi.css.CssElementFactory
-import com.intellij.psi.impl.PsiElementFactoryImpl
-import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
@@ -144,7 +142,7 @@ val PsiElement.prevIgnoreWs: PsiElement?
 val PsiElement.psiElementFactory: PsiElementFactory
   get() {
     if (PSI_ELEMENT_FACTORY_CACHE[this.project] == null) {
-      PSI_ELEMENT_FACTORY_CACHE[this.project] = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(this.project))
+      PSI_ELEMENT_FACTORY_CACHE[this.project] = PsiElementFactory.SERVICE.getInstance(project)
     }
     return PSI_ELEMENT_FACTORY_CACHE[this.project]!!
   }
@@ -452,21 +450,35 @@ fun PsiElement.setBlankLineBoth(blankLines: Int = 0) {
   setBlankLine(blankLines, Both)
 }
 
-private fun PsiElementFactory.createNewLine(lineBreaks: Int): PsiElement {
-  return this.createIdentifier("public${"\n".repeat(lineBreaks)}static")
-      .findElementAt(3)!!
+/**
+ *
+ * @param lineBreaks
+ * @return
+ */
+private fun PsiElementFactory.createNewLine(lineBreaks: Int): PsiWhiteSpace {
+  return createWhiteSpace("\n".repeat(lineBreaks))
 }
 
-fun PsiElementFactory.createWhiteSpace(str: String): PsiElement {
+/**
+ *
+ * @param str
+ * @return
+ */
+fun PsiElementFactory.createWhiteSpace(str: String): PsiWhiteSpace {
+  val el = this.createCommentFromText("/*$str*/", null)
+  el.children.forEach {
+    println(it.javaClass)
+  }
   return this.createIdentifier("public${str}static")
-      .findElementAt(3)!!
+      .findElementAt(3)!! as PsiWhiteSpace
 }
 
 /**
  * 获取空白元素
  */
 fun getWhiteSpace(project: Project): PsiWhiteSpace {
-  return PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(project)).createWhiteSpace(" ") as PsiWhiteSpace
+  return PsiElementFactory.SERVICE.getInstance(project)
+      .createWhiteSpace(" ")
 }
 
 /**

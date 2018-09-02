@@ -19,7 +19,6 @@ object KotlinTemplates {
   val FILE = """#if (${'$'}{PACKAGE_NAME} && ${'$'}{PACKAGE_NAME} != "")package ${'$'}{PACKAGE_NAME}
 
 #end
-#parse("File Header.java")
 $DEFAULT_BLOCK_COMMENT""".trimIndent()
   val CLASS = FILE + "\n" + """class ${'$'}{NAME} {
     }""".trimIndent()

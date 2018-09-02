@@ -8,9 +8,10 @@ import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.spring.boot.SpringBootConfigFileConstants
+import com.intellij.util.PlatformUtils
+import com.wuhao.code.check.ancestors
 import com.wuhao.code.check.constants.JAVA_VALUE_ANNOTATION_PATTERN
 import com.wuhao.code.check.constants.RESOURCES_PATH
-import com.wuhao.code.check.ancestors
 import com.wuhao.code.check.lang.RecursiveVisitor
 import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 import org.jetbrains.yaml.psi.YAMLKeyValue
@@ -28,27 +29,29 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
 
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
     val res = arrayListOf<PsiElement>()
-    if (el != null && JAVA_VALUE_ANNOTATION_PATTERN.accepts(el)) {
-      val project = el.project
-      val yamlFile = el.containingFile.virtualFile.fileSystem
-          .findFileByPath("${project.basePath}/$RESOURCES_PATH/${SpringBootConfigFileConstants.APPLICATION_YML}")?.toPsiFile(project)
-      val currentKey = getRealProperty(el.text)
-      if (yamlFile != null) {
-        object : RecursiveVisitor() {
+    if (PlatformUtils.isIdeaUltimate()) {
+      if (el != null && JAVA_VALUE_ANNOTATION_PATTERN.accepts(el)) {
+        val project = el.project
+        val yamlFile = el.containingFile.virtualFile.fileSystem
+            .findFileByPath("${project.basePath}/$RESOURCES_PATH/${SpringBootConfigFileConstants.APPLICATION_YML}")?.toPsiFile(project)
+        val currentKey = getRealProperty(el.text)
+        if (yamlFile != null) {
+          object : RecursiveVisitor() {
 
-          override fun visitElement(element: PsiElement) {
-            if (element is YAMLKeyValue) {
-              val key = element.ancestors.filter { it is YAMLKeyValue }
-                  .reversed().joinToString(".") {
-                    (it as YAMLKeyValue).keyText
-                  }
-              if (key == currentKey) {
-                res.add(element)
+            override fun visitElement(element: PsiElement) {
+              if (element is YAMLKeyValue) {
+                val key = element.ancestors.filter { it is YAMLKeyValue }
+                    .reversed().joinToString(".") {
+                      (it as YAMLKeyValue).keyText
+                    }
+                if (key == currentKey) {
+                  res.add(element)
+                }
               }
             }
-          }
 
-        }.visit(yamlFile)
+          }.visit(yamlFile)
+        }
       }
     }
     return res.toTypedArray()
@@ -57,7 +60,7 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
   private fun getRealProperty(text: String): String {
     val quoteLength = when {
       text.startsWith("\"\"\"") -> 4
-      else -> 3
+      else                      -> 3
     }
     val tmp = text.substring(quoteLength)
     return tmp.substring(0, tmp.length - quoteLength + 1)

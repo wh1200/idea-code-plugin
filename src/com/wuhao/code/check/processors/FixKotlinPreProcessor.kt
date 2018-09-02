@@ -9,8 +9,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.getNewLine
-import com.wuhao.code.check.getWhiteSpace
+import com.wuhao.code.check.createNewLine
+import com.wuhao.code.check.createWhiteSpace
+import com.wuhao.code.check.isIdea
 import com.wuhao.code.check.ktPsiFactory
 import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
 import org.jetbrains.kotlin.idea.KotlinLanguage
@@ -27,9 +28,11 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
 class FixKotlinPreProcessor : PreFormatProcessor {
 
   override fun process(astNode: ASTNode, textRange: TextRange): TextRange {
-    if (astNode.psi.language is KotlinLanguage) {
-      val factory = astNode.psi.ktPsiFactory
-      astNode.psi.accept(KotlinPreFixVisitor(factory))
+    if (isIdea) {
+      if (astNode.psi.language is KotlinLanguage) {
+        val factory = astNode.psi.ktPsiFactory
+        astNode.psi.accept(KotlinPreFixVisitor(factory))
+      }
     }
     return textRange
   }
@@ -49,8 +52,8 @@ class KotlinPreFixVisitor(val factory: KtPsiFactory) : KotlinRecursiveVisitor() 
       val spaceAfter = element.parent.nextSibling
       if (spaceBefore is PsiWhiteSpace && spaceBefore.getLineCount() == 0
           && spaceAfter is PsiWhiteSpace && spaceAfter.getLineCount() == 1) {
-        spaceBefore.replace(element.getNewLine())
-        spaceAfter.replace(getWhiteSpace(element.project))
+        spaceBefore.replace(element.createNewLine())
+        spaceAfter.replace(element.createWhiteSpace())
       }
     }
     super.visitElement(element)

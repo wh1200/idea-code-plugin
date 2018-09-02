@@ -14,13 +14,13 @@ import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.constants.LanguageNames
+import com.wuhao.code.check.createWhiteSpace
+import com.wuhao.code.check.endOffset
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
-import com.wuhao.code.check.ktPsiFactory
 import com.wuhao.code.check.lang.RecursiveVisitor
 import com.wuhao.code.check.lang.vue.isInjectAttribute
 import com.wuhao.code.check.style.arrangement.vue.VueRecursiveVisitor
-import org.jetbrains.kotlin.psi.psiUtil.endOffset
 
 /**
  * 格式化代码时自动修复模板中标签属性的换行
@@ -62,28 +62,27 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
 class JSExpressionVisitor : RecursiveVisitor() {
 
   override fun visitElement(element: PsiElement) {
-    val factory = element.ktPsiFactory
     if (element.text in listOf(",", "+", "-", "*", "/", "?",
             ":", ">", "<", "=", "!=", "===", "==", "===",
             ">=", "<=", "||", "%",
             "&&", "&", "|")) {
       if (element.text == ",") {
         if (element.nextSibling !is PsiWhiteSpace) {
-          element.insertElementAfter(factory.createWhiteSpace(" "))
+          element.insertElementAfter(element.createWhiteSpace(" "))
         }
       } else {
         if (element.prevSibling !is PsiWhiteSpace) {
-          element.insertElementBefore(factory.createWhiteSpace(" "))
+          element.insertElementBefore(element.createWhiteSpace(" "))
         }
         if (element.nextSibling !is PsiWhiteSpace) {
-          element.insertElementAfter(factory.createWhiteSpace(" "))
+          element.insertElementAfter(element.createWhiteSpace(" "))
         }
       }
 
     }
     if (element.text in listOf(",")) {
       if (element.nextSibling !is PsiWhiteSpace) {
-        element.insertElementAfter(factory.createWhiteSpace(" "))
+        element.insertElementAfter(element.createWhiteSpace(" "))
       }
     }
   }

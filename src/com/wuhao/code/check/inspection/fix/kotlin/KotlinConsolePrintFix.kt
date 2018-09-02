@@ -7,7 +7,7 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFileFactory
-import com.wuhao.code.check.getNewLine
+import com.wuhao.code.check.createNewLine
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.inspection.fix.java.JavaConsolePrintFix.Companion.ERROR_DECLARATION
 import com.wuhao.code.check.inspection.fix.java.JavaConsolePrintFix.Companion.LOG_FACTORY_PREFERENCE
@@ -56,7 +56,7 @@ class KotlinConsolePrintFix : LocalQuickFix {
             val field = factory.createProperty(fieldString)
             companion.getBody()?.lBrace?.apply {
               insertElementAfter(field)
-              insertElementAfter(project.getNewLine())
+              insertElementAfter(project.createNewLine())
             }
           }
         }

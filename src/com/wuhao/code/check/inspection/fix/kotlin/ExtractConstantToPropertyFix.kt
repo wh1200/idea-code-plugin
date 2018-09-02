@@ -34,7 +34,7 @@ class ExtractConstantToPropertyFix : LocalQuickFix {
     val newProperty = property.insertBefore(exp)
     val newValueArgument = constant.parent
         .replace(factory.createArgument(propertyName))
-    newProperty.insertElementAfter(project.getNewLine())
+    newProperty.insertElementAfter(project.createNewLine())
     renameElement(newValueArgument)
   }
 

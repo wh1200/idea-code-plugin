@@ -63,6 +63,14 @@ import com.intellij.sql.psi.SqlLanguage
 import com.wuhao.code.check.constants.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.InspectionNames
+import com.wuhao.code.check.constants.InspectionNames.CODE_FORMAT
+import com.wuhao.code.check.constants.InspectionNames.JAVA_COMMENT
+import com.wuhao.code.check.constants.InspectionNames.JAVA_FORMAT
+import com.wuhao.code.check.constants.InspectionNames.JAVA_PROPERTY_CLASS
+import com.wuhao.code.check.constants.InspectionNames.KOTLIN_COMMENT
+import com.wuhao.code.check.constants.InspectionNames.KOTLIN_FORMAT
+import com.wuhao.code.check.constants.InspectionNames.MYBATIS
+import com.wuhao.code.check.constants.InspectionNames.PROPERTY_CLASS
 import com.wuhao.code.check.style.KotlinModifier.LATEINIT
 import com.wuhao.code.check.style.KotlinModifier.OPEN
 import com.wuhao.code.check.style.arrangement.*
@@ -180,14 +188,11 @@ class PluginStart : StartupActivity {
   }
 
   private fun setDefaults(settings: CodeStyleSettings) {
-    try {
-      Class.forName("com.intellij.sql.formatter.settings.SqlCodeStyleSettings")
+    if (isIdea) {
       val sqlStyleSettings = settings.getCustomSettings(SqlCodeStyleSettings::class.java)
       sqlStyleSettings.KEYWORD_CASE = TO_UPPER
       sqlStyleSettings.TYPE_CASE = AS_KEYWORDS
       sqlStyleSettings.IDENTIFIER_CASE = TO_LOWER
-    } catch (e: Exception) {
-      logger.error("sql settings does not exists")
     }
     val typescriptSettings = settings.getCustomSettings(TypeScriptCodeStyleSettings::class.java)
     typescriptSettings.JSDOC_INCLUDE_TYPES = true
@@ -209,35 +214,47 @@ class PluginStart : StartupActivity {
   }
 
   private fun setIndent(settings: CodeStyleSettings) {
-    val setIndentFileTypes = listOf(
-        JavaFileType.INSTANCE,
-        KotlinFileType.INSTANCE,
+    val setIndentFileTypes = arrayListOf(
         JavaScriptFileType.INSTANCE,
         TypeScriptFileType.INSTANCE,
         LESSFileType.LESS,
-        SqlFileType.INSTANCE,
         JsonFileType.INSTANCE,
-        YAMLFileType.YML,
         VueFileType.INSTANCE,
         XmlFileType.INSTANCE,
         HtmlFileType.INSTANCE,
         CssFileType.INSTANCE
     )
+    if (isIdea) {
+      setIndentFileTypes.addAll(listOf(JavaFileType.INSTANCE,
+          YAMLFileType.YML,
+          SqlFileType.INSTANCE,
+          KotlinFileType.INSTANCE))
+    }
     setIndentFileTypes.forEach { fileType ->
       val language = when (fileType) {
-        is JavaFileType       -> JavaLanguage.INSTANCE
-        is KotlinFileType     -> KotlinLanguage.INSTANCE
-        is SqlFileType        -> SqlLanguage.INSTANCE
         is JavaScriptFileType -> JavascriptLanguage.INSTANCE
         is JsonFileType       -> JsonLanguage.INSTANCE
-        is YAMLFileType       -> YAMLLanguage.INSTANCE
         is VueFileType        -> VueLanguage.INSTANCE
         is HtmlFileType       -> HTMLLanguage.INSTANCE
         is CssFileType        -> CSSLanguage.INSTANCE
         is LESSFileType       -> LESSLanguage.INSTANCE
-        else                  -> null
+        else                  -> {
+          if (isIdea) {
+            when (fileType) {
+              is KotlinFileType -> KotlinLanguage.INSTANCE
+              is YAMLFileType   -> YAMLLanguage.INSTANCE
+              is JavaFileType   -> JavaLanguage.INSTANCE
+              is SqlFileType    -> SqlLanguage.INSTANCE
+              else              -> null
+            }
+          } else {
+            null
+          }
+        }
       }
-      setIndent(fileType, language, settings)
+      if (language != null) {
+        setIndent(fileType, language, settings)
+      }
     }
   }
 
@@ -255,8 +272,10 @@ class PluginStart : StartupActivity {
     val myLastRunSettings = LastRunReformatCodeOptionsProvider(PropertiesComponent.getInstance())
     myLastRunSettings.saveRearrangeCodeState(true)
     myLastRunSettings.saveOptimizeImportsState(true)
-    setLanguageArrangeSettings(myLastRunSettings, settings, JavaLanguage.INSTANCE, createJavaSettings())
-    setLanguageArrangeSettings(myLastRunSettings, settings, KotlinLanguage.INSTANCE, createKotlinSettings())
+    if (isIdea) {
+      setLanguageArrangeSettings(myLastRunSettings, settings, JavaLanguage.INSTANCE, createJavaSettings())
+      setLanguageArrangeSettings(myLastRunSettings, settings, KotlinLanguage.INSTANCE, createKotlinSettings())
+    }
     setLanguageArrangeSettings(myLastRunSettings, settings, VueLanguage.INSTANCE, createVueSettings())
     setLanguageArrangeSettings(myLastRunSettings, settings, LESSLanguage.INSTANCE, createLessSettings())
   }
@@ -279,18 +298,25 @@ class PluginStart : StartupActivity {
     val inspectionProfile = InspectionProfileManager.getInstance(project)
         .currentProfile
     InspectionNames.values().forEach {
-      inspectionProfile.enableTool(it.shortName, project)
-      val tools = inspectionProfile.getTools(it.shortName, project)
-      tools.level = HighlightDisplayLevel(severity!!)
+      if (isIdea || it !in listOf(CODE_FORMAT, JAVA_COMMENT, JAVA_FORMAT, KOTLIN_COMMENT,
+              KOTLIN_FORMAT, PROPERTY_CLASS, JAVA_PROPERTY_CLASS, MYBATIS)) {
+        inspectionProfile.enableTool(it.shortName, project)
+        val tools = inspectionProfile.getTools(it.shortName, project)
+        tools.level = HighlightDisplayLevel(severity!!)
+      }
+
     }
   }
 
   private fun setTemplates(project: Project) {
     val fileTemplateManager = FileTemplateManager.getInstance(project)
-    fileTemplateManager.getInternalTemplate("Kotlin File")?.text = KotlinTemplates.FILE
-    fileTemplateManager.getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.CLASS
-    fileTemplateManager.getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.ENUM
-    fileTemplateManager.getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.INTERFACE
+    if (isIdea) {
+      fileTemplateManager.getInternalTemplate("Kotlin File")?.text = KotlinTemplates.FILE
+      fileTemplateManager.getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.CLASS
+      fileTemplateManager.getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.ENUM
+      fileTemplateManager.getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.INTERFACE
+    }
+
   }
 
 }

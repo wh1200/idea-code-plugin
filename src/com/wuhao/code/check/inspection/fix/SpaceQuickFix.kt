@@ -9,7 +9,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.wuhao.code.check.constants.Messages
-import com.wuhao.code.check.getWhiteSpace
+import com.wuhao.code.check.createWhiteSpace
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
 
@@ -43,17 +43,17 @@ class SpaceQuickFix(private val type: Position) : LocalQuickFix {
 
   private fun insertSpaceAfter(element: PsiElement) {
     if (element.nextSibling !is PsiWhiteSpace) {
-      element.insertElementAfter(getWhiteSpace(element.project))
+      element.insertElementAfter(element.createWhiteSpace())
     } else {
-      element.nextSibling.replace(getWhiteSpace(element.project))
+      element.nextSibling.replace(element.createWhiteSpace())
     }
   }
 
   private fun insertSpaceBefore(element: PsiElement) {
     if (element.prevSibling !is PsiWhiteSpace) {
-      element.insertElementBefore(getWhiteSpace(element.project))
+      element.insertElementBefore(element.createWhiteSpace())
     } else {
-      element.prevSibling.replace(getWhiteSpace(element.project))
+      element.prevSibling.replace(element.createWhiteSpace())
     }
   }
 

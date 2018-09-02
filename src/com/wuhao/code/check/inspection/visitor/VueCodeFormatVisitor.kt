@@ -21,6 +21,8 @@ import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.depth
+import com.wuhao.code.check.getChildOfType
+import com.wuhao.code.check.getLineCount
 import com.wuhao.code.check.inspection.fix.vue.ComplexExpToComputedPropertyFix
 import com.wuhao.code.check.inspection.fix.vue.VueComponentNameFix
 import com.wuhao.code.check.inspection.fix.vue.VueShortAttrFix
@@ -34,8 +36,6 @@ import com.wuhao.code.check.lang.vue.isInjectAttribute
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.SCRIPT_TAG
 import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.STYLE_TAG
 import org.jetbrains.kotlin.idea.core.replaced
-import org.jetbrains.kotlin.idea.refactoring.getLineCount
-import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.vuejs.codeInsight.VueFileVisitor
 
 /**

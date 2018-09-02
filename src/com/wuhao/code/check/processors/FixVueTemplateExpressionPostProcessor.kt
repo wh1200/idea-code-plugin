@@ -40,7 +40,7 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
 
         override fun visitXmlAttribute(attribute: XmlAttribute) {
           if (isInjectAttribute(attribute)) {
-            val exp = JSElementFactory.createExpressionCodeFragment(attribute.project, attribute.value, attribute)
+            val exp = JSElementFactory.createExpressionCodeFragment(attribute.project, attribute.value ?: "", attribute)
             JSExpressionVisitor().visit(exp)
             attribute.value = exp.text
           }

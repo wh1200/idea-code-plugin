@@ -39,8 +39,8 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
       templateTag?.accept(object : VueRecursiveVisitor() {
 
         override fun visitXmlAttribute(attribute: XmlAttribute) {
-          if (isInjectAttribute(attribute)) {
-            val exp = JSElementFactory.createExpressionCodeFragment(attribute.project, attribute.value ?: "", attribute)
+          if (isInjectAttribute(attribute) && attribute.value != null) {
+            val exp = JSElementFactory.createExpressionCodeFragment(attribute.project, attribute.value, attribute)
             JSExpressionVisitor().visit(exp)
             attribute.value = exp.text
           }

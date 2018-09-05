@@ -100,6 +100,9 @@ val PsiElement.depth: Int
     return depth
   }
 
+/**
+ * psi元素的结束位置
+ */
 val PsiElement.endOffset: Int
   get() {
     return this.textRange.endOffset
@@ -141,7 +144,7 @@ val Project.ktPsiFactory: KtPsiFactory
 /**
  * 和当前元素并列的后一个元素
  */
-val PsiElement.next: PsiElement
+val PsiElement.next: PsiElement?
   get() = this.nextSibling
 
 /**
@@ -193,6 +196,9 @@ val PsiElement.psiElementFactory: PsiElementFactory
     return this.project.psiElementFactory
   }
 
+/**
+ * psifactory
+ */
 val Project.psiElementFactory: PsiElementFactory
   get() {
     if (PSI_ELEMENT_FACTORY_CACHE[this] == null) {
@@ -229,7 +235,6 @@ inline fun <reified T> PsiElement.ancestorOfType(): T? {
  * @param position 需要清除的位置
  */
 fun PsiElement.clearBlankLineBeforeOrAfter(position: SpaceQuickFix.Position) {
-  val factory = this.ktPsiFactory
   val whiteSpaceEl = when (position) {
     Before -> this.prev
     After  -> this.next
@@ -248,7 +253,6 @@ fun PsiElement.clearBlankLineBeforeOrAfter(position: SpaceQuickFix.Position) {
 
 /**
  *
- * @param tag
  * @param content
  * @return
  */
@@ -393,7 +397,6 @@ fun Project.createNewLine(n: Int = 1): PsiWhiteSpace {
   return createWhiteSpace("\n".repeat(n))
 }
 
-
 /**
  * 创建空白行元素
  * @param count 换行数
@@ -498,6 +501,7 @@ val isIdea: Boolean
   get() {
     return PlatformUtils.isIdeaCommunity() || PlatformUtils.isIdeaUltimate()
   }
+
 /**
  * 是否webstorm
  */
@@ -530,7 +534,7 @@ fun KtNamedFunction.hasDoc(): Boolean {
 fun KtAnnotated.hasSuppress(name: String): Boolean {
   val annotated = this.ancestors.filter { it is KtAnnotated }
       .map { it as KtAnnotated }
-  annotated.forEach {
+  annotated.forEach { it ->
     val entry = it.annotationEntries.firstOrNull { it.typeReference?.text == "Suppress" || it.typeReference?.text == "kotlin.Suppress" }
     if (entry != null) {
       return entry.valueArguments.map {
@@ -649,10 +653,20 @@ fun renameElement(element: PsiElement,
   handler.invoke(realElement.project, editor, realElement.containingFile, context)
 }
 
+/**
+ * 文件转化为虚拟文件
+ * @return
+ */
 fun File.toVirtualFile(): VirtualFile? = LocalFileSystem.getInstance().findFileByIoFile(this)
 
+/**
+ * 文件转化为psi文件
+ */
 fun File.toPsiFile(project: Project): PsiFile? = toVirtualFile()?.toPsiFile(project)
 
+/**
+ * 虚拟文件转psi文件
+ */
 fun VirtualFile.toPsiFile(project: Project): PsiFile? = PsiManager.getInstance(project).findFile(this)
 
 /**
@@ -687,7 +701,6 @@ fun PsiElement.setBlankLineBoth(blankLines: Int = 0) {
 fun PsiElement.createWhiteSpace(str: String = " "): PsiWhiteSpace {
   return project.createWhiteSpace(str)
 }
-
 
 /**
  * 根据类名查找源文件
@@ -734,7 +747,6 @@ private fun getChildren(list: ArrayList<PsiElement>, psiElement: PsiElement) {
  * @param position 添加空白行的位置
  */
 private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Position) {
-  val factory = this.psiElementFactory
   val lineBreaks = blankLines + 1
   if (position == Before || position == Both) {
     if (this.prev !is PsiWhiteSpace) {
@@ -744,14 +756,19 @@ private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Pos
     }
   }
   if (position == After || position == Both) {
-    if (this.next !is PsiWhiteSpace) {
+    val next = this.next
+    if (next != null && next !is PsiWhiteSpace) {
       this.insertElementAfter(this.project.createNewLine(lineBreaks))
-    } else if (this.next.getLineCount() != lineBreaks) {
-      this.next.replace(this.project.createNewLine(lineBreaks))
+    } else if (next != null && next.getLineCount() != lineBreaks) {
+      next.replace(this.project.createNewLine(lineBreaks))
     }
   }
 }
 
+/**
+ *
+ * @return
+ */
 fun PsiElement.findExistingEditor(): Editor? {
   val file = containingFile?.virtualFile ?: return null
   val document = FileDocumentManager.getInstance().getDocument(file) ?: return null

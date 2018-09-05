@@ -176,8 +176,8 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
         if (then.prev is PsiWhiteSpace) {
           then.prev.replace(factory.createWhiteSpace(" "))
         }
-        if (then.next is PsiWhiteSpace) {
-          then.next.replace(factory.createWhiteSpace(" "))
+        if (then.next != null && then.next is PsiWhiteSpace) {
+          then.next!!.replace(factory.createWhiteSpace(" "))
         }
         val block = factory.createBlock(then.text)
         then.replace(block)

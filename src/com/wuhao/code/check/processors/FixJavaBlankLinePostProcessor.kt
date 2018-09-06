@@ -11,7 +11,6 @@ import com.intellij.psi.javadoc.PsiDocComment
 import com.intellij.psi.search.searches.SuperMethodsSearch
 import com.wuhao.code.check.*
 import org.jetbrains.kotlin.psi.KtPsiFactory
-import org.jetbrains.kotlin.psi.psiUtil.endOffset
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 import org.jetbrains.kotlin.psi.psiUtil.getNextSiblingIgnoringWhitespace
 import org.jetbrains.kotlin.psi.psiUtil.getPrevSiblingIgnoringWhitespaceAndComments

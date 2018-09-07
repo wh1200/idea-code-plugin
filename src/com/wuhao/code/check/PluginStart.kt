@@ -195,7 +195,10 @@ class PluginStart : StartupActivity {
       sqlStyleSettings.IDENTIFIER_CASE = TO_LOWER
     }
     val typescriptSettings = settings.getCustomSettings(TypeScriptCodeStyleSettings::class.java)
-    typescriptSettings.JSDOC_INCLUDE_TYPES = true
+    val fields = typescriptSettings.javaClass.declaredFields.map { it.name }
+    if (fields.contains("JSDOC_INCLUDE_TYPES")) {
+      typescriptSettings.JSDOC_INCLUDE_TYPES = true
+    }
     typescriptSettings.IMPORT_SORT_MEMBERS = true
     typescriptSettings.ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
     typescriptSettings.USE_SEMICOLON_AFTER_STATEMENT = true
@@ -316,7 +319,6 @@ class PluginStart : StartupActivity {
       fileTemplateManager.getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.ENUM
       fileTemplateManager.getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.INTERFACE
     }
-
   }
 
 }

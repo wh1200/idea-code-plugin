@@ -10,7 +10,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.wuhao.code.check.getWords
-import com.wuhao.code.check.insertElementAfter
 
 /**
  * vue组件名称修复
@@ -20,22 +19,26 @@ import com.wuhao.code.check.insertElementAfter
 class VueComponentNameFix(obj: JSObjectLiteralExpression) : LocalQuickFixOnPsiElement(obj) {
 
   override fun getFamilyName(): String {
-    return "设置name"
+    return "设置组件name"
   }
 
+
   override fun getText(): String {
-    return "设置name"
+    return "设置组件name"
   }
+
 
   override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
     val obj = startElement as JSObjectLiteralExpression
     val name = detectComponentNameFromFile(obj.containingFile)
     val exp = JSChangeUtil.createObjectLiteralPropertyFromText("name: '$name'", obj)
-    val el = obj.addAfter(exp, obj.firstChild)
-    if (obj.properties.size > 1) {
-      el.insertElementAfter(JSChangeUtil.createCommaPsiElement(obj))
-    }
+//    val el =
+    obj.addAfter(exp, obj.firstChild)
+//    if (obj.properties.size > 1) {
+//      el.insertElementAfter(JSChangeUtil.createCommaPsiElement(obj))
+//    }
   }
+
 
   private fun detectComponentNameFromFile(file: PsiFile): String {
     val words = file.name.split(".")[0].getWords()

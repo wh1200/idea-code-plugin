@@ -16,7 +16,6 @@ import com.intellij.util.Functions
 import com.intellij.util.containers.ContainerUtil
 import com.intellij.util.containers.ContainerUtilRt
 import com.intellij.util.containers.Stack
-import com.wuhao.code.check.constants.KOTLIN_MODIFIERS
 import com.wuhao.code.check.style.KotlinEntryType.CLASS
 import com.wuhao.code.check.style.KotlinEntryType.COMPANION_OBJECT
 import com.wuhao.code.check.style.KotlinEntryType.DATA_CLASS
@@ -64,6 +63,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
                                private val myRanges: Collection<TextRange>,
                                settings: ArrangementSettings) : KotlinRecursiveVisitor() {
 
+
   private val current: DefaultArrangementEntry?
     get() = if (myStack.isEmpty()) {
       null
@@ -85,6 +85,11 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
 
   companion object {
     const val MAX_METHOD_LOOKUP_DEPTH = 3
+    /**
+     * kotlin的修饰符
+     */
+    private val KOTLIN_MODIFIERS = listOf(KtTokens.PROTECTED_KEYWORD,
+        KtTokens.PRIVATE_KEYWORD, KtTokens.OPEN_KEYWORD)
 
     private val MODIFIERS = ContainerUtilRt.newHashMap<KtModifierKeywordToken, ArrangementSettingsToken>().apply {
       put(KtTokens.PROTECTED_KEYWORD, PROTECTED)
@@ -192,11 +197,11 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       clazz.textRange
     }
     val type = when {
-      clazz.isEnum() -> ENUM
-      clazz.isInterface() -> INTERFACE
-      clazz.isData() -> DATA_CLASS
+      clazz.isEnum()       -> ENUM
+      clazz.isInterface()  -> INTERFACE
+      clazz.isData()       -> DATA_CLASS
       clazz is KtEnumEntry -> ENUM_ENTRY
-      else -> CLASS
+      else                 -> CLASS
     }
     val entry = createNewEntry(clazz, range, type, clazz.name, true)
     processEntry(entry, clazz, clazz)
@@ -395,13 +400,13 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     }
     val isCompanionProperty = when {
       containingClass != null -> property.isCompanionMemberOf(containingClass)
-      else -> false
+      else                    -> false
     }
     val classProperties =
         when {
-          property.isTopLevel -> containingFile.getChildrenOfType<KtProperty>().filter { it.isTopLevel }
+          property.isTopLevel                     -> containingFile.getChildrenOfType<KtProperty>().filter { it.isTopLevel }
           containingObject is KtObjectDeclaration -> containingObject.getBody()?.properties ?: setOf()
-          isCompanionProperty -> {
+          isCompanionProperty                     -> {
             var classProperties: Set<KtProperty>? = myCachedCompanionClassProperties[containingClass]
             if (classProperties == null) {
               classProperties = ContainerUtil.map2Set(containingClass!!.companionObjects.mapNotNull {
@@ -411,7 +416,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
             }
             classProperties
           }
-          else -> {
+          else                                    -> {
             var classProperties: Set<KtProperty>? = myCachedClassProperties[containingClass]
             if (classProperties == null) {
               classProperties = ContainerUtil.map2Set(containingClass!!.getProperties(), Functions.id())

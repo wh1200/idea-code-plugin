@@ -7,6 +7,8 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.java.JavaLanguage
+import com.intellij.lang.jvm.JvmAnnotatedElement
+import com.intellij.lang.jvm.JvmAnnotation
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
@@ -14,7 +16,6 @@ import com.intellij.psi.util.PsiTypesUtil
 import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.ancestorOfType
 import com.wuhao.code.check.constants.InspectionNames.JAVA_PROPERTY_CLASS
-import com.wuhao.code.check.hasAnnotation
 import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.ALL
 import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
@@ -34,8 +35,9 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
     return object : JavaElementVisitor() {
 
       override fun visitClass(aClass: PsiClass) {
-        if (aClass.hasAnnotation(JavaCommentVisitor.ENTITY_CLASS) || aClass.hasAnnotation(JavaCommentVisitor.TABLE_CLASS)
-            || aClass.hasAnnotation(JavaCommentVisitor.SPRING_DOCUMENT_CLASS)) {
+        if (getAnnotation(aClass, JavaCommentVisitor.ENTITY_CLASS) != null
+            || getAnnotation(aClass, JavaCommentVisitor.TABLE_CLASS) != null
+            || getAnnotation(aClass, JavaCommentVisitor.SPRING_DOCUMENT_CLASS) != null) {
           if (aClass.containingFile.containingDirectory.findFile("Q${aClass.name}.java") == null) {
             holder.registerProblem(aClass.containingFile, "创建属性名称对象", myQuickFix)
           }
@@ -45,6 +47,14 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
     }
   }
 
+  fun getAnnotation(element: JvmAnnotatedElement, fqn: String): JvmAnnotation? {
+    for (annotation in element.annotations) {
+      if (fqn == annotation.qualifiedName) {
+        return annotation
+      }
+    }
+    return null
+  }
 
   override fun loadDescription(): String? {
     return "为Entity class 生成一个属性名称的Object类"
@@ -75,11 +85,9 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
       }
     }
 
-
     fun buildDeclaration(name: String, prefix: String): String {
       return """  public static String ${buildPropertyName(prefix, name)}"""
     }
-
 
     fun buildPropertyName(prefix: String, name: String): String {
       return if (prefix.isEmpty()) {
@@ -89,16 +97,13 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
       }
     }
 
-
     override fun getFamilyName(): String {
       return name
     }
 
-
     override fun getName(): String {
       return "创建属性对象类"
     }
-
 
     fun getPrefix(prefix: String): String {
       return if (prefix.isEmpty()) {
@@ -108,18 +113,16 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
       }
     }
 
-
     fun getPropertyFields(cls: PsiClass): List<PsiField> {
-      return cls.allFields.filter {
-        !it.name.contains("$")
-            && !it.text.contains("const ")
-            && it.name != "Companion"
-            && it.annotations.none { it.qualifiedName == "javax.persistence.Transient" }
-            && (it.ancestorOfType<KtObjectDeclaration>() == null
-            || !it.ancestorOfType<KtObjectDeclaration>()!!.isCompanion())
+      return cls.allFields.filter { field ->
+        !field.name.contains("$")
+            && !field.text.contains("const ")
+            && field.name != "Companion"
+            && field.annotations.none { it.qualifiedName == "javax.persistence.Transient" }
+            && (field.ancestorOfType<KtObjectDeclaration>() == null
+            || !field.ancestorOfType<KtObjectDeclaration>()!!.isCompanion())
       }
     }
-
 
     fun getPropertyFieldsMap(prefix: String, cls: PsiClass): String {
       return getPropertyFields(cls).joinToString("\n") {
@@ -134,7 +137,6 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
         }
       }
     }
-
 
     fun getPropertyFieldsMap(cls: PsiClass): String {
       return getPropertyFieldsMap("", cls)

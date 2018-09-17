@@ -60,7 +60,7 @@ inline fun <reified T> collectFields(clazz: Class<*>): HashSet<T> {
     if (field.type == T::class.java) {
       try {
         result.add(field.get(null) as T)
-      } catch (e: IllegalAccessException) {
+      } catch (e: Throwable) {
         assert(false) { e }
       }
     }

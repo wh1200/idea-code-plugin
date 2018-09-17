@@ -12,6 +12,8 @@ object Messages {
 
   const val CLASS_COMMENT_REQUIRED = "缺少类注释"
   const val COMMENT_REQUIRED = "缺少注释"
+  const val COMPANION_CLASS_TO_OBJECT = "只包含伴随对象的类应该声明为object"
+  const val CONVERT_TO_CLASS_COMPONENT = "转为class component"
   const val FIX_SPACE = "修复空格"
   const val FOR_SHORT = "应当进行缩写"
   const val FOR_TAG_SHOULD_HAVE_KEY_ATTR = "缺少:key属性"

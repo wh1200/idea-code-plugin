@@ -14,8 +14,6 @@ import com.intellij.psi.javadoc.PsiDocComment
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtConstructorCalleeExpression
-import org.jetbrains.kotlin.psi.KtFile
-import org.jetbrains.kotlin.psi.KtProperty
 
 private const val VALUE_ANNOTATION_NAME = "Value"
 

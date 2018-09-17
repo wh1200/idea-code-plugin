@@ -8,21 +8,11 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.XmlRecursiveElementVisitor
 import com.intellij.psi.xml.*
-import com.wuhao.code.check.findPsiFile
-import com.wuhao.code.check.getResultMap
-import com.wuhao.code.check.getSQL
-import com.wuhao.code.check.id
-import com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider
-import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.EXTENDS_ATTR
-import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.ID_ATTR
+import com.wuhao.code.check.*
+import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.INCLUDE_TAG
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.REF_ID_ATTR
-import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.RESULT_MAP_ATTR
-import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.RESULT_MAP_TAG
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.SQL_TAG
-import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.TYPE_ATTR
-import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.isMethodTag
-import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.resolveMapperClassOrMethod
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
@@ -38,64 +28,66 @@ class MyBatisGotoDeclarationHandler : GotoDeclarationHandler {
   }
 
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
-    if (el != null) {
-      if (el.language is KotlinLanguage || el.language is JavaLanguage) {
-        val tag = MybatisMapperClassLineMarkerProvider.resolveMapperXmlTag(el)
-        if (tag != null) {
-          return arrayOf(tag)
-        }
-      } else {
-        if (el.language is XMLLanguage && el is XmlToken && el.parent is XmlAttributeValue) {
-          val value = el.parent as XmlAttributeValue
-          val attribute = value.parent as XmlAttribute
-          val tag = attribute.parent
-          val file = value.containingFile as XmlFile
-          when (attribute.name) {
-            TYPE_ATTR       -> {
-              if (tag.name == RESULT_MAP_TAG) {
-                val psiFile = el.project.findPsiFile(attribute.value)
-                if (psiFile != null) {
-                  return arrayOf(psiFile)
-                }
-              }
-            }
-            ID_ATTR         -> {
-              if (isMethodTag(tag)) {
-                val mapperClassOrMethod = resolveMapperClassOrMethod(tag)
-                if (mapperClassOrMethod != null) {
-                  return arrayOf(mapperClassOrMethod)
-                }
-              } else {
-                when (tag.name) {
-                  SQL_TAG        -> {
-                    return findIncludes(value).toTypedArray()
-                  }
-                  RESULT_MAP_TAG -> {
-                    return file.rootTag!!.getChildrenOfType<XmlTag>().filter {
-                      it.getAttributeValue(RESULT_MAP_ATTR) == attribute.value
-                          || it.getAttributeValue(EXTENDS_ATTR) == attribute.value
-                    }.toTypedArray()
+    if (isIdea) {
+      if (el != null) {
+        if (el.language is KotlinLanguage || el.language is JavaLanguage) {
+//        val tag = MybatisMapperClassLineMarkerProvider.resolveMapperXmlTag(el)
+//        if (tag != null) {
+//          return arrayOf(tag)
+//        }
+        } else {
+          if (el.language is XMLLanguage && el is XmlToken && el.parent is XmlAttributeValue) {
+            val value = el.parent as XmlAttributeValue
+            val attribute = value.parent as XmlAttribute
+            val tag = attribute.parent
+            val file = value.containingFile as XmlFile
+            when (attribute.name) {
+              MybatisMapperFileLineMarkerProvider.TYPE_ATTR       -> {
+                if (tag.name == MybatisMapperFileLineMarkerProvider.RESULT_MAP_TAG) {
+                  val psiFile = el.project.findPsiFile(attribute.value)
+                  if (psiFile != null) {
+                    return arrayOf(psiFile)
                   }
                 }
               }
-            }
-            REF_ID_ATTR     -> {
-              val sql = el.getSQL(attribute.value)
-              if (sql != null) {
-                return arrayOf(sql)
+              MybatisMapperFileLineMarkerProvider.ID_ATTR         -> {
+                if (MybatisMapperFileLineMarkerProvider.isMethodTag(tag)) {
+                  val mapperClassOrMethod = MybatisMapperFileLineMarkerProvider.resolveMapperClassOrMethod(tag)
+                  if (mapperClassOrMethod != null) {
+                    return arrayOf(mapperClassOrMethod)
+                  }
+                } else {
+                  when (tag.name) {
+                    SQL_TAG                                            -> {
+                      return findIncludes(value).toTypedArray()
+                    }
+                    MybatisMapperFileLineMarkerProvider.RESULT_MAP_TAG -> {
+                      return file.rootTag!!.getChildrenOfType<XmlTag>().filter {
+                        it.getAttributeValue(MybatisMapperFileLineMarkerProvider.RESULT_MAP_ATTR) == attribute.value
+                            || it.getAttributeValue(MybatisMapperFileLineMarkerProvider.EXTENDS_ATTR) == attribute.value
+                      }.toTypedArray()
+                    }
+                  }
+                }
               }
-            }
-            EXTENDS_ATTR    -> {
-              val resultMapTag = el.getResultMap(attribute.value)
-              if (resultMapTag != null) {
-                return arrayOf(resultMapTag)
+              REF_ID_ATTR                                         -> {
+                val sql = el.getSQL(attribute.value)
+                if (sql != null) {
+                  return arrayOf(sql)
+                }
               }
-            }
-            RESULT_MAP_ATTR -> {
-              val mapId = attribute.value
-              val resultMapTag = el.getResultMap(mapId)
-              if (resultMapTag != null) {
-                return arrayOf(resultMapTag)
+              MybatisMapperFileLineMarkerProvider.EXTENDS_ATTR    -> {
+                val resultMapTag = el.getResultMap(attribute.value)
+                if (resultMapTag != null) {
+                  return arrayOf(resultMapTag)
+                }
+              }
+              MybatisMapperFileLineMarkerProvider.RESULT_MAP_ATTR -> {
+                val mapId = attribute.value
+                val resultMapTag = el.getResultMap(mapId)
+                if (resultMapTag != null) {
+                  return arrayOf(resultMapTag)
+                }
               }
             }
           }

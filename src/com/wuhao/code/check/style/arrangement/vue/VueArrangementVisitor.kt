@@ -3,6 +3,7 @@
  */
 package com.wuhao.code.check.style.arrangement.vue
 
+import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -32,11 +33,19 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     const val TEMPLATE_TAG = "template"
   }
 
+  override fun visitElement(element: PsiElement) {
+    if (element is ES6ExportDefaultAssignment) {
+      super.visitElement(element)
+    }
+  }
+
+
   override fun visitFile(file: PsiFile?) {
     if (file is XmlFile) {
       file.rootTag?.accept(this)
     }
   }
+
 
   override fun visitXmlAttribute(attribute: XmlAttribute) {
     val entry = createNewEntry(
@@ -44,13 +53,17 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     processEntry(entry, null)
   }
 
+
   override fun visitXmlTag(tag: XmlTag) {
     if (tag.name != SCRIPT_TAG && tag.name != STYLE_TAG) {
       val entry = createNewEntry(
           tag.textRange, XML_TAG, null, null, null, true)
       processEntry(entry, tag)
+    } else {
+
     }
   }
+
 
   private fun createNewEntry(range: TextRange,
                              type: ArrangementSettingsToken,
@@ -72,6 +85,7 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     return entry
   }
 
+
   private fun getCurrent(): DefaultArrangementEntry? {
     return if (myStack.isEmpty()) {
       null
@@ -79,6 +93,7 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
       myStack.peek()
     }
   }
+
 
   private fun isWithinBounds(range: TextRange): Boolean {
     for (textRange in myRanges) {
@@ -88,6 +103,7 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     }
     return false
   }
+
 
   private fun processEntry(entry: XmlElementArrangementEntry?, nextElement: PsiElement?) {
     if (entry == null || nextElement == null) {

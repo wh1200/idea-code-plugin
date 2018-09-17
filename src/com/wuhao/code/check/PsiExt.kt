@@ -6,30 +6,37 @@
 package com.wuhao.code.check
 
 import com.intellij.ide.DataManager
+import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.EditorFactory
+import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.JavaProjectRootsUtil
+import com.intellij.openapi.util.TextRange
+import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.newvfs.impl.VirtualDirectoryImpl
 import com.intellij.psi.*
 import com.intellij.psi.css.CssElement
 import com.intellij.psi.css.CssElementFactory
-import com.intellij.psi.impl.PsiElementFactoryImpl
-import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
 import com.intellij.util.IncorrectOperationException
+import com.intellij.util.PlatformUtils
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Both
 import org.jetbrains.kotlin.asJava.toLightAnnotation
-import org.jetbrains.kotlin.idea.core.moveCaret
-import org.jetbrains.kotlin.idea.refactoring.getLineCount
-import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.*
+import org.jetbrains.kotlin.psi.psiUtil.containingClass
+import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
+import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
+import org.jetbrains.kotlin.psi.psiUtil.isObjectLiteral
 import java.io.File
 
 /**
@@ -48,6 +55,7 @@ val PsiElement.ancestors: List<PsiElement>
     }
     return ancestors
   }
+
 /**
  * 获取kotlin方法的方法体（包含括号）
  */
@@ -55,6 +63,7 @@ val KtNamedFunction.body: KtBlockExpression?
   get() {
     return this.getChildOfType()
   }
+
 /**
  * 获取目录下所有缓存的文件
  */
@@ -64,6 +73,7 @@ val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
     getCachedChildren(list, this)
     return list
   }
+
 /**
  * css元素工厂类
  */
@@ -71,6 +81,7 @@ val CssElement.cssElementFactory: CssElementFactory
   get() {
     return CssElementFactory.getInstance(this.project)
   }
+
 /**
  * psi元素的深度
  */
@@ -88,6 +99,15 @@ val PsiElement.depth: Int
     analyzeDepth(this.children.toList())
     return depth
   }
+
+/**
+ * psi元素的结束位置
+ */
+val PsiElement.endOffset: Int
+  get() {
+    return this.textRange.endOffset
+  }
+
 /**
  * 是否是父元素的第一个子元素
  */
@@ -95,6 +115,7 @@ val PsiElement.isFirstChild: Boolean
   get() {
     return this.parent != null && this.parent.firstChild == this
   }
+
 /**
  * 判断kotlin属性是否val
  */
@@ -102,11 +123,13 @@ val KtProperty.isVal: Boolean
   get() {
     return !this.isVar
   }
+
 /**
  * 获取kt元素的工厂类
  */
 val PsiElement.ktPsiFactory: KtPsiFactory
   get() = this.project.ktPsiFactory
+
 /**
  * 获取kt元素的工厂类
  */
@@ -117,11 +140,13 @@ val Project.ktPsiFactory: KtPsiFactory
     }
     return KT_PSI_FACTORY_CACHE[this]!!
   }
+
 /**
  * 和当前元素并列的后一个元素
  */
-val PsiElement.next: PsiElement
+val PsiElement.next: PsiElement?
   get() = this.nextSibling
+
 /**
  * 获取当前元素并列的下一个非空白元素
  */
@@ -133,6 +158,7 @@ val PsiElement.nextIgnoreWs: PsiElement?
     }
     return sibling
   }
+
 /**
  * 获取所有后代元素
  */
@@ -142,11 +168,13 @@ val PsiElement.posterity: ArrayList<PsiElement>
     getChildren(list, this)
     return list
   }
+
 /**
  * 和当前元素并列的前一个元素
  */
 val PsiElement.prev: PsiElement
   get() = this.prevSibling
+
 /**
  * 获取当前元素之前的第一个非空白元素
  */
@@ -158,18 +186,37 @@ val PsiElement.prevIgnoreWs: PsiElement?
     }
     return sibling
   }
+
 /**
  * 获取java psi元素的工厂类
  * @return java psi元素的工厂类
  */
 val PsiElement.psiElementFactory: PsiElementFactory
   get() {
-    if (PSI_ELEMENT_FACTORY_CACHE[this.project] == null) {
-      PSI_ELEMENT_FACTORY_CACHE[this.project] = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(this.project))
-    }
-    return PSI_ELEMENT_FACTORY_CACHE[this.project]!!
+    return this.project.psiElementFactory
   }
+
+/**
+ * psifactory
+ */
+val Project.psiElementFactory: PsiElementFactory
+  get() {
+    if (PSI_ELEMENT_FACTORY_CACHE[this] == null) {
+      PSI_ELEMENT_FACTORY_CACHE[this] = PsiElementFactory.SERVICE.getInstance(this)
+    }
+    return PSI_ELEMENT_FACTORY_CACHE[this]!!
+  }
+
+/**
+ * 元素起始位置
+ */
+val PsiElement.startOffset: Int
+  get() {
+    return this.textRange.startOffset
+  }
+
 private val KT_PSI_FACTORY_CACHE = HashMap<Project, KtPsiFactory>()
+
 private val PSI_ELEMENT_FACTORY_CACHE = HashMap<Project, PsiElementFactory>()
 
 /**
@@ -188,26 +235,24 @@ inline fun <reified T> PsiElement.ancestorOfType(): T? {
  * @param position 需要清除的位置
  */
 fun PsiElement.clearBlankLineBeforeOrAfter(position: SpaceQuickFix.Position) {
-  val factory = this.ktPsiFactory
   val whiteSpaceEl = when (position) {
     Before -> this.prev
-    After -> this.next
-    else -> null
+    After  -> this.next
+    else   -> null
   }
   if (whiteSpaceEl !is PsiWhiteSpace) {
     if (position == Before) {
-      this.insertElementBefore(factory.createNewLine())
+      this.insertElementBefore(project.createNewLine())
     } else if (position == After) {
-      this.insertElementAfter(factory.createNewLine())
+      this.insertElementAfter(project.createNewLine())
     }
   } else if (whiteSpaceEl.getLineCount() != 1) {
-    whiteSpaceEl.replace(factory.createNewLine())
+    whiteSpaceEl.replace(project.createNewLine())
   }
 }
 
 /**
  *
- * @param tag
  * @param content
  * @return
  */
@@ -293,11 +338,19 @@ inline fun <reified T> PsiElement.getAncestorsOfType(): ArrayList<T> {
 }
 
 /**
+ *
+ * @return
+ */
+inline fun <reified T> PsiElement.getChildOfType(): T? {
+  return this.children.firstOrNull { it is T } as T?
+}
+
+/**
  * 获取连续的指定类型的所有的祖先元素
  */
 inline fun <reified T> PsiElement.getContinuousAncestorsMatches(
     predicate: (PsiElement) -> Boolean
-): ArrayList<T> {
+                                                               ): ArrayList<T> {
   val result = arrayListOf<T>()
   var el: PsiElement? = this.parent
   while (el != null && el is T && predicate(el)) {
@@ -321,10 +374,27 @@ inline fun <reified T> PsiElement.getContinuousAncestorsOfType(): ArrayList<T> {
 }
 
 /**
+ * 获取元素占用的行数
+ * @return
+ */
+fun PsiElement.getLineCount(): Int {
+  val doc = containingFile?.let { file -> PsiDocumentManager.getInstance(project).getDocument(file) }
+  if (doc != null) {
+    val spaceRange = textRange ?: TextRange.EMPTY_RANGE
+    if (spaceRange.endOffset <= doc.textLength) {
+      val startLine = doc.getLineNumber(spaceRange.startOffset)
+      val endLine = doc.getLineNumber(spaceRange.endOffset)
+      return endLine - startLine
+    }
+  }
+  return (text ?: "").count { it == '\n' } + 1
+}
+
+/**
  * 获取空行元素
  */
-fun Project.getNewLine(): PsiWhiteSpace {
-  return this.ktPsiFactory.createNewLine() as PsiWhiteSpace
+fun Project.createNewLine(n: Int = 1): PsiWhiteSpace {
+  return createWhiteSpace("\n".repeat(n))
 }
 
 /**
@@ -332,8 +402,8 @@ fun Project.getNewLine(): PsiWhiteSpace {
  * @param count 换行数
  * @return 空白行元素
  */
-fun PsiElement.getNewLine(count: Int = 1): PsiWhiteSpace {
-  return this.ktPsiFactory.createNewLine(count) as PsiWhiteSpace
+fun PsiElement.createNewLine(count: Int = 1): PsiWhiteSpace {
+  return project.createNewLine(count)
 }
 
 /**
@@ -410,8 +480,9 @@ inline fun <reified T> PsiElement.getSiblingsOfType(): List<PsiElement> {
 /**
  * 获取空白元素
  */
-fun getWhiteSpace(project: Project): PsiWhiteSpace {
-  return KtPsiFactory(project).createWhiteSpace() as PsiWhiteSpace
+fun Project.createWhiteSpace(str: String): PsiWhiteSpace {
+  return PsiFileFactory.getInstance(this)
+      .createFileFromText(JavascriptLanguage.INSTANCE, str).children.first() as PsiWhiteSpace
 }
 
 /**
@@ -422,6 +493,22 @@ fun getWhiteSpace(project: Project): PsiWhiteSpace {
 fun KtAnnotated.hasAnnotation(annotation: String): Boolean {
   return this.annotationEntries.any { it.toLightAnnotation()?.qualifiedName == annotation }
 }
+
+/**
+ * 是否idea
+ */
+val isIdea: Boolean
+  get() {
+    return PlatformUtils.isIdeaCommunity() || PlatformUtils.isIdeaUltimate()
+  }
+
+/**
+ * 是否webstorm
+ */
+val isWebStorm: Boolean
+  get() {
+    return PlatformUtils.isWebStorm()
+  }
 
 /**
  * 判断元素是否带有指定注解
@@ -447,7 +534,7 @@ fun KtNamedFunction.hasDoc(): Boolean {
 fun KtAnnotated.hasSuppress(name: String): Boolean {
   val annotated = this.ancestors.filter { it is KtAnnotated }
       .map { it as KtAnnotated }
-  annotated.forEach {
+  annotated.forEach { it ->
     val entry = it.annotationEntries.firstOrNull { it.typeReference?.text == "Suppress" || it.typeReference?.text == "kotlin.Suppress" }
     if (entry != null) {
       return entry.valueArguments.map {
@@ -526,6 +613,20 @@ fun KtNamedFunction.isInterfaceFun(): Boolean {
 }
 
 /**
+ * 是否多行
+ * @return
+ */
+fun PsiElement.isMultiLine(): Boolean = getLineCount() > 1
+
+/**
+ * 移动光标
+ * @param offset
+ */
+fun Editor.moveCaret(offset: Int) {
+  this.caretModel.moveToOffset(offset)
+}
+
+/**
  * 重命名元素
  * @param element 待重命名的元素
  */
@@ -533,24 +634,40 @@ fun renameElement(element: PsiElement,
                   caretOffset: Int = -1,
                   parentElement: PsiElement? = null,
                   indexInParent: Int = -1) {
-  val context = DataManager.getInstance()
-      .dataContextFromFocus.result
-  val editor = context.getData(CommonDataKeys.EDITOR)!!
-  PsiDocumentManager.getInstance(element.project).doPostponedOperationsAndUnblockDocument(editor.document)
-  val realElement = if (parentElement != null && indexInParent >= 0) {
-    parentElement.children[indexInParent]
-  } else {
-    element
+  DataManager.getInstance().dataContextFromFocusAsync.onSuccess {
+    val editor = it.getData(CommonDataKeys.EDITOR)!!
+    PsiDocumentManager.getInstance(element.project).doPostponedOperationsAndUnblockDocument(editor.document)
+    val realElement = if (parentElement != null && indexInParent >= 0) {
+      parentElement.children[indexInParent]
+    } else {
+      element
+    }
+    if (caretOffset < 0) {
+      editor.moveCaret(realElement.startOffset)
+    } else {
+      editor.moveCaret(caretOffset)
+    }
+    editor.settings.isVariableInplaceRenameEnabled = true
+    val handler = VariableInplaceRenameHandler()
+    handler.invoke(realElement.project, editor, realElement.containingFile, it)
   }
-  if (caretOffset < 0) {
-    editor.moveCaret(realElement.startOffset)
-  } else {
-    editor.moveCaret(caretOffset)
-  }
-  editor.settings.isVariableInplaceRenameEnabled = true
-  val handler = VariableInplaceRenameHandler()
-  handler.invoke(realElement.project, editor, realElement.containingFile, context)
 }
+
+/**
+ * 文件转化为虚拟文件
+ * @return
+ */
+fun File.toVirtualFile(): VirtualFile? = LocalFileSystem.getInstance().findFileByIoFile(this)
+
+/**
+ * 文件转化为psi文件
+ */
+fun File.toPsiFile(project: Project): PsiFile? = toVirtualFile()?.toPsiFile(project)
+
+/**
+ * 虚拟文件转psi文件
+ */
+fun VirtualFile.toPsiFile(project: Project): PsiFile? = PsiManager.getInstance(project).findFile(this)
 
 /**
  * 在当前元素后面添加空行
@@ -577,14 +694,24 @@ fun PsiElement.setBlankLineBoth(blankLines: Int = 0) {
 }
 
 /**
+ *
+ * @param str
+ * @return
+ */
+fun PsiElement.createWhiteSpace(str: String = " "): PsiWhiteSpace {
+  return project.createWhiteSpace(str)
+}
+
+/**
  * 根据类名查找源文件
  * @param root
  * @param className
  * @return
  */
 private fun findSourceFile(root: VirtualFile, className: String): VirtualFile? {
-  val javaFile = root.findFileByRelativePath(File.separator + className.replace(".", File.separator) + ".java")
-  return javaFile ?: root.findFileByRelativePath(File.separator + className.replace(".", File.separator) + ".kt")
+  val nameWithoutExtension = "/" + className.replace(".", "/")
+  return root.findFileByRelativePath("$nameWithoutExtension.java")
+      ?: root.findFileByRelativePath("$nameWithoutExtension.kt")
 }
 
 /**
@@ -620,21 +747,37 @@ private fun getChildren(list: ArrayList<PsiElement>, psiElement: PsiElement) {
  * @param position 添加空白行的位置
  */
 private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Position) {
-  val factory = this.ktPsiFactory
   val lineBreaks = blankLines + 1
   if (position == Before || position == Both) {
     if (this.prev !is PsiWhiteSpace) {
-      this.insertElementBefore(factory.createNewLine(lineBreaks))
+      this.insertElementBefore(this.project.createNewLine(lineBreaks))
     } else if (this.prev.getLineCount() != lineBreaks) {
-      this.prev.replace(factory.createNewLine(lineBreaks))
+      this.prev.replace(this.project.createNewLine(lineBreaks))
     }
   }
   if (position == After || position == Both) {
-    if (this.next !is PsiWhiteSpace) {
-      this.insertElementAfter(factory.createNewLine(lineBreaks))
-    } else if (this.next.getLineCount() != lineBreaks) {
-      this.next.replace(factory.createNewLine(lineBreaks))
+    val next = this.next
+    if (next != null && next !is PsiWhiteSpace) {
+      this.insertElementAfter(this.project.createNewLine(lineBreaks))
+    } else if (next != null && next.getLineCount() != lineBreaks) {
+      next.replace(this.project.createNewLine(lineBreaks))
     }
   }
+}
+
+/**
+ *
+ * @return
+ */
+fun PsiElement.findExistingEditor(): Editor? {
+  val file = containingFile?.virtualFile ?: return null
+  val document = FileDocumentManager.getInstance().getDocument(file) ?: return null
+
+  val editorFactory = EditorFactory.getInstance()
+
+  val editors = editorFactory.getEditors(document)
+  return if (editors.isEmpty()) {
+    null
+  } else editors[0]
 }
 

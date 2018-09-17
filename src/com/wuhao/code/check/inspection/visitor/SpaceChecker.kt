@@ -8,9 +8,12 @@ import com.intellij.psi.*
 import com.intellij.psi.PsiKeyword.*
 import com.intellij.psi.impl.source.tree.ElementType
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
 import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Both
+import com.wuhao.code.check.isIdea
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.lexer.KtTokens.*
@@ -24,29 +27,19 @@ import org.jetbrains.kotlin.psi.*
 class SpaceChecker {
 
   companion object {
-    val SHOULD_HAVE_SPACE_BOTH_BEFORE_AND_AFTER_ELEMENT_TYPES = listOf(
-        MUL, PLUS, MINUS, DIV, PERC, GT, LT, LTEQ, GTEQ, EQEQEQ,
-        ARROW, DOUBLE_ARROW, EXCLEQEQEQ, EQEQ, EXCLEQ,
-        ANDAND, OROR, EQ, MULTEQ, DIVEQ, PERCEQ, PLUSEQ,
-        MINUSEQ, NOT_IN, NOT_IS)
     val SHOULD_HAVE_SPACE_BOTH_BEFORE_AND_AFTER_TOKENS = listOf(">", "<", "=", ">=", "<=", "!=",
         "&&", "||", "&", "|", "==", "+", "-", "*", "/", "%",
         "+=", "-=", "/=", "*=", ">>", "<<", "<>", ELSE, FINALLY)
     val SHOULD_NOT_CHECK_ONLY_ONE_SPACE_AFTER = listOf("+", "->", "=")
     val SHOULD_NOT_CHECK_ONLY_ONE_SPACE_BEFORE = listOf(
         "&&", "||", "+", "->", "=")
-    val SHOULD_ONLY_HAVE_SPACE_AFTER_ELEMENT_TYPES = listOf(
-        CATCH_KEYWORD, FOR_KEYWORD, IF_KEYWORD, TRY_KEYWORD, DO_KEYWORD,
-        WHILE_KEYWORD, WHEN_KEYWORD, ELVIS)
-    val SHOULD_ONLY_HAVE_SPACE_AFTER_KEYWORDS = listOf(IF, FOR, TRY,
-        WHILE, DO, SWITCH, CATCH, CASE, SYNCHRONIZED)
   }
 
   fun checkSpace(element: PsiElement, holder: ProblemsHolder) {
     when {
       needSpaceBothBeforeAndAfter(element) -> checkWhiteSpaceBothBeforeAndAfter(element, holder)
-      onlyNeedSpaceBefore(element) -> checkWhiteSpaceBefore(element, holder)
-      onlyNeedSpaceAfter(element) -> checkWhiteSpaceAfter(element, holder)
+      onlyNeedSpaceBefore(element)         -> checkWhiteSpaceBefore(element, holder)
+      onlyNeedSpaceAfter(element)          -> checkWhiteSpaceAfter(element, holder)
     }
   }
 
@@ -61,12 +54,12 @@ class SpaceChecker {
           && (shouldCheckOnlyOneSpaceAfter(element) || position != After)) {
         val actionElement = when (position) {
           Before -> element.prevSibling
-          else -> element.nextSibling
+          else   -> element.nextSibling
         }
         if (actionElement is PsiWhiteSpace && actionElement.textLength != 1) {
           val positionDescription = when (position) {
             Before -> "前面"
-            else -> "后面"
+            else   -> "后面"
           }
           holder.registerError(element, "${element.text} ${positionDescription}应当只有1个空格",
               SpaceQuickFix(SpaceQuickFix.Position.After))
@@ -113,7 +106,12 @@ class SpaceChecker {
   }
 
   private fun needSpaceBothBeforeAndAfter(element: PsiElement): Boolean {
-    if (element.language is KotlinLanguage) {
+    if (isIdea && element.language is KotlinLanguage) {
+      val shouldHaveSpaceBothBeforeAndAfterElementTypes = listOf(
+          MUL, PLUS, MINUS, DIV, PERC, GT, LT, LTEQ, GTEQ, EQEQEQ,
+          ARROW, DOUBLE_ARROW, EXCLEQEQEQ, EQEQ, EXCLEQ,
+          ANDAND, OROR, EQ, MULTEQ, DIVEQ, PERCEQ, PLUSEQ,
+          MINUSEQ, NOT_IN, NOT_IS)
       val test: Boolean = ((element is LeafPsiElement
           && element.parent !is KtValueArgument
           && element.parent !is KtImportDirective
@@ -122,11 +120,11 @@ class SpaceChecker {
           && element.parent !is KtTypeArgumentList
           && element.parent !is KtTypeParameterList
           && ((element.parent !is KtWhenEntry && element.elementType == KtTokens.ELSE_KEYWORD)
-          || element.elementType in SHOULD_HAVE_SPACE_BOTH_BEFORE_AND_AFTER_ELEMENT_TYPES))
+          || element.elementType in shouldHaveSpaceBothBeforeAndAfterElementTypes))
           && !(element.elementType == KtTokens.MUL && element.parent is KtTypeProjection))
           || (element is KtOperationReferenceExpression
           && element.firstChild is LeafPsiElement
-          && (element.firstChild as LeafPsiElement).elementType in SHOULD_HAVE_SPACE_BOTH_BEFORE_AND_AFTER_ELEMENT_TYPES)
+          && (element.firstChild as LeafPsiElement).elementType in shouldHaveSpaceBothBeforeAndAfterElementTypes)
       return test && notPrefixExpression(element)
     } else {
       return element is PsiJavaToken
@@ -147,14 +145,22 @@ class SpaceChecker {
   }
 
   private fun onlyNeedSpaceAfter(element: PsiElement): Boolean {
-    return (element is LeafPsiElement
-        && element.parent !is KtOperationReferenceExpression
-        && element.elementType in SHOULD_ONLY_HAVE_SPACE_AFTER_ELEMENT_TYPES) || (element is PsiKeyword
-        && element.text in SHOULD_ONLY_HAVE_SPACE_AFTER_KEYWORDS)
+    if (isIdea) {
+      val shouldOnlyHaveSpaceAfterElementTypes = listOf(
+          CATCH_KEYWORD, FOR_KEYWORD, IF_KEYWORD, TRY_KEYWORD, DO_KEYWORD,
+          WHILE_KEYWORD, WHEN_KEYWORD, ELVIS)
+      val shouldOnlyHaveSpaceAfterKeywords = listOf(IF, FOR, TRY,
+          WHILE, DO, SWITCH, CATCH, CASE, SYNCHRONIZED)
+      return (element is LeafPsiElement
+          && element.parent !is KtOperationReferenceExpression
+          && element.elementType in shouldOnlyHaveSpaceAfterElementTypes) || (element is PsiKeyword
+          && element.text in shouldOnlyHaveSpaceAfterKeywords)
+    }
+    return false
   }
 
   private fun onlyNeedSpaceBefore(element: PsiElement): Boolean {
-    return if (element.language is KotlinLanguage) {
+    return if (isIdea && element.language is KotlinLanguage) {
       element is PsiJavaToken
           && ((element.tokenType == ElementType.MINUS && element.parent is
           PsiPrefixExpression) || (element.tokenType == CATCH_KEYWORD

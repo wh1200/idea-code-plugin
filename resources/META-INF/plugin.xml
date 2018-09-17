@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check Plugin</name>
-  <version>1.3.16</version>
+  <version>1.4.1</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
@@ -129,6 +129,10 @@
     </article>
     ]]></description>
   <change-notes><![CDATA[
+    <h5>v1.4.0</h5>
+    <ul>
+      <li>适配webstorm</li>
+    </ul>
     <h5>v1.3.7</h5>
     <ul>
       <li>Add naming pattern check for property, method, field, function and constant property.</li>
@@ -151,6 +155,9 @@
                      implementationClass="com.wuhao.code.check.style.arrangement.vue.VueRearranger"/>
     <createFromTemplateHandler implementation="com.wuhao.code.check.template.CreateFromKotlinTemplateHandler"
                                order="first"/>
+    <completion.contributor
+        implementationClass="com.wuhao.code.check.completion.FontAwesomeIconNameCompletion"
+        language="Vue" order="FIRST"/>
     <completion.contributor
         implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
         language="JAVA" order="FIRST"/>
@@ -202,13 +209,10 @@
       <add-to-group group-id="NewGroup" anchor="first"/>
     </action>
   </actions>
-
-  <application-components/>
-  <depends>org.jetbrains.kotlin</depends>
+  <depends optional="true">org.jetbrains.kotlin</depends>
   <depends>com.intellij.modules.json</depends>
-  <depends>com.intellij.spring</depends>
-  <depends>com.intellij.spring.boot</depends>
-  <depends>com.intellij.modules.json</depends>
+  <depends optional="true">com.intellij.spring</depends>
+  <depends optional="true">com.intellij.spring.boot</depends>
   <depends>org.jetbrains.plugins.vue</depends>
   <depends>org.jetbrains.plugins.less</depends>
 </idea-plugin>

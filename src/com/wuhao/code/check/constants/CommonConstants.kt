@@ -7,7 +7,6 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.lexer.KtTokens
 import java.util.logging.Logger
 
 
@@ -91,10 +90,4 @@ const val DEFAULT_CONTINUATION_INDENT_SPACE_COUNT = DEFAULT_INDENT_SPACE_COUNT *
  * 全局日志
  */
 val LOG: Logger = Logger.getLogger("plugin")
-
-/**
- * kotlin的修饰符
- */
-val KOTLIN_MODIFIERS = listOf(KtTokens.PROTECTED_KEYWORD,
-    KtTokens.PRIVATE_KEYWORD, KtTokens.OPEN_KEYWORD)
 

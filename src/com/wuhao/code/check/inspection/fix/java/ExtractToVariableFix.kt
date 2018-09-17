@@ -29,11 +29,11 @@ class ExtractToVariableFix : LocalQuickFix {
         is PsiField -> {
           val newField = factory.createFieldFromText("""${statement.modifiers.joinToString(" ").toLowerCase()} ${el.type!!
               .presentableText} $name = ${el.text};""", null)
-          statement.insertElementsBefore(newField, project.getNewLine())
+          statement.insertElementsBefore(newField, project.createNewLine())
         }
         else -> {
           val declarationStatement = factory.createVariableDeclarationStatement(name, el.type!!, el)
-          statement.insertElementsBefore(declarationStatement, project.getNewLine())
+          statement.insertElementsBefore(declarationStatement, project.createNewLine())
         }
       }
       val newArgument = el.replace(factory.createIdentifier(name))

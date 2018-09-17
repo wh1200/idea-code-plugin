@@ -8,6 +8,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.codeInsight.lookup.LookupElementDecorator
 import com.intellij.spring.boot.SpringBootConfigFileConstants.APPLICATION_YML
 import com.intellij.spring.boot.application.metadata.SpringBootApplicationMetaConfigKeyManager
+import com.intellij.util.PlatformUtils
 import com.intellij.util.ProcessingContext
 import com.wuhao.code.check.constants.JAVA_VALUE_ANNOTATION_PATTERN
 import com.wuhao.code.check.constants.KOTLIN_VALUE_ANNOTATION_PATTERN
@@ -20,9 +21,11 @@ import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 class SpringBootConfigValueInjectCodeCompletion : CompletionContributor() {
 
   init {
-    val provider = SpringBootConfigPropertiesCompletionProvider()
-    extend(CompletionType.BASIC, JAVA_VALUE_ANNOTATION_PATTERN, provider)
-    extend(CompletionType.BASIC, KOTLIN_VALUE_ANNOTATION_PATTERN, provider)
+    if (PlatformUtils.isIdeaUltimate()) {
+      val provider = SpringBootConfigPropertiesCompletionProvider()
+      extend(CompletionType.BASIC, JAVA_VALUE_ANNOTATION_PATTERN, provider)
+      extend(CompletionType.BASIC, KOTLIN_VALUE_ANNOTATION_PATTERN, provider)
+    }
   }
 
   /**

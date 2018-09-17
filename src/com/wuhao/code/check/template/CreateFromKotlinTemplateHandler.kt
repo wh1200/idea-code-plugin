@@ -13,6 +13,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.util.IncorrectOperationException
+import com.wuhao.code.check.isIdea
 import com.wuhao.code.check.ui.PluginSettings
 import org.jetbrains.kotlin.idea.KotlinFileType
 
@@ -49,7 +50,10 @@ class CreateFromKotlinTemplateHandler : CreateFromTemplateHandler {
   }
 
   override fun handlesTemplate(template: FileTemplate): Boolean {
-    return template.isTemplateOfType(KotlinFileType.INSTANCE as FileType)
+    if (isIdea) {
+      return template.isTemplateOfType(KotlinFileType.INSTANCE as FileType)
+    }
+    return false
   }
 
   override fun isNameRequired(): Boolean {

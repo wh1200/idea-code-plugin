@@ -11,7 +11,7 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiImportList
 import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiReferenceExpression
-import com.wuhao.code.check.getNewLine
+import com.wuhao.code.check.createNewLine
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.psiElementFactory
 import org.jetbrains.uast.getContainingClass
@@ -58,7 +58,7 @@ class JavaConsolePrintFix : LocalQuickFix {
             val field = factory.createFieldFromText(fieldString, clazz)
             clazz.lBrace!!.apply {
               insertElementAfter(field)
-              insertElementAfter(project.getNewLine())
+              insertElementAfter(project.createNewLine())
             }
           }
         }

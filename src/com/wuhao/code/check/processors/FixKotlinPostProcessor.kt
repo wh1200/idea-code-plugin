@@ -24,7 +24,6 @@ import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.endOffset
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
@@ -40,8 +39,10 @@ class FixKotlinPostProcessor : PostFormatProcessor {
   }
 
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
-    if (source.language is KotlinLanguage) {
-      source.accept(KotlinFixVisitor(source.ktPsiFactory))
+    if (isIdea) {
+      if (source.language is KotlinLanguage) {
+        source.accept(KotlinFixVisitor(source.ktPsiFactory))
+      }
     }
     return TextRange(0, source.endOffset)
   }
@@ -127,11 +128,11 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
         rBrace.clearBlankLineBeforeOrAfter(Before)
       } else {
         when {
-          lBrace.next == rBrace -> lBrace.setBlankLineAfter()
-          rBrace.prev !is PsiWhiteSpace -> lBrace.setBlankLineAfter(1)
+          lBrace.next == rBrace          -> lBrace.setBlankLineAfter()
+          rBrace.prev !is PsiWhiteSpace  -> lBrace.setBlankLineAfter(1)
           rBrace.prevIgnoreWs === lBrace -> // 如果classBody没有内容的话，右括号保持换行，左右括号之间不留空行
             rBrace.setBlankLineBefore()
-          else -> {
+          else                           -> {
             // 如果classBody有内容，则左括号后和右括号前各留一个空行
             lBrace.setBlankLineAfter(1)
             rBrace.setBlankLineBefore(1)
@@ -174,8 +175,8 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
         if (then.prev is PsiWhiteSpace) {
           then.prev.replace(factory.createWhiteSpace(" "))
         }
-        if (then.next is PsiWhiteSpace) {
-          then.next.replace(factory.createWhiteSpace(" "))
+        if (then.next != null && then.next is PsiWhiteSpace) {
+          then.next!!.replace(factory.createWhiteSpace(" "))
         }
         val block = factory.createBlock(then.text)
         then.replace(block)

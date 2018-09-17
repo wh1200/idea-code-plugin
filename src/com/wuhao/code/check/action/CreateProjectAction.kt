@@ -12,10 +12,10 @@ import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.PlatformProjectOpenProcessor
 import com.wuhao.code.check.http.HttpRequest
-import com.wuhao.code.check.http.HttpResult
 import com.wuhao.code.check.ui.PluginSettings
 import java.io.ByteArrayInputStream
 import java.io.File
+import java.net.URL
 import java.util.zip.ZipInputStream
 
 /**
@@ -31,10 +31,17 @@ abstract class CreateProjectAction : AnAction() {
   protected var pluginSettings = PluginSettings.INSTANCE
 
   override fun actionPerformed(e: AnActionEvent) {
-    val prepareCreateInfo = prepareCreate(e, getTemplateUrl())
-    if (prepareCreateInfo != null) {
-      this.onCreated(e, prepareCreateInfo)
-      openProject(e, prepareCreateInfo.projectRoot)
+    val templateUrl = getTemplateUrl()
+    if (templateUrl.isBlank()) {
+      Messages.showErrorDialog("项目模板地址为空", "错误")
+    } else if (!templateUrl.startsWith("http")) {
+      Messages.showErrorDialog("项目模板地址不正确，地址应当以http(s)开头", "错误")
+    } else {
+      val prepareCreateInfo = prepareCreate(e, templateUrl)
+      if (prepareCreateInfo != null) {
+        this.onCreated(e, prepareCreateInfo)
+        openProject(e, prepareCreateInfo.projectRoot)
+      }
     }
   }
 
@@ -72,41 +79,69 @@ abstract class CreateProjectAction : AnAction() {
 
   private fun prepareCreate(e: AnActionEvent, templateUrl: String): PrepareInfo? {
     val newProjectName = getNewProjectName(e)
-    if (newProjectName != null) {
+    if (newProjectName != null && newProjectName.isNotBlank()) {
       val newProjectRoot = File("${File(e.project!!.baseDir.path).parentFile.absolutePath}/$newProjectName")
-      if (newProjectRoot.exists()) {
+      if (pluginSettings.gitPrivateToken.isBlank()) {
+        Messages.showErrorDialog("请在设置中配置Git Private Token", "错误")
+      } else if (newProjectRoot.exists()) {
         Messages.showErrorDialog("${newProjectRoot.absolutePath}已存在", "错误")
       } else {
-        val httpResult: HttpResult = HttpRequest.newGet(templateUrl)
-            .withHeader("Private-Token", pluginSettings.gitPrivateToken).execute()
+        val httpResult = HttpRequest.newGet(transferUrl(templateUrl)).withHeader("Private-Token", pluginSettings.gitPrivateToken).execute()
         if (httpResult.bytes == null) {
-          Messages.showErrorDialog(httpResult.response, "下载模板出错")
+          Messages.showErrorDialog(httpResult.response ?: httpResult.exception?.message ?: "未知错误", "下载模板出错")
         } else {
-          unzip(httpResult.bytes!!, newProjectRoot)
-          return PrepareInfo(newProjectName, newProjectRoot)
+          try {
+            unzip(httpResult.bytes!!, newProjectRoot)
+            return PrepareInfo(newProjectName, newProjectRoot)
+          } catch (e: Exception) {
+            e.printStackTrace()
+            Messages.showErrorDialog(e.message, "错误")
+          }
         }
       }
     }
     return null
   }
 
+  /**
+   * 如果原url为.git结尾的url，则将其转换成zip包下载的url
+   * @param templateUrl
+   */
+  private fun transferUrl(templateUrl: String): String {
+    val url = URL(templateUrl)
+    if (url.path.endsWith(".zip")) {
+      return "${url.protocol}://${url.host}${url.path}?ref=master"
+    } else if (url.path.endsWith(".git")) {
+      return "${url.protocol}://${url.host}${url.path.replace(".git", "/repository/archive.zip")}?ref=master"
+    } else {
+      return templateUrl
+    }
+  }
+
   @Throws(Exception::class)
   private fun unzip(bytes: ByteArray, unzipFileDir: File) {
-    if (!unzipFileDir.exists() || !unzipFileDir.isDirectory) {
-      unzipFileDir.mkdirs()
-    }
-    val zip = ZipInputStream(ByteArrayInputStream(bytes))
-    var entry = zip.nextEntry
-    while (entry != null) {
-      val entryFilePath = unzipFileDir.absolutePath + File.separator + entry.name.split(File.separator)
-          .drop(n = 1).joinToString(File.separator)
-      val entryFile = File(entryFilePath)
-      if (entry.isDirectory) {
-        entryFile.mkdirs()
-      } else {
-        entryFile.writeBytes(zip.readBytes())
+    try {
+      if (!unzipFileDir.exists() || !unzipFileDir.isDirectory) {
+        unzipFileDir.mkdirs()
       }
-      entry = zip.nextEntry
+      val zip = ZipInputStream(ByteArrayInputStream(bytes))
+      var entry = zip.nextEntry
+      while (entry != null) {
+        val entryFilePath = unzipFileDir.absolutePath + File.separator + if (!entry.name.contains("/")) {
+          entry.name
+        } else {
+          entry.name.split("/").drop(n = 1).joinToString(File.separator)
+        }
+        val entryFile = File(entryFilePath)
+        if (entry.isDirectory) {
+          entryFile.mkdirs()
+        } else {
+          entryFile.writeBytes(zip.readBytes())
+        }
+        entry = zip.nextEntry
+      }
+    } catch (e: Exception) {
+      throw  e
     }
   }
 

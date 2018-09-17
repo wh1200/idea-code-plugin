@@ -12,12 +12,20 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
+import com.wuhao.code.check.inspection.fix.kotlin.buildComment
 import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocLink
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
+import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
 /**
@@ -115,14 +123,19 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     val rBrace = classBody.rBrace
     if (lBrace != null && rBrace != null) {
       if (parent is KtObjectDeclaration && parent.isCompanion()) { // 伴随对象body前后不留空行
-        lBrace.setBlankLineAfter()
-        rBrace.setBlankLineBefore()
+        lBrace.clearBlankLineBeforeOrAfter(After)
+        rBrace.clearBlankLineBeforeOrAfter(Before)
       } else {
-        if (lBrace.nextIgnoreWs == rBrace) { //如果class body为空，则不留空行
-          lBrace.setBlankLineAfter()
-        } else {
-          lBrace.setBlankLineAfter(1)
-          rBrace.setBlankLineBefore(1)
+        when {
+          lBrace.next == rBrace -> lBrace.setBlankLineAfter()
+          rBrace.prev !is PsiWhiteSpace -> lBrace.setBlankLineAfter(1)
+          rBrace.prevIgnoreWs === lBrace -> // 如果classBody没有内容的话，右括号保持换行，左右括号之间不留空行
+            rBrace.setBlankLineBefore()
+          else -> {
+            // 如果classBody有内容，则左括号后和右括号前各留一个空行
+            lBrace.setBlankLineAfter(1)
+            rBrace.setBlankLineBefore(1)
+          }
         }
       }
     }
@@ -155,8 +168,8 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
 
   override fun visitIfExpression(expression: KtIfExpression, data: Any?) {
     //给if和else if以及else后的代码块添加大括号
-    val thens = expression.children.filter { it is KtContainerNodeForControlStructureBody }
-    thens.forEach { then ->
+    val thenList = expression.children.filter { it is KtContainerNodeForControlStructureBody }
+    thenList.forEach { then ->
       if (then.firstChild !is KtBlockExpression && then.firstChild !is KtIfExpression) {
         if (then.prev is PsiWhiteSpace) {
           then.prev.replace(factory.createWhiteSpace(" "))
@@ -180,6 +193,29 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     }
     if (function.nextIgnoreWs is KtNamedFunction) {
       function.setBlankLineAfter(BLANK_LINES_BETWEEN_FUNCTIONS)
+    }
+    if (function.isInterfaceFun()) {
+      if (!function.hasDoc()) {
+        function.addBefore(buildComment(function), function.firstChild)
+      } else {
+        val doc = function.firstChild as KDoc
+        var section = doc.getChildOfType<KDocSection>()!!
+        val tags = section.getChildrenOfType<KDocTag>()
+        val existsParams = tags.filter { it.knownTag == KDocKnownTag.PARAM }
+            .mapNotNull { it.getChildOfType<KDocLink>() }
+            .map { it.getLinkText() }
+        function.valueParameters.forEach {
+          if (!existsParams.contains(it.name)) {
+            section = section.replace(factory.createDocSection("""${section.text}
+            | * @param ${it.name}""".trimMargin())) as KDocSection
+          }
+        }
+        if (function.getChildOfType<KtTypeReference>() != null
+            && !section.hasTag(KDocKnownTag.RETURN)) {
+          section = section.replace(factory.createDocSection("""${section.text}
+            | * @return """.trimMargin())) as KDocSection
+        }
+      }
     }
     super.visitNamedFunction(function, data)
   }

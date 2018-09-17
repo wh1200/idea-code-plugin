@@ -1,6 +1,8 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
+@file:Suppress("unused")
+
 package com.wuhao.code.check.http
 
 import org.apache.commons.httpclient.HttpClient
@@ -14,7 +16,6 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity
 import org.apache.commons.httpclient.methods.multipart.Part
 import org.apache.commons.httpclient.methods.multipart.StringPart
 import org.apache.commons.httpclient.params.HttpMethodParams
-import org.apache.commons.io.output.ByteArrayOutputStream
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import java.io.*
@@ -277,13 +278,10 @@ class HttpRequest private constructor() {
       result.setHeaders(method.responseHeaders)
       val stream = method.responseBodyAsStream
       if (stream != null) {
-        val contentType = method.getResponseHeader("Content-Position").value
+        val contentType = method.getResponseHeader("Content-Type")?.value
+        val acceptRanges = method.getResponseHeader("Accept-Ranges")?.value
         val length = method.responseContentLength
-        if (contentType != null && contentType == "application/java-archive") {
-          val bytes = readBytes(stream, length)
-          result.bytes = bytes
-          result.contentLength = length
-        } else if (method.getResponseHeader("Accept-Ranges") != null && method.getResponseHeader("Accept-Ranges").value == "bytes") {
+        if (acceptRanges == "bytes" || contentType == "application/java-archive") {
           val bytes = readBytes(stream, length)
           result.bytes = bytes
           result.contentLength = length
@@ -467,28 +465,24 @@ class HttpRequest private constructor() {
         val data = ArrayList<NameValuePair>()
         val parts = ArrayList<Part>()
         params.forEach { key, value ->
-          if (value is Part) {
-            parts.add(value)
-          } else if (value is File) {
-            try {
+          when {
+            value is Part -> parts.add(value)
+            value is File -> try {
               parts.add(FilePart(key, value))
             } catch (e: FileNotFoundException) {
               e.printStackTrace()
             }
-
-          } else if (value is Date) {
-            data.add(NameValuePair(key, sdf.format(value)))
-          } else if (value is Collection<*>) {
-            for (v in value) {
+            value is Date -> data.add(NameValuePair(key, sdf.format(value)))
+            value is Collection<*> -> for (v in value) {
               data.add(NameValuePair(key, v.toString()))
             }
-          } else if (value.javaClass.isArray) {
-            val array = value as Array<*>
-            for (v in array) {
-              data.add(NameValuePair(key, v.toString()))
+            value.javaClass.isArray -> {
+              val array = value as Array<*>
+              for (v in array) {
+                data.add(NameValuePair(key, v.toString()))
+              }
             }
-          } else {
-            data.add(NameValuePair(key, value.toString()))
+            else -> data.add(NameValuePair(key, value.toString()))
           }
         }
         if (containsFile()) {

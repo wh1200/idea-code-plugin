@@ -3,8 +3,6 @@
  */
 package com.wuhao.code.check.action
 
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonParser
 import com.intellij.openapi.actionSystem.AnActionEvent
 import java.io.File
 
@@ -50,11 +48,11 @@ class CreateVueProjectAction : CreateProjectAction() {
   }
 
   private fun modifyPackageJson(newProjectRoot: File, newProjectName: String?) {
-    val packageJsonFile = File(newProjectRoot.absolutePath + File.separator + "package.json")
-    val el = JsonParser().parse(packageJsonFile.readText())
-    el.asJsonObject.addProperty("name", newProjectName)
-    val gson = GsonBuilder().setPrettyPrinting().create()
-    packageJsonFile.writeText(gson.toJson(el))
+//    val packageJsonFile = File(newProjectRoot.absolutePath + File.separator + "package.json")
+//    val el = JsonParser().parse(packageJsonFile.readText())
+//    el.asJsonObject.addProperty("name", newProjectName)
+//    val gson = GsonBuilder().setPrettyPrinting().create()
+//    packageJsonFile.writeText(gson.toJson(el))
   }
 
 }

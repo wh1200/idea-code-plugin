@@ -35,7 +35,6 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     return language == KotlinLanguage.INSTANCE
   }
 
-
   override fun visitClass(klass: KtClass, data: Any?) {
     checkRedundantComment(klass)
     if (klass.hasSuppress(CommonCodeFormatVisitor.ALL)) {
@@ -48,7 +47,6 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     }
   }
 
-
   override fun visitElement(element: PsiElement) {
     val clazz = element.getContainingClass()
     if (clazz != null && clazz is KtAnnotated && clazz.hasSuppress(CommonCodeFormatVisitor.ALL)) {
@@ -60,7 +58,6 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
       }
     }
   }
-
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     checkRedundantComment(function)
@@ -78,7 +75,6 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     }
   }
 
-
   override fun visitObjectDeclaration(declaration: KtObjectDeclaration, data: Any?) {
     if (declaration.hasSuppress(CommonCodeFormatVisitor.ALL)) {
       return
@@ -91,11 +87,9 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     this.visitElement(declaration)
   }
 
-
   override fun visitPackageDirective(directive: KtPackageDirective, data: Any?) {
     checkRedundantComment(directive)
   }
-
 
   override fun visitProperty(property: KtProperty, data: Any?) {
     checkRedundantComment(property)
@@ -119,7 +113,6 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     }
   }
 
-
   private fun checkRedundantComment(element: PsiElement) {
     if (element is KtPackageDirective) {
       val docsBeforeDirective = element.getPrevContinuousSiblingsOfTypeIgnoreWhitespace<KDoc>()
@@ -137,19 +130,16 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     }
   }
 
-
   private fun registerErrorExceptFirst(list: List<PsiElement>) {
     list.reversed().drop(1).forEach { comment ->
       holder.registerError(comment, Messages.REDUNDANT_COMMENT, DeleteFix())
     }
   }
 
-
   private fun registerPropertyCommentMissingError(property: KtProperty) {
     holder.registerError(property.nameIdentifier ?: property,
         Messages.COMMENT_REQUIRED, KotlinCommentQuickFix())
   }
-
 
   private fun visitDocSection(section: KDocSection) {
     if (section.prevIgnoreWs is LeafPsiElement

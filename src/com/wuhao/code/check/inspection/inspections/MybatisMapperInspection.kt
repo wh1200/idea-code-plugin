@@ -2,8 +2,11 @@ package com.wuhao.code.check.inspection.inspections
 
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
-import com.intellij.psi.XmlRecursiveElementVisitor
-import com.intellij.psi.xml.*
+import com.intellij.psi.XmlElementVisitor
+import com.intellij.psi.xml.XmlAttribute
+import com.intellij.psi.xml.XmlFile
+import com.intellij.psi.xml.XmlTag
+import com.intellij.psi.xml.XmlToken
 import com.wuhao.code.check.constants.InspectionNames.MYBATIS
 import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.getResultMap
@@ -26,7 +29,7 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 class MybatisMapperInspection : BaseInspection(MYBATIS) {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
-    return object : XmlRecursiveElementVisitor() {
+    return object : XmlElementVisitor() {
 
       override fun visitXmlAttribute(attribute: XmlAttribute) {
         val tag = attribute.parent
@@ -43,13 +46,13 @@ class MybatisMapperInspection : BaseInspection(MYBATIS) {
                   }
                 }
               }
-              EXTENDS_ATTR    -> {
+              EXTENDS_ATTR -> {
                 val resultMap = tag.getResultMap(attribute.value)
                 if (resultMap == null) {
                   holder.registerError(nameToken, "resultMap不存在")
                 }
               }
-              REF_ID_ATTR     -> {
+              REF_ID_ATTR -> {
                 if (tag.name == INCLUDE_TAG) {
                   val sql = tag.getSQL(attribute.value)
                   if (sql == null) {
@@ -62,14 +65,11 @@ class MybatisMapperInspection : BaseInspection(MYBATIS) {
         }
       }
 
-      override fun visitXmlDoctype(xmlDoctype: XmlDoctype) {
-      }
-
       override fun visitXmlFile(file: XmlFile) {
         val tags = file.rootTag?.getChildrenOfType<XmlTag>()
         if (tags != null) {
           val map = tags.groupBy { it.getAttributeValue(ID_ATTR) }
-          map.forEach { id, list ->
+          map.values.forEach { list ->
             if (list.size > 1) {
               list.drop(1).forEach {
                 val idValueElement = it.getAttribute(ID_ATTR)?.valueElement

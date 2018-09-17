@@ -141,7 +141,7 @@ class HttpRequest private constructor() {
   }
 
   fun execute(): HttpResult {
-    var request: RequestThread? = null
+    val request: RequestThread
     when (method) {
       HttpRequest.Method.Post -> request = Post()
       HttpRequest.Method.Delete -> request = Delete()
@@ -149,11 +149,11 @@ class HttpRequest private constructor() {
       HttpRequest.Method.Head -> request = Head()
       HttpRequest.Method.Put -> request = Put()
       else -> {
+        request = Get()
       }
     }
     try {
-      assert(request != null)
-      request!!.start()
+      request.start()
       request.join()
     } catch (e: Exception) {
       e.printStackTrace()

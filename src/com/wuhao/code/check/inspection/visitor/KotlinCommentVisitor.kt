@@ -66,7 +66,9 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     }
     // 一等方法必须添加注释
     if (function.isTopLevel && function.firstChild !is KDoc) {
-      holder.registerError(function.nameIdentifier!!, "一等方法必须添加注释", KotlinCommentQuickFix())
+      function.nameIdentifier?.let {
+        holder.registerError(it, "一等方法必须添加注释", KotlinCommentQuickFix())
+      }
     }
     // 接口方法必须添加注释
     if (function.isInterfaceFun() && !function.hasDoc()) {
@@ -142,16 +144,20 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
   }
 
   private fun visitDocSection(section: KDocSection) {
-    if (section.prevIgnoreWs is LeafPsiElement
-        && (section.prevIgnoreWs as LeafPsiElement).elementType == KDocTokens.START) {
-      val textElement = section.allChildren.firstOrNull { it is LeafPsiElement && it.elementType == KDocTokens.TEXT }
-      if ((section.firstChild as LeafPsiElement).elementType == KDocTokens.LEADING_ASTERISK
-          && section.firstChild.text != "*") {
-        holder.registerError(section.firstChild, "应该为一个*")
-      } else if (textElement == section.firstChild) {
-        holder.registerError(section.firstChild, "前面应该添加*")
-      } else if (textElement == null) {
-        holder.registerError(section, Messages.MISSING_COMMENT_CONTENT)
+    if (section.text.isBlank()) {
+      holder.registerError(section, "注释内容不能为空")
+    } else if (section.parent.getLineCount() > 0) {
+      if (section.prevIgnoreWs is LeafPsiElement
+          && (section.prevIgnoreWs as LeafPsiElement).elementType == KDocTokens.START) {
+        val textElement = section.allChildren.firstOrNull { it is LeafPsiElement && it.elementType == KDocTokens.TEXT }
+        if ((section.firstChild as LeafPsiElement).elementType == KDocTokens.LEADING_ASTERISK
+            && section.firstChild.text != "*") {
+          holder.registerError(section.firstChild, "应该为一个*")
+        } else if (textElement == section.firstChild) {
+          holder.registerError(section.firstChild, "前面应该添加*")
+        } else if (textElement == null) {
+          holder.registerError(section, Messages.MISSING_COMMENT_CONTENT)
+        }
       }
     }
   }

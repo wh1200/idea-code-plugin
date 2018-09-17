@@ -13,6 +13,7 @@ import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.psi.PsiFile
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.constants.LanguageNames
+import com.wuhao.code.check.constants.Messages.JS_FILE_NAME_INVALID
 import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.inspection.fix.FileNameFix
@@ -32,7 +33,7 @@ import org.jetbrains.vuejs.VueLanguage
 open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVisitor(), BaseCodeFormatVisitor {
 
   companion object {
-    val JS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.js\$".toRegex()
+    val JS_FILE_NAME_PATTERN = "^[a-z-_0-9.]+.js\$".toRegex()
   }
 
   override fun support(language: Language): Boolean {
@@ -40,16 +41,13 @@ open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
         || language.displayName == LanguageNames.ECMA6
   }
 
-
   override fun visitJSFile(file: JSFile) {
     checkFileName(file)
   }
 
-
   override fun visitJSObjectLiteralExpression(node: JSObjectLiteralExpression) {
     remindReorderProperties(node)
   }
-
 
   /**
    * 检查js文件名称的合法性，如果文件名称不合法，则进行提示，并在修复时弹出重命名对话框
@@ -58,11 +56,9 @@ open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
   private fun checkFileName(element: PsiFile) {
     if (!JS_FILE_NAME_PATTERN.matches(element.name)) {
       holder.registerError(element,
-          "文件名称格式错误，只允许包含字母，数字，-及_",
-          FileNameFix())
+          JS_FILE_NAME_INVALID, FileNameFix())
     }
   }
-
 
   private fun remindReorderProperties(element: JSObjectLiteralExpression) {
     val ac = element.getAncestor(3)

@@ -117,11 +117,27 @@ val PsiElement.isFirstChild: Boolean
   }
 
 /**
+ * 是否idea
+ */
+val isIdea: Boolean
+  get() {
+    return PlatformUtils.isIdeaCommunity() || PlatformUtils.isIdeaUltimate()
+  }
+
+/**
  * 判断kotlin属性是否val
  */
 val KtProperty.isVal: Boolean
   get() {
     return !this.isVar
+  }
+
+/**
+ * 是否webstorm
+ */
+val isWebStorm: Boolean
+  get() {
+    return PlatformUtils.isWebStorm()
   }
 
 /**
@@ -269,6 +285,57 @@ fun KtPsiFactory.createDocSection(content: String): KDocSection {
 }
 
 /**
+ * 获取空行元素
+ */
+fun Project.createNewLine(n: Int = 1): PsiWhiteSpace {
+  return createWhiteSpace("\n".repeat(n))
+}
+
+/**
+ * 创建空白行元素
+ * @param count 换行数
+ * @return 空白行元素
+ */
+fun PsiElement.createNewLine(count: Int = 1): PsiWhiteSpace {
+  return project.createNewLine(count)
+}
+
+/**
+ * 获取空白元素
+ */
+fun Project.createWhiteSpace(str: String): PsiWhiteSpace {
+  return PsiFileFactory.getInstance(this)
+      .createFileFromText(JavascriptLanguage.INSTANCE, str).children.first() as PsiWhiteSpace
+}
+
+/**
+ *
+ * @param str
+ * @return
+ */
+fun PsiElement.createWhiteSpace(str: String = " "): PsiWhiteSpace {
+  return project.createWhiteSpace(str)
+}
+
+/**
+ *
+ * @return
+ */
+fun PsiElement.findExistingEditor(): Editor? {
+  val file = containingFile?.virtualFile ?: return null
+  val document = FileDocumentManager.getInstance().getDocument(file) ?: return null
+
+  val editorFactory = EditorFactory.getInstance()
+
+  val editors = editorFactory.getEditors(document)
+  return if (editors.isEmpty()) {
+    null
+  } else {
+    editors[0]
+  }
+}
+
+/**
  * 查找文件中指定名称的对象类
  * @param name 类名称
  * @return 如果找到对应的对象类返回true，反之false
@@ -391,22 +458,6 @@ fun PsiElement.getLineCount(): Int {
 }
 
 /**
- * 获取空行元素
- */
-fun Project.createNewLine(n: Int = 1): PsiWhiteSpace {
-  return createWhiteSpace("\n".repeat(n))
-}
-
-/**
- * 创建空白行元素
- * @param count 换行数
- * @return 空白行元素
- */
-fun PsiElement.createNewLine(count: Int = 1): PsiWhiteSpace {
-  return project.createNewLine(count)
-}
-
-/**
  * 获取当前元素之前连续的同类型元素
  * @return 符合条件的同类型元素
  */
@@ -478,14 +529,6 @@ inline fun <reified T> PsiElement.getSiblingsOfType(): List<PsiElement> {
 }
 
 /**
- * 获取空白元素
- */
-fun Project.createWhiteSpace(str: String): PsiWhiteSpace {
-  return PsiFileFactory.getInstance(this)
-      .createFileFromText(JavascriptLanguage.INSTANCE, str).children.first() as PsiWhiteSpace
-}
-
-/**
  * 判断元素是否带有指定注解
  * @param annotation 指定注解名称
  * @return
@@ -493,22 +536,6 @@ fun Project.createWhiteSpace(str: String): PsiWhiteSpace {
 fun KtAnnotated.hasAnnotation(annotation: String): Boolean {
   return this.annotationEntries.any { it.toLightAnnotation()?.qualifiedName == annotation }
 }
-
-/**
- * 是否idea
- */
-val isIdea: Boolean
-  get() {
-    return PlatformUtils.isIdeaCommunity() || PlatformUtils.isIdeaUltimate()
-  }
-
-/**
- * 是否webstorm
- */
-val isWebStorm: Boolean
-  get() {
-    return PlatformUtils.isWebStorm()
-  }
 
 /**
  * 判断元素是否带有指定注解
@@ -654,22 +681,6 @@ fun renameElement(element: PsiElement,
 }
 
 /**
- * 文件转化为虚拟文件
- * @return
- */
-fun File.toVirtualFile(): VirtualFile? = LocalFileSystem.getInstance().findFileByIoFile(this)
-
-/**
- * 文件转化为psi文件
- */
-fun File.toPsiFile(project: Project): PsiFile? = toVirtualFile()?.toPsiFile(project)
-
-/**
- * 虚拟文件转psi文件
- */
-fun VirtualFile.toPsiFile(project: Project): PsiFile? = PsiManager.getInstance(project).findFile(this)
-
-/**
  * 在当前元素后面添加空行
  * @param blankLines 空白行数
  */
@@ -694,13 +705,20 @@ fun PsiElement.setBlankLineBoth(blankLines: Int = 0) {
 }
 
 /**
- *
- * @param str
+ * 文件转化为psi文件
+ */
+fun File.toPsiFile(project: Project): PsiFile? = toVirtualFile()?.toPsiFile(project)
+
+/**
+ * 虚拟文件转psi文件
+ */
+fun VirtualFile.toPsiFile(project: Project): PsiFile? = PsiManager.getInstance(project).findFile(this)
+
+/**
+ * 文件转化为虚拟文件
  * @return
  */
-fun PsiElement.createWhiteSpace(str: String = " "): PsiWhiteSpace {
-  return project.createWhiteSpace(str)
-}
+fun File.toVirtualFile(): VirtualFile? = LocalFileSystem.getInstance().findFileByIoFile(this)
 
 /**
  * 根据类名查找源文件
@@ -763,21 +781,5 @@ private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Pos
       next.replace(this.project.createNewLine(lineBreaks))
     }
   }
-}
-
-/**
- *
- * @return
- */
-fun PsiElement.findExistingEditor(): Editor? {
-  val file = containingFile?.virtualFile ?: return null
-  val document = FileDocumentManager.getInstance().getDocument(file) ?: return null
-
-  val editorFactory = EditorFactory.getInstance()
-
-  val editors = editorFactory.getEditors(document)
-  return if (editors.isEmpty()) {
-    null
-  } else editors[0]
 }
 

@@ -36,11 +36,11 @@ class CreateFromKotlinTemplateHandler : CreateFromTemplateHandler {
     } else {
       directory.checkCreateFile(copyFileName)
       val type = FileTypeRegistry.getInstance().getFileTypeByFileName(copyFileName)
-      var file: PsiFile? = PsiFileFactory.getInstance(project).createFileFromText(copyFileName, type, templateText)
+      var file = PsiFileFactory.getInstance(project).createFileFromText(copyFileName, type, templateText)
       if (template.isReformatCode) {
-        CodeStyleManager.getInstance(project).reformat(file!!)
+        CodeStyleManager.getInstance(project).reformat(file)
       }
-      file = directory.add(file!!) as PsiFile
+      file = directory.add(file) as PsiFile
       return file
     }
   }

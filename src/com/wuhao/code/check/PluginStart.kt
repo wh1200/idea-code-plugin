@@ -25,7 +25,6 @@ import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.lang.javascript.TypeScriptFileType
 import com.intellij.lang.javascript.formatter.JSCodeStyleSettings
 import com.intellij.lang.typescript.formatter.TypeScriptCodeStyleSettings
-import com.intellij.openapi.diagnostic.logger
 import com.intellij.openapi.editor.colors.CodeInsightColors
 import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.openapi.fileTypes.FileType
@@ -77,6 +76,7 @@ import com.wuhao.code.check.style.arrangement.*
 import com.wuhao.code.check.template.KotlinTemplates
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.idea.core.formatter.KotlinCodeStyleSettings
 import org.jetbrains.plugins.less.LESSFileType
 import org.jetbrains.plugins.less.LESSLanguage
 import org.jetbrains.vuejs.VueFileType
@@ -94,7 +94,6 @@ class PluginStart : StartupActivity {
 
   companion object {
     const val CODE_FORMAT_SEVERITY_NAME: String = "Code Format"
-    val logger = logger<PluginStart>()
     fun setIndent(fileType: FileType, language: Language?, settings: CodeStyleSettings) {
       settings.getIndentOptions(fileType).apply {
         INDENT_SIZE = DEFAULT_INDENT_SPACE_COUNT
@@ -190,30 +189,124 @@ class PluginStart : StartupActivity {
   private fun setDefaults(settings: CodeStyleSettings) {
     if (isIdea) {
       val sqlStyleSettings = settings.getCustomSettings(SqlCodeStyleSettings::class.java)
-      sqlStyleSettings.KEYWORD_CASE = TO_UPPER
-      sqlStyleSettings.TYPE_CASE = AS_KEYWORDS
-      sqlStyleSettings.IDENTIFIER_CASE = TO_LOWER
+      sqlStyleSettings.apply {
+        KEYWORD_CASE = TO_UPPER
+        TYPE_CASE = AS_KEYWORDS
+        IDENTIFIER_CASE = TO_LOWER
+      }
+      val kotlinStyleSettings = settings.getCustomSettings(KotlinCodeStyleSettings::class.java)
+      kotlinStyleSettings.apply {
+        val fields = kotlinStyleSettings.javaClass.fields.map { it.name }
+        if (fields.contains("SPACE_BEFORE_WHEN_PARENTHESES")) {
+          SPACE_BEFORE_WHEN_PARENTHESES = true
+        }
+        if (fields.contains("SPACE_AROUND_RANGE")) {
+          SPACE_AROUND_RANGE = false
+        }
+        if (fields.contains("SPACE_BEFORE_EXTEND_COLON")) {
+          SPACE_BEFORE_EXTEND_COLON = true
+        }
+        if (fields.contains("SPACE_AFTER_EXTEND_COLON")) {
+          SPACE_AFTER_EXTEND_COLON = true
+        }
+        if (fields.contains("SPACE_BEFORE_TYPE_COLON")) {
+          SPACE_BEFORE_TYPE_COLON = false
+        }
+        if (fields.contains("SPACE_AFTER_TYPE_COLON")) {
+          SPACE_AFTER_TYPE_COLON = true
+        }
+        if (fields.contains("ALIGN_IN_COLUMNS_CASE_BRANCH")) {
+          ALIGN_IN_COLUMNS_CASE_BRANCH = true
+        }
+        if (fields.contains("SPACE_AROUND_FUNCTION_TYPE_ARROW")) {
+          SPACE_AROUND_FUNCTION_TYPE_ARROW = true
+        }
+        if (fields.contains("SPACE_AROUND_WHEN_ARROW")) {
+          SPACE_AROUND_WHEN_ARROW = true
+        }
+        if (fields.contains("SPACE_BEFORE_LAMBDA_ARROW")) {
+          SPACE_BEFORE_LAMBDA_ARROW = true
+        }
+        if (fields.contains("SPACE_BEFORE_WHEN_PARENTHESES")) {
+          SPACE_BEFORE_WHEN_PARENTHESES = true
+        }
+        if (fields.contains("LBRACE_ON_NEXT_LINE")) {
+          LBRACE_ON_NEXT_LINE = false
+        }
+        if (fields.contains("NAME_COUNT_TO_USE_STAR_IMPORT")) {
+          NAME_COUNT_TO_USE_STAR_IMPORT = 5
+        }
+        if (fields.contains("NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS")) {
+          NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS = 3
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_PARAMETER_LISTS")) {
+          CONTINUATION_INDENT_IN_PARAMETER_LISTS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_ARGUMENT_LISTS")) {
+          CONTINUATION_INDENT_IN_ARGUMENT_LISTS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_FOR_EXPRESSION_BODIES")) {
+          CONTINUATION_INDENT_FOR_EXPRESSION_BODIES = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_FOR_CHAINED_CALLS")) {
+          CONTINUATION_INDENT_FOR_CHAINED_CALLS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_SUPERTYPE_LISTS")) {
+          CONTINUATION_INDENT_IN_SUPERTYPE_LISTS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_IF_CONDITIONS")) {
+          CONTINUATION_INDENT_IN_IF_CONDITIONS = true
+        }
+      }
+    }
+    val jsSettings = settings.getCustomSettings(JSCodeStyleSettings::class.java)
+    jsSettings.apply {
+      IMPORT_SORT_MEMBERS = true
+      ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
+      USE_SEMICOLON_AFTER_STATEMENT = true
+      FORCE_SEMICOLON_STYLE = true
+      FORCE_QUOTE_STYlE = true
+      USE_DOUBLE_QUOTES = false
+      SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
     }
     val typescriptSettings = settings.getCustomSettings(TypeScriptCodeStyleSettings::class.java)
-    val fields = typescriptSettings.javaClass.declaredFields.map { it.name }
-    if (fields.contains("JSDOC_INCLUDE_TYPES")) {
-      typescriptSettings.JSDOC_INCLUDE_TYPES = true
+
+    typescriptSettings.apply {
+      val fields = typescriptSettings.javaClass.fields.map { it.name }
+      if (fields.contains("JSDOC_INCLUDE_TYPES")) {
+        this.JSDOC_INCLUDE_TYPES = true
+      }
+      if (fields.contains("IMPORT_SORT_MEMBERS")) {
+        IMPORT_SORT_MEMBERS = true
+      }
+      if (fields.contains("ENFORCE_TRAILING_COMMA")) {
+        ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
+      }
+      if (fields.contains("USE_SEMICOLON_AFTER_STATEMENT")) {
+        USE_SEMICOLON_AFTER_STATEMENT = true
+      }
+      if (fields.contains("FORCE_SEMICOLON_STYLE")) {
+        FORCE_SEMICOLON_STYLE = true
+      }
+      if (fields.contains("FORCE_QUOTE_STYlE")) {
+        FORCE_QUOTE_STYlE = true
+      }
+      if (fields.contains("USE_DOUBLE_QUOTES")) {
+        USE_DOUBLE_QUOTES = false
+      }
+      if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
+        SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
+      }
+      if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
+        this.SPACE_BEFORE_FUNCTION_LEFT_PARENTH = true
+      }
+      if (fields.contains("IMPORT_SORT_MODULE_NAME")) {
+        this.IMPORT_SORT_MODULE_NAME = true
+      }
+      if (fields.contains("IMPORT_MERGE_MEMBERS")) {
+        this.IMPORT_MERGE_MEMBERS = JSCodeStyleSettings.BooleanWithGlobalOption.TRUE
+      }
     }
-    typescriptSettings.IMPORT_SORT_MEMBERS = true
-    typescriptSettings.ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
-    typescriptSettings.USE_SEMICOLON_AFTER_STATEMENT = true
-    typescriptSettings.FORCE_SEMICOLON_STYLE = true
-    typescriptSettings.FORCE_QUOTE_STYlE = true
-    typescriptSettings.USE_DOUBLE_QUOTES = false
-    typescriptSettings.SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
-    val jsSettings = settings.getCustomSettings(JSCodeStyleSettings::class.java)
-    jsSettings.IMPORT_SORT_MEMBERS = true
-    jsSettings.ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
-    jsSettings.USE_SEMICOLON_AFTER_STATEMENT = true
-    jsSettings.FORCE_SEMICOLON_STYLE = true
-    jsSettings.FORCE_QUOTE_STYlE = true
-    jsSettings.USE_DOUBLE_QUOTES = false
-    jsSettings.SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
   }
 
   private fun setIndent(settings: CodeStyleSettings) {
@@ -312,12 +405,14 @@ class PluginStart : StartupActivity {
   }
 
   private fun setTemplates(project: Project) {
-    val fileTemplateManager = FileTemplateManager.getInstance(project)
     if (isIdea) {
-      fileTemplateManager.getInternalTemplate("Kotlin File")?.text = KotlinTemplates.FILE
-      fileTemplateManager.getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.CLASS
-      fileTemplateManager.getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.ENUM
-      fileTemplateManager.getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.INTERFACE
+      val fileTemplateManager = FileTemplateManager.getInstance(project)
+      fileTemplateManager.apply {
+        getInternalTemplate("Kotlin File")?.text = KotlinTemplates.FILE
+        getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.CLASS
+        getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.ENUM
+        getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.INTERFACE
+      }
     }
   }
 

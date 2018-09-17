@@ -39,7 +39,7 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
 
   override fun visitFile(file: PsiFile) {
     if (!TS_FILE_NAME_PATTERN.matches(file.name) && !file.name.endsWith(".d.ts")) {
-      holder.registerError(file, "文件名称格式错误，只允许包含字母，数字，-及_")
+      holder.registerError(file, Messages.JS_FILE_NAME_INVALID)
     }
     super.visitFile(file)
   }

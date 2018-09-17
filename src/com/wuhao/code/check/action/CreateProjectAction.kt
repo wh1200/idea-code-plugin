@@ -61,7 +61,7 @@ abstract class CreateProjectAction : AnAction() {
       }
 
       override fun checkInput(input: String?): Boolean {
-        return !File("${File(e.project!!.baseDir.path).parentFile.absolutePath}/$input").exists()
+        return !File("${File(e.project?.baseDir?.path).parentFile.absolutePath}/$input").exists()
       }
 
     })

@@ -188,11 +188,11 @@ class ConvertToClassComponent : LocalQuickFix {
       val watchProperties = (watchProperty.value as JSObjectLiteralExpression).properties
       return watchProperties.joinToString("\n") { property ->
         val name = property.name
-        val newName = if (property.nameIdentifier!!.text.startsWith("'")
-            || property.nameIdentifier!!.text.startsWith("\"")) {
+        val nameText = property.nameIdentifier!!.text
+        val newName = if (nameText.isNotBlank() && nameText[0] in listOf('\'', '"')) {
           "${property.name?.split('.')?.last()}Changed"
         } else {
-          property.name!! + "Changed"
+          "${property.name}Changed"
         }
         if (property is TypeScriptFunctionProperty) {
           property.setName(newName)

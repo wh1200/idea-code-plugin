@@ -63,7 +63,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
                                private val myRanges: Collection<TextRange>,
                                settings: ArrangementSettings) : KotlinRecursiveVisitor() {
 
-
   private val current: DefaultArrangementEntry?
     get() = if (myStack.isEmpty()) {
       null
@@ -123,7 +122,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       return comments
     }
 
-
     private fun getElementRangeWithoutComments(element: PsiElement): TextRange {
       val children = element.children
       assert(children.size > 1 && children[0] is PsiComment)
@@ -136,7 +134,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
 
       return TextRange(child.textRange.startOffset, element.textRange.endOffset)
     }
-
 
     private fun getPreviousNonWsComment(element: PsiElement?, minOffset: Int): PsiElement? {
       if (element == null) {
@@ -153,7 +150,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       return null
     }
 
-
     private fun hasLineBreak(text: CharSequence, range: TextRange): Boolean {
       var i = range.startOffset
       val end = range.endOffset
@@ -165,7 +161,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       }
       return false
     }
-
 
     private fun parseModifiers(modifierList: KtModifierList?, entry: KotlinElementArrangementEntry) {
       if (modifierList == null) {
@@ -207,12 +202,10 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     processEntry(entry, clazz, clazz)
   }
 
-
   override fun visitClassInitializer(initializer: KtClassInitializer, data: Any?) {
     val entry = createNewEntry(initializer, initializer.textRange, INIT_BLOCK, null, true) ?: return
     processEntry(entry, initializer, null)
   }
-
 
   override fun visitComment(comment: PsiComment) {
     if (myProcessedSectionsComments.contains(comment)) {
@@ -220,7 +213,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     }
     mySectionDetector.processComment(comment)
   }
-
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     if (function.parent !is KtClassBody && function.parent !is KtFile) {
@@ -246,7 +238,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     }
   }
 
-
   override fun visitObjectDeclaration(declaration: KtObjectDeclaration, data: Any?) {
     val range = declaration.textRange
     val type = if (declaration.isCompanion()) {
@@ -265,7 +256,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       }
     }
   }
-
 
   override fun visitProperty(property: KtProperty, data: Any?) {
     val isSectionCommentsDetected = registerSectionComments(property)
@@ -332,12 +322,10 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     }
   }
 
-
   override fun visitSecondaryConstructor(constructor: KtSecondaryConstructor, data: Any?) {
     val entry = createNewEntry(constructor, constructor.textRange, SECONDARY_CONSTRUCTOR, null, true)
     processEntry(entry, constructor, null)
   }
-
 
   private fun createNewEntry(element: PsiElement,
                              range: TextRange,
@@ -364,7 +352,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     return entry
   }
 
-
   private fun expandToCommentIfPossible(element: PsiElement): Int {
     if (myDocument == null) {
       return element.textRange.endOffset
@@ -388,7 +375,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     return element.textRange.endOffset
   }
 
-
   private fun getReferencedProperties(property: KtProperty): List<KtProperty> {
     val referencedElements = ArrayList<KtProperty>()
     val propertyInitializer = property.initializer
@@ -408,8 +394,8 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
           containingObject is KtObjectDeclaration -> containingObject.getBody()?.properties ?: setOf()
           isCompanionProperty                     -> {
             var classProperties: Set<KtProperty>? = myCachedCompanionClassProperties[containingClass]
-            if (classProperties == null) {
-              classProperties = ContainerUtil.map2Set(containingClass!!.companionObjects.mapNotNull {
+            if (classProperties == null && containingClass != null) {
+              classProperties = ContainerUtil.map2Set(containingClass.companionObjects.mapNotNull {
                 it.getBody()?.properties
               }.flatten(), Functions.id())
               myCachedCompanionClassProperties[containingClass] = classProperties
@@ -418,8 +404,8 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
           }
           else                                    -> {
             var classProperties: Set<KtProperty>? = myCachedClassProperties[containingClass]
-            if (classProperties == null) {
-              classProperties = ContainerUtil.map2Set(containingClass!!.getProperties(), Functions.id())
+            if (classProperties == null && containingClass != null) {
+              classProperties = ContainerUtil.map2Set(containingClass.getProperties(), Functions.id())
               myCachedClassProperties[containingClass] = classProperties
             }
             classProperties
@@ -427,14 +413,14 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
         }
     propertyInitializer.accept(object : KotlinRecursiveVisitor() {
 
-      internal var myCurrentMethodLookupDepth: Int = 0
+      var myCurrentMethodLookupDepth: Int = 0
 
       override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?) {
         val refs = expression.resolveMainReferenceToDescriptors()
         refs.forEach { ref ->
           if (ref is PropertyDescriptor) {
             val psi = ref.source.getPsi()
-            if (psi is KtProperty && classProperties.contains(psi)) {
+            if (psi is KtProperty && classProperties?.contains(psi) == true) {
               referencedElements.add(psi)
             }
           } else if (ref is FunctionDescriptor) {
@@ -453,7 +439,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     return referencedElements
   }
 
-
   private fun isWithinBounds(range: TextRange): Boolean {
     for (textRange in myRanges) {
       if (textRange.intersects(range)) {
@@ -463,7 +448,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     return false
   }
 
-
   private fun processChildrenWithinEntryScope(entry: KotlinElementArrangementEntry, childrenProcessing: Runnable) {
     myStack.push(entry)
     try {
@@ -472,7 +456,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       myStack.pop()
     }
   }
-
 
   private fun processEntry(entry: KotlinElementArrangementEntry?,
                            modifier: KtModifierListOwner,
@@ -487,7 +470,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     processChildrenWithinEntryScope(entry, Runnable { nextPsiRoot.acceptChildren(this) })
   }
 
-
   private fun registerEntry(element: PsiElement, entry: KotlinElementArrangementEntry) {
     myEntries[element] = entry
     val current = current
@@ -497,7 +479,6 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
       current.addChild(entry)
     }
   }
-
 
   private fun registerSectionComments(element: PsiElement): Boolean {
     val comments = getComments(element)

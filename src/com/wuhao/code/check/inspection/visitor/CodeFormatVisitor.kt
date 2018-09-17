@@ -24,12 +24,8 @@ open class CodeFormatVisitor(val visitor: BaseCodeFormatVisitor) : PsiElementVis
 
   override fun visitElement(element: PsiElement) {
     if (visitor is PsiElementVisitor && visitor.support(element.language)) {
-      if (isIdea) {
-        if (element.language is JavaLanguage || element.language is KotlinLanguage) {
-          if (holder != null) {
-            spaceChecker.checkSpace(element, holder!!)
-          }
-        }
+      if (isIdea && (element.language is JavaLanguage || element.language is KotlinLanguage) && holder != null) {
+        spaceChecker.checkSpace(element, holder!!)
       }
       element.accept(visitor)
     }

@@ -417,7 +417,7 @@ inline fun <reified T> PsiElement.getChildOfType(): T? {
  */
 inline fun <reified T> PsiElement.getContinuousAncestorsMatches(
     predicate: (PsiElement) -> Boolean
-): ArrayList<T> {
+                                                               ): ArrayList<T> {
   val result = arrayListOf<T>()
   var el: PsiElement? = this.parent
   while (el != null && el is T && predicate(el)) {
@@ -661,23 +661,23 @@ fun renameElement(element: PsiElement,
                   caretOffset: Int = -1,
                   parentElement: PsiElement? = null,
                   indexInParent: Int = -1) {
-  val context = DataManager.getInstance()
-      .dataContextFromFocus.result
-  val editor = context.getData(CommonDataKeys.EDITOR)!!
-  PsiDocumentManager.getInstance(element.project).doPostponedOperationsAndUnblockDocument(editor.document)
-  val realElement = if (parentElement != null && indexInParent >= 0) {
-    parentElement.children[indexInParent]
-  } else {
-    element
+  DataManager.getInstance().dataContextFromFocusAsync.onSuccess {
+    val editor = it.getData(CommonDataKeys.EDITOR)!!
+    PsiDocumentManager.getInstance(element.project).doPostponedOperationsAndUnblockDocument(editor.document)
+    val realElement = if (parentElement != null && indexInParent >= 0) {
+      parentElement.children[indexInParent]
+    } else {
+      element
+    }
+    if (caretOffset < 0) {
+      editor.moveCaret(realElement.startOffset)
+    } else {
+      editor.moveCaret(caretOffset)
+    }
+    editor.settings.isVariableInplaceRenameEnabled = true
+    val handler = VariableInplaceRenameHandler()
+    handler.invoke(realElement.project, editor, realElement.containingFile, it)
   }
-  if (caretOffset < 0) {
-    editor.moveCaret(realElement.startOffset)
-  } else {
-    editor.moveCaret(caretOffset)
-  }
-  editor.settings.isVariableInplaceRenameEnabled = true
-  val handler = VariableInplaceRenameHandler()
-  handler.invoke(realElement.project, editor, realElement.containingFile, context)
 }
 
 /**

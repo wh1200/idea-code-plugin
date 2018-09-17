@@ -16,7 +16,6 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity
 import org.apache.commons.httpclient.methods.multipart.Part
 import org.apache.commons.httpclient.methods.multipart.StringPart
 import org.apache.commons.httpclient.params.HttpMethodParams
-import org.apache.commons.io.output.ByteArrayOutputStream
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import java.io.*

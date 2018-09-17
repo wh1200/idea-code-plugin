@@ -25,6 +25,7 @@ class CheckProvider : InspectionToolProvider {
       classes.add(CodeFormatInspection::class.java)
       classes.add(MybatisMapperInspection::class.java)
       classes.add(PropertyClassCreateInspection::class.java)
+      classes.add(OnlyCompanionClassToObjectInspection::class.java)
     }
     classes.add(JavaScriptFormatInspection::class.java)
     classes.add(TypeScriptFormatInspection::class.java)

@@ -3,8 +3,11 @@
  */
 package com.wuhao.code.check.inspection.visitor
 
+import com.intellij.codeInspection.LocalQuickFix
+import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
+import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
@@ -16,7 +19,9 @@ import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.inspection.fix.DeleteFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommentQuickFix
 import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.API_MODEL_PROPERTY
+import com.wuhao.code.check.ui.PluginSettings
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.idea.core.replaced
 import org.jetbrains.kotlin.j2k.getContainingClass
 import org.jetbrains.kotlin.kdoc.lexer.KDocTokens
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -171,8 +176,31 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
   private fun visitDocTag(element: KDocTag) {
     if (element.getContent().isBlank()) {
       when (element.name) {
-        "author" -> holder.registerError(element, Messages.REQUIRE_AUTHOR)
-        "since"  -> holder.registerError(element, Messages.REQUIRE_VERSION)
+        "author" -> holder.registerError(element, Messages.REQUIRE_AUTHOR, object : LocalQuickFix {
+
+          override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+            descriptor.psiElement.replaced(element.ktPsiFactory.createDocTag("author", PluginSettings.INSTANCE.user))
+          }
+
+          override fun getFamilyName(): String {
+            return "设置当前用户为作者"
+          }
+
+        })
+        "since"  -> holder.registerError(element, Messages.REQUIRE_VERSION, object : LocalQuickFix {
+
+          override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+            val version = project.getVersion()
+            if (version != null) {
+              descriptor.psiElement.replaced(element.ktPsiFactory.createDocTag("since", version))
+            }
+          }
+
+          override fun getFamilyName(): String {
+            return "添加当前版本号"
+          }
+
+        })
       }
     }
   }

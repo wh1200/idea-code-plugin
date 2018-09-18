@@ -25,6 +25,7 @@ import com.intellij.util.IncorrectOperationException
 import com.intellij.util.PlatformUtils
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
+import org.jetbrains.idea.maven.project.MavenProjectsManager
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -41,7 +42,6 @@ import java.io.File
  * @author wuhao
  * @since 0.1
  */
-
 /**
  * 获取psi元素的所有祖先元素，按距离从近到远
  */
@@ -288,6 +288,24 @@ fun KtPsiFactory.createDocSection(content: String): KDocSection {
 }
 
 /**
+ * 创建注释标签元素
+ * @param content
+ * @return
+ */
+fun KtPsiFactory.createDocTag(tag: String, content: String): KDocTag {
+  val docTag = this.createComment("""/**
+    | * @$tag $content
+    | */
+  """.trimMargin()).getChildOfType<KDocSection>()
+      ?.getChildOfType<KDocTag>()
+  if (docTag != null) {
+    return docTag
+  } else {
+    throw IncorrectOperationException("Incorrect doc section text")
+  }
+}
+
+/**
  * 获取空行元素
  */
 fun Project.createNewLine(n: Int = 1): PsiWhiteSpace {
@@ -420,7 +438,7 @@ inline fun <reified T> PsiElement.getChildOfType(): T? {
  */
 inline fun <reified T> PsiElement.getContinuousAncestorsMatches(
     predicate: (PsiElement) -> Boolean
-                                                               ): ArrayList<T> {
+): ArrayList<T> {
   val result = arrayListOf<T>()
   var el: PsiElement? = this.parent
   while (el != null && el is T && predicate(el)) {
@@ -529,6 +547,20 @@ inline fun <reified T> PsiElement.getSiblingsOfType(): List<PsiElement> {
   } else {
     return this.parent.children.filter { it is T }
   }
+}
+
+/**
+ * 读取项目版本号，目前支持maven
+ */
+fun Project.getVersion(): String? {
+  val mavenProjectsManager = MavenProjectsManager.getInstance(this)
+  if (mavenProjectsManager.hasProjects()) {
+    val mavenProject = mavenProjectsManager.projects.firstOrNull()
+    if (mavenProject != null) {
+      return mavenProject.modelMap["version"]
+    }
+  }
+  return null
 }
 
 /**

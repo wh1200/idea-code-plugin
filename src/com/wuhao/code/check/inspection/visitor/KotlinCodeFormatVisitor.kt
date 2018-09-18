@@ -45,7 +45,9 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
   override fun visitClassBody(classBody: KtClassBody, data: Any?) {
     if (classBody.prevSibling !is PsiWhiteSpace) {
-      holder.registerError(classBody.lBrace!!, "前面应当有空格", SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
+      if (classBody.lBrace != null) {
+        holder.registerError(classBody.lBrace!!, "前面应当有空格", SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
+      }
     }
     super.visitClassBody(classBody, data)
   }
@@ -89,7 +91,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   }
 
   override fun visitLambdaExpression(expression: KtLambdaExpression, data: Any?) {
-    val lambdaAncestors = expression.getAncestorsOfType<KtLambdaExpression>()
+//    val lambdaAncestors = expression.getAncestorsOfType<KtLambdaExpression>()
     if (expression.parent is KtLambdaArgument) {
       val argument = expression.parent as KtLambdaArgument
       val list = argument.resolveMainReferenceToDescriptors()

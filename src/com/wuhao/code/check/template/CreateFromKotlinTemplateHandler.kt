@@ -13,14 +13,14 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.util.IncorrectOperationException
+import com.wuhao.code.check.getVersion
 import com.wuhao.code.check.isIdea
 import com.wuhao.code.check.ui.PluginSettings
-import org.jetbrains.idea.maven.project.MavenProjectsManager
 import org.jetbrains.kotlin.idea.KotlinFileType
 
 /**
  * @author 吴昊
- * @since
+ * @since 1.4.3
  */
 class CreateFromKotlinTemplateHandler : CreateFromTemplateHandler {
 
@@ -36,13 +36,9 @@ class CreateFromKotlinTemplateHandler : CreateFromTemplateHandler {
     if (FileTypeManager.getInstance().isFileIgnored(copyFileName)) {
       throw IncorrectOperationException("This filename is ignored (Settings | Editor | File Types | Ignore files and folders)")
     } else {
-      val mavenProjectsManager = MavenProjectsManager.getInstance(project)
-      if (mavenProjectsManager.hasProjects()) {
-        val mavenProject = MavenProjectsManager.getInstance(project).projects.firstOrNull()
-        if (mavenProject != null) {
-          val version = mavenProject.modelMap["version"]
-          text = templateText.replace("@since", "@since $version")
-        }
+      val version = project.getVersion()
+      if (!version.isNullOrBlank()) {
+        text = templateText.replace("@since", "@since $version")
       }
       directory.checkCreateFile(copyFileName)
       val type = FileTypeRegistry.getInstance().getFileTypeByFileName(copyFileName)

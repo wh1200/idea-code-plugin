@@ -7,7 +7,7 @@ import org.apache.commons.httpclient.Header
 import java.util.*
 
 /**
- * Created by wuhao on 2016/6/27.
+ * Created by 吴昊 on 2016/6/27.
  * http 请求结果
  */
 class HttpResult {

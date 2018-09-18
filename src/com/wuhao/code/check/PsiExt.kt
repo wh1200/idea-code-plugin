@@ -24,9 +24,7 @@ import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
 import com.intellij.util.IncorrectOperationException
 import com.intellij.util.PlatformUtils
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
-import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Both
+import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -38,6 +36,11 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 import org.jetbrains.kotlin.psi.psiUtil.isObjectLiteral
 import java.io.File
+
+/**
+ * @author wuhao
+ * @since 0.1
+ */
 
 /**
  * 获取psi元素的所有祖先元素，按距离从近到远

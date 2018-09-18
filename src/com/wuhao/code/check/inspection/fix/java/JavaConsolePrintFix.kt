@@ -14,7 +14,7 @@ import com.intellij.psi.PsiReferenceExpression
 import com.wuhao.code.check.createNewLine
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.psiElementFactory
-import org.jetbrains.uast.getContainingClass
+import org.jetbrains.kotlin.j2k.getContainingClass
 
 /**
  * 修复控制台使用非日志输出的方式
@@ -24,7 +24,6 @@ import org.jetbrains.uast.getContainingClass
 class JavaConsolePrintFix : LocalQuickFix {
 
   companion object {
-
     const val ERROR_DECLARATION = "System.err.print"
     const val LOG_FACTORY_PREFERENCE = "org.slf4j.LoggerFactory"
     const val LOG_FIELD_NAME = "LOG"

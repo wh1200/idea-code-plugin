@@ -60,15 +60,6 @@ class VueAttrFixPreProcessor : PreFormatProcessor {
               super.visitXmlAttribute(attribute)
             }
 
-            override fun visitXmlTag(tag: XmlTag) {
-              //              val name = tag.name
-              //              if (name.toLowerCase() !in tags) {
-              //                tag.name = transferCustomTagName(name)
-              //              }
-
-              super.visitXmlTag(tag)
-            }
-
             private fun transferCustomTagName(name: String): String {
               val nameParts = name.split("-")
               return if (nameParts.size > 1) {

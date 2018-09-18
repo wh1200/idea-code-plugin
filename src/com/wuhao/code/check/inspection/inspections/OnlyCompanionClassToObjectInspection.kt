@@ -22,7 +22,7 @@ import org.jetbrains.kotlin.psi.KtVisitor
  * Created by 吴昊 on 2018/9/17.
  *
  * @author 吴昊
- * @since
+ * @since 1.4.2
  */
 class OnlyCompanionClassToObjectInspection : BaseInspection(COMPANION_CLASS_TO_OBJECT) {
 

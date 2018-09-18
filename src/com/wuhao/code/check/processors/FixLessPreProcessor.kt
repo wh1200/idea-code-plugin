@@ -36,7 +36,7 @@ class FixLessPreProcessor : PreFormatProcessor {
  * @author 吴昊
  * @since 1.3.3
  */
-class LessPreFixVisitor() : LessRecursiveVisitor() {
+class LessPreFixVisitor : LessRecursiveVisitor() {
 
   override fun visitCssDeclaration(declaration: CssDeclaration) {
     val next = declaration.nextIgnoreWs

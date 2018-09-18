@@ -7,6 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveVisitor
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.psi.KtVisitor
 
 /**
@@ -22,10 +23,14 @@ abstract class KotlinRecursiveVisitor : KtVisitor<Any, Any>(), PsiRecursiveVisit
   open fun visitDocSection(section: KDocSection) {
   }
 
+  open fun visitDocTag(element: KDocTag) {
+  }
+
   override fun visitElement(element: PsiElement) {
     when (element) {
-      is KDoc -> visitDoc(element)
+      is KDoc        -> visitDoc(element)
       is KDocSection -> visitDocSection(element)
+      is KDocTag     -> visitDocTag(element)
     }
     element.acceptChildren(this)
   }

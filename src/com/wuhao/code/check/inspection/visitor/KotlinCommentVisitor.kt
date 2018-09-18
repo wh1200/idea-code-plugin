@@ -21,6 +21,7 @@ import org.jetbrains.kotlin.j2k.getContainingClass
 import org.jetbrains.kotlin.kdoc.lexer.KDocTokens
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
@@ -53,9 +54,9 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
       return
     }
     when (element) {
-      is KDocSection -> {
-        this.visitDocSection(element)
-      }
+      is KDocSection -> this.visitDocSection(element)
+      is KDocTag     -> this.visitDocTag(element)
+
     }
   }
 
@@ -126,8 +127,15 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
         registerErrorExceptFirst(docsBeforeDirective)
       }
     } else {
-      if (element.firstChild is KDoc && element.prevIgnoreWs is KDoc) {
-        holder.registerError(element.prevIgnoreWs!!, Messages.REDUNDANT_COMMENT, DeleteFix())
+      if (element.firstChild is KDoc) {
+        val prev = element.prevIgnoreWs
+        if (prev is KDoc) {
+          val prevPrev = prev.prevIgnoreWs
+          if (prevPrev !is KtImportList && prevPrev !is KtPackageDirective
+              || element is KtClass) {
+            holder.registerError(element.prevIgnoreWs!!, Messages.REDUNDANT_COMMENT, DeleteFix())
+          }
+        }
       }
     }
   }
@@ -144,9 +152,7 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
   }
 
   private fun visitDocSection(section: KDocSection) {
-    if (section.text.isBlank()) {
-      holder.registerError(section, "注释内容不能为空")
-    } else if (section.parent.getLineCount() > 0) {
+    if (!section.text.isBlank() && section.parent.getLineCount() > 0) {
       if (section.prevIgnoreWs is LeafPsiElement
           && (section.prevIgnoreWs as LeafPsiElement).elementType == KDocTokens.START) {
         val textElement = section.allChildren.firstOrNull { it is LeafPsiElement && it.elementType == KDocTokens.TEXT }
@@ -158,6 +164,15 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
         } else if (textElement == null) {
           holder.registerError(section, Messages.MISSING_COMMENT_CONTENT)
         }
+      }
+    }
+  }
+
+  private fun visitDocTag(element: KDocTag) {
+    if (element.getContent().isBlank()) {
+      when (element.name) {
+        "author" -> holder.registerError(element, Messages.REQUIRE_AUTHOR)
+        "since"  -> holder.registerError(element, Messages.REQUIRE_VERSION)
       }
     }
   }

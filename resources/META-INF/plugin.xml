@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check Plugin</name>
-  <version>1.4.2</version>
+  <version>1.4.3</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[

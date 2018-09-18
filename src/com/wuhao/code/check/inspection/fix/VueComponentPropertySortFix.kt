@@ -18,7 +18,7 @@ import com.intellij.openapi.project.Project
 class VueComponentPropertySortFix : LocalQuickFix {
 
   companion object {
-    public val lifeCycleMethods = listOf(
+    val lifeCycleMethods = listOf(
         "beforeCreate", "created", "beforeMount",
         "mounted", "beforeUpdate", "updated", "activated", "deactivated",
         "beforeDestroy", "destroyed"

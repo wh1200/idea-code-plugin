@@ -10,6 +10,8 @@ package com.wuhao.code.check.constants
  */
 object Messages {
 
+  const val REQUIRE_AUTHOR = "缺少作者信息"
+  const val REQUIRE_VERSION = "缺少版本信息"
   const val CLASS_COMMENT_REQUIRED = "缺少类注释"
   const val COMMENT_REQUIRED = "缺少注释"
   const val COMPANION_CLASS_TO_OBJECT = "只包含伴随对象的类应该声明为object"

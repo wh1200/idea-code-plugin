@@ -15,6 +15,7 @@ import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.isIdea
 import com.wuhao.code.check.ui.PluginSettings
+import org.jetbrains.idea.maven.project.MavenProjectsManager
 import org.jetbrains.kotlin.idea.KotlinFileType
 
 /**
@@ -30,13 +31,22 @@ class CreateFromKotlinTemplateHandler : CreateFromTemplateHandler {
   @Throws(IncorrectOperationException::class)
   override fun createFromTemplate(project: Project, directory: PsiDirectory, fileName: String, template: FileTemplate, templateText: String, props: Map<String, Any>): PsiElement {
     var copyFileName = fileName
+    var text = templateText
     copyFileName = this.checkAppendExtension(copyFileName, template)
     if (FileTypeManager.getInstance().isFileIgnored(copyFileName)) {
       throw IncorrectOperationException("This filename is ignored (Settings | Editor | File Types | Ignore files and folders)")
     } else {
+      val mavenProjectsManager = MavenProjectsManager.getInstance(project)
+      if (mavenProjectsManager.hasProjects()) {
+        val mavenProject = MavenProjectsManager.getInstance(project).projects.firstOrNull()
+        if (mavenProject != null) {
+          val version = mavenProject.modelMap["version"]
+          text = templateText.replace("@since", "@since $version")
+        }
+      }
       directory.checkCreateFile(copyFileName)
       val type = FileTypeRegistry.getInstance().getFileTypeByFileName(copyFileName)
-      var file = PsiFileFactory.getInstance(project).createFileFromText(copyFileName, type, templateText)
+      var file = PsiFileFactory.getInstance(project).createFileFromText(copyFileName, type, text)
       if (template.isReformatCode) {
         CodeStyleManager.getInstance(project).reformat(file)
       }

@@ -173,7 +173,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     thenList.forEach { then ->
       if (then.firstChild !is KtBlockExpression && then.firstChild !is KtIfExpression) {
         if (then.prev is PsiWhiteSpace) {
-          then.prev.replace(factory.createWhiteSpace(" "))
+          then.prev?.replace(factory.createWhiteSpace(" "))
         }
         if (then.next != null && then.next is PsiWhiteSpace) {
           then.next!!.replace(factory.createWhiteSpace(" "))

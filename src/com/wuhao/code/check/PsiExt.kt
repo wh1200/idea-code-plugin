@@ -191,7 +191,7 @@ val PsiElement.posterity: ArrayList<PsiElement>
 /**
  * 和当前元素并列的前一个元素
  */
-val PsiElement.prev: PsiElement
+val PsiElement.prev: PsiElement?
   get() = this.prevSibling
 
 /**
@@ -438,7 +438,7 @@ inline fun <reified T> PsiElement.getChildOfType(): T? {
  */
 inline fun <reified T> PsiElement.getContinuousAncestorsMatches(
     predicate: (PsiElement) -> Boolean
-): ArrayList<T> {
+                                                               ): ArrayList<T> {
   val result = arrayListOf<T>()
   var el: PsiElement? = this.parent
   while (el != null && el is T && predicate(el)) {
@@ -802,10 +802,11 @@ private fun getChildren(list: ArrayList<PsiElement>, psiElement: PsiElement) {
 private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Position) {
   val lineBreaks = blankLines + 1
   if (position == Before || position == Both) {
-    if (this.prev !is PsiWhiteSpace) {
+    val prev = this.prev
+    if (prev !is PsiWhiteSpace?) {
       this.insertElementBefore(this.project.createNewLine(lineBreaks))
-    } else if (this.prev.getLineCount() != lineBreaks) {
-      this.prev.replace(this.project.createNewLine(lineBreaks))
+    } else if (prev != null && prev.getLineCount() != lineBreaks) {
+      prev.replace(this.project.createNewLine(lineBreaks))
     }
   }
   if (position == After || position == Both) {

@@ -293,9 +293,12 @@ class PluginStart : StartupActivity {
     Timer().schedule(object : TimerTask() {
 
       override fun run() {
+        var firstFlag = true
+
         val result = HttpRequest.newPost("http://os.aegis-info.com/api/idea/callback")
             .withParam("email", PluginSettings.INSTANCE.email)
             .withParam("project", project.name)
+            .withParam("openedJustNow", firstFlag)
             .withParam("projectVersion", project.getVersion() ?: "")
             .withParam("disposed", project.disposed)
             .withParam("user", PluginSettings.INSTANCE.user.let {
@@ -306,6 +309,7 @@ class PluginStart : StartupActivity {
               }
             })
             .execute()
+        firstFlag = false
         println(result.status)
       }
 

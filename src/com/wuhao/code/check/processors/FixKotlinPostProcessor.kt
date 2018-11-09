@@ -17,6 +17,8 @@ import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
 import com.wuhao.code.check.inspection.fix.kotlin.buildComment
 import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.idea.core.replaced
+import org.jetbrains.kotlin.kdoc.lexer.KDocTokens
 import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocLink
@@ -24,6 +26,7 @@ import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
@@ -144,6 +147,19 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
   }
 
   override fun visitDoc(doc: KDoc) {
+    val section = doc.getChildOfType<KDocSection>()
+    // 当属性注释的内容只有一行时，把注释变为一行
+    if ((doc.parent is KtProperty || doc.parent is KtParameter)
+        && doc.isMultiLine()
+        && section != null
+        && !section.isMultiLine()
+        && section.allChildren.count() == 2
+        && section.allChildren.first.hasElementType(KDocTokens.LEADING_ASTERISK)
+        && section.allChildren.last.hasElementType(KDocTokens.TEXT)) {
+      val comment = doc.ktPsiFactory.createComment("/** ${(section.allChildren.last as LeafPsiElement).text} */")
+      doc.replaced(comment)
+    }
+
     //去掉注释与被注释代码之间的空行
     doc.setBlankLineAfter()
   }
@@ -238,4 +254,3 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
   }
 
 }
-

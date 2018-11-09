@@ -20,6 +20,8 @@ import com.intellij.openapi.vfs.newvfs.impl.VirtualDirectoryImpl
 import com.intellij.psi.*
 import com.intellij.psi.css.CssElement
 import com.intellij.psi.css.CssElementFactory
+import com.intellij.psi.impl.source.tree.LeafPsiElement
+import com.intellij.psi.tree.IElementType
 import com.intellij.refactoring.rename.inplace.VariableInplaceRenameHandler
 import com.intellij.util.IncorrectOperationException
 import com.intellij.util.PlatformUtils
@@ -42,9 +44,7 @@ import java.io.File
  * @author wuhao
  * @since 0.1
  */
-/**
- * 获取psi元素的所有祖先元素，按距离从近到远
- */
+/**  获取psi元素的所有祖先元素，按距离从近到远 */
 val PsiElement.ancestors: List<PsiElement>
   get() {
     val ancestors = ArrayList<PsiElement>()
@@ -59,17 +59,13 @@ val PsiElement.ancestors: List<PsiElement>
     return ancestors
   }
 
-/**
- * 获取kotlin方法的方法体（包含括号）
- */
+/**  获取kotlin方法的方法体（包含括号） */
 val KtNamedFunction.body: KtBlockExpression?
   get() {
     return this.getChildOfType()
   }
 
-/**
- * 获取目录下所有缓存的文件
- */
+/**  获取目录下所有缓存的文件 */
 val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
   get() {
     val list = ArrayList<VirtualFile>()
@@ -77,17 +73,13 @@ val VirtualDirectoryImpl.cachedPosterity: ArrayList<VirtualFile>
     return list
   }
 
-/**
- * css元素工厂类
- */
+/**  css元素工厂类 */
 val CssElement.cssElementFactory: CssElementFactory
   get() {
     return CssElementFactory.getInstance(this.project)
   }
 
-/**
- * psi元素的深度
- */
+/**  psi元素的深度 */
 val PsiElement.depth: Int
   get() {
     var depth = 0
@@ -103,55 +95,41 @@ val PsiElement.depth: Int
     return depth
   }
 
-/**
- * psi元素的结束位置
- */
+/**  psi元素的结束位置 */
 val PsiElement.endOffset: Int
   get() {
     return this.textRange.endOffset
   }
 
-/**
- * 是否是父元素的第一个子元素
- */
+/**  是否是父元素的第一个子元素 */
 val PsiElement.isFirstChild: Boolean
   get() {
     return this.parent != null && this.parent.firstChild == this
   }
 
-/**
- * 是否idea
- */
+/**  是否idea */
 val isIdea: Boolean
   get() {
     return PlatformUtils.isIdeaCommunity() || PlatformUtils.isIdeaUltimate()
   }
 
-/**
- * 判断kotlin属性是否val
- */
+/**  判断kotlin属性是否val */
 val KtProperty.isVal: Boolean
   get() {
     return !this.isVar
   }
 
-/**
- * 是否webstorm
- */
+/**  是否webstorm */
 val isWebStorm: Boolean
   get() {
     return PlatformUtils.isWebStorm()
   }
 
-/**
- * 获取kt元素的工厂类
- */
+/**  获取kt元素的工厂类 */
 val PsiElement.ktPsiFactory: KtPsiFactory
   get() = this.project.ktPsiFactory
 
-/**
- * 获取kt元素的工厂类
- */
+/**  获取kt元素的工厂类 */
 val Project.ktPsiFactory: KtPsiFactory
   get() {
     if (KT_PSI_FACTORY_CACHE[this] == null) {
@@ -160,15 +138,11 @@ val Project.ktPsiFactory: KtPsiFactory
     return KT_PSI_FACTORY_CACHE[this]!!
   }
 
-/**
- * 和当前元素并列的后一个元素
- */
+/**  和当前元素并列的后一个元素 */
 val PsiElement.next: PsiElement?
   get() = this.nextSibling
 
-/**
- * 获取当前元素并列的下一个非空白元素
- */
+/**  获取当前元素并列的下一个非空白元素 */
 val PsiElement.nextIgnoreWs: PsiElement?
   get() {
     var sibling = this.nextSibling
@@ -178,9 +152,7 @@ val PsiElement.nextIgnoreWs: PsiElement?
     return sibling
   }
 
-/**
- * 获取所有后代元素
- */
+/**  获取所有后代元素 */
 val PsiElement.posterity: ArrayList<PsiElement>
   get() {
     val list = ArrayList<PsiElement>()
@@ -188,15 +160,11 @@ val PsiElement.posterity: ArrayList<PsiElement>
     return list
   }
 
-/**
- * 和当前元素并列的前一个元素
- */
+/**  和当前元素并列的前一个元素 */
 val PsiElement.prev: PsiElement?
   get() = this.prevSibling
 
-/**
- * 获取当前元素之前的第一个非空白元素
- */
+/**  获取当前元素之前的第一个非空白元素 */
 val PsiElement.prevIgnoreWs: PsiElement?
   get() {
     var sibling = this.prevSibling
@@ -215,9 +183,7 @@ val PsiElement.psiElementFactory: PsiElementFactory
     return this.project.psiElementFactory
   }
 
-/**
- * psifactory
- */
+/**  psifactory */
 val Project.psiElementFactory: PsiElementFactory
   get() {
     if (PSI_ELEMENT_FACTORY_CACHE[this] == null) {
@@ -226,9 +192,7 @@ val Project.psiElementFactory: PsiElementFactory
     return PSI_ELEMENT_FACTORY_CACHE[this]!!
   }
 
-/**
- * 元素起始位置
- */
+/**  元素起始位置 */
 val PsiElement.startOffset: Int
   get() {
     return this.textRange.startOffset
@@ -589,6 +553,13 @@ fun KtNamedFunction.hasDoc(): Boolean {
 }
 
 /**
+ * 是否是指定类型的元素
+ */
+fun PsiElement?.hasElementType(type: IElementType): Boolean {
+  return this is LeafPsiElement && this.elementType == type
+}
+
+/**
  *
  * @param name
  * @return
@@ -818,4 +789,3 @@ private fun PsiElement.setBlankLine(blankLines: Int, position: SpaceQuickFix.Pos
     }
   }
 }
-

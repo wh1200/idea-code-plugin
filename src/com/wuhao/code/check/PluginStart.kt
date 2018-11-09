@@ -61,10 +61,12 @@ import com.wuhao.code.check.constants.InspectionNames.KOTLIN_COMMENT
 import com.wuhao.code.check.constants.InspectionNames.KOTLIN_FORMAT
 import com.wuhao.code.check.constants.InspectionNames.MYBATIS
 import com.wuhao.code.check.constants.InspectionNames.PROPERTY_CLASS
+import com.wuhao.code.check.http.HttpRequest
 import com.wuhao.code.check.style.KotlinModifier.LATEINIT
 import com.wuhao.code.check.style.KotlinModifier.OPEN
 import com.wuhao.code.check.style.arrangement.*
 import com.wuhao.code.check.template.KotlinTemplates
+import com.wuhao.code.check.ui.PluginSettings
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.core.formatter.KotlinCodeStyleSettings
@@ -75,6 +77,7 @@ import org.jetbrains.vuejs.VueLanguage
 import org.jetbrains.yaml.YAMLFileType
 import org.jetbrains.yaml.YAMLLanguage
 import java.awt.Color
+import java.util.*
 
 /**
  * 项目启动时运行，主要对代码格式的配置按公司规范进行重写
@@ -107,6 +110,7 @@ class PluginStart : StartupActivity {
     setTemplates(project)
     setSeverity(project)
     setDefaults(settings)
+    sendEvent(project)
   }
 
   fun setKotlinDefaults(settings: CodeStyleSettings) {
@@ -222,14 +226,14 @@ class PluginStart : StartupActivity {
         ArrangementGroupingRule(GETTERS_AND_SETTERS, KEEP),
         ArrangementGroupingRule(OVERRIDDEN_METHODS, BY_NAME),
         ArrangementGroupingRule(DEPENDENT_METHODS, BREADTH_FIRST)
-    )
+                              )
     val sections = createSections(JavaRearrangeRules.get())
     val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
       definitionRules = listOf(PUBLIC, PACKAGE_PRIVATE,
-          PROTECTED, PRIVATE, LATEINIT).map {
+                               PROTECTED, PRIVATE, LATEINIT).map {
         StdArrangementMatchRule(
             StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-        )
+                               )
       }
     })
     return StdArrangementExtendableSettings(groupingRules, sections, tokens)
@@ -241,7 +245,7 @@ class PluginStart : StartupActivity {
       definitionRules = listOf(OPEN, PUBLIC, PACKAGE_PRIVATE, PROTECTED, PRIVATE, LATEINIT).map {
         StdArrangementMatchRule(
             StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-        )
+                               )
       }
     })
     return StdArrangementExtendableSettings(listOf(), sections, tokens)
@@ -252,7 +256,7 @@ class PluginStart : StartupActivity {
         listOf(),
         createSections(LessRearrangeRules.get()),
         listOf()
-    )
+                                           )
   }
 
   private fun createMatcher(rule: RuleDescription): StdArrangementEntryMatcher {
@@ -262,7 +266,7 @@ class PluginStart : StartupActivity {
             this.addOperand(ArrangementAtomMatchCondition(token))
           }
         }
-    )
+                                     )
   }
 
   private fun createSections(rules: List<RuleDescription>): List<ArrangementSectionRule> {
@@ -282,7 +286,30 @@ class PluginStart : StartupActivity {
         listOf(),
         createSections(VueRearrangeRules.get()),
         listOf()
-    )
+                                           )
+  }
+
+  private fun sendEvent(project: Project) {
+    Timer().schedule(object : TimerTask() {
+
+      override fun run() {
+        val result = HttpRequest.newPost("http://os.aegis-info.com/api/idea/callback")
+            .withParam("email", PluginSettings.INSTANCE.email)
+            .withParam("project", project.name)
+            .withParam("projectVersion", project.getVersion() ?: "")
+            .withParam("disposed", project.disposed)
+            .withParam("user", PluginSettings.INSTANCE.user.let {
+              if (it.isEmpty()) {
+                System.getProperty("user.name")
+              } else {
+                it
+              }
+            })
+            .execute()
+        println(result.status)
+      }
+
+    }, 5000, 30_000)
   }
 
   private fun setDefaults(settings: CodeStyleSettings) {
@@ -318,12 +345,12 @@ class PluginStart : StartupActivity {
         XmlFileType.INSTANCE,
         HtmlFileType.INSTANCE,
         CssFileType.INSTANCE
-    )
+                                        )
     if (isIdea) {
       setIndentFileTypes.addAll(listOf(JavaFileType.INSTANCE,
-          YAMLFileType.YML,
-          SqlFileType.INSTANCE,
-          KotlinFileType.INSTANCE))
+                                       YAMLFileType.YML,
+                                       SqlFileType.INSTANCE,
+                                       KotlinFileType.INSTANCE))
     }
     setIndentFileTypes.forEach { fileType ->
       val language = when (fileType) {
@@ -386,15 +413,15 @@ class PluginStart : StartupActivity {
               this.errorStripeColor = color
             },
             HighlightInfoType.HighlightInfoTypeImpl(HighlightSeverity(CODE_FORMAT_SEVERITY_NAME, 350),
-                CodeInsightColors.WARNINGS_ATTRIBUTES)
-        ), color
-    )
+                                                    CodeInsightColors.WARNINGS_ATTRIBUTES)
+                                                     ), color
+                                      )
     val severity = severityRegistrar.getSeverity(PluginStart.CODE_FORMAT_SEVERITY_NAME)
     val inspectionProfile = InspectionProfileManager.getInstance(project)
         .currentProfile
     InspectionNames.values().forEach {
       if (isIdea || it !in listOf(CODE_FORMAT, JAVA_COMMENT, JAVA_FORMAT, KOTLIN_COMMENT,
-              KOTLIN_FORMAT, PROPERTY_CLASS, JAVA_PROPERTY_CLASS, MYBATIS)) {
+                                  KOTLIN_FORMAT, PROPERTY_CLASS, JAVA_PROPERTY_CLASS, MYBATIS)) {
         inspectionProfile.enableTool(it.shortName, project)
         val tools = inspectionProfile.getTools(it.shortName, project)
         tools.level = HighlightDisplayLevel(severity!!)
@@ -416,4 +443,3 @@ class PluginStart : StartupActivity {
   }
 
 }
-

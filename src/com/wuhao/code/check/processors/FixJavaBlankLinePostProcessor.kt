@@ -40,7 +40,7 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
     if (isIdea) {
       val ktFactory = source.ktPsiFactory
       source.accept(JavaVisitor())
-      fixWhiteSpace(source.lastChild, 2, ktFactory)
+      fixWhiteSpace(source.lastChild, 1, ktFactory)
     }
     return TextRange(0, source.endOffset)
   }
@@ -58,12 +58,14 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
   /**
    *
    * @author 吴昊
-   * @since
+   * @since 1.0
    */
   private class JavaVisitor : JavaRecursiveElementVisitor() {
 
     override fun visitClass(aClass: PsiClass) {
-      aClass.setBlankLineBoth(1)
+      if (aClass !is PsiTypeParameter) {
+        aClass.setBlankLineBoth(1)
+      }
       super.visitClass(aClass)
     }
 
@@ -106,17 +108,15 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
     }
 
     override fun visitMethod(method: PsiMethod) {
-      if (method.isOverrideMethod) {
-        if (!method.annotations.any { it.qualifiedName == OVERRIDE_DECLARATION }) {
-          val modifierList = method.modifierList
-          val annotation = method.psiElementFactory.createAnnotationFromText("@Override", modifierList)
-          if (modifierList.children.isEmpty()) {
-            modifierList.add(annotation)
-          } else {
-            val newAnnotation = modifierList.firstChild.insertElementBefore(annotation)
-            if (modifierList.getChildrenOfType<PsiAnnotation>().isNotEmpty()) {
-              newAnnotation.setBlankLineBefore()
-            }
+      if (method.isOverrideMethod && !method.annotations.any { it.qualifiedName == OVERRIDE_DECLARATION }) {
+        val modifierList = method.modifierList
+        val annotation = method.psiElementFactory.createAnnotationFromText("@Override", modifierList)
+        if (modifierList.children.isEmpty()) {
+          modifierList.add(annotation)
+        } else {
+          val newAnnotation = modifierList.firstChild.insertElementBefore(annotation)
+          if (modifierList.getChildrenOfType<PsiAnnotation>().isNotEmpty()) {
+            newAnnotation.setBlankLineBefore()
           }
         }
       }
@@ -126,7 +126,7 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
         method.setBlankLineBefore(1)
       }
       if (nextMethod is PsiMethod) {
-        if (method.modifiers.contentEquals(nextMethod.modifiers)) {
+        if (method.modifierList.isEquivalentTo(nextMethod.modifierList)) {
           method.setBlankLineAfter(1)
         } else {
           method.setBlankLineAfter(2)

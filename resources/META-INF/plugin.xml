@@ -170,6 +170,7 @@
     <gotoDeclarationHandler
         implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyBatisGotoDeclarationHandler"/>
+    <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.VueLifetimeFunctionHandler"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrFixPreProcessor"
                         id="VueAttrFixProcessor" order="last"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPreProcessor"
@@ -193,6 +194,9 @@
     <codeInsight.lineMarkerProvider
         implementationClass="com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider"
         id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
+    <codeInsight.lineMarkerProvider
+        implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
+        id="VueLineMarkerProvider" language="Vue"/>
     <applicationConfigurable
         instance="com.wuhao.code.check.ui.AegisPluginSettingsConfigurable"/>
     <applicationService

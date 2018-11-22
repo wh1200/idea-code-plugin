@@ -310,7 +310,6 @@ class PluginStart : StartupActivity {
             })
             .execute()
         firstFlag = false
-        println(result.status)
       }
 
     }, 5000, 30_000)

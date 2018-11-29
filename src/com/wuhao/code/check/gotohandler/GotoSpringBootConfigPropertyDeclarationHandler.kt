@@ -23,9 +23,10 @@ import org.jetbrains.yaml.psi.YAMLKeyValue
  */
 class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
 
-  override fun getActionText(context: DataContext?): String? {
+  override fun getActionText(context: DataContext): String? {
     return null
   }
+
 
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
     val res = arrayListOf<PsiElement>()

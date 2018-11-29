@@ -23,7 +23,7 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
  */
 class MyBatisGotoDeclarationHandler : GotoDeclarationHandler {
 
-  override fun getActionText(p0: DataContext?): String? {
+  override fun getActionText(p0: DataContext): String? {
     return null
   }
 

@@ -4,7 +4,7 @@
 
 <idea-plugin>
   <id>com.wuhao.code.check</id>
-  <name>Aegis Code Check Plugin</name>
+  <name>Aegis Code Check</name>
   <version>1.4.5</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
@@ -129,6 +129,14 @@
     </article>
     ]]></description>
   <change-notes><![CDATA[
+    <h5>1.4.6</h5>
+    <ul>
+      <li>Enhanced check for single-character naming</li>
+    </ul>
+    <h5>1.4.5</h5>
+    <ul>
+      <li>Add gutters for class style component of vue.js, including lifecycle functions, props, computed props and watchers</li>
+    </ul>
     <h5>v1.4.0</h5>
     <ul>
       <li>适配webstorm</li>

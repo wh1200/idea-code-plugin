@@ -16,7 +16,7 @@ import org.jetbrains.vuejs.language.VueJSLanguage
  */
 class VueLifetimeFunctionHandler : GotoDeclarationHandler {
 
-  override fun getActionText(p0: DataContext?): String? {
+  override fun getActionText(p0: DataContext): String? {
     return "none"
   }
 

@@ -10,8 +10,8 @@ import com.intellij.lang.jvm.JvmModifier
 import com.intellij.psi.*
 import com.intellij.psi.javadoc.PsiDocComment
 import com.wuhao.code.check.constants.Messages
-import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix
 import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix
 
 /**
  * Java代码格式检查访问器
@@ -58,16 +58,34 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
   override fun visitMethod(method: PsiMethod) {
     // 接口方法必须包含注释
     val elClass = method.containingClass
+    val elementToRegisterProblem = if (method.nameIdentifier != null) {
+      method.nameIdentifier!!
+    } else {
+      method
+    }
+
     if (elClass != null && elClass.isInterface && method.firstChild !is PsiDocComment) {
-      val elementToRegisterProblem = if (method.nameIdentifier != null) {
-        method.nameIdentifier!!
-      } else {
-        method
-      }
       holder.registerError(elementToRegisterProblem,
           Messages.INTERFACE_METHOD_COMMENT_REQUIRED, JavaBlockCommentFix())
+    } else {
+//      if (method.docComment != null) {
+//        if (method.parameters.size != method.docComment!!.findTagsByName("Param").size) {
+//          holder.registerError(method.parameterList, Messages.PARAMETER_COMMENT_MISSING, JavaBlockCommentFix())
+//        }
+//        val docTagList = method.docComment!!.findTagsByName("param")
+//        val parameterList = method.parameterList.parameters
+//        for (i in parameterList.indices) {
+//          if (docTagList.get(i) != null && parameterList.get(i) != null) {
+//            if (docTagList.get(i).text != parameterList.get(i).text) {
+//              holder.registerError(parameterList[i], Messages.PARAMETER_COMMENT_MISSING, JavaBlockCommentFix())
+//            }
+//          }
+//        }
+
+      if (method.docComment!!.findTagsByName("description").isEmpty()) {
+        holder.registerError(elementToRegisterProblem, Messages.DESCRIPTION_COMMENT_MISSING, JavaBlockCommentFix())
+      }
     }
   }
 
 }
-

@@ -26,6 +26,7 @@ import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
 import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
 import org.jetbrains.kotlin.lexer.KtTokens.CONST_KEYWORD
+import org.jetbrains.kotlin.lexer.KtTokens.IDENTIFIER
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.containingClassOrObject
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
@@ -65,6 +66,12 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   }
 
   override fun visitElement(element: PsiElement) {
+    if (element.node.elementType == IDENTIFIER && element.textLength <= 1) {
+      if (element.getAncestor(2)!!.node.elementType != FOR
+          && element !is LeafPsiElement) {
+        holder.registerError(element, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, KotlinCommaFix())
+      }
+    }
     when (element) {
       is LeafPsiElement -> {
         // Kotlin中不需要使用分号
@@ -181,4 +188,3 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   }
 
 }
-

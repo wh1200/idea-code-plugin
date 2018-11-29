@@ -14,9 +14,7 @@ import com.intellij.psi.impl.source.PsiClassImpl
 import com.wuhao.code.check.ancestorOfType
 import com.wuhao.code.check.constants.*
 import com.wuhao.code.check.enums.NamingMethod
-import com.wuhao.code.check.enums.NamingMethod.Camel
-import com.wuhao.code.check.enums.NamingMethod.Constant
-import com.wuhao.code.check.enums.NamingMethod.Pascal
+import com.wuhao.code.check.enums.NamingMethod.*
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.getAncestorsOfType
 import com.wuhao.code.check.getLineCount
@@ -49,11 +47,11 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
         val fix = SpaceQuickFix(position)
         val place = when (position) {
           Before -> "前面"
-          else -> "后面"
+          else   -> "后面"
         }
         val check = when (position) {
           Before -> checkElement.prevSibling
-          else -> checkElement.nextSibling
+          else   -> checkElement.nextSibling
         }
         if (check !is PsiWhiteSpace) {
           holder.registerError(checkElement, "${place}应当有空格", fix)
@@ -68,13 +66,11 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     return language == JavaLanguage.INSTANCE
   }
 
-
   override fun visitFile(file: PsiFile) {
     if (file.getLineCount() > MAX_LINES_PER_FILE) {
       holder.registerError(file, "文件长度不允许超过${MAX_LINES_PER_FILE}行")
     }
   }
-
 
   override fun visitForStatement(statement: PsiForStatement) {
     shouldHaveSpaceBeforeOrAfter(statement.condition, holder)
@@ -82,11 +78,14 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     shouldHaveSpaceBeforeOrAfter(statement.rParenth, holder, SpaceQuickFix.Position.After)
   }
 
-
   override fun visitIdentifier(identifier: PsiIdentifier) {
     // 方法名、字段名长度不能少于2个字符
     if (identifier.text.length <= 1 && identifier.parent !is PsiTypeParameter) {
-      if ((identifier.parent is PsiMethod || identifier.parent is PsiClass)
+      // for循环中的变量可以为单字符
+      if (identifier.parent is PsiLocalVariable && identifier.getAncestor(2) is PsiDeclarationStatement
+          && identifier.getAncestor(3) is PsiForStatement) {
+      } else if ((identifier.parent is PsiParameter || identifier.parent is PsiParameterList)
+          || (identifier.parent is PsiMethod || identifier.parent is PsiClass)
           || (identifier.parent is PsiField && identifier.getAncestor(2) is PsiClass)) {
         holder.registerError(identifier, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, RenameIdentifierFix())
       }
@@ -106,11 +105,9 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     }
   }
 
-
   override fun visitIfStatement(statement: PsiIfStatement) {
     shouldHaveSpaceBeforeOrAfter(statement.rParenth, holder, SpaceQuickFix.Position.After)
   }
-
 
   override fun visitLiteralExpression(expression: PsiLiteralExpression) {
     // 检查数字参数
@@ -126,7 +123,6 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     }
   }
 
-
   override fun visitMethod(method: PsiMethod) {
     // 方法长度不能超过指定长度
     if (method.nameIdentifier != null && method.getLineCount() > MAX_LINES_PER_FUNCTION) {
@@ -134,7 +130,6 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
           "方法长度不能超过${MAX_LINES_PER_FUNCTION}行")
     }
   }
-
 
   override fun visitMethodCallExpression(expression: PsiMethodCallExpression) {
     // 使用日志输入代替System.out
@@ -150,7 +145,6 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
       }
     }
   }
-
 
   private fun PsiIdentifier.checkNaming(method: NamingMethod) {
     if (!method.test(this.text)) {

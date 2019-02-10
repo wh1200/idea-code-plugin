@@ -390,6 +390,15 @@ inline fun <reified T> PsiElement.getAncestorsOfType(): ArrayList<T> {
 }
 
 /**
+ * 判断kotlin元素上指定名称的注解
+ * @param annotation 指定注解名称
+ * @return
+ */
+fun KtAnnotated.getAnnotation(annotation: String): KtAnnotationEntry? {
+  return this.annotationEntries.firstOrNull { it.toLightAnnotation()?.qualifiedName == annotation }
+}
+
+/**
  *
  * @return
  */
@@ -402,7 +411,7 @@ inline fun <reified T> PsiElement.getChildOfType(): T? {
  */
 inline fun <reified T> PsiElement.getContinuousAncestorsMatches(
     predicate: (PsiElement) -> Boolean
-                                                               ): ArrayList<T> {
+): ArrayList<T> {
   val result = arrayListOf<T>()
   var el: PsiElement? = this.parent
   while (el != null && el is T && predicate(el)) {
@@ -518,7 +527,7 @@ inline fun <reified T> PsiElement.getSiblingsOfType(): List<PsiElement> {
  */
 fun Project.getVersion(): String? {
   val mavenProjectsManager = MavenProjectsManager.getInstance(this)
-  if (mavenProjectsManager.hasProjects()) {
+  if (mavenProjectsManager != null && mavenProjectsManager.hasProjects()) {
     val mavenProject = mavenProjectsManager.projects.firstOrNull()
     if (mavenProject != null) {
       return mavenProject.modelMap["version"]

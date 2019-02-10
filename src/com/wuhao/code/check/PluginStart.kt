@@ -86,6 +86,8 @@ import java.util.*
  */
 class PluginStart : StartupActivity {
 
+  var yamlEnabled: Boolean = false
+
   companion object {
     const val CODE_FORMAT_SEVERITY_NAME: String = "Code Format"
     fun setIndent(fileType: FileType, language: Language?, settings: CodeStyleSettings) {
@@ -98,6 +100,14 @@ class PluginStart : StartupActivity {
       if (language != null) {
         LanguageCodeStyleSettingsProvider.getDefaultCommonSettings(language)?.LINE_COMMENT_AT_FIRST_COLUMN = true
       }
+    }
+  }
+
+  init {
+    try {
+      Class.forName("org.jetbrains.yaml.YAMLFileType")
+      yamlEnabled = true
+    } catch (e: Exception) {
     }
   }
 
@@ -114,69 +124,72 @@ class PluginStart : StartupActivity {
   }
 
   fun setKotlinDefaults(settings: CodeStyleSettings) {
-    val kotlinStyleSettings = settings.getCustomSettings(KotlinCodeStyleSettings::class.java)
-    kotlinStyleSettings.apply {
-      val fields = kotlinStyleSettings.javaClass.fields.map { it.name }
-      if (fields.contains("SPACE_BEFORE_WHEN_PARENTHESES")) {
-        SPACE_BEFORE_WHEN_PARENTHESES = true
+    try {
+      val kotlinStyleSettings = settings.getCustomSettings(KotlinCodeStyleSettings::class.java)
+      kotlinStyleSettings.apply {
+        val fields = kotlinStyleSettings.javaClass.fields.map { it.name }
+        if (fields.contains("SPACE_BEFORE_WHEN_PARENTHESES")) {
+          SPACE_BEFORE_WHEN_PARENTHESES = true
+        }
+        if (fields.contains("SPACE_AROUND_RANGE")) {
+          SPACE_AROUND_RANGE = false
+        }
+        if (fields.contains("SPACE_BEFORE_EXTEND_COLON")) {
+          SPACE_BEFORE_EXTEND_COLON = true
+        }
+        if (fields.contains("SPACE_AFTER_EXTEND_COLON")) {
+          SPACE_AFTER_EXTEND_COLON = true
+        }
+        if (fields.contains("SPACE_BEFORE_TYPE_COLON")) {
+          SPACE_BEFORE_TYPE_COLON = false
+        }
+        if (fields.contains("SPACE_AFTER_TYPE_COLON")) {
+          SPACE_AFTER_TYPE_COLON = true
+        }
+        if (fields.contains("ALIGN_IN_COLUMNS_CASE_BRANCH")) {
+          ALIGN_IN_COLUMNS_CASE_BRANCH = true
+        }
+        if (fields.contains("SPACE_AROUND_FUNCTION_TYPE_ARROW")) {
+          SPACE_AROUND_FUNCTION_TYPE_ARROW = true
+        }
+        if (fields.contains("SPACE_AROUND_WHEN_ARROW")) {
+          SPACE_AROUND_WHEN_ARROW = true
+        }
+        if (fields.contains("SPACE_BEFORE_LAMBDA_ARROW")) {
+          SPACE_BEFORE_LAMBDA_ARROW = true
+        }
+        if (fields.contains("SPACE_BEFORE_WHEN_PARENTHESES")) {
+          SPACE_BEFORE_WHEN_PARENTHESES = true
+        }
+        if (fields.contains("LBRACE_ON_NEXT_LINE")) {
+          LBRACE_ON_NEXT_LINE = false
+        }
+        if (fields.contains("NAME_COUNT_TO_USE_STAR_IMPORT")) {
+          NAME_COUNT_TO_USE_STAR_IMPORT = 5
+        }
+        if (fields.contains("NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS")) {
+          NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS = 3
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_PARAMETER_LISTS")) {
+          CONTINUATION_INDENT_IN_PARAMETER_LISTS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_ARGUMENT_LISTS")) {
+          CONTINUATION_INDENT_IN_ARGUMENT_LISTS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_FOR_EXPRESSION_BODIES")) {
+          CONTINUATION_INDENT_FOR_EXPRESSION_BODIES = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_FOR_CHAINED_CALLS")) {
+          CONTINUATION_INDENT_FOR_CHAINED_CALLS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_SUPERTYPE_LISTS")) {
+          CONTINUATION_INDENT_IN_SUPERTYPE_LISTS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_IF_CONDITIONS")) {
+          CONTINUATION_INDENT_IN_IF_CONDITIONS = true
+        }
       }
-      if (fields.contains("SPACE_AROUND_RANGE")) {
-        SPACE_AROUND_RANGE = false
-      }
-      if (fields.contains("SPACE_BEFORE_EXTEND_COLON")) {
-        SPACE_BEFORE_EXTEND_COLON = true
-      }
-      if (fields.contains("SPACE_AFTER_EXTEND_COLON")) {
-        SPACE_AFTER_EXTEND_COLON = true
-      }
-      if (fields.contains("SPACE_BEFORE_TYPE_COLON")) {
-        SPACE_BEFORE_TYPE_COLON = false
-      }
-      if (fields.contains("SPACE_AFTER_TYPE_COLON")) {
-        SPACE_AFTER_TYPE_COLON = true
-      }
-      if (fields.contains("ALIGN_IN_COLUMNS_CASE_BRANCH")) {
-        ALIGN_IN_COLUMNS_CASE_BRANCH = true
-      }
-      if (fields.contains("SPACE_AROUND_FUNCTION_TYPE_ARROW")) {
-        SPACE_AROUND_FUNCTION_TYPE_ARROW = true
-      }
-      if (fields.contains("SPACE_AROUND_WHEN_ARROW")) {
-        SPACE_AROUND_WHEN_ARROW = true
-      }
-      if (fields.contains("SPACE_BEFORE_LAMBDA_ARROW")) {
-        SPACE_BEFORE_LAMBDA_ARROW = true
-      }
-      if (fields.contains("SPACE_BEFORE_WHEN_PARENTHESES")) {
-        SPACE_BEFORE_WHEN_PARENTHESES = true
-      }
-      if (fields.contains("LBRACE_ON_NEXT_LINE")) {
-        LBRACE_ON_NEXT_LINE = false
-      }
-      if (fields.contains("NAME_COUNT_TO_USE_STAR_IMPORT")) {
-        NAME_COUNT_TO_USE_STAR_IMPORT = 5
-      }
-      if (fields.contains("NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS")) {
-        NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS = 3
-      }
-      if (fields.contains("CONTINUATION_INDENT_IN_PARAMETER_LISTS")) {
-        CONTINUATION_INDENT_IN_PARAMETER_LISTS = true
-      }
-      if (fields.contains("CONTINUATION_INDENT_IN_ARGUMENT_LISTS")) {
-        CONTINUATION_INDENT_IN_ARGUMENT_LISTS = true
-      }
-      if (fields.contains("CONTINUATION_INDENT_FOR_EXPRESSION_BODIES")) {
-        CONTINUATION_INDENT_FOR_EXPRESSION_BODIES = true
-      }
-      if (fields.contains("CONTINUATION_INDENT_FOR_CHAINED_CALLS")) {
-        CONTINUATION_INDENT_FOR_CHAINED_CALLS = true
-      }
-      if (fields.contains("CONTINUATION_INDENT_IN_SUPERTYPE_LISTS")) {
-        CONTINUATION_INDENT_IN_SUPERTYPE_LISTS = true
-      }
-      if (fields.contains("CONTINUATION_INDENT_IN_IF_CONDITIONS")) {
-        CONTINUATION_INDENT_IN_IF_CONDITIONS = true
-      }
+    } catch (e: Exception) {
     }
   }
 
@@ -226,14 +239,14 @@ class PluginStart : StartupActivity {
         ArrangementGroupingRule(GETTERS_AND_SETTERS, KEEP),
         ArrangementGroupingRule(OVERRIDDEN_METHODS, BY_NAME),
         ArrangementGroupingRule(DEPENDENT_METHODS, BREADTH_FIRST)
-                              )
+    )
     val sections = createSections(JavaRearrangeRules.get())
     val tokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
       definitionRules = listOf(PUBLIC, PACKAGE_PRIVATE,
-                               PROTECTED, PRIVATE, LATEINIT).map {
+          PROTECTED, PRIVATE, LATEINIT).map {
         StdArrangementMatchRule(
             StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-                               )
+        )
       }
     })
     return StdArrangementExtendableSettings(groupingRules, sections, tokens)
@@ -245,7 +258,7 @@ class PluginStart : StartupActivity {
       definitionRules = listOf(OPEN, PUBLIC, PACKAGE_PRIVATE, PROTECTED, PRIVATE, LATEINIT).map {
         StdArrangementMatchRule(
             StdArrangementEntryMatcher(ArrangementAtomMatchCondition(it))
-                               )
+        )
       }
     })
     return StdArrangementExtendableSettings(listOf(), sections, tokens)
@@ -256,7 +269,7 @@ class PluginStart : StartupActivity {
         listOf(),
         createSections(LessRearrangeRules.get()),
         listOf()
-                                           )
+    )
   }
 
   private fun createMatcher(rule: RuleDescription): StdArrangementEntryMatcher {
@@ -266,7 +279,7 @@ class PluginStart : StartupActivity {
             this.addOperand(ArrangementAtomMatchCondition(token))
           }
         }
-                                     )
+    )
   }
 
   private fun createSections(rules: List<RuleDescription>): List<ArrangementSectionRule> {
@@ -286,7 +299,7 @@ class PluginStart : StartupActivity {
         listOf(),
         createSections(VueRearrangeRules.get()),
         listOf()
-                                           )
+    )
   }
 
   private fun sendEvent(project: Project) {
@@ -317,12 +330,7 @@ class PluginStart : StartupActivity {
 
   private fun setDefaults(settings: CodeStyleSettings) {
     if (isIdea) {
-      val sqlStyleSettings = settings.getCustomSettings(SqlCodeStyleSettings::class.java)
-      sqlStyleSettings.apply {
-        KEYWORD_CASE = TO_UPPER
-        TYPE_CASE = AS_KEYWORDS
-        IDENTIFIER_CASE = TO_LOWER
-      }
+      setSqlDefault(settings)
       setKotlinDefaults(settings)
     }
     val jsSettings = settings.getCustomSettings(JSCodeStyleSettings::class.java)
@@ -348,12 +356,12 @@ class PluginStart : StartupActivity {
         XmlFileType.INSTANCE,
         HtmlFileType.INSTANCE,
         CssFileType.INSTANCE
-                                        )
-    if (isIdea) {
+    )
+    if (isIdea && yamlEnabled) {
       setIndentFileTypes.addAll(listOf(JavaFileType.INSTANCE,
-                                       YAMLFileType.YML,
-                                       SqlFileType.INSTANCE,
-                                       KotlinFileType.INSTANCE))
+          YAMLFileType.YML,
+          SqlFileType.INSTANCE,
+          KotlinFileType.INSTANCE))
     }
     setIndentFileTypes.forEach { fileType ->
       val language = when (fileType) {
@@ -365,12 +373,15 @@ class PluginStart : StartupActivity {
         is LESSFileType       -> LESSLanguage.INSTANCE
         else                  -> {
           if (isIdea) {
-            when (fileType) {
-              is KotlinFileType -> KotlinLanguage.INSTANCE
-              is YAMLFileType   -> YAMLLanguage.INSTANCE
-              is JavaFileType   -> JavaLanguage.INSTANCE
-              is SqlFileType    -> SqlLanguage.INSTANCE
-              else              -> null
+            if (yamlEnabled && fileType is YAMLFileType) {
+              YAMLLanguage.INSTANCE
+            } else {
+              when (fileType) {
+                is KotlinFileType -> KotlinLanguage.INSTANCE
+                is JavaFileType   -> JavaLanguage.INSTANCE
+                is SqlFileType    -> SqlLanguage.INSTANCE
+                else              -> null
+              }
             }
           } else {
             null
@@ -416,20 +427,32 @@ class PluginStart : StartupActivity {
               this.errorStripeColor = color
             },
             HighlightInfoType.HighlightInfoTypeImpl(HighlightSeverity(CODE_FORMAT_SEVERITY_NAME, 350),
-                                                    CodeInsightColors.WARNINGS_ATTRIBUTES)
-                                                     ), color
-                                      )
+                CodeInsightColors.WARNINGS_ATTRIBUTES)
+        ), color
+    )
     val severity = severityRegistrar.getSeverity(PluginStart.CODE_FORMAT_SEVERITY_NAME)
     val inspectionProfile = InspectionProfileManager.getInstance(project)
         .currentProfile
+    val inspectionNames = inspectionProfile.getAllEnabledInspectionTools(project).map { it.shortName }
     InspectionNames.values().forEach {
-      if (isIdea || it !in listOf(CODE_FORMAT, JAVA_COMMENT, JAVA_FORMAT, KOTLIN_COMMENT,
-                                  KOTLIN_FORMAT, PROPERTY_CLASS, JAVA_PROPERTY_CLASS, MYBATIS)) {
+      if ((isIdea || it !in listOf(CODE_FORMAT, JAVA_COMMENT, JAVA_FORMAT, KOTLIN_COMMENT,
+              KOTLIN_FORMAT, PROPERTY_CLASS, JAVA_PROPERTY_CLASS, MYBATIS)) && it.shortName in inspectionNames) {
         inspectionProfile.enableTool(it.shortName, project)
         val tools = inspectionProfile.getTools(it.shortName, project)
         tools.level = HighlightDisplayLevel(severity!!)
       }
+    }
+  }
 
+  private fun setSqlDefault(settings: CodeStyleSettings) {
+    try {
+      val sqlStyleSettings = settings.getCustomSettings(SqlCodeStyleSettings::class.java)
+      sqlStyleSettings.apply {
+        KEYWORD_CASE = TO_UPPER
+        TYPE_CASE = AS_KEYWORDS
+        IDENTIFIER_CASE = TO_LOWER
+      }
+    } catch (e: Exception) {
     }
   }
 
@@ -437,10 +460,10 @@ class PluginStart : StartupActivity {
     if (isIdea) {
       val fileTemplateManager = FileTemplateManager.getInstance(project)
       fileTemplateManager.apply {
-        getInternalTemplate("Kotlin File")?.text = KotlinTemplates.FILE
-        getInternalTemplate("Kotlin Class")?.text = KotlinTemplates.CLASS
-        getInternalTemplate("Kotlin Enum")?.text = KotlinTemplates.ENUM
-        getInternalTemplate("Kotlin Interface")?.text = KotlinTemplates.INTERFACE
+        getInternalTemplate("Kotlin File").text = KotlinTemplates.FILE
+        getInternalTemplate("Kotlin Class").text = KotlinTemplates.CLASS
+        getInternalTemplate("Kotlin Enum").text = KotlinTemplates.ENUM
+        getInternalTemplate("Kotlin Interface").text = KotlinTemplates.INTERFACE
       }
     }
   }

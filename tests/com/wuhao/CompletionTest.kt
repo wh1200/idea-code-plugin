@@ -4,7 +4,6 @@
 package com.wuhao
 
 import com.intellij.codeInsight.completion.LightCompletionTestCase
-import java.util.*
 
 /**
  *
@@ -18,7 +17,6 @@ class CompletionTest : LightCompletionTestCase() {
   }
 
   override fun setUp() {
-    Locale.setDefault(Locale.ENGLISH)
     super.setUp()
   }
 

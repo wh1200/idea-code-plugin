@@ -87,6 +87,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     if (file.getLineCount() > MAX_LINES_PER_FILE) {
       holder.registerError(file, "文件长度不允许超过${MAX_LINES_PER_FILE}行")
     }
+    return super.visitFile(file)
   }
 
   override fun visitForExpression(expression: KtForExpression, data: Any?) {

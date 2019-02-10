@@ -22,12 +22,8 @@ class VueLifetimeFunctionHandler : GotoDeclarationHandler {
 
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
     if (el != null) {
-      println(el.language::class)
       if (el.language is VueLanguage || el.language is VueJSLanguage) {
         if (el is LeafPsiElement && el.parent is TypeScriptFunction) {
-          println(el.text)
-          println(el.elementType)
-          println(el.elementType::class)
         }
       }
     }

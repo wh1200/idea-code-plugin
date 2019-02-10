@@ -8,6 +8,7 @@ import com.intellij.codeInspection.CommonProblemDescriptor
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemDescriptorBase
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper
+import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.application.PathManager
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
@@ -18,6 +19,7 @@ import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
 import com.wuhao.code.check.inspection.inspections.JavaCommentInspection
 import com.wuhao.code.check.inspection.inspections.JavaFormatInspection
+import com.wuhao.code.check.inspection.inspections.KotlinActionSpecificationInspection
 import com.wuhao.code.check.inspection.inspections.KotlinFormatInspection
 import java.io.File
 
@@ -43,6 +45,10 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
 
   override fun setUp() {
     System.setProperty(PathManager.PROPERTY_HOME_PATH, homePath)
+    println(PluginManager.getPlugins().size)
+    PluginManager.getPlugins().forEach {
+      println(it.name)
+    }
     super.setUp()
   }
 
@@ -52,6 +58,12 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
 
   fun testAllKotlin() {
     doTestGlobalInspection("src", KotlinFormatInspection())
+  }
+
+  fun testApiSpecification() {
+    val inspections = doTestGlobalInspection("src/error/mvc",
+        KotlinActionSpecificationInspection())
+    println(inspections.size)
   }
 
   fun testJavaInspection() {
@@ -120,19 +132,21 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     doInspectionTest(path, inspector)
   }
 
-  private fun doTestGlobalInspection(path: String, inspection: LocalInspectionTool) {
+  private fun doTestGlobalInspection(path: String, inspection: LocalInspectionTool): Collection<CommonProblemDescriptor> {
     val problemDescriptors = getGlobalInspectionResults(path, inspection)
     for (problem in problemDescriptors) {
       if (problem is ProblemDescriptorBase) {
         println(buildProblemMessage(problem))
       }
     }
+    return problemDescriptors
   }
 
   private fun getGlobalInspectionResults(path: String, inspection: LocalInspectionTool): Collection<CommonProblemDescriptor> {
     val toolWrapper = LocalInspectionToolWrapper(inspection)
     myFixture.testDataPath = "testData"
     val file = File(myFixture.testDataPath + File.separator + path)
+    println("File: $file")
     val sourceDir = if (file.isFile) {
       myFixture.psiManager.findFile(myFixture.copyFileToProject(path, path.replace(file.name, "")))
           ?: throw AssertionError("Could not find $file")
@@ -140,6 +154,7 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
       myFixture.psiManager.findDirectory(myFixture.copyDirectoryToProject(path, path))
           ?: throw AssertionError("Could not find $file")
     }
+    println("Source directory: $sourceDir")
     val scope = if (sourceDir is PsiDirectory) {
       AnalysisScope(sourceDir)
     } else {
@@ -153,4 +168,3 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
   }
 
 }
-

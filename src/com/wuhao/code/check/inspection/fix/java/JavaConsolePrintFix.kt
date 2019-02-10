@@ -26,7 +26,7 @@ class JavaConsolePrintFix : LocalQuickFix {
   companion object {
     const val ERROR_DECLARATION = "System.err.print"
     const val LOG_FACTORY_PREFERENCE = "org.slf4j.LoggerFactory"
-    const val LOG_FIELD_NAME = "LOG"
+    const val LOG_FIELD_NAME = "log"
     const val LOG_PREFERENCE = "org.slf4j.Logger"
     private const val PRINT_DECLARATION = "System.out.print"
   }

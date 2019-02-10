@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check</name>
-  <version>1.4.5</version>
+  <version>1.4.6</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
@@ -127,7 +127,8 @@
         </p>
       </blockquote>
     </article>
-    ]]></description>
+    ]]>
+  </description>
   <change-notes><![CDATA[
     <h5>1.4.6</h5>
     <ul>
@@ -212,8 +213,17 @@
   </extensions>
 
   <actions>
+    <!--<action id="CreateRunConfigurationAegis" class="com.wuhao.code.check.action.CreateRunConfiguration" text="新建运行配置"-->
+            <!--description="新建运行配置">-->
+      <!--<add-to-group group-id="NewGroup" anchor="first"/>-->
+    <!--</action>-->
     <action id="CreateVueProject" class="com.wuhao.code.check.action.CreateVueProjectAction" text="擎盾VueJS项目"
             description="新建Vue项目">
+      <add-to-group group-id="NewGroup" anchor="first"/>
+    </action>
+    <action id="CreateMyBatisMapper" class="com.wuhao.code.check.action.CreateMyBatisMapperAction"
+            text="MyBatis Mapper配置"
+            description="MyBatis Mapper配置">
       <add-to-group group-id="NewGroup" anchor="first"/>
     </action>
     <action id="CreateJavaKotlinProject" class="com.wuhao.code.check.action.CreateJavaKotlinProjectAction"
@@ -223,8 +233,8 @@
   </actions>
   <depends optional="true">org.jetbrains.kotlin</depends>
   <depends optional="true">com.intellij.modules.json</depends>
-  <depends optional="true">com.intellij.spring</depends>
-  <depends optional="true">com.intellij.spring.boot</depends>
+  <!--<depends optional="true">com.intellij.spring</depends>-->
+  <!--<depends optional="true">com.intellij.spring.boot</depends>-->
   <depends optional="true">org.jetbrains.plugins.vue</depends>
   <depends optional="true">org.jetbrains.plugins.less</depends>
 </idea-plugin>

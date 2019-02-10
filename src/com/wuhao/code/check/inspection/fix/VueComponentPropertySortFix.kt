@@ -51,8 +51,7 @@ class VueComponentPropertySortFix : LocalQuickFix {
     element.properties.forEachIndexed { index, jsProperty ->
       jsProperty.replace(sortedProperties[index])
     }
-    ReformatCodeProcessor(descriptor.psiElement.containingFile, true)
-        .run()
+    ReformatCodeProcessor(descriptor.psiElement.containingFile, true).run()
   }
 
 

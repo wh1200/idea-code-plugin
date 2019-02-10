@@ -82,7 +82,7 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
 //          }
 //        }
 
-      if (method.docComment!!.findTagsByName("description").isEmpty()) {
+      if (method.docComment != null && method.docComment!!.findTagsByName("description").isEmpty()) {
         holder.registerError(elementToRegisterProblem, Messages.DESCRIPTION_COMMENT_MISSING, JavaBlockCommentFix())
       }
     }

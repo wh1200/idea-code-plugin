@@ -63,7 +63,8 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
   private class JavaVisitor : JavaRecursiveElementVisitor() {
 
     override fun visitClass(aClass: PsiClass) {
-      if (aClass !is PsiTypeParameter) {
+      if (aClass !is PsiTypeParameter
+          && aClass !is PsiAnonymousClass) {
         aClass.setBlankLineBoth(1)
       }
       super.visitClass(aClass)
@@ -75,22 +76,22 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
     }
 
     override fun visitElement(element: PsiElement) {
-      if (element.parent is PsiClass && element is PsiJavaToken && element.text == "{") {
-        element.setBlankLineAfter(1)
-      }
       super.visitElement(element)
     }
 
     override fun visitField(field: PsiField) {
-      val nextField = field.getNextSiblingIgnoringWhitespace()
-      val prevField = field.getPrevSiblingIgnoringWhitespaceAndComments()
-      if (prevField !is PsiField) {
-        field.setBlankLineBefore(1)
-      }
-      if (nextField is PsiField) {
-        field.setBlankLineAfter()
-      } else {
-        field.setBlankLineAfter(1)
+      if (field !is PsiEnumConstant) {
+        val nextField = field.getNextSiblingIgnoringWhitespace()
+        val prevField = field.getPrevSiblingIgnoringWhitespaceAndComments()
+        if (prevField !is PsiField) {
+          field.setBlankLineBefore(1)
+        }
+        // 两个field之间不留空行
+        if (nextField !is PsiField) {
+          field.setBlankLineAfter(1)
+        } else {
+          field.setBlankLineAfter()
+        }
       }
       super.visitField(field)
     }
@@ -108,6 +109,7 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
     }
 
     override fun visitMethod(method: PsiMethod) {
+      // 为重载的方法添加@Override注解
       if (method.isOverrideMethod && !method.annotations.any { it.qualifiedName == OVERRIDE_DECLARATION }) {
         val modifierList = method.modifierList
         val annotation = method.psiElementFactory.createAnnotationFromText("@Override", modifierList)
@@ -126,13 +128,14 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
         method.setBlankLineBefore(1)
       }
       if (nextMethod is PsiMethod) {
+        // 两个方法的修饰符相同时中间保留1个空行，否则保留2个空行
         if (method.modifierList.isEquivalentTo(nextMethod.modifierList)) {
           method.setBlankLineAfter(1)
         } else {
-          method.setBlankLineAfter(2)
+          method.setBlankLineAfter(1)
         }
       } else {
-        method.setBlankLineAfter(2)
+        method.setBlankLineAfter(1)
       }
       super.visitMethod(method)
     }
@@ -146,4 +149,3 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
   }
 
 }
-

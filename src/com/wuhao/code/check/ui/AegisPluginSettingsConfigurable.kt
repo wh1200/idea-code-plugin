@@ -21,7 +21,7 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
     aegisPluginSettings?.let {
       settings.javaKotlinTemplateUrl = it.javaKotlinTemplateUrlInput.text
       settings.reactTemplateUrl = it.reactTemplateUrlInput.text
-      settings.gitPrivateToken = it.gitPrivateTokenInput.text
+//      settings.gitPrivateToken = it.gitPrivateTokenInput.text
       settings.vueTemplateUrl = it.vueTemplateUrlInput.text
       settings.user = it.userInput.text
       settings.email = it.emailInput.text
@@ -33,7 +33,7 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
       aegisPluginSettings = AegisPluginSettings()
     }
     aegisPluginSettings?.let {
-      it.gitPrivateTokenInput.text = settings.gitPrivateToken
+//      it.gitPrivateTokenInput.text = settings.gitPrivateToken
       it.vueTemplateUrlInput.text = settings.vueTemplateUrl
       it.reactTemplateUrlInput.text = settings.reactTemplateUrl
       it.javaKotlinTemplateUrlInput.text = settings.javaKotlinTemplateUrl
@@ -52,12 +52,11 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
   }
 
   override fun isModified(): Boolean {
-    return settings.gitPrivateToken != aegisPluginSettings?.gitPrivateTokenInput?.text
-        || settings.vueTemplateUrl != aegisPluginSettings?.gitPrivateTokenInput?.text
+    return settings.vueTemplateUrl != aegisPluginSettings?.gitPrivateTokenInput?.text
         || settings.reactTemplateUrl != aegisPluginSettings?.reactTemplateUrlInput?.text
+//        || settings.gitPrivateToken != aegisPluginSettings?.gitPrivateTokenInput?.text
         || settings.user == aegisPluginSettings?.userInput?.text
         || settings.javaKotlinTemplateUrl != aegisPluginSettings?.javaKotlinTemplateUrlInput?.text
   }
 
 }
-

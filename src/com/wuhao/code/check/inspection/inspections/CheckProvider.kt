@@ -22,6 +22,7 @@ class CheckProvider : InspectionToolProvider {
       classes.add(JavaPropertyClassCreateInspection::class.java)
       classes.add(KotlinCommentInspection::class.java)
       classes.add(KotlinFormatInspection::class.java)
+      classes.add(KotlinActionSpecificationInspection::class.java)
       classes.add(CodeFormatInspection::class.java)
       classes.add(MybatisMapperInspection::class.java)
       classes.add(PropertyClassCreateInspection::class.java)
@@ -34,4 +35,3 @@ class CheckProvider : InspectionToolProvider {
   }
 
 }
-

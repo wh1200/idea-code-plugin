@@ -1,18 +1,18 @@
 package com.wuhao.code.check.action
 
-import com.intellij.ide.actions.OpenProjectFileChooserDescriptor
+import com.intellij.ide.impl.ProjectUtil
+import com.intellij.lang.javascript.buildTools.npm.rc.NpmCommand
+import com.intellij.lang.javascript.buildTools.npm.rc.NpmConfigurationType
+import com.intellij.lang.javascript.buildTools.npm.rc.NpmRunConfiguration
+import com.intellij.lang.javascript.buildTools.npm.rc.NpmRunSettings
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.fileChooser.FileChooser
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.InputValidator
 import com.intellij.openapi.ui.Messages
-import com.intellij.openapi.vfs.LocalFileSystem
-import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.platform.PlatformProjectOpenProcessor
 import com.wuhao.code.check.http.HttpRequest
 import com.wuhao.code.check.ui.PluginSettings
+import org.apache.http.HttpStatus.SC_NOT_FOUND
+import org.jetbrains.kotlin.idea.run.addBuildTask
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.net.URL
@@ -68,29 +68,44 @@ abstract class CreateProjectAction : AnAction() {
   }
 
   private fun openProject(event: AnActionEvent, projectRoot: File) {
-    val descriptor = OpenProjectFileChooserDescriptor(false)
-    val project = event.getData(CommonDataKeys.PROJECT) as Project
-    val vs = LocalFileSystem.getInstance().findFileByIoFile(projectRoot)
-    FileChooser.chooseFiles(descriptor, project, vs) { var1x ->
-      PlatformProjectOpenProcessor.getInstance()
-          .doOpenProject(var1x[0] as VirtualFile, project, true)
-    }
+
+    val project = ProjectUtil.openOrImport(projectRoot.absolutePath, null, true)!!
+    val configurationFactory = NpmConfigurationType.getInstance()
+    val config = configurationFactory.createConfiguration("install",
+        configurationFactory.createTemplateConfiguration(project).apply {
+          (this as NpmRunConfiguration).runSettings = NpmRunSettings.builder()
+              .setCommand(NpmCommand.INSTALL)
+              .setPackageJsonPath(projectRoot.path + "/package.json")
+              .build()
+        }
+    )
+//    RunManagerEx.getInstanceEx(project)
+//        .addConfiguration(
+//            RunnerAndConfigurationSettingsImpl()
+//        )
+    config.checkConfiguration()
+    config.addBuildTask()
+    config.configurationEditor.snapshot
   }
 
   private fun prepareCreate(e: AnActionEvent, templateUrl: String): PrepareInfo? {
     val newProjectName = getNewProjectName(e)
     if (newProjectName != null && newProjectName.isNotBlank()) {
-      val newProjectRoot = File("${File(e.project!!.baseDir.path).parentFile.absolutePath}/$newProjectName")
-      if (pluginSettings.gitPrivateToken.isBlank()) {
-        Messages.showErrorDialog("请在设置中配置Git Private Token", "错误")
-      } else if (newProjectRoot.exists()) {
+      val newProjectRoot = File("${File(e.project!!.basePath).parentFile.absolutePath}/$newProjectName")
+      if (newProjectRoot.exists()) {
         Messages.showErrorDialog("${newProjectRoot.absolutePath}已存在", "错误")
       } else {
-        val httpResult = HttpRequest.newGet(transferUrl(templateUrl)).withHeader("Private-Token", pluginSettings.gitPrivateToken).execute()
-        if (httpResult.bytes == null) {
-          Messages.showErrorDialog(httpResult.response ?: httpResult.exception?.message ?: "未知错误", "下载模板出错")
-        } else {
-          try {
+        val requestUrl = transferUrl(templateUrl)
+        val httpResult = HttpRequest.newGet(requestUrl).execute()
+        //http://git2.aegis-info.com/template/JavaKotlinTemplate/-/archive/master/JavaKotlinTemplate-master.zip
+        //http://git2.aegis-info.com/template/aegis-vue-template.git
+        //http://git2.aegis-info.com/template/aegis-vue-template/-/archive/master/aegis-vue-template-master.zip
+        //http://git2.aegis-info.com/template/aegis-vue-template/-/archive/master/aegis-vue-template-master.zip
+        when {
+          httpResult.status == SC_NOT_FOUND -> Messages.showErrorDialog("模板项目不存在", "新建项目出错")
+          httpResult.bytes == null          -> Messages.showErrorDialog(httpResult.response
+              ?: httpResult.exception?.message ?: "未知错误", "下载模板出错")
+          else                              -> try {
             unzip(httpResult.bytes!!, newProjectRoot)
             return PrepareInfo(newProjectName, newProjectRoot)
           } catch (e: Exception) {
@@ -112,7 +127,9 @@ abstract class CreateProjectAction : AnAction() {
     if (url.path.endsWith(".zip")) {
       return "${url.protocol}://${url.host}${url.path}?ref=master"
     } else if (url.path.endsWith(".git")) {
-      return "${url.protocol}://${url.host}${url.path.replace(".git", "/repository/archive.zip")}?ref=master"
+      val projectName = url.path.substring(url.path.lastIndexOf("/") + 1)
+          .replace(".git", "")
+      return "${url.protocol}://${url.host}${url.path.replace(".git", "/-/archive/master/${projectName}-master.zip")}"
     } else {
       return templateUrl
     }
@@ -155,4 +172,3 @@ abstract class CreateProjectAction : AnAction() {
   data class PrepareInfo(val projectName: String, val projectRoot: File)
 
 }
-

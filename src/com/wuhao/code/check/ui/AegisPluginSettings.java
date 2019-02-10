@@ -4,10 +4,8 @@
 
 package com.wuhao.code.check.ui;
 
-import java.awt.Dimension;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+import java.awt.*;
 
 
 /**

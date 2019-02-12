@@ -105,7 +105,6 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
       settings: ArrangementSettings): Pair<ArrangementEntry, List<ArrangementEntry>>? {
     val existingEntriesInfo = KotlinArrangementParseInfo()
     root.accept(KotlinArrangementVisitor(existingEntriesInfo, document, ranges, settings))
-
     val newEntryInfo = KotlinArrangementParseInfo()
     element.accept(KotlinArrangementVisitor(newEntryInfo, document, setOf(element.textRange), settings))
     return if (newEntryInfo.entries.size != 1) {

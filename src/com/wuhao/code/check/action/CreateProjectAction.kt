@@ -40,7 +40,7 @@ abstract class CreateProjectAction : AnAction() {
       val prepareCreateInfo = prepareCreate(e, templateUrl)
       if (prepareCreateInfo != null) {
         this.onCreated(e, prepareCreateInfo)
-        openProject(e, prepareCreateInfo.projectRoot)
+        openProject(prepareCreateInfo.projectRoot)
       }
     }
   }
@@ -61,14 +61,13 @@ abstract class CreateProjectAction : AnAction() {
       }
 
       override fun checkInput(input: String?): Boolean {
-        return !File("${File(e.project?.baseDir?.path).parentFile.absolutePath}/$input").exists()
+        return !File("${File(e.project!!.basePath).parentFile.absolutePath}/$input").exists()
       }
 
     })
   }
 
-  private fun openProject(event: AnActionEvent, projectRoot: File) {
-
+  private fun openProject(projectRoot: File) {
     val project = ProjectUtil.openOrImport(projectRoot.absolutePath, null, true)!!
     val configurationFactory = NpmConfigurationType.getInstance()
     val config = configurationFactory.createConfiguration("install",

@@ -7,6 +7,8 @@ package com.wuhao.code.check
 
 import com.intellij.ide.DataManager
 import com.intellij.lang.javascript.JavascriptLanguage
+import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList.ModifierType
+import com.intellij.lang.javascript.psi.ecmal4.JSAttributeListOwner
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory
@@ -198,6 +200,17 @@ val PsiElement.startOffset: Int
     return this.textRange.startOffset
   }
 
+/**  是否添加了vuejs的支持 */
+val vueEnabled: Boolean
+  get() {
+    return try {
+      Class.forName("org.jetbrains.vuejs.VueLanguage")
+      true
+    } catch (e: Exception) {
+      false
+    }
+  }
+
 private val KT_PSI_FACTORY_CACHE = HashMap<Project, KtPsiFactory>()
 
 private val PSI_ELEMENT_FACTORY_CACHE = HashMap<Project, PsiElementFactory>()
@@ -377,7 +390,7 @@ fun PsiElement.getAncestor(level: Int): PsiElement? {
 /**
  * 获取指定类型的所有的祖先元素
  */
-inline fun <reified T> PsiElement.getAncestorsOfType(): ArrayList<T> {
+inline fun <reified T> PsiElement.getAncestorsOfType(): List<T> {
   val result = arrayListOf<T>()
   var el: PsiElement? = this.parent
   while (el != null) {
@@ -386,8 +399,23 @@ inline fun <reified T> PsiElement.getAncestorsOfType(): ArrayList<T> {
     }
     el = el.parent
   }
-  return result
+  return result.toList()
 }
+
+/**
+ * 获取指定类型的距离当前元素最近的祖先元素
+ */
+inline fun <reified T> PsiElement.getAncestorOfType(): T? {
+  var el: PsiElement? = this.parent
+  while (el != null) {
+    if (el is T) {
+      return el
+    }
+    el = el.parent
+  }
+  return null
+}
+
 
 /**
  * 判断kotlin元素上指定名称的注解
@@ -402,7 +430,7 @@ fun KtAnnotated.getAnnotation(annotation: String): KtAnnotationEntry? {
  *
  * @return
  */
-inline fun <reified T> PsiElement.getChildOfType(): T? {
+inline fun <reified T> PsiElement.getChildByType(): T? {
   return this.children.firstOrNull { it is T } as T?
 }
 
@@ -546,12 +574,10 @@ fun KtAnnotated.hasAnnotation(annotation: String): Boolean {
 }
 
 /**
- * 判断元素是否带有指定注解
- * @param annotation 指定注解名称
- * @return
+ * 是否包含指定名称的装饰器
  */
-fun PsiModifierListOwner.hasAnnotation(annotation: String): Boolean {
-  return this.annotations.any { it.qualifiedName == annotation }
+fun JSAttributeListOwner.hasDecorator(name: String): Boolean {
+  return this.attributeList?.decorators?.any { it.decoratorName == name } ?: false
 }
 
 /**
@@ -566,6 +592,13 @@ fun KtNamedFunction.hasDoc(): Boolean {
  */
 fun PsiElement?.hasElementType(type: IElementType): Boolean {
   return this is LeafPsiElement && this.elementType == type
+}
+
+/**
+ * 是否包含指定名称的修饰符
+ */
+fun JSAttributeListOwner.hasModifier(modifier: ModifierType): Boolean {
+  return this.attributeList?.hasModifier(modifier) ?: false
 }
 
 /**

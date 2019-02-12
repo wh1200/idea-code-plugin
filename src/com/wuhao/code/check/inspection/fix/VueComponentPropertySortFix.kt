@@ -18,7 +18,7 @@ import com.intellij.openapi.project.Project
 class VueComponentPropertySortFix : LocalQuickFix {
 
   companion object {
-    val lifeCycleMethods = listOf(
+    val LIFE_CYCLE_METHODS = listOf(
         "beforeCreate", "created", "beforeMount",
         "mounted", "beforeUpdate", "updated", "activated", "deactivated",
         "beforeDestroy", "destroyed"
@@ -26,7 +26,7 @@ class VueComponentPropertySortFix : LocalQuickFix {
     private val attrList = listOf("el", "name", "parent", "functional",
         "delimiters", "comments", "components", "directives", "filters",
         "extends", "mixins", "inheritAttrs", "model", "props", "propsData",
-        "data", "computed", "watch", *lifeCycleMethods.toTypedArray(), "methods", "template", "render",
+        "data", "computed", "watch", *LIFE_CYCLE_METHODS.toTypedArray(), "methods", "template", "render",
         "renderError")
 
     fun sortVueComponentProperties(properties: Array<JSProperty>): ArrayList<JSProperty> {

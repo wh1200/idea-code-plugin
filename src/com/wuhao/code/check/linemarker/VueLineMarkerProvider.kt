@@ -16,9 +16,8 @@ import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
 import com.intellij.openapi.util.IconLoader
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.getAncestor
-import com.wuhao.code.check.getChildOfType
+import com.wuhao.code.check.getChildByType
 import org.jetbrains.vuejs.VueLanguage
 import org.jetbrains.vuejs.language.VueJSLanguage
 import javax.swing.Icon
@@ -82,7 +81,7 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
     if (el is TypeScriptField) {
       return hasAnnotation(el.parent, annotation)
     }
-    return el.getChildOfType<JSAttributeList>()?.getChildOfType<ES6Decorator>()?.text?.startsWith(annotation)
+    return el.getChildByType<JSAttributeList>()?.getChildByType<ES6Decorator>()?.text?.startsWith(annotation)
         ?: false
   }
 
@@ -95,7 +94,7 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
   }
 
   private fun hasAttribute(el: PsiElement, annotation: String): Boolean {
-    return el.getChildOfType<JSAttributeList>()?.text?.startsWith(annotation)
+    return el.getChildByType<JSAttributeList>()?.text?.startsWith(annotation)
         ?: false
   }
 

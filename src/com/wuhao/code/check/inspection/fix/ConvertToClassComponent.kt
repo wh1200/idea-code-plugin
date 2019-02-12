@@ -16,7 +16,7 @@ import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.constants.Messages.CONVERT_TO_CLASS_COMPONENT
 import com.wuhao.code.check.insertElementsBefore
-import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix.Companion.lifeCycleMethods
+import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix.Companion.LIFE_CYCLE_METHODS
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 
 /**
@@ -91,7 +91,7 @@ class ConvertToClassComponent : LocalQuickFix {
         if (renderProperty != null) {
           allProperties.remove(renderProperty)
         }
-        val existsLifeCycleMethods = lifeCycleMethods.mapNotNull { propertyMap[it] }
+        val existsLifeCycleMethods = LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
         val lifeCycleMethodsString = existsLifeCycleMethods.joinToString("\n") { "public " + it.text }
         allProperties.removeAll(existsLifeCycleMethods)
         val body = listOf(
@@ -164,20 +164,21 @@ class ConvertToClassComponent : LocalQuickFix {
 
   private fun buildPropsString(propsProperty: JSProperty?): String? {
     if (propsProperty != null) {
-      val props = propsProperty.value as JSObjectLiteralExpression
-
-      return props.properties.joinToString("\n") {
-        val typeString = resolveTypeOfProp(it)
-        val tsType = when (typeString) {
-          "String"  -> "string"
-          "Number"  -> "number"
-          "Boolean" -> "boolean"
-          "Array"   -> "any[]"
-          else      -> "any"
-        }
-        """@Prop(${it.value!!.text})
+      val props = propsProperty.value
+      if (props is JSObjectLiteralExpression) {
+        return props.properties.joinToString("\n") {
+          val typeString = resolveTypeOfProp(it)
+          val tsType = when (typeString) {
+            "String"  -> "string"
+            "Number"  -> "number"
+            "Boolean" -> "boolean"
+            "Array"   -> "any[]"
+            else      -> "any"
+          }
+          """@Prop(${it.value!!.text})
                     |public ${it.name}: $tsType;
                   """.trimMargin()
+        }
       }
     }
     return null
@@ -268,4 +269,3 @@ class ConvertToClassComponent : LocalQuickFix {
   }
 
 }
-

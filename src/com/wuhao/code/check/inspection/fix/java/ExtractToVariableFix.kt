@@ -5,6 +5,7 @@ package com.wuhao.code.check.inspection.fix.java
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
+import com.intellij.lang.jvm.JvmModifier
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.util.parents
@@ -27,7 +28,9 @@ class ExtractToVariableFix : LocalQuickFix {
     if (statement != null) {
       when (statement) {
         is PsiField -> {
-          val newField = factory.createFieldFromText("""${statement.modifiers.joinToString(" ").toLowerCase()} ${el.type!!
+          val newField = factory.createFieldFromText("""${
+          JvmModifier.values().filter { statement.hasModifier(it) }
+              .joinToString(" ").toLowerCase()} ${el.type!!
               .presentableText} $name = ${el.text};""", null)
           statement.insertElementsBefore(newField, project.createNewLine())
         }

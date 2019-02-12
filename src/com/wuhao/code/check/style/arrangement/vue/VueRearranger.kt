@@ -16,11 +16,12 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementRuleAliasToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.XML_ATTRIBUTE
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.XML_TAG
+import com.wuhao.code.check.style.arrangement.kotlin.KotlinArrangementVisitor
 
 /**
  * vue代码排序器，主要对vue的模板标签属性进行排序
  * @author 吴昊
- * @since
+ * @since 1.2.0
  */
 class VueRearranger : Rearranger<ArrangementEntry> {
 
@@ -63,6 +64,10 @@ class VueRearranger : Rearranger<ArrangementEntry> {
                      settings: ArrangementSettings): List<ArrangementEntry> {
     val parseInfo = VueArrangementParseInfo()
     root.accept(VueArrangementVisitor(parseInfo, ranges))
+    val propertyDependencyRoots = parseInfo.getPropertyDependencyRoots()
+    if (!propertyDependencyRoots.isEmpty()) {
+      setupPropertyInitializationDependencies(propertyDependencyRoots)
+    }
     return parseInfo.entries
   }
 
@@ -72,14 +77,35 @@ class VueRearranger : Rearranger<ArrangementEntry> {
       settings: ArrangementSettings): Pair<ArrangementEntry, List<ArrangementEntry>>? {
     val existingEntriesInfo = VueArrangementParseInfo()
     root.accept(VueArrangementVisitor(existingEntriesInfo, ranges))
-
     val newEntryInfo = VueArrangementParseInfo()
     element.accept(VueArrangementVisitor(newEntryInfo, setOf(element.textRange)))
     return if (newEntryInfo.entries.size != 1) {
       null
     } else {
-      Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo
-          .entries[0], existingEntriesInfo.entries)
+      Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo.entries[0], existingEntriesInfo.entries)
+    }
+  }
+
+  private fun setupPropertyInitializationDependencies(propertyDependencyRoots: List<VueArrangementEntryDependencyInfo>) {
+    val dependencyMap = propertyDependencyRoots.associateBy({ it }, { it.dependentEntriesInfos })
+    for (root in propertyDependencyRoots) {
+      val anchorProperty = root.anchorEntry
+      val dependencyEntries = root.dependentEntriesInfos
+      var maxDependencyDepth = KotlinArrangementVisitor.MAX_METHOD_LOOKUP_DEPTH
+      var tmpEntries: List<VueArrangementEntryDependencyInfo>
+      while (maxDependencyDepth > 0) {
+        tmpEntries = dependencyEntries.toList()
+        tmpEntries.forEach { entry ->
+          dependencyMap[entry]?.forEach {
+            root.addDependentEntryInfo(it)
+          }
+        }
+        maxDependencyDepth--
+      }
+      for (propertyInInitializerInfo in dependencyEntries) {
+        val propertyInInitializer = propertyInInitializerInfo.anchorEntry
+        anchorProperty.addDependency(propertyInInitializer)
+      }
     }
   }
 

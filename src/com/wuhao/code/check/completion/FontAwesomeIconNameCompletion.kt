@@ -10,7 +10,6 @@ import com.intellij.psi.xml.XmlTag
 import com.intellij.psi.xml.XmlToken
 import com.intellij.util.ProcessingContext
 
-
 /**
  *
  * @author 吴昊
@@ -240,14 +239,8 @@ class FontAwesomeIconNameCompletion : CompletionContributor() {
         result.addElement(LookupElementBuilder.create(name)
             .withCaseSensitivity(false))
       }
-
-//      val reference = CssClassOrIdReferenceCompletionContributor.getCssClassOrIdReference(parameters.offset, parameters.position.containingFile)
-//      if (reference != null) {
-//      reference.addCompletions(parameters, result)
-//      }
     }
 
   }
 
 }
-

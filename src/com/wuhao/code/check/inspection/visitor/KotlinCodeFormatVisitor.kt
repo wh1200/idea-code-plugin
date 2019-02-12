@@ -20,7 +20,7 @@ import com.wuhao.code.check.inspection.fix.kotlin.KotlinCommaFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinConsolePrintFix
 import com.wuhao.code.check.inspection.fix.kotlin.KotlinNameFix
 import com.wuhao.code.check.inspection.visitor.JavaCodeFormatVisitor.Companion.shouldHaveSpaceBeforeOrAfter
-import org.jetbrains.kotlin.KtNodeTypes.*
+import org.jetbrains.kotlin.KtNodeTypes.FOR
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
@@ -29,7 +29,6 @@ import org.jetbrains.kotlin.lexer.KtTokens.CONST_KEYWORD
 import org.jetbrains.kotlin.lexer.KtTokens.IDENTIFIER
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.containingClassOrObject
-import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 
 /**
  * kotlin代码格式检查访问器
@@ -55,14 +54,14 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
   override fun visitConstantExpression(expression: KtConstantExpression, data: Any?) {
     // 不能使用未声明的数字作为参数
-    if (expression.parent is KtValueArgument
-        && expression.node.elementType in listOf(INTEGER_CONSTANT, FLOAT_CONSTANT, STRING_TEMPLATE)
-        && expression.parent.getChildOfType<KtValueArgumentName>() == null
-        && expression.textLength > 1) {
-      if (expression.node.elementType != STRING_TEMPLATE || expression.textLength >= MAX_STRING_ARGUMENT_LENGTH) {
+//    if (expression.parent is KtValueArgument
+//        && expression.node.elementType in listOf(INTEGER_CONSTANT, FLOAT_CONSTANT, STRING_TEMPLATE)
+//        && expression.parent.getChildByType<KtValueArgumentName>() == null
+//        && expression.textLength > 1) {
+//      if (expression.node.elementType != STRING_TEMPLATE || expression.textLength >= MAX_STRING_ARGUMENT_LENGTH) {
         //        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
-      }
-    }
+//      }
+//    }
   }
 
   override fun visitElement(element: PsiElement) {

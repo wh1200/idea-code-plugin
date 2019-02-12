@@ -3,7 +3,6 @@
  */
 package com.wuhao.code.check.constants
 
-
 /**
  * 提示消息常量类
  * @author 吴昊
@@ -24,18 +23,19 @@ object Messages {
   const val JS_FILE_NAME_INVALID = "文件名称格式错误，只允许包含字母，数字，-及_"
   const val JUMP_TO_INTERFACE = "跳转至接口"
   const val MISSING_API_ANNOTATION = "缺少@Api注解"
-  const val REQUEST_MAPPING_ANNOTATION_FORBIDDEN_ON_FUNCTION = "禁止在方法上使用@RequestMapping注解"
-  const val MISSING_REQUEST_MAPPING_ANNOTATION = "缺少@RequestMapping注解"
   const val MISSING_API_OPERATION_ANNOTATION = "缺少@ApiOperation注解"
   const val MISSING_ATTR_VALUE = "缺少属性值"
   const val MISSING_COMMENT_CONTENT = "缺少注释内容"
+  const val MISSING_REQUEST_MAPPING_ANNOTATION = "缺少@RequestMapping注解"
+  const val NAME_END_WITH_ACTION = "类名称应该以Action结尾"
   const val NAME_MUST_NOT_LESS_THAN2_CHARS = "名称不能少于2个字符"
   const val NO_CONSTANT_ARGUMENT = "不允许直接使用未经声明的常量作为参数"
   const val PARAMETER_COMMENT_MISSING = "参数说明不完全"
   const val REDUNDANT_COMMENT = "多余的注释"
+  const val REQUEST_MAPPING_ANNOTATION_FORBIDDEN_ON_FUNCTION = "禁止在方法上使用@RequestMapping注解"
   const val REQUIRE_AUTHOR = "缺少作者信息"
   const val REQUIRE_VERSION = "缺少版本信息"
+  const val START_WITH_SLASH_FORBIDDEN = "不允许以/开头"
   const val VUE_COMPONENT_MISSING_NAME = "vue组件必须设置name"
-  const val NAME_END_WITH_ACTION = "类名称应该以Action结尾"
 
 }

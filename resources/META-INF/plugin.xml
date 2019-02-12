@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check</name>
-  <version>1.4.6</version>
+  <version>1.4.7</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
@@ -164,6 +164,16 @@
                      implementationClass="com.wuhao.code.check.style.arrangement.vue.VueRearranger"/>
     <createFromTemplateHandler implementation="com.wuhao.code.check.template.CreateFromKotlinTemplateHandler"
                                order="first"/>
+    <psi.referenceContributor language="JavaScript"
+                              implementation="com.wuhao.code.check.lang.VueTemplateJSReferenceContributor"/>
+    <psi.referenceContributor language="Vue"
+                              implementation="com.wuhao.code.check.lang.VueTemplateAttrReferenceContributor"/>
+    <completion.contributor
+      implementationClass="com.wuhao.code.check.completion.ComponentPropCompletion"
+      language="Vue" order="FIRST"/>
+    <completion.contributor
+      implementationClass="com.wuhao.code.check.completion.PropValueCompletion"
+      language="JavaScript" order="FIRST"/>
     <completion.contributor
         implementationClass="com.wuhao.code.check.completion.FontAwesomeIconNameCompletion"
         language="Vue" order="FIRST"/>
@@ -179,7 +189,7 @@
     <gotoDeclarationHandler
         implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyBatisGotoDeclarationHandler"/>
-    <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.VueLifetimeFunctionHandler"/>
+    <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.VueHandler"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrFixPreProcessor"
                         id="VueAttrFixProcessor" order="last"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPreProcessor"

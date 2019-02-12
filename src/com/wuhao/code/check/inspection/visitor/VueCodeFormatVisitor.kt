@@ -21,7 +21,7 @@ import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.registerError
 import com.wuhao.code.check.depth
-import com.wuhao.code.check.getChildOfType
+import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.getLineCount
 import com.wuhao.code.check.inspection.fix.vue.ComplexExpToComputedPropertyFix
 import com.wuhao.code.check.inspection.fix.vue.VueComponentNameFix
@@ -91,7 +91,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
           override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             val tag = descriptor.psiElement.parent as XmlTag
             if (tag.name == TEMPLATE_TAG) {
-              val child = tag.getChildOfType<XmlTag>()
+              val child = tag.getChildByType<XmlTag>()
               if (child != null) {
                 child.setAttribute(KEY, "")
               } else {
@@ -126,7 +126,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
     if (isInjectAttribute(value.parent as XmlAttribute)
         && (value.parent as XmlAttribute).name != FOR
         && !(value.parent as XmlAttribute).name.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)) {
-      val jsContent = value.getChildOfType<JSEmbeddedContent>()
+      val jsContent = value.getChildByType<JSEmbeddedContent>()
       if (jsContent != null) {
         val depth = jsContent.depth
         if (depth >= 4) {
@@ -149,7 +149,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
           }
         }
         SCRIPT_TAG   -> {
-          val script = tag.getChildOfType<JSEmbeddedContent>()
+          val script = tag.getChildByType<JSEmbeddedContent>()
           if (script != null) {
             script.accept(VueJsVisitor())
           }
@@ -163,9 +163,9 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
 
 
   private fun keyAttrOnChild(parent: XmlTag): XmlAttribute? {
-    var son = parent.getChildOfType<XmlTag>()
+    var son = parent.getChildByType<XmlTag>()
     while (son?.name == TEMPLATE_TAG) {
-      son = son.getChildOfType()
+      son = son.getChildByType()
     }
     return son?.getAttribute(KEY)
   }

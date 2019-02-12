@@ -26,10 +26,6 @@ class KotlinArrangementParseInfo {
     myEntries.add(entry)
   }
 
-  fun getProperties(): Collection<KotlinElementArrangementEntry> {
-    return myProperties.values
-  }
-
   fun getPropertyDependencyRoots(): List<KotlinArrangementEntryDependencyInfo> {
     return PropertyDependenciesManager(myPropertyDependencies, myProperties).roots
   }

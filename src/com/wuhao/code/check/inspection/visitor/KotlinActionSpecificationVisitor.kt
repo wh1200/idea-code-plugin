@@ -8,14 +8,17 @@ import com.intellij.lang.Language
 import com.intellij.psi.PsiElement
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.getAnnotation
 import com.wuhao.code.check.hasAnnotation
+import com.wuhao.code.check.inspection.fix.DeleteFix
+import com.wuhao.code.check.inspection.fix.ReplaceWithElementFix
 import com.wuhao.code.check.inspection.fix.kotlin.MissingAnnotationFix
+import com.wuhao.code.check.ktPsiFactory
+import com.wuhao.code.check.toUnderlineCase
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
 import org.jetbrains.kotlin.name.FqName
-import org.jetbrains.kotlin.psi.KtClass
-import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.psi.KtVisitor
+import org.jetbrains.kotlin.psi.*
 
 /**
  * kotlin代码格式检查访问器
@@ -32,6 +35,7 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
     private const val API_OPERATION = "io.swagger.annotations.ApiOperation"
     private const val DELETE_MAPPING: String = "org.springframework.web.bind.annotation.DeleteMapping"
     private const val GET_MAPPING: String = "org.springframework.web.bind.annotation.GetMapping"
+    private val PATH_PATTERN = "[a-z0-9]+(_[a-z0-9]+)*".toRegex()
     private const val POST_MAPPING: String = "org.springframework.web.bind.annotation.PostMapping"
     private const val PUT_MAPPING: String = "org.springframework.web.bind.annotation.PutMapping"
     private const val REQUEST_MAPPING: String = "org.springframework.web.bind.annotation.RequestMapping"
@@ -40,10 +44,6 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
 
   override fun support(language: Language): Boolean {
     return language == KotlinLanguage.INSTANCE
-  }
-
-  override fun visitElement(element: PsiElement?) {
-    super.visitElement(element)
   }
 
   override fun visitClass(klass: KtClass, data: Any?): Any? {
@@ -59,6 +59,9 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
             klass.nameIdentifier!!, Messages.MISSING_REQUEST_MAPPING_ANNOTATION,
             MissingAnnotationFix(FqName(REQUEST_MAPPING), """""""")
         )
+      } else {
+        val requestMappingAnnotation = klass.getAnnotation(REQUEST_MAPPING)
+        checkMappingAnnotation(requestMappingAnnotation)
       }
       if (klass.name != null && !klass.name!!.endsWith("Action")) {
         holder.registerError(
@@ -70,20 +73,86 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
     return super.visitClass(klass, data)
   }
 
+  override fun visitElement(element: PsiElement?) {
+    super.visitElement(element)
+  }
+
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?): Any? {
     if (function.hasAnnotation(REQUEST_MAPPING)) {
       holder.registerError(
-          function.nameIdentifier!!, Messages.REQUEST_MAPPING_ANNOTATION_FORBIDDEN_ON_FUNCTION
+          function.nameIdentifier!!, Messages.REQUEST_MAPPING_ANNOTATION_FORBIDDEN_ON_FUNCTION, DeleteFix()
       )
     }
-    if (listOf(GET_MAPPING, PUT_MAPPING, DELETE_MAPPING, POST_MAPPING).any { function.hasAnnotation(it) }
-        && !function.hasAnnotation(API_OPERATION)) {
-      holder.registerError(
-          function.nameIdentifier!!, Messages.MISSING_API_OPERATION_ANNOTATION,
-          MissingAnnotationFix(FqName(API_OPERATION), "\"\"")
-      )
+    val requestAnnotations = listOf(GET_MAPPING, PUT_MAPPING, DELETE_MAPPING, POST_MAPPING).mapNotNull {
+      function.getAnnotation(it)
+    }
+    if (requestAnnotations.isNotEmpty()) {
+      if (!function.hasAnnotation(API_OPERATION)) {
+        holder.registerError(
+            function.nameIdentifier!!, Messages.MISSING_API_OPERATION_ANNOTATION,
+            MissingAnnotationFix(FqName(API_OPERATION), "\"\"")
+        )
+      }
+      if (requestAnnotations.size > 1) {
+        requestAnnotations.forEach {
+          holder.registerError(
+              it, "GetMapping,PutMapping,PostMapping,DeleteMapping只能使用一个",
+              DeleteFix()
+          )
+        }
+      } else {
+        val mappingAnnotation = requestAnnotations.first()
+        checkMappingAnnotation(mappingAnnotation)
+      }
     }
     return super.visitNamedFunction(function, data)
+  }
+
+  private fun checkMappingAnnotation(annotation: KtAnnotationEntry?) {
+    annotation?.valueArguments?.forEach {
+      if ((it.isNamed() && it.getArgumentName()!!.asName.asString() == "value") || !it.isNamed()) {
+        val argExp = it.getArgumentExpression()
+        if (argExp is KtStringTemplateExpression) {
+          argExp.entries.forEach { stringEntry ->
+            if (stringEntry.text.startsWith("/")) {
+              holder.registerError(
+                  stringEntry, Messages.START_WITH_SLASH_FORBIDDEN,
+                  ReplaceWithElementFix {
+                    stringEntry.ktPsiFactory.createArgument(stringEntry.text.substring(1))
+                  }
+              )
+            } else if (stringEntry.text.endsWith("/")) {
+              holder.registerError(
+                  stringEntry, Messages.START_WITH_SLASH_FORBIDDEN,
+                  ReplaceWithElementFix {
+                    stringEntry.ktPsiFactory.createArgument(stringEntry.text.substring(0, stringEntry.text.length - 1))
+                  }
+              )
+            } else {
+              // 路径命名只能使用下划线, 其中需要排除路径参数
+              if (stringEntry.text.split("/").any {
+                    !it.startsWith("{") && !it.matches(PATH_PATTERN)
+                  }) {
+                holder.registerError(
+                    stringEntry, "路径命名只能使用小写字母、数字以及下划线（路径参数不受限制），且不能以下划线开头或结尾",
+                    ReplaceWithElementFix {
+                      stringEntry.ktPsiFactory.createArgument(
+                          stringEntry.text.split("/").map {
+                            if (!it.startsWith("{") && !it.matches(PATH_PATTERN)) {
+                              it.toUnderlineCase().toLowerCase()
+                            } else {
+                              it
+                            }
+                          }.joinToString("/")
+                      )
+                    }
+                )
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
 }

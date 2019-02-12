@@ -303,12 +303,11 @@ class PluginStart : StartupActivity {
   }
 
   private fun sendEvent(project: Project) {
+    var firstFlag = true
     Timer().schedule(object : TimerTask() {
 
       override fun run() {
-        var firstFlag = true
-
-        val result = HttpRequest.newPost("http://os.aegis-info.com/api/idea/callback")
+        HttpRequest.newPost("http://os.aegis-info.com/api/idea/callback")
             .withParam("email", PluginSettings.INSTANCE.email)
             .withParam("project", project.name)
             .withParam("openedJustNow", firstFlag)
@@ -352,28 +351,33 @@ class PluginStart : StartupActivity {
         TypeScriptFileType.INSTANCE,
         LESSFileType.LESS,
         JsonFileType.INSTANCE,
-        VueFileType.INSTANCE,
         XmlFileType.INSTANCE,
         HtmlFileType.INSTANCE,
         CssFileType.INSTANCE
     )
-    if (isIdea && yamlEnabled) {
+    if (vueEnabled) {
+      setIndentFileTypes.add(VueFileType.INSTANCE)
+    }
+    if (isIdea) {
       setIndentFileTypes.addAll(listOf(JavaFileType.INSTANCE,
-          YAMLFileType.YML,
           SqlFileType.INSTANCE,
           KotlinFileType.INSTANCE))
+      if (yamlEnabled) {
+        setIndentFileTypes.add(YAMLFileType.YML)
+      }
     }
     setIndentFileTypes.forEach { fileType ->
       val language = when (fileType) {
         is JavaScriptFileType -> JavascriptLanguage.INSTANCE
         is JsonFileType       -> JsonLanguage.INSTANCE
-        is VueFileType        -> VueLanguage.INSTANCE
         is HtmlFileType       -> HTMLLanguage.INSTANCE
         is CssFileType        -> CSSLanguage.INSTANCE
         is LESSFileType       -> LESSLanguage.INSTANCE
         else                  -> {
-          if (isIdea) {
-            if (yamlEnabled && fileType is YAMLFileType) {
+          when {
+            vueEnabled
+                && fileType is VueFileType -> VueLanguage.INSTANCE
+            isIdea                         -> if (yamlEnabled && fileType is YAMLFileType) {
               YAMLLanguage.INSTANCE
             } else {
               when (fileType) {
@@ -383,8 +387,7 @@ class PluginStart : StartupActivity {
                 else              -> null
               }
             }
-          } else {
-            null
+            else                           -> null
           }
         }
       }
@@ -412,7 +415,9 @@ class PluginStart : StartupActivity {
       setLanguageArrangeSettings(myLastRunSettings, settings, JavaLanguage.INSTANCE, createJavaSettings())
       setLanguageArrangeSettings(myLastRunSettings, settings, KotlinLanguage.INSTANCE, createKotlinSettings())
     }
-    setLanguageArrangeSettings(myLastRunSettings, settings, VueLanguage.INSTANCE, createVueSettings())
+    if (vueEnabled) {
+      setLanguageArrangeSettings(myLastRunSettings, settings, VueLanguage.INSTANCE, createVueSettings())
+    }
     setLanguageArrangeSettings(myLastRunSettings, settings, LESSLanguage.INSTANCE, createLessSettings())
   }
 

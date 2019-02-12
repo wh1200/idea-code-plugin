@@ -4,11 +4,8 @@
 package com.wuhao.code.check.style.arrangement.vue
 
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.codeStyle.arrangement.ArrangementEntry
-import com.intellij.psi.codeStyle.arrangement.NameAwareArrangementEntry
-import com.intellij.psi.codeStyle.arrangement.TypeAwareArrangementEntry
+import com.intellij.psi.codeStyle.arrangement.*
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
-import com.intellij.xml.arrangement.XmlElementArrangementEntry
 
 /**
  *
@@ -20,11 +17,9 @@ class VueElementArrangementEntry(parent: ArrangementEntry?,
                                  val type: ArrangementSettingsToken,
                                  private val myName: String,
                                  val value: String?,
-                                 namespace: String?,
+                                 val myNamespace: String?,
                                  canBeMatched: Boolean)
-  : XmlElementArrangementEntry(parent, range, type, myName, namespace, canBeMatched),
-    TypeAwareArrangementEntry,
-    NameAwareArrangementEntry {
+  : DefaultArrangementEntry(parent, range.startOffset, range.endOffset, canBeMatched), TypeAwareArrangementEntry, NameAwareArrangementEntry, NamespaceAwareArrangementEntry {
 
   private val myTypes = hashSetOf(type)
 
@@ -34,6 +29,10 @@ class VueElementArrangementEntry(parent: ArrangementEntry?,
 
   override fun getTypes(): MutableSet<ArrangementSettingsToken> {
     return myTypes
+  }
+
+  override fun getNamespace(): String? {
+    return myNamespace
   }
 
 }

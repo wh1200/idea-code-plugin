@@ -5,6 +5,7 @@ package com.wuhao.code.check.inspection.inspections
 
 import com.intellij.codeInspection.InspectionToolProvider
 import com.wuhao.code.check.isIdea
+import com.wuhao.code.check.vueEnabled
 
 /**
  * @author 吴昊
@@ -13,8 +14,8 @@ import com.wuhao.code.check.isIdea
 class CheckProvider : InspectionToolProvider {
 
   override fun getInspectionClasses(): Array<Class<*>> {
-    val packageName = this.javaClass.name.replace("." + this.javaClass.simpleName, "")
-    val url = this.javaClass.getResource("/" + packageName.replace(".", "/"))
+//    val packageName = this.javaClass.name.replace("." + this.javaClass.simpleName, "")
+//    val url = this.javaClass.getResource("/" + packageName.replace(".", "/"))
     val classes = arrayListOf<Class<*>>()
     if (isIdea) {
       classes.add(JavaCommentInspection::class.java)
@@ -26,11 +27,12 @@ class CheckProvider : InspectionToolProvider {
       classes.add(CodeFormatInspection::class.java)
       classes.add(MybatisMapperInspection::class.java)
       classes.add(PropertyClassCreateInspection::class.java)
-      classes.add(OnlyCompanionClassToObjectInspection::class.java)
     }
     classes.add(JavaScriptFormatInspection::class.java)
     classes.add(TypeScriptFormatInspection::class.java)
-    classes.add(VueFormatInspection::class.java)
+    if (vueEnabled) {
+      classes.add(VueFormatInspection::class.java)
+    }
     return classes.filter { it.superclass == BaseInspection::class.java }.toTypedArray()
   }
 

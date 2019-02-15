@@ -8,6 +8,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiJavaFile
+import com.wuhao.code.check.constants.Annotations.IBATIS_MAPPER
 import com.wuhao.code.check.hasAnnotation
 import org.jetbrains.kotlin.idea.refactoring.psiElement
 import org.jetbrains.kotlin.idea.refactoring.toPsiDirectory
@@ -59,19 +60,19 @@ class CreateMyBatisMapperAction : AnAction() {
   private fun getDaoName(el: PsiElement): String? {
     if (el is PsiJavaFile && el.classes.isNotEmpty()) {
       val mapperClass = el.classes.firstOrNull {
-        it.hasAnnotation("org.apache.ibatis.annotations.Mapper")
+        it.hasAnnotation(IBATIS_MAPPER)
       }
       if (mapperClass != null) {
         return mapperClass.qualifiedName
       }
     } else if (el is KtFile) {
       val mapperClass = el.classes.firstOrNull {
-        it.hasAnnotation("org.apache.ibatis.annotations.Mapper")
+        it.hasAnnotation(IBATIS_MAPPER)
       }
       if (mapperClass != null) {
         return mapperClass.qualifiedName
       }
-    } else if (el is KtClass && el.hasAnnotation("org.apache.ibatis.annotations.Mapper")) {
+    } else if (el is KtClass && el.hasAnnotation(IBATIS_MAPPER)) {
       return el.fqName!!.asString()
     }
     return null

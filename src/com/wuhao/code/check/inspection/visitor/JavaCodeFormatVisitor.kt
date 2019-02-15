@@ -54,9 +54,9 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
           else   -> checkElement.nextSibling
         }
         if (check !is PsiWhiteSpace) {
-          holder.registerError(checkElement, "${place}应当有空格", fix)
+          holder.registerWarning(checkElement, "${place}应当有空格", fix)
         } else if (check.textLength != 1) {
-          holder.registerError(checkElement, "${place}应当只有一个空格", fix)
+          holder.registerWarning(checkElement, "${place}应当只有一个空格", fix)
         }
       }
     }
@@ -68,7 +68,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
 
   override fun visitFile(file: PsiFile) {
     if (file.getLineCount() > MAX_LINES_PER_FILE) {
-      holder.registerError(file, "文件长度不允许超过${MAX_LINES_PER_FILE}行")
+      holder.registerWarning(file, "文件长度不允许超过${MAX_LINES_PER_FILE}行")
     }
   }
 
@@ -87,7 +87,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
       } else if ((identifier.parent is PsiParameter || identifier.parent is PsiParameterList)
           || (identifier.parent is PsiMethod || identifier.parent is PsiClass)
           || (identifier.parent is PsiField && identifier.getAncestor(2) is PsiClass)) {
-        holder.registerError(identifier, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, RenameIdentifierFix())
+        holder.registerWarning(identifier, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, RenameIdentifierFix())
       }
     }
     val namedElement = identifier.parent
@@ -118,7 +118,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
         && expression.text.length > 1) {
       if (expression.firstChild.node.elementType != STRING_LITERAL
           || expression.textLength > MAX_STRING_ARGUMENT_LENGTH) {
-//        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractToVariableFix())
+//        holder.registerWarning(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractToVariableFix())
       }
     }
   }
@@ -126,7 +126,7 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
   override fun visitMethod(method: PsiMethod) {
     // 方法长度不能超过指定长度
     if (method.nameIdentifier != null && method.getLineCount() > MAX_LINES_PER_FUNCTION) {
-      holder.registerError(method.nameIdentifier!!,
+      holder.registerWarning(method.nameIdentifier!!,
           "方法长度不能超过${MAX_LINES_PER_FUNCTION}行")
     }
   }
@@ -141,14 +141,14 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
             }
           }
       ) {
-        holder.registerError(expression, "使用日志向控制台输出", JavaConsolePrintFix())
+        holder.registerWarning(expression, "使用日志向控制台输出", JavaConsolePrintFix())
       }
     }
   }
 
   private fun PsiIdentifier.checkNaming(method: NamingMethod) {
     if (!method.test(this.text)) {
-      holder.registerError(this, "命名格式错误，格式必须符合${method.zhName}命名法", JavaElementNameFix(method))
+      holder.registerWarning(this, "命名格式错误，格式必须符合${method.zhName}命名法", JavaElementNameFix(method))
     }
   }
 

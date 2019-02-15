@@ -8,7 +8,7 @@ import com.intellij.psi.*
 import com.intellij.psi.PsiKeyword.*
 import com.intellij.psi.impl.source.tree.ElementType
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.After
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
@@ -61,7 +61,7 @@ class SpaceChecker {
             Before -> "前面"
             else   -> "后面"
           }
-          holder.registerError(element, "${element.text} ${positionDescription}应当只有1个空格",
+          holder.registerWarning(element, "${element.text} ${positionDescription}应当只有1个空格",
               SpaceQuickFix(SpaceQuickFix.Position.After))
         }
       }
@@ -71,7 +71,7 @@ class SpaceChecker {
   private fun checkWhiteSpaceAfter(element: PsiElement, holder: ProblemsHolder) {
     val keyword = element.text
     if (element.nextSibling !is PsiWhiteSpace) {
-      holder.registerError(element, "$keyword 之后应当有空格", SpaceQuickFix(After))
+      holder.registerWarning(element, "$keyword 之后应当有空格", SpaceQuickFix(After))
     } else {
       checkOnlyOneSpaceBeforeOrAfter(element, holder, After)
     }
@@ -89,7 +89,7 @@ class SpaceChecker {
       } else {
         element
       }
-      holder.registerError(actionElement, "$keyword 之前应当有空格",
+      holder.registerWarning(actionElement, "$keyword 之前应当有空格",
           SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
     } else {
       checkOnlyOneSpaceBeforeOrAfter(element, holder, Before)
@@ -99,7 +99,7 @@ class SpaceChecker {
   private fun checkWhiteSpaceBothBeforeAndAfter(element: PsiElement, holder: ProblemsHolder) {
     val keyword = element.text
     if (element.nextSibling !is PsiWhiteSpace || element.prevSibling !is PsiWhiteSpace) {
-      holder.registerError(element, "$keyword 前后应当有空格", SpaceQuickFix(Both))
+      holder.registerWarning(element, "$keyword 前后应当有空格", SpaceQuickFix(Both))
     } else {
       checkOnlyOneSpaceBeforeOrAfter(element, holder, Both)
     }

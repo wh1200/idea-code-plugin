@@ -8,7 +8,7 @@ import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.util.ProcessingContext
 import com.wuhao.code.check.*
-import com.wuhao.code.check.gotohandler.VueHandler.Companion.findTypeScriptClass
+import com.wuhao.code.check.gotohandler.VueHandler.Companion.findTSClass
 import com.wuhao.code.check.linemarker.VueLineMarkerProvider.Companion.COMPUTED_ICON_FILE
 import com.wuhao.code.check.linemarker.VueLineMarkerProvider.Companion.LIFETIME_FUNCTIONS
 import com.wuhao.code.check.linemarker.VueLineMarkerProvider.Companion.PROP_ICON_FILE
@@ -41,7 +41,7 @@ class PropValueCompletion : CompletionContributor() {
       val el = parameters.position
       val attr = el.getAncestorOfType<XmlAttribute>()
       if (attr != null && (attr.value.isNullOrBlank() || attr.value == "IntellijIdeaRulezzz ")) {
-        val tsClass = findTypeScriptClass(attr.containingFile)
+        val tsClass = findTSClass(attr.containingFile)
         if (tsClass != null) {
           tsClass.allFields.forEach {
             result.addElement(LookupElementBuilder.create(it.name!!)

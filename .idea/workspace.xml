@@ -35,47 +35,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/TypeScriptExt.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/ComponentPropCompletion.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ReplaceWithElementFix.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateAttrReferenceContributor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceContributor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateReference.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/PropertyDependenciesManager.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementEntryDependencyInfo.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueLifeHookOrderToken.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueTemplateAttrOrderToken.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Annotations.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/ResolvedReference.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/spring/FeignComponentDiscoverer.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateRunConfiguration.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateRunConfiguration.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/FontAwesomeIconNameCompletion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/FontAwesomeIconNameCompletion.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueLifetimeFunctionHandler.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ConvertToClassComponent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ConvertToClassComponent.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/VueComponentPropertySortFix.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/VueComponentPropertySortFix.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/java/ExtractToVariableFix.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/java/ExtractToVariableFix.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/CheckProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/CheckProvider.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/OnlyCompanionClassToObjectInspection.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/enums/NamingMethod.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/enums/NamingMethod.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaCommentVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaCommentVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaScriptCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaScriptCodeFormatVisitor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCodeFormatVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/SpaceChecker.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/SpaceChecker.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceContributor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceContributor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateReference.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateReference.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperClassLineMarkerProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperClassLineMarkerProvider.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/VueRearrangeRules.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/VueRearrangeRules.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementParseInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementParseInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinRearranger.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinRearranger.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementOrderToken.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementParseInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementParseInfo.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueElementArrangementEntry.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueElementArrangementEntry.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueRearranger.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueRearranger.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -93,71 +84,98 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/lang/spring/FeignComponentDiscoverer.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="32" column="26" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1566">
-              <caret line="72" column="41" selection-start-line="72" selection-start-column="41" selection-end-line="72" selection-end-column="41" />
+            <state relative-caret-position="405">
+              <caret line="51" column="17" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
               <folding>
-                <element signature="e#41#977#0" expanded="true" />
+                <element signature="e#42#678#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/icons/arrow_up@2x.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/icons/calculator.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/icons/calculator@2x.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/icons/eye@2x.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/icons/in.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/icons/in@2x.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
+        <entry file="jar://$APPLICATION_HOME_DIR$/lib/java-api.jar!/com/intellij/psi/PsiClass.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+            <state relative-caret-position="183">
+              <caret line="33" column="10" selection-start-line="33" selection-start-column="10" selection-end-line="33" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/codeInsight/lookup/LookupElementBuilder.class">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4914">
-              <caret line="203" column="20" selection-start-line="203" selection-start-column="20" selection-end-line="203" selection-end-column="20" />
+            <state relative-caret-position="549">
+              <caret line="93" column="7" lean-forward="true" selection-start-line="93" selection-start-column="7" selection-end-line="93" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/BaseCodeFormatVisitor.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="201">
+              <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
+              <folding>
+                <element signature="e#37#812#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/constants/Annotations.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="13" column="33" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperClassLineMarkerProvider.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="201">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/lib/src/src_spring-openapi.zip!/com/intellij/spring/model/CommonSpringBean.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="29" column="17" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/com/intellij/spring/model/jam/stereotype/SpringRepository.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="29" column="9" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="186">
+              <caret line="178" column="72" lean-forward="true" selection-start-line="178" selection-start-column="72" selection-end-line="178" selection-end-column="72" />
             </state>
           </provider>
         </entry>
@@ -168,36 +186,13 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Class" />
-        <option value="Kotlin File" />
         <option value="Class" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>hasAnnotation</find>
-      <find>requestmapping</find>
-      <find>substring</find>
-      <find>rea</find>
-      <find>visitelement</find>
-      <find>myStack</find>
-      <find>visit</find>
-      <find>visitXmlTag</find>
-      <find>visitcl</find>
-      <find>visitelem</find>
-      <find>visitcla</find>
-      <find>registerPropertyInitializationDependency</find>
-      <find>myCurrentMethodLookupDepth</find>
-      <find>refer</find>
-      <find>onPropertyEntryCreated</find>
-      <find>kot</find>
-      <find>kotlin</find>
-      <find>kt</find>
-      <find>getPropertyDependencyRoots</find>
-      <find>beforemoun</find>
-      <find>beforemou</find>
-      <find>bindto</find>
-      <find>required</find>
       <find>popup-radio</find>
       <find>decora</find>
       <find>Decora</find>
@@ -205,6 +200,29 @@
       <find>hasdeco</find>
       <find>language=</find>
       <find>accepts</find>
+      <find>patterns</find>
+      <find>vuelanguage</find>
+      <find>script_tag</find>
+      <find>highli</find>
+      <find>decorator</find>
+      <find>path</find>
+      <find>es6import</find>
+      <find>IMPORT_CALL_PLACE</find>
+      <find>contributor</find>
+      <find>println</find>
+      <find>spring.</find>
+      <find>spring</find>
+      <find>cache</find>
+      <find>feign</find>
+      <find>mapper</find>
+      <find>org.apache</find>
+      <find>MyBatis</find>
+      <find>autoconfiguration</find>
+      <find>mybatis</find>
+      <find>org.apache.ibatis.annotations.M</find>
+      <find>annotations.Mapper</find>
+      <find>org.spring</find>
+      <find>private</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -213,33 +231,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/kotlin/MissingAnnotationFix.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.java" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/ui/AegisPluginSettingsConfigurable.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateVueProjectAction.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateRunConfiguration.java" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaCommentVisitor.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ConvertToClassComponent.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCodeFormatVisitor.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateRunConfiguration.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/java/ExtractToVariableFix.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/CheckProvider.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ReplaceWithElementFix.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/randomPassword.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementOrderToken.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueRecursiveVisitor.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinRearranger.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/XmlElementArrangementEntry.java" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/XmlElementArrangementEntry.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueElementArrangementEntry.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/RecursiveVisitor.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementParseInfo.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementEntryDependencyInfo.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/PropertyDependenciesManager.kt" />
@@ -248,22 +239,49 @@
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueTemplateAttrOrderToken.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/VueComponentPropertySortFix.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueLifeHookOrderToken.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/VueRearrangeRules.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueReferenceContributor.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateReference.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateAttrReferenceContributor.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceContributor.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/TypeScriptExt.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/completion/ComponentPropCompletion.java" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/completion/FontAwesomeIconNameCompletion.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueLifetimeFunctionHandler.kt" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/completion/ComponentPropCompletion.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.java" />
-        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" />
         <option value="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/VueRearrangeRules.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueElementArrangementEntry.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.java" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaScriptCodeFormatVisitor.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateAttrReferenceContributor.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceContributor2.java" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceContributor2.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceProvider.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/enums/NamingMethod.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCodeFormatVisitor.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateReference.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/ResolvedReference.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceContributor.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/spring/Abc.java" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/spring/Abc.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/spring/FeignComponentDiscoveryer.java" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/spring/FeignComponentDiscoveryer.kt" />
         <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/BaseCodeFormatVisitor.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperClassLineMarkerProvider.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Annotations.kt" />
+        <option value="$PROJECT_DIR$/src/com/wuhao/code/check/lang/spring/FeignComponentDiscoverer.kt" />
       </list>
     </option>
   </component>
@@ -349,78 +367,106 @@
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="completion" type="462c0819:PsiDirectoryNode" />
+              <item name="constants" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="completion" type="462c0819:PsiDirectoryNode" />
-              <item name="ComponentPropCompletion" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+              <item name="constants" type="462c0819:PsiDirectoryNode" />
+              <item name="Annotations" type="2c5a2ef7:KtClassOrObjectTreeNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="completion" type="462c0819:PsiDirectoryNode" />
-              <item name="PropValueCompletion" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="completion" type="462c0819:PsiDirectoryNode" />
-              <item name="PropValueCompletion" type="2c5a2ef7:KtClassOrObjectTreeNode" />
-              <item name="ConfigPropertiesCompletionProvider" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
+              <item name="inspections" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="completion" type="462c0819:PsiDirectoryNode" />
-              <item name="SpringBootConfigValueInjectCodeCompletion" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
+              <item name="inspections" type="462c0819:PsiDirectoryNode" />
+              <item name="JavaPropertyClassCreateInspection" type="2c5a2ef7:KtClassOrObjectTreeNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="gotohandler" type="462c0819:PsiDirectoryNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
+              <item name="visitor" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="gotohandler" type="462c0819:PsiDirectoryNode" />
-              <item name="VueHandler" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
+              <item name="visitor" type="462c0819:PsiDirectoryNode" />
+              <item name="BaseCodeFormatVisitor" type="2c5a2ef7:KtClassOrObjectTreeNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="linemarker" type="462c0819:PsiDirectoryNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
+              <item name="visitor" type="462c0819:PsiDirectoryNode" />
+              <item name="KotlinActionSpecificationVisitor" type="2c5a2ef7:KtClassOrObjectTreeNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="linemarker" type="462c0819:PsiDirectoryNode" />
-              <item name="VueLineMarkerProvider" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+              <item name="lang" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="linemarker" type="462c0819:PsiDirectoryNode" />
-              <item name="VueLineMarkerProvider" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+              <item name="lang" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="lang" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="lang" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="FeignComponentDiscoverer" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="lang" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="FeignComponentDiscoverer" type="2c5a2ef7:KtClassOrObjectTreeNode" />
               <item name="Companion" type="2c5a2ef7:KtClassOrObjectTreeNode" />
             </path>
             <path>
@@ -428,7 +474,46 @@
               <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="processors" type="462c0819:PsiDirectoryNode" />
+              <item name="lang" type="462c0819:PsiDirectoryNode" />
+              <item name="vue" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="linemarker" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="linemarker" type="462c0819:PsiDirectoryNode" />
+              <item name="MybatisMapperClassLineMarkerProvider" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="linemarker" type="462c0819:PsiDirectoryNode" />
+              <item name="MybatisMapperClassLineMarkerProvider" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+              <item name="Companion" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="PsiExt.kt" type="24436e51:KtFileTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="idea-code-plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="check" type="462c0819:PsiDirectoryNode" />
+              <item name="PsiPatterns.kt" type="24436e51:KtFileTreeNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
@@ -449,133 +534,98 @@
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
+              <item name="search" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="ecma6" type="462c0819:PsiDirectoryNode" />
+              <item name="search" type="462c0819:PsiDirectoryNode" />
+              <item name="searches" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="ecma6" type="462c0819:PsiDirectoryNode" />
-              <item name="TypeScriptClass" type="1a9f42e2:ClassTreeNode" />
+              <item name="search" type="462c0819:PsiDirectoryNode" />
+              <item name="searches" type="462c0819:PsiDirectoryNode" />
+              <item name="AnnotatedElementsSearch" type="1a9f42e2:ClassTreeNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="ecma6" type="462c0819:PsiDirectoryNode" />
-              <item name="TypeScriptInterface" type="1a9f42e2:ClassTreeNode" />
+              <item name="JavaPsiFacade" type="1a9f42e2:ClassTreeNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="ecma6" type="462c0819:PsiDirectoryNode" />
-              <item name="TypeScriptInterfaceClass" type="1a9f42e2:ClassTreeNode" />
+              <item name="PsiAnnotationParameterList" type="1a9f42e2:ClassTreeNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
+              <item name="java-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="ecmal4" type="462c0819:PsiDirectoryNode" />
+              <item name="PsiClass" type="1a9f42e2:ClassTreeNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="ecmal4" type="462c0819:PsiDirectoryNode" />
-              <item name="JSClass" type="1a9f42e2:ClassTreeNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="javascript-openapi.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="ecmal4" type="462c0819:PsiDirectoryNode" />
-              <item name="JSReferenceList" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="intellij" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -583,41 +633,18 @@
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
               <item name="impl" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -625,399 +652,424 @@
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
               <item name="impl" type="462c0819:PsiDirectoryNode" />
+              <item name="search" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
               <item name="psi" type="462c0819:PsiDirectoryNode" />
               <item name="impl" type="462c0819:PsiDirectoryNode" />
-              <item name="TypeScriptClassExpressionImpl" type="1a9f42e2:ClassTreeNode" />
+              <item name="search" type="462c0819:PsiDirectoryNode" />
+              <item name="ClassesWithAnnotatedMembersSearcher" type="1a9f42e2:ClassTreeNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
-              <item name="psi" type="462c0819:PsiDirectoryNode" />
-              <item name="impl" type="462c0819:PsiDirectoryNode" />
-              <item name="TypeScriptClassImpl" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
-              <item name="lookup" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
-              <item name="lookup" type="462c0819:PsiDirectoryNode" />
-              <item name="LookupElementBuilder" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
-              <item name="lookup" type="462c0819:PsiDirectoryNode" />
-              <item name="LookupElementPresentation" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-              <item name="ElementPattern" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-              <item name="ElementPatternCondition" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-              <item name="InitialPatternCondition" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-              <item name="ObjectPattern" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-              <item name="PlatformPatterns" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-              <item name="PsiElementPattern" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-              <item name="TreeElementPattern" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-              <item name="XmlElementPattern" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-              <item name="XmlNamedElementPattern" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="patterns" type="462c0819:PsiDirectoryNode" />
-              <item name="XmlTagPattern" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
-              <item name="navigation" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
-              <item name="navigation" type="462c0819:PsiDirectoryNode" />
-              <item name="actions" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
-              <item name="navigation" type="462c0819:PsiDirectoryNode" />
-              <item name="actions" type="462c0819:PsiDirectoryNode" />
-              <item name="GotoDeclarationHandler" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="impl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="impl" type="462c0819:PsiDirectoryNode" />
-              <item name="ApplicationImpl" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="progress" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="progress" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="platform-impl.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="openapi" type="462c0819:PsiDirectoryNode" />
-              <item name="progress" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-              <item name="ProgressIndicatorUtils" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="util.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="util.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="util.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="util.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-              <item name="ProcessingContext" type="1a9f42e2:ClassTreeNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="vuejs.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="vuejs.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="liveTemplates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="vuejs.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="java-impl.jar" type="462c0819:PsiDirectoryNode" />
               <item name="META-INF" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="vuejs.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="vuejs" type="462c0819:PsiDirectoryNode" />
+              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="vuejs.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="vuejs" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
+              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="vuejs.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="vuejs" type="462c0819:PsiDirectoryNode" />
-              <item name="codeInsight" type="462c0819:PsiDirectoryNode" />
-              <item name="VueReferenceContributor" type="2c5a2ef7:KtClassOrObjectTreeNode" />
+              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="javascript" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="javascript" type="462c0819:PsiDirectoryNode" />
+              <item name="JavaScriptReferenceContributor" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="JavaScriptLanguage.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+              <item name="search" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+              <item name="search" type="462c0819:PsiDirectoryNode" />
+              <item name="GlobalSearchScope" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="platform-api.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+              <item name="search" type="462c0819:PsiDirectoryNode" />
+              <item name="SearchScope" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="el" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="el" type="462c0819:PsiDirectoryNode" />
+              <item name="contextProviders" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="el" type="462c0819:PsiDirectoryNode" />
+              <item name="contextProviders" type="462c0819:PsiDirectoryNode" />
+              <item name="SpringElInjectionContext" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="el" type="462c0819:PsiDirectoryNode" />
+              <item name="extensions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="el" type="462c0819:PsiDirectoryNode" />
+              <item name="extensions" type="462c0819:PsiDirectoryNode" />
+              <item name="SpringELAliasedAttributeInjectionContext" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="index" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="index" type="462c0819:PsiDirectoryNode" />
+              <item name="SpringXmlBeansIndex" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="custom" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="custom" type="462c0819:PsiDirectoryNode" />
+              <item name="CustomLocalComponentsDiscoverer" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="extensions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="extensions" type="462c0819:PsiDirectoryNode" />
+              <item name="myBatis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="extensions" type="462c0819:PsiDirectoryNode" />
+              <item name="myBatis" type="462c0819:PsiDirectoryNode" />
+              <item name="SpringMyBatisBeansProvider" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="jam" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="jam" type="462c0819:PsiDirectoryNode" />
+              <item name="stereotype" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="jam" type="462c0819:PsiDirectoryNode" />
+              <item name="stereotype" type="462c0819:PsiDirectoryNode" />
+              <item name="SpringRepository" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="xml" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="xml" type="462c0819:PsiDirectoryNode" />
+              <item name="beans" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="xml" type="462c0819:PsiDirectoryNode" />
+              <item name="beans" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="xml" type="462c0819:PsiDirectoryNode" />
+              <item name="beans" type="462c0819:PsiDirectoryNode" />
+              <item name="impl" type="462c0819:PsiDirectoryNode" />
+              <item name="SpringBeanImpl" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="xml" type="462c0819:PsiDirectoryNode" />
+              <item name="beans" type="462c0819:PsiDirectoryNode" />
+              <item name="SpringBean" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="xml" type="462c0819:PsiDirectoryNode" />
+              <item name="custom" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="xml" type="462c0819:PsiDirectoryNode" />
+              <item name="custom" type="462c0819:PsiDirectoryNode" />
+              <item name="CustomNamespaceSpringBean" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="xml" type="462c0819:PsiDirectoryNode" />
+              <item name="CustomBean" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij" type="462c0819:PsiDirectoryNode" />
+              <item name="spring" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="CommonSpringBean" type="1a9f42e2:ClassTreeNode" />
+            </path>
+            <path>
+              <item name="idea-code-plugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; IntelliJ IDEA IU-183.4284.148 &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="spring.jar" type="462c0819:PsiDirectoryNode" />
+              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1034,7 +1086,7 @@
     <property name="SearchEverywhereHistoryKey" value="JSElementType&#9;FILE&#9;jar://C:/Program Files/JetBrains/IntelliJ IDEA 2018.2.4/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/JSElementTypes.class&#10;comment&#9;FILE&#9;file://H:/workspace/aegis/idea-code-plugin/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt&#10;MybatisMapperInspection&#9;FILE&#9;file://C:/Users/wuhao/Desktop/idea-code-plugin/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt&#10;httprequest&#9;FILE&#9;file://C:/Users/wuhao/Desktop/idea-code-plugin/src/com/wuhao/code/check/http/HttpRequest.kt&#10;httpre&#9;null&#9;null&#10;less&#9;FILE&#9;file://C:/Users/wuhao/Desktop/idea-code-plugin/src/com/wuhao/code/check/style/arrangement/less/LessRearranger.kt" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549966346949" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550198846740" />
     <property name="eu.ydp.idea.ts.spec.generator.settings.spec.template" value="import {$ClassName$} from '$TestsRelativePath$../src/$classRelativePath$/$ClassName$';&#10;&#10;describe('$ClassName$', () =&gt; {&#10;  let $ObjName$:$ClassName$;&#10;&#10;  beforeEach(() =&gt; {&#10;    $ObjName$ = new $ClassName$();&#10;  });&#10;&#10;  describe('', () =&gt; {&#10;    it('', () =&gt; {&#10;      // given&#10;&#10;      // when&#10;&#10;      // then&#10;    });&#10;  });&#10;});&#10;" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../vuejs" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -1242,7 +1294,9 @@
       <workItem from="1547484815975" duration="3038000" />
       <workItem from="1547487961623" duration="1694000" />
       <workItem from="1549864247544" duration="45729000" />
-      <workItem from="1549966374093" duration="383000" />
+      <workItem from="1549966374093" duration="21719000" />
+      <workItem from="1550191335567" duration="2057000" />
+      <workItem from="1550194274080" duration="4611000" />
     </task>
     <servers />
   </component>
@@ -1279,13 +1333,12 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="158927000" />
+    <option name="totallyTimeSpent" value="186931000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="2062" height="1126" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30441323" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18706119" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -1298,7 +1351,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32954547" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.40945673" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.38326445" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39152893" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -1345,7 +1398,7 @@
       <window_info anchor="right" id="调色板" order="16" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3004012" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30441323" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -1355,37 +1408,37 @@
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info id="设计器" order="8" />
       <window_info id="Learn" order="9" />
-      <window_info anchor="bottom" id="Regex" order="0" weight="0.32987747" />
-      <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.32954547" />
-      <window_info anchor="bottom" id="Run" order="3" weight="0.40945673" />
-      <window_info active="true" anchor="bottom" id="Debug" order="4" visible="true" weight="0.36673555" />
-      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="7" />
-      <window_info anchor="bottom" id="FindBugs-IDEA" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="JRebel Console" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="JRebel Executor" order="11" />
-      <window_info anchor="bottom" id="TypeScript" order="12" />
-      <window_info anchor="bottom" id="YouTrack" order="13" />
-      <window_info anchor="bottom" id="TeamCity" order="14" weight="0.32984293" />
-      <window_info anchor="bottom" id="Tail" order="15" />
-      <window_info anchor="bottom" id="Inspector" order="16" side_tool="true" />
-      <window_info anchor="bottom" id="Usages" order="17" />
-      <window_info anchor="bottom" id="Messages" order="18" weight="0.30885312" />
-      <window_info anchor="bottom" id="Regex Tester" order="19" weight="0.32893497" />
-      <window_info anchor="bottom" id="GitLabIntegration" order="20" weight="0.32946634" />
-      <window_info anchor="bottom" id="Version Control" order="21" show_stripe_button="false" weight="0.32946634" />
-      <window_info anchor="bottom" id="CheckStyle" order="22" />
-      <window_info anchor="bottom" id="Terminal" order="23" weight="0.35249764" />
-      <window_info anchor="bottom" id="Reviews" order="24" />
-      <window_info anchor="bottom" id="JProfiler" order="25" />
-      <window_info anchor="bottom" id="Dependencies Viewer" order="26" />
-      <window_info anchor="bottom" id="Database Changes" order="27" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Docker" order="28" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Educational.CheckDetails" order="29" />
-      <window_info anchor="bottom" id="调试" order="30" weight="0.40175954" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32954547" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.40945673" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.3822314" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="JRebel Console" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="JRebel Executor" order="10" />
+      <window_info anchor="bottom" id="TypeScript" order="11" />
+      <window_info anchor="bottom" id="YouTrack" order="12" />
+      <window_info anchor="bottom" id="TeamCity" order="13" weight="0.32984293" />
+      <window_info anchor="bottom" id="Tail" order="14" />
+      <window_info anchor="bottom" id="Inspector" order="15" side_tool="true" />
+      <window_info anchor="bottom" id="Usages" order="16" />
+      <window_info anchor="bottom" id="Messages" order="17" weight="0.30785123" />
+      <window_info anchor="bottom" id="Regex Tester" order="18" weight="0.32893497" />
+      <window_info anchor="bottom" id="GitLabIntegration" order="19" weight="0.32946634" />
+      <window_info anchor="bottom" id="Version Control" order="20" show_stripe_button="false" weight="0.32946634" />
+      <window_info anchor="bottom" id="CheckStyle" order="21" />
+      <window_info anchor="bottom" id="Terminal" order="22" weight="0.35227272" />
+      <window_info anchor="bottom" id="Reviews" order="23" />
+      <window_info anchor="bottom" id="JProfiler" order="24" />
+      <window_info anchor="bottom" id="Dependencies Viewer" order="25" />
+      <window_info anchor="bottom" id="Database Changes" order="26" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Docker" order="27" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Educational.CheckDetails" order="28" />
+      <window_info anchor="bottom" id="调试" order="29" weight="0.40175954" />
+      <window_info anchor="bottom" id="Regex" order="30" weight="0.32987747" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1421,423 +1474,425 @@
     </breakpoint-manager>
     <watches-manager>
       <configuration name="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
-        <watch expression="(el.parent as JSReferenceExpressionImpl).text" language="kotlin" custom="import com.intellij.lang.javascript.psi.impl.JSReferenceExpressionImpl" />
-        <watch expression="el.parent.parent.text" language="kotlin" />
-        <watch expression="el.parent.parent.parent.text" language="kotlin" />
-        <watch expression="el.parent.parent.parent.parent.text" language="kotlin" />
-        <watch expression="attr.value" language="kotlin" />
+        <watch expression="element.text" language="kotlin" />
+        <watch expression="springModel.config.text" language="kotlin" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
       <expression>
-        <expression-string>attr.value</expression-string>
+        <expression-string>(springModel as AutoConfigLocalAnnotationModel).activeProfiles</expression-string>
+        <language-id>kotlin</language-id>
+        <custom-info>import com.intellij.spring.boot.model.autoconfigure.AutoConfigLocalAnnotationModel</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(springModel as AutoConfigLocalAnnotationModel).configuration</expression-string>
+        <language-id>kotlin</language-id>
+        <custom-info>import com.intellij.spring.boot.model.autoconfigure.AutoConfigLocalAnnotationModel</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>springModel.config.text</expression-string>
         <language-id>kotlin</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>attr.isValid</expression-string>
+        <expression-string>springModel.config</expression-string>
         <language-id>kotlin</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>attr.valueTextRange</expression-string>
+        <expression-string>element.text</expression-string>
         <language-id>kotlin</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>attr.valueElement.text</expression-string>
+        <expression-string>element.references</expression-string>
         <language-id>kotlin</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>attr.valueElement</expression-string>
+        <expression-string>(element as JSLiteralExpressionImpl).references.map { it.resolve() }</expression-string>
+        <language-id>kotlin</language-id>
+        <custom-info>import com.intellij.lang.javascript.psi.impl.JSLiteralExpressionImpl</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(element as JSLiteralExpressionImpl).elementType</expression-string>
+        <language-id>kotlin</language-id>
+        <custom-info>import com.intellij.lang.javascript.psi.impl.JSLiteralExpressionImpl</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>element.parent.text</expression-string>
         <language-id>kotlin</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>el.parent.parent.parent.parent.text</expression-string>
+        <expression-string>context</expression-string>
         <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>el.parent.parent.parent.text</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>el.parent.parent.parent</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>el.parent.parent.text</expression-string>
-        <language-id>kotlin</language-id>
+        <custom-info>import org.jetbrains.kotlin.idea.completion.handlers.createKeywordConstructLookupElement,import com.intellij.lang.javascript.psi.JSLiteralExpression</custom-info>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/TreeElementPattern.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="27" column="28" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state relative-caret-position="186">
+          <caret line="214" column="109" lean-forward="true" selection-start-line="214" selection-start-column="109" selection-end-line="214" selection-end-column="109" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/psi/xml/XmlAttribute.class">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/psi/PsiElement.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
+        <state relative-caret-position="186">
+          <caret line="255" column="10" selection-start-line="255" selection-start-column="10" selection-end-line="255" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecmal4/JSQualifiedNamedElement.class">
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="12" column="63" selection-start-line="12" selection-start-column="49" selection-end-line="12" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/JSFieldVariable.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="10" column="47" selection-start-line="10" selection-start-column="47" selection-end-line="10" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/JSField.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="40" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_PLUGINS_DIR$/vuejs/lib/vuejs.jar!/org/jetbrains/vuejs/codeInsight/VueReferenceContributor.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_PLUGINS_DIR$/vuejs/lib/vuejs.jar!/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/codeInsight/navigation/actions/GotoDeclarationHandler.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="18" column="15" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="23" column="6" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateAttrReferenceContributor.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="23" selection-start-line="23" selection-end-line="24" />
-          <folding>
-            <element signature="e#35#322#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/openapi/progress/util/ProgressIndicatorUtils.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="329" lean-forward="true" selection-start-line="329" selection-end-line="329" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/openapi/application/impl/ApplicationImpl.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="1156" selection-start-line="1156" selection-end-line="1156" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/psi/ecma6/impl/TypeScriptClassImpl.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/ecmascript6/psi/JSClassExpression.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/psi/ecma6/impl/TypeScriptClassExpressionImpl.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecma6/TypeScriptClass.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecma6/TypeScriptClassExpression.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="10" column="57" selection-start-line="10" selection-start-column="57" selection-end-line="10" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecmal4/JSReferenceList.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecma6/TypeScriptInterfaceClass.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="13" column="66" selection-start-line="13" selection-start-column="66" selection-end-line="13" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecma6/TypeScriptInterface.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="53" lean-forward="true" selection-start-line="9" selection-start-column="53" selection-end-line="9" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecmal4/JSClass.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateReference.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/TypeScriptExt.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="37">
-          <caret line="15" column="36" lean-forward="true" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
-          <folding>
-            <element signature="e#30#335#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceContributor.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="28" column="12" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="12" />
-          <folding>
-            <element signature="e#35#308#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="24" column="41" lean-forward="true" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
+        <state relative-caret-position="186">
+          <caret line="30" column="12" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/PlatformPatterns.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="54" column="19" lean-forward="true" selection-start-line="54" selection-start-column="19" selection-end-line="54" selection-end-column="19" />
+        <state relative-caret-position="186">
+          <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
           <folding>
-            <element signature="e#1859#1860#0" expanded="true" />
-            <element signature="e#1895#1896#0" expanded="true" />
+            <element signature="e#650#651#0" expanded="true" />
+            <element signature="e#696#697#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/XmlElementPattern.class">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/psi/tree/IElementType.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
-          <caret line="14" column="104" lean-forward="true" selection-start-line="14" selection-start-column="104" selection-end-line="14" selection-end-column="104" />
+          <caret line="26" column="25" lean-forward="true" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/XmlNamedElementPattern.class">
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Kotlin/lib/kotlin-plugin.jar!/org/jetbrains/kotlin/KtNodeType.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
-          <caret line="16" column="143" selection-start-line="16" selection-start-column="143" selection-end-line="16" selection-end-column="143" />
+          <caret line="16" column="40" lean-forward="true" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/XmlTagPattern.class">
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="812">
-          <caret line="76" selection-start-line="76" selection-end-line="76" />
+        <state relative-caret-position="177">
+          <caret line="34" column="15" selection-start-line="34" selection-start-column="15" selection-end-line="34" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/ObjectPattern.class">
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/enums/NamingMethod.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="19" column="103" selection-start-line="19" selection-start-column="103" selection-end-line="19" selection-end-column="103" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/TreeElementPattern.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="14" column="144" selection-start-line="14" selection-start-column="144" selection-end-line="14" selection-end-column="144" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/ElementPattern.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/ElementPatternCondition.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/InitialPatternCondition.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="15" column="43" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/util/ProcessingContext.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        <state relative-caret-position="186">
+          <caret line="11" column="2" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
         </state>
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/PsiElementPattern.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="534" column="14" selection-start-line="534" selection-start-column="14" selection-end-line="534" selection-end-column="14" />
+          <caret line="446" column="26" selection-start-line="446" selection-start-column="26" selection-end-line="446" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceProvider.kt" />
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCodeFormatVisitor.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="74" column="28" lean-forward="true" selection-start-line="74" selection-start-column="28" selection-end-line="74" selection-end-column="28" />
           <folding>
-            <element signature="e#19910#19911#0" expanded="true" />
-            <element signature="e#19937#19938#0" expanded="true" />
+            <element signature="e#105#1486#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/psi/impl/source/html/HtmlFileImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateJSReferenceContributor.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="32" column="46" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
+          <folding>
+            <element signature="e#35#645#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/psi/search/searches/ReferencesSearch.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="38" column="36" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/META-INF/js-terminal.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/META-INF/js-testing.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13176">
+          <caret line="488" column="89" selection-start-line="488" selection-start-column="89" selection-end-line="488" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/javascript/JavaScriptReferenceContributor.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3942">
+          <caret line="192" column="97" selection-start-line="192" selection-start-column="97" selection-end-line="192" selection-end-column="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueTemplateReference.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/lang/ResolvedReference.kt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/src/src_spring-openapi.zip!/com/intellij/spring/el/contextProviders/SpringElInjectionContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="42" column="8" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/java-api.jar!/com/intellij/psi/PsiAnnotationParameterList.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="372" column="4" selection-start-line="372" selection-start-column="4" selection-end-line="372" selection-end-column="134" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/lang/spring/Abc.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+          <folding>
+            <element signature="e#42#158#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/com/intellij/spring/el/extensions/SpringELAliasedAttributeInjectionContext.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="67" column="21" selection-start-line="67" selection-start-column="21" selection-end-line="67" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/java-impl.jar!/com/intellij/psi/impl/search/ClassesWithAnnotatedMembersSearcher.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="35" column="5" lean-forward="true" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/java-impl.jar!/META-INF/JavaIndexingPlugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="68" column="84" selection-start-line="68" selection-start-column="84" selection-end-line="68" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/java-api.jar!/com/intellij/psi/JavaPsiFacade.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="34" column="27" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="410" column="18" lean-forward="true" selection-start-line="410" selection-start-column="18" selection-end-line="410" selection-end-column="18" />
+        <state relative-caret-position="177">
+          <caret line="765" column="15" selection-start-line="765" selection-start-column="15" selection-end-line="765" selection-end-column="15" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt">
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/com/intellij/spring/model/extensions/myBatis/SpringMyBatisBeansProvider.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="60" column="36" selection-start-line="60" selection-start-column="36" selection-end-line="60" selection-end-column="36" />
+        <state relative-caret-position="324">
+          <caret line="124" column="7" selection-start-line="124" selection-start-column="7" selection-end-line="124" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/FontAwesomeIconNameCompletion.kt">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/psi/search/GlobalSearchScope.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="227" selection-start-line="227" selection-end-line="243" selection-end-column="3" />
+        <state relative-caret-position="162">
+          <caret line="38" column="22" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/ComponentPropCompletion.kt">
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/com/intellij/spring/index/SpringXmlBeansIndex.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="55" column="59" lean-forward="true" selection-start-line="45" selection-start-column="10" selection-end-line="55" selection-end-column="59" />
-          <folding>
-            <element signature="e#41#649#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="51">
+          <caret line="221" column="15" selection-start-line="221" selection-start-column="15" selection-end-line="221" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/codeInsight/lookup/LookupElementPresentation.class">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/src/src_spring-openapi.zip!/com/intellij/spring/model/custom/CustomLocalComponentsDiscoverer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/psi/search/SearchScope.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="14" column="22" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/java-api.jar!/com/intellij/psi/search/searches/AnnotatedElementsSearch.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="54" column="98" selection-start-line="54" selection-start-column="98" selection-end-line="54" selection-end-column="98" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/com/intellij/spring/model/xml/custom/CustomNamespaceSpringBean.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/src/src_spring-openapi.zip!/com/intellij/spring/model/xml/CustomBean.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
-          <caret line="37" column="14" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="14" />
-          <folding>
-            <element signature="e#1102#1103#0" expanded="true" />
-            <element signature="e#1130#1131#0" expanded="true" />
-          </folding>
+          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt">
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/com/intellij/spring/model/xml/beans/impl/SpringBeanImpl.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="32" column="26" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="26" />
+        <state relative-caret-position="162">
+          <caret line="54" column="22" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/src/src_spring-openapi.zip!/com/intellij/spring/model/xml/beans/SpringBean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1566">
-          <caret line="72" column="41" selection-start-line="72" selection-start-column="41" selection-end-line="72" selection-end-column="41" />
-          <folding>
-            <element signature="e#41#977#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="186">
+          <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/icons/arrow_up@2x.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/icons/calculator.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/icons/calculator@2x.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/icons/eye@2x.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/icons/in.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/icons/in@2x.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/codeInsight/lookup/LookupElementBuilder.class">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/src/src_spring-openapi.zip!/com/intellij/spring/model/CommonSpringBean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4914">
-          <caret line="203" column="20" selection-start-line="203" selection-start-column="20" selection-end-line="203" selection-end-column="20" />
+        <state relative-caret-position="162">
+          <caret line="29" column="17" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/com/intellij/spring/model/jam/stereotype/SpringRepository.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="29" column="9" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+        <state relative-caret-position="186">
+          <caret line="178" column="72" lean-forward="true" selection-start-line="178" selection-start-column="72" selection-end-line="178" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/BaseCodeFormatVisitor.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperClassLineMarkerProvider.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="549">
+          <caret line="93" column="7" lean-forward="true" selection-start-line="93" selection-start-column="7" selection-end-line="93" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="25" column="6" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
+          <folding>
+            <element signature="e#37#812#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/constants/Annotations.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="13" column="33" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/java-api.jar!/com/intellij/psi/PsiClass.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="33" column="10" selection-start-line="33" selection-start-column="10" selection-end-line="33" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/lang/spring/FeignComponentDiscoverer.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="51" column="17" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
+          <folding>
+            <element signature="e#42#678#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

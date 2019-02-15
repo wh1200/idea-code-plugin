@@ -13,7 +13,7 @@ import com.intellij.lang.xml.XMLLanguage
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
-import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.vueEnabled
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.vuejs.VueLanguage
@@ -57,7 +57,7 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
 
   private fun checkEncoding(element: PsiElement) {
     if (element is PsiFile && element.virtualFile != null && element.virtualFile.charset != StandardCharsets.UTF_8) {
-      holder.registerError(element, "${element.name}的编码为${element.virtualFile.charset}，应该使用UTF-8")
+      holder.registerWarning(element, "${element.name}的编码为${element.virtualFile.charset}，应该使用UTF-8")
     }
   }
 
@@ -80,11 +80,11 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
           }
 
         }
-//        holder.registerError(element, "${element.fileType.name}文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
+//        holder.registerWarning(element, "${element.fileType.name}文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
 //            indentFix)
       }
       if (continuationIndent != DEFAULT_CONTINUATION_INDENT_SPACE_COUNT) {
-//        holder.registerError(element, "${element.fileType.name}文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格")
+//        holder.registerWarning(element, "${element.fileType.name}文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格")
       }
     }
   }

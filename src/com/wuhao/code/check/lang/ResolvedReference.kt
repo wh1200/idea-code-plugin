@@ -2,7 +2,6 @@ package com.wuhao.code.check.lang
 
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiReference
 
 /**
@@ -10,14 +9,15 @@ import com.intellij.psi.PsiReference
  * @author 吴昊
  * @since 1.4.6
  */
-class VueTemplateReference(private val originEl: PsiElement, private val refEl: PsiNameIdentifierOwner) : PsiReference {
+class ResolvedReference(private val originEl: PsiElement, private val refEl: PsiElement,
+                        private val name: String, private val nameElement: PsiElement) : PsiReference {
 
   override fun bindToElement(el: PsiElement): PsiElement {
     throw IllegalStateException("can not bind")
   }
 
   override fun getCanonicalText(): String {
-    return refEl.name!!
+    return name
   }
 
   override fun getElement(): PsiElement {
@@ -29,7 +29,7 @@ class VueTemplateReference(private val originEl: PsiElement, private val refEl: 
   }
 
   override fun handleElementRename(newName: String): PsiElement {
-    return refEl.nameIdentifier!!
+    return nameElement
   }
 
   override fun isReferenceTo(p0: PsiElement): Boolean {

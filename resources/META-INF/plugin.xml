@@ -168,12 +168,15 @@
                               implementation="com.wuhao.code.check.lang.VueTemplateJSReferenceContributor"/>
     <psi.referenceContributor language="Vue"
                               implementation="com.wuhao.code.check.lang.VueTemplateAttrReferenceContributor"/>
+    <fileIconPatcher implementation="com.wuhao.code.check.lang.VueBasedTsFileIconPatcher"/>
     <completion.contributor
       implementationClass="com.wuhao.code.check.completion.ComponentPropCompletion"
       language="Vue" order="FIRST"/>
     <completion.contributor
       implementationClass="com.wuhao.code.check.completion.PropValueCompletion"
       language="JavaScript" order="FIRST"/>
+    <spring.customLocalComponentsDiscoverer
+      implementation="com.wuhao.code.check.lang.spring.FeignComponentDiscoverer"/>
     <completion.contributor
         implementationClass="com.wuhao.code.check.completion.FontAwesomeIconNameCompletion"
         language="Vue" order="FIRST"/>
@@ -216,6 +219,9 @@
     <codeInsight.lineMarkerProvider
         implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
         id="VueLineMarkerProvider" language="Vue"/>
+    <codeInsight.lineMarkerProvider
+      implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
+      id="VueLineMarkerProviderJS" language="JavaScript"/>
     <applicationConfigurable
         instance="com.wuhao.code.check.ui.AegisPluginSettingsConfigurable"/>
     <applicationService
@@ -243,8 +249,8 @@
   </actions>
   <depends optional="true">org.jetbrains.kotlin</depends>
   <depends optional="true">com.intellij.modules.json</depends>
-  <!--<depends optional="true">com.intellij.spring</depends>-->
-  <!--<depends optional="true">com.intellij.spring.boot</depends>-->
+  <depends optional="true">com.intellij.spring</depends>
+  <depends optional="true">com.intellij.spring.boot</depends>
   <depends optional="true">org.jetbrains.plugins.vue</depends>
   <depends optional="true">org.jetbrains.plugins.less</depends>
 </idea-plugin>

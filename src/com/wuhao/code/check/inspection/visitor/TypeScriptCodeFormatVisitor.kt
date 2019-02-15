@@ -10,23 +10,21 @@ import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
 import com.intellij.psi.PsiFile
-import com.intellij.psi.xml.XmlTag
+import com.wuhao.code.check.PsiPatterns.VUE_SCRIPT_TAG
 import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
-import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.inspection.fix.ConvertToClassComponent
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
 import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix
-import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.SCRIPT_TAG
-import org.jetbrains.vuejs.VueLanguage
 
 /**
  * Created by 吴昊 on 2018/4/28.
  *
  */
 open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVisitor(),
-    BaseCodeFormatVisitor {
+                                                                     BaseCodeFormatVisitor {
 
   companion object {
     val TS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.ts\$".toRegex()
@@ -36,14 +34,12 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
     return language.displayName == LanguageNames.TYPESCRIPT
   }
 
-
   override fun visitFile(file: PsiFile) {
     if (!TS_FILE_NAME_PATTERN.matches(file.name) && !file.name.endsWith(".d.ts")) {
-      holder.registerError(file, Messages.JS_FILE_NAME_INVALID)
+      holder.registerWarning(file, Messages.JS_FILE_NAME_INVALID)
     }
     super.visitFile(file)
   }
-
 
   override fun visitJSObjectLiteralExpression(element: JSObjectLiteralExpression) {
     val ac = if (element.parent is TypeScriptAsExpression) {
@@ -51,11 +47,10 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
     } else {
       element.getAncestor(3)
     }
-    if (element.containingFile.language is VueLanguage
-        && ac is XmlTag && ac.name == SCRIPT_TAG) {
+    if (VUE_SCRIPT_TAG.accepts(element)) {
       val sortedProperties = VueComponentPropertySortFix.sortVueComponentProperties(element.properties)
       if (element.properties.toList() != sortedProperties) {
-        holder.registerError(element, "Vue组件属性排序", VueComponentPropertySortFix())
+        holder.registerWarning(element, "Vue组件属性排序", VueComponentPropertySortFix())
       }
       holder.registerProblem(element, Messages.CONVERT_TO_CLASS_COMPONENT, ProblemHighlightType.INFORMATION, ConvertToClassComponent())
     } else {
@@ -68,4 +63,3 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
   }
 
 }
-

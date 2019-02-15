@@ -17,9 +17,11 @@ import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
+import com.intellij.xml.util.HtmlUtil.SCRIPT_TAG_NAME
+import com.intellij.xml.util.HtmlUtil.STYLE_TAG_NAME
 import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
-import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.depth
 import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.getLineCount
@@ -33,8 +35,6 @@ import com.wuhao.code.check.lang.vue.VueDirectives.FOR
 import com.wuhao.code.check.lang.vue.VueDirectives.IF
 import com.wuhao.code.check.lang.vue.VueDirectives.ON
 import com.wuhao.code.check.lang.vue.isInjectAttribute
-import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.SCRIPT_TAG
-import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor.Companion.STYLE_TAG
 import org.jetbrains.kotlin.idea.core.replaced
 import org.jetbrains.vuejs.codeInsight.VueFileVisitor
 
@@ -58,7 +58,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
   override fun visitXmlAttribute(attribute: XmlAttribute) {
     // v-if和v-for不应出现在同一元素之上
     if (attribute.name == FOR && attribute.parent.getAttribute(IF) != null) {
-      holder.registerError(attribute, Messages.IF_AND_FOR_NOT_TOGETHER, object : LocalQuickFix {
+      holder.registerWarning(attribute, Messages.IF_AND_FOR_NOT_TOGETHER, object : LocalQuickFix {
 
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
           val attr = descriptor.psiElement as XmlAttribute
@@ -86,7 +86,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
       if ((attribute.parent.name == TEMPLATE_TAG
               && keyAttrOnChild(attribute.parent) == null)
           || (attribute.parent.name != TEMPLATE_TAG && attribute.parent.getAttribute(KEY) == null)) {
-        holder.registerError(attribute, Messages.FOR_TAG_SHOULD_HAVE_KEY_ATTR, object : LocalQuickFix {
+        holder.registerWarning(attribute, Messages.FOR_TAG_SHOULD_HAVE_KEY_ATTR, object : LocalQuickFix {
 
           override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             val tag = descriptor.psiElement.parent as XmlTag
@@ -112,11 +112,11 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
       }
     }
     if (attribute.name == KEY && attribute.value.isNullOrBlank()) {
-      holder.registerError(attribute, Messages.MISSING_ATTR_VALUE)
+      holder.registerWarning(attribute, Messages.MISSING_ATTR_VALUE)
     }
     // v-bind和v-on应该缩写
     if (attribute.name.startsWith(BIND) || attribute.name.startsWith(ON)) {
-      holder.registerError(attribute, Messages.FOR_SHORT, VueShortAttrFix())
+      holder.registerWarning(attribute, Messages.FOR_SHORT, VueShortAttrFix())
     }
     super.visitXmlAttribute(attribute)
   }
@@ -148,13 +148,13 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
             holder.registerProblem(tag, "template长度不得超过${MAX_TEMPLATE_LINES}行")
           }
         }
-        SCRIPT_TAG   -> {
+        SCRIPT_TAG_NAME   -> {
           val script = tag.getChildByType<JSEmbeddedContent>()
           if (script != null) {
             script.accept(VueJsVisitor())
           }
         }
-        STYLE_TAG    -> {
+        STYLE_TAG_NAME    -> {
         }
       }
     }
@@ -181,7 +181,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
       if (node.parent is ES6ExportDefaultAssignment) {
         // vue 组件必须有name属性
         if (node.findProperty("name") == null) {
-          holder.registerError(node.parent.firstChild, Messages.VUE_COMPONENT_MISSING_NAME, VueComponentNameFix(node))
+          holder.registerWarning(node.parent.firstChild, Messages.VUE_COMPONENT_MISSING_NAME, VueComponentNameFix(node))
         }
         super.visitJSObjectLiteralExpression(node)
       }

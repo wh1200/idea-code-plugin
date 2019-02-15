@@ -5,9 +5,17 @@ package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
-import com.intellij.psi.PsiElement
+import com.wuhao.code.check.constants.Annotations.DELETE_MAPPING
+import com.wuhao.code.check.constants.Annotations.GET_MAPPING
+import com.wuhao.code.check.constants.Annotations.POST_MAPPING
+import com.wuhao.code.check.constants.Annotations.PUT_MAPPING
+import com.wuhao.code.check.constants.Annotations.REQUEST_MAPPING
+import com.wuhao.code.check.constants.Annotations.REST_CONTROLLER
+import com.wuhao.code.check.constants.Annotations.SWAGGER_API
+import com.wuhao.code.check.constants.Annotations.SWAGGER_API_OPERATION
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAnnotation
 import com.wuhao.code.check.hasAnnotation
 import com.wuhao.code.check.inspection.fix.DeleteFix
@@ -31,15 +39,7 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
   : KtVisitor<Any, Any>(), BaseCodeFormatVisitor {
 
   companion object {
-    private const val API = "io.swagger.annotations.Api"
-    private const val API_OPERATION = "io.swagger.annotations.ApiOperation"
-    private const val DELETE_MAPPING: String = "org.springframework.web.bind.annotation.DeleteMapping"
-    private const val GET_MAPPING: String = "org.springframework.web.bind.annotation.GetMapping"
-    private val PATH_PATTERN = "[a-z0-9]+(_[a-z0-9]+)*".toRegex()
-    private const val POST_MAPPING: String = "org.springframework.web.bind.annotation.PostMapping"
-    private const val PUT_MAPPING: String = "org.springframework.web.bind.annotation.PutMapping"
-    private const val REQUEST_MAPPING: String = "org.springframework.web.bind.annotation.RequestMapping"
-    private const val REST_CONTROLLER: String = "org.springframework.web.bind.annotation.RestController"
+    val PATH_PATTERN = "[a-z0-9]+(_[a-z0-9]+)*".toRegex()
   }
 
   override fun support(language: Language): Boolean {
@@ -47,13 +47,16 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
   }
 
   override fun visitClass(klass: KtClass, data: Any?): Any? {
+    // 对RestController作规范约束
     if (klass.hasAnnotation(REST_CONTROLLER)) {
-      if (!klass.hasAnnotation(API)) {
-        holder.registerError(
+      // 必须要有 io.swagger.annotations.Api 注解
+      if (!klass.hasAnnotation(SWAGGER_API)) {
+        holder.registerWarning(
             klass.nameIdentifier!!, Messages.MISSING_API_ANNOTATION,
-            MissingAnnotationFix(FqName(API), """tags = [""]""")
+            MissingAnnotationFix(FqName(SWAGGER_API), """tags = [""]""")
         )
       }
+      // 必须要有 org.springframework.web.bind.annotation.RequestMapping 注解
       if (!klass.hasAnnotation(REQUEST_MAPPING)) {
         holder.registerError(
             klass.nameIdentifier!!, Messages.MISSING_REQUEST_MAPPING_ANNOTATION,
@@ -64,7 +67,7 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
         checkMappingAnnotation(requestMappingAnnotation)
       }
       if (klass.name != null && !klass.name!!.endsWith("Action")) {
-        holder.registerError(
+        holder.registerWarning(
             klass.nameIdentifier!!, Messages.NAME_END_WITH_ACTION,
             RenameIdentifierFix()
         )
@@ -73,13 +76,9 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
     return super.visitClass(klass, data)
   }
 
-  override fun visitElement(element: PsiElement?) {
-    super.visitElement(element)
-  }
-
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?): Any? {
     if (function.hasAnnotation(REQUEST_MAPPING)) {
-      holder.registerError(
+      holder.registerWarning(
           function.nameIdentifier!!, Messages.REQUEST_MAPPING_ANNOTATION_FORBIDDEN_ON_FUNCTION, DeleteFix()
       )
     }
@@ -87,15 +86,15 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
       function.getAnnotation(it)
     }
     if (requestAnnotations.isNotEmpty()) {
-      if (!function.hasAnnotation(API_OPERATION)) {
-        holder.registerError(
+      if (!function.hasAnnotation(SWAGGER_API_OPERATION)) {
+        holder.registerWarning(
             function.nameIdentifier!!, Messages.MISSING_API_OPERATION_ANNOTATION,
-            MissingAnnotationFix(FqName(API_OPERATION), "\"\"")
+            MissingAnnotationFix(FqName(SWAGGER_API_OPERATION), "\"\"")
         )
       }
       if (requestAnnotations.size > 1) {
         requestAnnotations.forEach {
-          holder.registerError(
+          holder.registerWarning(
               it, "GetMapping,PutMapping,PostMapping,DeleteMapping只能使用一个",
               DeleteFix()
           )
@@ -115,14 +114,14 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
         if (argExp is KtStringTemplateExpression) {
           argExp.entries.forEach { stringEntry ->
             if (stringEntry.text.startsWith("/")) {
-              holder.registerError(
+              holder.registerWarning(
                   stringEntry, Messages.START_WITH_SLASH_FORBIDDEN,
                   ReplaceWithElementFix {
                     stringEntry.ktPsiFactory.createArgument(stringEntry.text.substring(1))
                   }
               )
             } else if (stringEntry.text.endsWith("/")) {
-              holder.registerError(
+              holder.registerWarning(
                   stringEntry, Messages.START_WITH_SLASH_FORBIDDEN,
                   ReplaceWithElementFix {
                     stringEntry.ktPsiFactory.createArgument(stringEntry.text.substring(0, stringEntry.text.length - 1))
@@ -130,20 +129,20 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
               )
             } else {
               // 路径命名只能使用下划线, 其中需要排除路径参数
-              if (stringEntry.text.split("/").any {
-                    !it.startsWith("{") && !it.matches(PATH_PATTERN)
+              if (stringEntry.text.split("/").any { pathPart ->
+                    !pathPart.startsWith("{") && !pathPart.matches(PATH_PATTERN)
                   }) {
-                holder.registerError(
+                holder.registerWarning(
                     stringEntry, "路径命名只能使用小写字母、数字以及下划线（路径参数不受限制），且不能以下划线开头或结尾",
                     ReplaceWithElementFix {
                       stringEntry.ktPsiFactory.createArgument(
-                          stringEntry.text.split("/").map {
-                            if (!it.startsWith("{") && !it.matches(PATH_PATTERN)) {
-                              it.toUnderlineCase().toLowerCase()
+                          stringEntry.text.split("/").joinToString("/") { pathPart ->
+                            if (!pathPart.startsWith("{") && !pathPart.matches(PATH_PATTERN)) {
+                              pathPart.toUnderlineCase().toLowerCase()
                             } else {
-                              it
+                              pathPart
                             }
-                          }.joinToString("/")
+                          }
                       )
                     }
                 )

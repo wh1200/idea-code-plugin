@@ -7,6 +7,8 @@ package com.wuhao.code.check
 
 import com.intellij.ide.DataManager
 import com.intellij.lang.javascript.JavascriptLanguage
+import com.intellij.lang.javascript.psi.ecma6.ES6Decorator
+import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
 import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList.ModifierType
 import com.intellij.lang.javascript.psi.ecmal4.JSAttributeListOwner
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -388,21 +390,6 @@ fun PsiElement.getAncestor(level: Int): PsiElement? {
 }
 
 /**
- * 获取指定类型的所有的祖先元素
- */
-inline fun <reified T> PsiElement.getAncestorsOfType(): List<T> {
-  val result = arrayListOf<T>()
-  var el: PsiElement? = this.parent
-  while (el != null) {
-    if (el is T) {
-      result.add(el)
-    }
-    el = el.parent
-  }
-  return result.toList()
-}
-
-/**
  * 获取指定类型的距离当前元素最近的祖先元素
  */
 inline fun <reified T> PsiElement.getAncestorOfType(): T? {
@@ -416,6 +403,20 @@ inline fun <reified T> PsiElement.getAncestorOfType(): T? {
   return null
 }
 
+/**
+ * 获取指定类型的所有的祖先元素
+ */
+inline fun <reified T> PsiElement.getAncestorsOfType(): List<T> {
+  val result = arrayListOf<T>()
+  var el: PsiElement? = this.parent
+  while (el != null) {
+    if (el is T) {
+      result.add(el)
+    }
+    el = el.parent
+  }
+  return result.toList()
+}
 
 /**
  * 判断kotlin元素上指定名称的注解
@@ -577,7 +578,21 @@ fun KtAnnotated.hasAnnotation(annotation: String): Boolean {
  * 是否包含指定名称的装饰器
  */
 fun JSAttributeListOwner.hasDecorator(name: String): Boolean {
-  return this.attributeList?.decorators?.any { it.decoratorName == name } ?: false
+  return this.attributeList?.hasDecorator(name) ?: false
+}
+
+/**
+ * 是否包含指定名称的装饰器
+ */
+fun JSAttributeList.hasDecorator(name: String): Boolean {
+  return this.decorators.any { it.decoratorName == name }
+}
+
+/**
+ * 获取指定名称的装饰器
+ */
+fun JSAttributeList.getDecorator(name: String): ES6Decorator? {
+  return this.decorators.firstOrNull { it.decoratorName == name }
 }
 
 /**

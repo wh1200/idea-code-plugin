@@ -10,7 +10,7 @@ import com.intellij.lang.jvm.JvmModifier
 import com.intellij.psi.*
 import com.intellij.psi.javadoc.PsiDocComment
 import com.wuhao.code.check.constants.Messages
-import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix
 
 /**
@@ -39,9 +39,9 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
   override fun visitClass(clazz: PsiClass) {
     if (clazz !is PsiTypeParameter && (clazz.firstChild == null || clazz.firstChild !is PsiDocComment) && clazz !is PsiAnonymousClass) {
       if (clazz.nameIdentifier != null) {
-        holder.registerError(clazz.nameIdentifier!!, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
+        holder.registerWarning(clazz.nameIdentifier!!, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
       } else {
-        holder.registerError(clazz, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
+        holder.registerWarning(clazz, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
       }
     }
     if (clazz.annotations.any { it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS, SPRING_DOCUMENT_CLASS) }) {
@@ -49,7 +49,7 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
         !it.hasModifier(JvmModifier.STATIC) && it.hasModifier(JvmModifier.PRIVATE)
             && it.firstChild !is PsiDocComment
       }.forEach { fieldElement ->
-        holder.registerError(fieldElement.nameIdentifier, Messages.COMMENT_REQUIRED,
+        holder.registerWarning(fieldElement.nameIdentifier, Messages.COMMENT_REQUIRED,
             JavaBlockCommentFix())
       }
     }
@@ -65,25 +65,25 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
     }
 
     if (elClass != null && elClass.isInterface && method.firstChild !is PsiDocComment) {
-      holder.registerError(elementToRegisterProblem,
+      holder.registerWarning(elementToRegisterProblem,
           Messages.INTERFACE_METHOD_COMMENT_REQUIRED, JavaBlockCommentFix())
     } else {
 //      if (method.docComment != null) {
 //        if (method.parameters.size != method.docComment!!.findTagsByName("Param").size) {
-//          holder.registerError(method.parameterList, Messages.PARAMETER_COMMENT_MISSING, JavaBlockCommentFix())
+//          holder.registerWarning(method.parameterList, Messages.PARAMETER_COMMENT_MISSING, JavaBlockCommentFix())
 //        }
 //        val docTagList = method.docComment!!.findTagsByName("param")
 //        val parameterList = method.parameterList.parameters
 //        for (i in parameterList.indices) {
 //          if (docTagList.get(i) != null && parameterList.get(i) != null) {
 //            if (docTagList.get(i).text != parameterList.get(i).text) {
-//              holder.registerError(parameterList[i], Messages.PARAMETER_COMMENT_MISSING, JavaBlockCommentFix())
+//              holder.registerWarning(parameterList[i], Messages.PARAMETER_COMMENT_MISSING, JavaBlockCommentFix())
 //            }
 //          }
 //        }
 
       if (method.docComment != null && method.docComment!!.findTagsByName("description").isEmpty()) {
-        holder.registerError(elementToRegisterProblem, Messages.DESCRIPTION_COMMENT_MISSING, JavaBlockCommentFix())
+        holder.registerWarning(elementToRegisterProblem, Messages.DESCRIPTION_COMMENT_MISSING, JavaBlockCommentFix())
       }
     }
   }

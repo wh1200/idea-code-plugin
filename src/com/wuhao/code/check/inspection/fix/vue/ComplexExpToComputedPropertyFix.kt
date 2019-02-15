@@ -12,11 +12,11 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.xml.XmlDocument
 import com.intellij.psi.xml.XmlTag
+import com.intellij.xml.util.HtmlUtil.SCRIPT_TAG_NAME
 import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.PROPERTY_NAME_PLACEHOLDER
 import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor.Companion.COMPUTED_ATTRIBUTE
 import com.wuhao.code.check.lang.vue.VueDirectives.FOR
-import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.vuejs.language.VueVForExpression
 
@@ -56,7 +56,7 @@ class ComplexExpToComputedPropertyFix : LocalQuickFix {
 
     }.visit(el)
     val script = el.parent.ancestorOfType<XmlDocument>()!!
-        .firstChild { it is XmlTag && it.name == VueArrangementVisitor.SCRIPT_TAG }
+        .firstChild { it is XmlTag && it.name == SCRIPT_TAG_NAME }
     if (script != null) {
       val obj = script.firstChild { it is JSEmbeddedContent }!!
           .firstChild { it is ES6ExportDefaultAssignment }!!

@@ -35,9 +35,9 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
     return object : JavaElementVisitor() {
 
       override fun visitClass(aClass: PsiClass) {
-        if (getAnnotation(aClass, JavaCommentVisitor.ENTITY_CLASS) != null
-            || getAnnotation(aClass, JavaCommentVisitor.TABLE_CLASS) != null
-            || getAnnotation(aClass, JavaCommentVisitor.SPRING_DOCUMENT_CLASS) != null) {
+        if (aClass.hasAnnotation(JavaCommentVisitor.ENTITY_CLASS)
+            || aClass.hasAnnotation(JavaCommentVisitor.TABLE_CLASS)
+            || aClass.hasAnnotation(JavaCommentVisitor.SPRING_DOCUMENT_CLASS)) {
           if (aClass.containingFile.containingDirectory.findFile("Q${aClass.name}.java") == null) {
             holder.registerProblem(aClass.containingFile, "创建属性名称对象", myQuickFix)
           }
@@ -62,8 +62,8 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
 
   /**
    *
-   * @author
-   * @since
+   * @author 吴昊
+   * @since 1.4.7
    */
   private class MyQuickFix : LocalQuickFix {
 
@@ -145,4 +145,3 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
   }
 
 }
-

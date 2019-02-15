@@ -11,16 +11,14 @@ import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSFile
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.psi.PsiFile
-import com.intellij.psi.xml.XmlTag
+import com.wuhao.code.check.PsiPatterns.VUE_SCRIPT_TAG
 import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages.JS_FILE_NAME_INVALID
-import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.inspection.fix.FileNameFix
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
 import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix
-import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor
-import org.jetbrains.vuejs.VueLanguage
 
 /**
  * javascript文件代码格式检查访问器
@@ -55,18 +53,17 @@ open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
    */
   private fun checkFileName(element: PsiFile) {
     if (!JS_FILE_NAME_PATTERN.matches(element.name)) {
-      holder.registerError(element,
+      holder.registerWarning(element,
           JS_FILE_NAME_INVALID, FileNameFix())
     }
   }
 
   private fun remindReorderProperties(element: JSObjectLiteralExpression) {
     val ac = element.getAncestor(3)
-    if (element.containingFile.language is VueLanguage
-        && ac is XmlTag && ac.name == VueArrangementVisitor.SCRIPT_TAG) {
+    if (VUE_SCRIPT_TAG.accepts(ac)) {
       val sortedProperties = VueComponentPropertySortFix.sortVueComponentProperties(element.properties)
       if (element.properties.toList() != sortedProperties) {
-        holder.registerError(element, "Vue组件属性排序", VueComponentPropertySortFix())
+        holder.registerWarning(element, "Vue组件属性排序", VueComponentPropertySortFix())
       }
     } else {
       val sortedProperties = element.properties.sortedBy { it.name }
@@ -77,4 +74,3 @@ open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
   }
 
 }
-

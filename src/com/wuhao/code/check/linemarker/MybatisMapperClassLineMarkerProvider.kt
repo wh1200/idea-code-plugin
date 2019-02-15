@@ -11,6 +11,7 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
+import com.wuhao.code.check.constants.Annotations.IBATIS_MAPPER
 import com.wuhao.code.check.constants.MAPPER_RELATIVE_PATH
 import com.wuhao.code.check.hasAnnotation
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.ID_ATTR
@@ -30,7 +31,6 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
   companion object {
     val ICON_FILE = IconLoader.getIcon("/icons/arrow_down.png")
-    const val MAPPER_CLASS = "org.apache.ibatis.annotations.Mapper"
 
     fun resolveMapperXmlTag(element: PsiElement): XmlTag? {
       val mapperInfo = resolveMapperInfo(element)
@@ -63,12 +63,12 @@ class MybatisMapperClassLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
     private fun isMapperInterface(clazz: PsiClass?): Boolean {
       return clazz != null && clazz.isInterface
-          && clazz.annotations.any { it.qualifiedName == MAPPER_CLASS }
+          && clazz.annotations.any { it.qualifiedName == IBATIS_MAPPER }
     }
 
     private fun isMapperInterface(clazz: KtClass?): Boolean {
       return clazz != null && clazz.isInterface()
-          && clazz.hasAnnotation(MAPPER_CLASS)
+          && clazz.hasAnnotation(IBATIS_MAPPER)
     }
 
     private fun resolveMapperInfo(el: PsiElement): MapperInfo? {

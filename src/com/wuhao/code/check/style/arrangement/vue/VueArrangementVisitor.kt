@@ -13,17 +13,18 @@ import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunction
 import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList.ModifierType.GET
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.arrangement.DefaultArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokenType
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.XML_ATTRIBUTE
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.EntryType.XML_TAG
+import com.intellij.psi.impl.source.html.HtmlDocumentImpl
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
 import com.intellij.util.containers.ContainerUtil
 import com.intellij.util.containers.Stack
+import com.intellij.xml.util.HtmlUtil.SCRIPT_TAG_NAME
 import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.hasDecorator
 import com.wuhao.code.check.hasModifier
@@ -45,12 +46,10 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
   private val myStack = Stack<VueElementArrangementEntry>()
 
   companion object {
-    const val SCRIPT_TAG = "script"
-    const val STYLE_TAG = "style"
-    const val TEMPLATE_TAG = "template"
     val TS_CLASS = invertible("CLASS", StdArrangementTokenType.ENTRY_TYPE)
     val VUE_COMPUTED = invertible("VUE_COMPUTED", StdArrangementTokenType.ENTRY_TYPE)
     val VUE_DATA_FIELD = invertible("VUE_DATA_FIELD", StdArrangementTokenType.ENTRY_TYPE)
+    val VUE_FILE_ROOT_TAG = invertible("VUE_FILE_ROOT_TAG", StdArrangementTokenType.ENTRY_TYPE)
     val VUE_LIFE_HOOK = invertible("VUE_LIFE_HOOK", StdArrangementTokenType.ENTRY_TYPE)
     val VUE_METHOD = invertible("VUE_METHOD", StdArrangementTokenType.ENTRY_TYPE)
     val VUE_MODEL = invertible("VUE_MODEL", StdArrangementTokenType.ENTRY_TYPE)
@@ -63,21 +62,9 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     when (element) {
       is ES6ExportDefaultAssignment -> super.visitElement(element)
       is JSEmbeddedContent          -> super.visitElement(element)
-      is TypeScriptClassExpression  -> {
-        this.visitTypeScriptClass(element)
-      }
-      is ES6FieldStatementImpl      -> {
-        this.visitField(element)
-      }
-      is TypeScriptFunction         -> {
-        this.visitFunction(element)
-      }
-    }
-  }
-
-  override fun visitFile(file: PsiFile?) {
-    if (file is XmlFile) {
-      file.rootTag?.accept(this)
+      is TypeScriptClassExpression  -> this.visitTypeScriptClass(element)
+      is ES6FieldStatementImpl      -> this.visitField(element)
+      is TypeScriptFunction         -> this.visitFunction(element)
     }
   }
 
@@ -87,10 +74,21 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     processEntry(entry, null)
   }
 
+  override fun visitXmlFile(file: XmlFile?) {
+    file?.document?.children?.forEach {
+      it.accept(this)
+    }
+  }
+
   override fun visitXmlTag(tag: XmlTag) {
+    val type = if (tag.parent is HtmlDocumentImpl) {
+      VUE_FILE_ROOT_TAG
+    } else {
+      XML_TAG
+    }
     val entry = createNewEntry(
-        tag.textRange, XML_TAG, null, null, null, true)
-    if (tag.name == SCRIPT_TAG) {
+        tag.textRange, type, tag.name, null, tag.namespace, true)
+    if (tag.name == SCRIPT_TAG_NAME) {
       if (tag.getAttribute("lang") != null && tag.getAttributeValue("lang") in listOf("ts", "tsx")) {
         processEntry(entry, tag)
       } else {
@@ -131,37 +129,32 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
 
   private fun getReferencedProperties(property: ES6FieldStatementImpl, tsField: TypeScriptField): List<ES6FieldStatementImpl> {
     val referencedElements = ArrayList<ES6FieldStatementImpl>()
-    val propertyInitializer = tsField.initializer
     val containingClass = property.parent as TypeScriptClassExpression
     var classProperties: Set<ES6FieldStatementImpl>? = myCachedClassProperties[containingClass]
     if (classProperties == null) {
       classProperties = containingClass.getChildrenOfType<ES6FieldStatementImpl>().toSet()
       myCachedClassProperties[containingClass] = classProperties
     }
-    if (propertyInitializer != null) {
-      propertyInitializer.accept(object : RecursiveVisitor() {
+    tsField.initializer?.accept(object : RecursiveVisitor() {
 
-        var myCurrentMethodLookupDepth: Int = 0
-
-        override fun visitElement(element: PsiElement) {
-          if (element is JSReferenceExpression) {
-            this.visitReferenceExpression(element)
-          } else {
-            element.children.forEach {
-              visit(it)
-            }
+      override fun visitElement(element: PsiElement) {
+        if (element is JSReferenceExpression) {
+          this.visitReferenceExpression(element)
+        } else {
+          element.children.forEach {
+            visit(it)
           }
         }
+      }
 
-        fun visitReferenceExpression(element: JSReferenceExpression) {
-          val el = element.resolve()
-          if (el != null && el is TypeScriptField && el.parent in classProperties) {
-            referencedElements.add(el.parent as ES6FieldStatementImpl)
-          }
+      fun visitReferenceExpression(element: JSReferenceExpression) {
+        val el = element.resolve()
+        if (el != null && el is TypeScriptField && el.parent in classProperties) {
+          referencedElements.add(el.parent as ES6FieldStatementImpl)
         }
+      }
 
-      })
-    }
+    })
     return referencedElements
   }
 
@@ -175,14 +168,13 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
   }
 
   private fun processEntry(entry: VueElementArrangementEntry?, nextElement: PsiElement?) {
-    if (entry == null || nextElement == null) {
-      return
-    }
-    myStack.push(entry)
-    try {
-      nextElement.acceptChildren(this)
-    } finally {
-      myStack.pop()
+    if (entry != null && nextElement != null) {
+      myStack.push(entry)
+      try {
+        nextElement.acceptChildren(this)
+      } finally {
+        myStack.pop()
+      }
     }
   }
 

@@ -16,10 +16,11 @@ import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
 import com.intellij.openapi.util.IconLoader
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
+import com.wuhao.code.check.PsiPatterns.COMPONENT_DECORATOR_PATTERN
+import com.wuhao.code.check.PsiPatterns.VUE_LANG_PATTERN
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.getChildByType
-import org.jetbrains.vuejs.VueLanguage
-import org.jetbrains.vuejs.language.VueJSLanguage
+import icons.VuejsIcons
 import javax.swing.Icon
 
 /**
@@ -42,8 +43,9 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
   override fun collectNavigationMarkers(el: PsiElement,
                                         result: MutableCollection<in RelatedItemLineMarkerInfo<*>>) {
-    val lang = el.containingFile.language
-    if (lang is VueLanguage || lang is VueJSLanguage) {
+    if (COMPONENT_DECORATOR_PATTERN.accepts(el)) {
+      result.add(createLineMarkerInfo(el, VuejsIcons.Vue))
+    } else if (VUE_LANG_PATTERN.accepts(el)) {
       val maybeFunctionIdentifier = el.getAncestor(2) is TypeScriptClassExpression
       val maybePropertyIdentifier = el.getAncestor(3) is TypeScriptClassExpression
       if ((el is LeafPsiElement

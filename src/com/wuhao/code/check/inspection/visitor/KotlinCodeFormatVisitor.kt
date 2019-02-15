@@ -5,6 +5,7 @@ package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
+import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
@@ -24,7 +25,6 @@ import org.jetbrains.kotlin.KtNodeTypes.FOR
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
-import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
 import org.jetbrains.kotlin.lexer.KtTokens.CONST_KEYWORD
 import org.jetbrains.kotlin.lexer.KtTokens.IDENTIFIER
 import org.jetbrains.kotlin.psi.*
@@ -46,7 +46,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   override fun visitClassBody(classBody: KtClassBody, data: Any?) {
     if (classBody.prevSibling !is PsiWhiteSpace) {
       if (classBody.lBrace != null) {
-        holder.registerError(classBody.lBrace!!, "前面应当有空格", SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
+        holder.registerWarning(classBody.lBrace!!, "前面应当有空格", SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
       }
     }
     super.visitClassBody(classBody, data)
@@ -59,16 +59,16 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 //        && expression.parent.getChildByType<KtValueArgumentName>() == null
 //        && expression.textLength > 1) {
 //      if (expression.node.elementType != STRING_TEMPLATE || expression.textLength >= MAX_STRING_ARGUMENT_LENGTH) {
-        //        holder.registerError(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
+    //        holder.registerWarning(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
 //      }
 //    }
   }
 
   override fun visitElement(element: PsiElement) {
-    if (element.node.elementType == IDENTIFIER && element.textLength <= 1) {
-      if (element.getAncestor(2)!!.node.elementType != FOR
-          && element !is LeafPsiElement) {
-        holder.registerError(element, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, KotlinCommaFix())
+    if (element.typeMatch(IDENTIFIER) && element.textLength <= 1) {
+      if (psiElement().withAncestor(2, typePattern(FOR))
+              .andNot(leaf()).accepts(element)) {
+        holder.registerWarning(element, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, KotlinCommaFix())
       }
     }
     when (element) {
@@ -76,7 +76,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
         // Kotlin中不需要使用分号
         if (element.text == ";" && element.parent !is KtLiteralStringTemplateEntry
             && element.parent !is KtEnumEntry) {
-          holder.registerError(element, "Kotlin中代码不需要以;结尾", KotlinCommaFix())
+          holder.registerWarning(element, "Kotlin中代码不需要以;结尾", KotlinCommaFix())
         }
       }
     }
@@ -84,7 +84,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
   override fun visitFile(file: PsiFile) {
     if (file.getLineCount() > MAX_LINES_PER_FILE) {
-      holder.registerError(file, "文件长度不允许超过${MAX_LINES_PER_FILE}行")
+      holder.registerWarning(file, "文件长度不允许超过${MAX_LINES_PER_FILE}行")
     }
     return super.visitFile(file)
   }
@@ -99,21 +99,21 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
   override fun visitLambdaExpression(expression: KtLambdaExpression, data: Any?) {
 //    val lambdaAncestors = expression.getAncestorsOfType<KtLambdaExpression>()
-    if (expression.parent is KtLambdaArgument) {
-      val argument = expression.parent as KtLambdaArgument
-      val list = argument.resolveMainReferenceToDescriptors()
-      list.forEach {
-      }
-    }
+//    if (expression.parent is KtLambdaArgument) {
+//      val argument = expression.parent as KtLambdaArgument
+//      val list = argument.resolveMainReferenceToDescriptors()
+//      list.forEach {
+//      }
+//    }
   }
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
     // 方法长度不能超过指定长度
     if (function.getLineCount() > MAX_LINES_PER_FUNCTION) {
       if (function.nameIdentifier != null) {
-        holder.registerError(function.nameIdentifier!!, "方法长度不能超过${MAX_LINES_PER_FUNCTION}行")
+        holder.registerWarning(function.nameIdentifier!!, "方法长度不能超过${MAX_LINES_PER_FUNCTION}行")
       } else {
-        holder.registerError(function, "方法长度不能超过${MAX_LINES_PER_FUNCTION}行")
+        holder.registerWarning(function, "方法长度不能超过${MAX_LINES_PER_FUNCTION}行")
       }
     }
     val name = function.name
@@ -123,7 +123,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
       }
       if (name.length == 1) {
         // 检查成员属性名称，不得少于2个字符
-        holder.registerError(
+        holder.registerWarning(
             function.nameIdentifier ?: function,
             Messages.NAME_MUST_NOT_LESS_THAN2_CHARS,
             RenameIdentifierFix()
@@ -139,6 +139,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     val name = property.name
     if (name != null) {
       val classOrObject = property.containingClassOrObject
+      // const修饰的属性，顶层val属性，object的属性 使用常量命名规范
       if (property.hasModifier(CONST_KEYWORD)
           || (property.isVal && (property.isTopLevel
               || (property.isMember && classOrObject is KtObjectDeclaration)))) {
@@ -157,7 +158,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
       }
       if ((property.isMember || property.isTopLevel) && name.length == 1) {
         // 检查成员属性名称，不得少于2个字符
-        holder.registerError(property.nameIdentifier ?: property, "成员属性名称不得少于两个字符", RenameIdentifierFix())
+        holder.registerWarning(property.nameIdentifier ?: property, "成员属性名称不得少于两个字符", RenameIdentifierFix())
       }
     }
   }
@@ -167,7 +168,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
     if (expression.text == "println") {
       if (expression.ancestorOfType<KtFunction>() == null
           || !isInJUnitTestMethod(expression)) {
-        holder.registerError(expression, "使用日志向控制台输出", KotlinConsolePrintFix())
+        holder.registerWarning(expression, "使用日志向控制台输出", KotlinConsolePrintFix())
       }
     }
   }
@@ -183,7 +184,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   }
 
   private fun registerNameError(element: KtCallableDeclaration, method: NamingMethod) {
-    holder.registerError(element.nameIdentifier ?: element,
+    holder.registerWarning(element.nameIdentifier ?: element,
         "名称应该遵${method.zhName}命名法", KotlinNameFix(method))
   }
 

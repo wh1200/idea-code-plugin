@@ -35,4 +35,3 @@ enum class NamingMethod(val zhName: String, private val regex: Regex) {
   }
 
 }
-

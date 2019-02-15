@@ -8,7 +8,7 @@ import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
 import com.intellij.psi.xml.XmlToken
 import com.wuhao.code.check.constants.InspectionNames.MYBATIS
-import com.wuhao.code.check.constants.registerError
+import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getResultMap
 import com.wuhao.code.check.getSQL
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.EXTENDS_ATTR
@@ -42,21 +42,21 @@ class MybatisMapperInspection : BaseInspection(MYBATIS) {
                 if (isMethodTag(tag)) {
                   val resultMap = tag.getResultMap(attribute.value)
                   if (resultMap == null) {
-                    holder.registerError(nameToken, "resultMap不存在")
+                    holder.registerWarning(nameToken, "resultMap不存在")
                   }
                 }
               }
               EXTENDS_ATTR -> {
                 val resultMap = tag.getResultMap(attribute.value)
                 if (resultMap == null) {
-                  holder.registerError(nameToken, "resultMap不存在")
+                  holder.registerWarning(nameToken, "resultMap不存在")
                 }
               }
               REF_ID_ATTR -> {
                 if (tag.name == INCLUDE_TAG) {
                   val sql = tag.getSQL(attribute.value)
                   if (sql == null) {
-                    holder.registerError(nameToken, "sql模板不存在")
+                    holder.registerWarning(nameToken, "sql模板不存在")
                   }
                 }
               }
@@ -75,7 +75,7 @@ class MybatisMapperInspection : BaseInspection(MYBATIS) {
                 val idValueElement = it.getAttribute(ID_ATTR)?.valueElement
                 val nameToken = idValueElement?.getChildrenOfType<XmlToken>()?.firstOrNull { it.text != "\"" }
                 if (idValueElement != null && nameToken != null) {
-                  holder.registerError(nameToken, "重复的ID")
+                  holder.registerWarning(nameToken, "重复的ID")
                 }
               }
             }

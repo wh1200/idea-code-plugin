@@ -15,8 +15,8 @@ import com.intellij.psi.html.HtmlTag
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlFile
+import com.intellij.xml.util.HtmlUtil.SCRIPT_TAG_NAME
 import com.wuhao.code.check.*
-import com.wuhao.code.check.style.arrangement.vue.VueArrangementVisitor
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 import org.jetbrains.vuejs.VueLanguage
@@ -40,10 +40,10 @@ class VueHandler : GotoDeclarationHandler {
       return null
     }
 
-    fun findTypeScriptClass(file: PsiFile): TypeScriptClassExpression? {
+    fun findTSClass(file: PsiFile): TypeScriptClassExpression? {
       if (file is XmlFile) {
         return file.document?.getChildrenOfType<HtmlTag>()
-            ?.firstOrNull { it.name == VueArrangementVisitor.SCRIPT_TAG }
+            ?.firstOrNull { it.name == SCRIPT_TAG_NAME }
             ?.getChildByType<JSEmbeddedContent>()?.getChildOfType<ES6ExportDefaultAssignment>()
             ?.getChildOfType()
       }

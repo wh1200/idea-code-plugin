@@ -10,6 +10,7 @@ import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
 import com.intellij.psi.PsiFile
+import com.wuhao.code.check.PsiPatterns.VUE_LANG_PATTERN
 import com.wuhao.code.check.PsiPatterns.VUE_SCRIPT_TAG
 import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
@@ -42,12 +43,11 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
   }
 
   override fun visitJSObjectLiteralExpression(element: JSObjectLiteralExpression) {
-    val ac = if (element.parent is TypeScriptAsExpression) {
-      element.getAncestor(4)
-    } else {
-      element.getAncestor(3)
+    val ac = when {
+      element.parent is TypeScriptAsExpression -> element.getAncestor(4)
+      else                                     -> element.getAncestor(3)
     }
-    if (VUE_SCRIPT_TAG.accepts(element)) {
+    if (VUE_LANG_PATTERN.accepts(element) && VUE_SCRIPT_TAG.accepts(ac)) {
       val sortedProperties = VueComponentPropertySortFix.sortVueComponentProperties(element.properties)
       if (element.properties.toList() != sortedProperties) {
         holder.registerWarning(element, "Vue组件属性排序", VueComponentPropertySortFix())

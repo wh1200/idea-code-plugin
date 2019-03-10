@@ -205,6 +205,8 @@
                          id="FixVueTemplateExpressionProcessor" order="first"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixJavaBlankLinePostProcessor"
                          id="FixJavaBlankLineProcessor" order="last"/>
+    <postFormatProcessor implementation="com.wuhao.code.check.processors.FixTypeScriptPostProcessor"
+                         id="FixTypeScriptProcessor" order="last"/>
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPostProcessor"
                          id="FixKotlinProcessor" order="last"/>
     <codeInsight.lineMarkerProvider

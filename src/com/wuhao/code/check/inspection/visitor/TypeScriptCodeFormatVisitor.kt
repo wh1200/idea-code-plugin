@@ -47,7 +47,8 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
       element.parent is TypeScriptAsExpression -> element.getAncestor(4)
       else                                     -> element.getAncestor(3)
     }
-    if (VUE_LANG_PATTERN.accepts(element) && VUE_SCRIPT_TAG.accepts(ac)) {
+    if (VUE_LANG_PATTERN.accepts(element)
+        && VUE_SCRIPT_TAG.accepts(ac)) {
       val sortedProperties = VueComponentPropertySortFix.sortVueComponentProperties(element.properties)
       if (element.properties.toList() != sortedProperties) {
         holder.registerWarning(element, "Vue组件属性排序", VueComponentPropertySortFix())

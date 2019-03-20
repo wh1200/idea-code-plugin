@@ -11,8 +11,7 @@ import com.wuhao.code.check.allFields
 import com.wuhao.code.check.gotohandler.VueHandler
 import com.wuhao.code.check.hasDecorator
 import com.wuhao.code.check.linemarker.VueLineMarkerProvider.Companion.PROP_ICON_FILE
-import org.jetbrains.kotlin.idea.completion.ItemPriority.SUPER_METHOD_WITH_ARGUMENTS
-import org.jetbrains.kotlin.idea.completion.assignPriority
+import com.wuhao.code.check.toDashCase
 
 /**
  * Created by 吴昊 on 2019/2/12.
@@ -41,20 +40,22 @@ class ComponentPropCompletion : CompletionContributor() {
                                 result: CompletionResultSet) {
       val el = parameters.position.parent as XmlAttribute
       val ref = VueHandler.getRefTSClass(el)
-      if (ref != null) {
-        ref.allFields.filter { it.hasDecorator("Prop") }.forEach {
-          val type = if (it is TypeScriptField) {
-            it.type?.typeText
-          } else {
-            null
-          }
-          result.addElement(LookupElementBuilder.create(it.name!!)
-              .bold()
-              .withIcon(PROP_ICON_FILE)
-              .withTypeText(type)
-              .withCaseSensitivity(false)
-              .assignPriority(SUPER_METHOD_WITH_ARGUMENTS))
+      ref?.allFields?.filter { it.hasDecorator("Prop") }?.forEach {
+        val type = if (it is TypeScriptField) {
+          it.type?.typeText
+        } else {
+          null
         }
+        result.addElement(PrioritizedLookupElement.withExplicitProximity(
+            LookupElementBuilder
+                .create(":" + it.name!!.toDashCase().toLowerCase())
+                .bold()
+                .withIcon(PROP_ICON_FILE)
+                .withPresentableText(it.name!!)
+                .withTypeText(type)
+                .withCaseSensitivity(false),
+            10000
+        ))
       }
     }
 

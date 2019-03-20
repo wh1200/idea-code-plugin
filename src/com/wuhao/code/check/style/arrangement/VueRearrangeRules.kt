@@ -57,7 +57,9 @@ object VueRearrangeRules : BaseRules() {
 class VueRootTagOrderToken() : CustomArrangementOrderToken("BY_VUE_ROOT_TAG",
     "arrangement.settings.order.type.by.vue.root.tag") {
 
-  private val rootTags = arrayOf("template", "script", "style")
+  companion object {
+    val rootTags = arrayOf("template", "script", "style")
+  }
 
   override fun getEntryComparator(): Comparator<ArrangementEntry> {
     return Comparator { e1, e2 ->

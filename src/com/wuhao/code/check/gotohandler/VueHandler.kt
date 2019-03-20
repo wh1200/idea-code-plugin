@@ -2,8 +2,11 @@ package com.wuhao.code.check.gotohandler
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
+import com.intellij.lang.ecmascript6.psi.ES6ImportedBinding
+import com.intellij.lang.javascript.psi.JSCallExpression
 import com.intellij.lang.javascript.psi.JSEmbeddedContent
 import com.intellij.lang.javascript.psi.JSField
+import com.intellij.lang.javascript.psi.JSFile
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClassExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunction
 import com.intellij.lang.xml.XMLLanguage
@@ -15,11 +18,14 @@ import com.intellij.psi.html.HtmlTag
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlFile
+import com.intellij.psi.xml.XmlTag
 import com.intellij.xml.util.HtmlUtil.SCRIPT_TAG_NAME
 import com.wuhao.code.check.*
+import com.wuhao.code.check.style.arrangement.VueRootTagOrderToken
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 import org.jetbrains.vuejs.VueLanguage
+import org.jetbrains.vuejs.codeInsight.VueComponentsCache
 import org.jetbrains.vuejs.language.VueJSLanguage
 
 /**
@@ -33,8 +39,13 @@ class VueHandler : GotoDeclarationHandler {
     fun findRefField(attr: XmlAttribute): JSField? {
       val tsClass = getRefTSClass(attr)
       if (tsClass != null) {
-        return tsClass.allFields.firstOrNull() {
-          it.hasDecorator("Prop") && it.name == attr.name
+        val matchName = when {
+          attr.name.startsWith(":")       -> attr.name.substring(1)
+          attr.name.startsWith("v-bind:") -> attr.name.substring(7)
+          else                            -> attr.name
+        }
+        return tsClass.allFields.firstOrNull {
+          it.hasDecorator("Prop") && it.name == matchName
         }
       }
       return null
@@ -50,11 +61,93 @@ class VueHandler : GotoDeclarationHandler {
       return null
     }
 
+    fun getRefTSClass(element: XmlTag): TypeScriptClassExpression? {
+      val resolvedRef = element.reference?.resolve()
+      if (resolvedRef != null) {
+        return if (resolvedRef.parent is JSCallExpression) {
+          val callExp = resolvedRef.parent as JSCallExpression
+          resolveTSClassFromComponentRegisterCall(callExp)
+        } else {
+          resolvedRef.ancestorOfType<ES6ExportDefaultAssignment>()
+              ?.getChildByType<TypeScriptClassExpression>()
+        }
+      }
+      return null
+    }
 
     fun getRefTSClass(element: XmlAttribute): TypeScriptClassExpression? {
-      return element.parent?.reference?.resolve()
-          ?.ancestorOfType<ES6ExportDefaultAssignment>()
-          ?.getChildByType<TypeScriptClassExpression>()
+      val tag = element.parent
+      return getRefTSClass(tag)
+    }
+
+    fun resolveCommonRefFromComponentRegisterCall(callExp: JSCallExpression): PsiElement? {
+      val ref = resolveImportRef(callExp)
+      if (ref != null) {
+        return if (ref is JSFile) {
+          ref.getChildOfType<ES6ExportDefaultAssignment>()
+        } else {
+          ref.getChildOfType<ES6ExportDefaultAssignment>()?.getChildByType<TypeScriptClassExpression>()
+        }
+      }
+      return null
+    }
+
+    fun resolveReferenceOfVueComponentTag(element: XmlTag): PsiElement? {
+      var res: PsiElement? = null
+      if (element.name !in VueRootTagOrderToken.rootTags) {
+        val components = VueComponentsCache.getAllComponentsGroupedByModules((element.project), { true }, true)
+        components.forEach {
+          val moduleName = it.key
+          val toAdd = arrayListOf<Pair<String, Pair<PsiElement, Boolean>>>()
+          it.value.forEach { t, u ->
+            val componentName = if (moduleName == "ant-design-vue" && !t.startsWith("a-")) {
+              if (it.value is LinkedHashMap) {
+                toAdd.add("a-$t" to u)
+              }
+              "a-$t"
+            } else {
+              t
+            }
+            if (element.name == componentName) {
+              val refEl = u.first
+              if (refEl is JSCallExpression && refEl.arguments.size == 2) {
+                val realRef = VueHandler.resolveCommonRefFromComponentRegisterCall(refEl)
+                if (realRef != null) {
+                  res = realRef
+                  return@forEach
+                }
+              }
+            }
+          }
+          val tmp = it.value as LinkedHashMap
+          toAdd.forEach {
+            tmp[it.first] = it.second
+          }
+        }
+      }
+      return res
+    }
+
+    private fun resolveImportRef(callExp: JSCallExpression): PsiElement? {
+      if (callExp.arguments.size == 2) {
+        val comp = callExp.arguments[1].reference?.resolve()
+        if (comp is ES6ImportedBinding) {
+          val importReferences = comp.declaration?.fromClause?.resolveReferencedElements()
+          if (importReferences != null && importReferences.isNotEmpty()) {
+            return importReferences.toTypedArray()[0]
+          }
+        }
+      }
+      return null
+    }
+
+    private fun resolveTSClassFromComponentRegisterCall(callExp: JSCallExpression): TypeScriptClassExpression? {
+      val ref = resolveImportRef(callExp)
+      if (ref != null) {
+        return ref.getChildOfType<ES6ExportDefaultAssignment>()
+            ?.getChildByType<TypeScriptClassExpression>()
+      }
+      return null
     }
   }
 
@@ -69,6 +162,9 @@ class VueHandler : GotoDeclarationHandler {
           val field = when {
             el.parent is XmlAttribute -> findRefField(el.parent as XmlAttribute)
             el is XmlAttribute        -> findRefField(el)
+            el.parent is HtmlTag      -> {
+              resolveReferenceOfVueComponentTag(el.parent as HtmlTag)
+            }
             else                      -> null
           }
           if (field != null) {

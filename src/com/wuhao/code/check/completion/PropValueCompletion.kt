@@ -40,30 +40,40 @@ class PropValueCompletion : CompletionContributor() {
                                 result: CompletionResultSet) {
       val el = parameters.position
       val attr = el.getAncestorOfType<XmlAttribute>()
-      if (attr != null && (attr.value.isNullOrBlank() || attr.value == "IntellijIdeaRulezzz ")) {
+      if (attr != null
+          && (attr.value.isNullOrBlank() || attr.value!!.contains("IntellijIdeaRulezzz"))) {
         val tsClass = findTSClass(attr.containingFile)
         if (tsClass != null) {
+          val maxFieldPriority = 10000
+          val maxFunctionPriority = maxFieldPriority - 1000
           tsClass.allFields.forEach {
-            result.addElement(LookupElementBuilder.create(it.name!!)
-                .bold()
-                .withIcon(when {
-                  it.hasDecorator("Prop") -> PROP_ICON_FILE
-                  else                    -> null
-                })
-                .withTypeText(if (it is TypeScriptField) {
-                  it.type?.typeText
-                } else {
-                  null
-                })
-                .withCaseSensitivity(false)
-                .assignPriority(SUPER_METHOD_WITH_ARGUMENTS))
+            result.addElement(PrioritizedLookupElement.withExplicitProximity(
+                LookupElementBuilder.create(it.name!!)
+                    .bold()
+                    .withIcon(when {
+                      it.hasDecorator("Prop") -> PROP_ICON_FILE
+                      else                    -> null
+                    })
+                    .withTypeText(if (it is TypeScriptField) {
+                      it.type?.typeText
+                    } else {
+                      null
+                    })
+                    .withCaseSensitivity(false)
+                    .assignPriority(SUPER_METHOD_WITH_ARGUMENTS),
+                when {
+                  it.name!!.startsWith("$") -> maxFieldPriority - 10
+                  it.hasDecorator("Prop")   -> maxFieldPriority + 10
+                  else                      -> maxFieldPriority
+                }
+            ))
           }
           tsClass.allFunctions
               .filter {
                 !it.hasDecorator("Watch") && it.name!! !in LIFETIME_FUNCTIONS
               }
               .forEach {
-                result.addElement(LookupElementBuilder.create(it.name!!)
+                result.addElement(PrioritizedLookupElement.withExplicitProximity(LookupElementBuilder.create(it.name!!)
                     .bold()
                     .withIcon(when {
                       it.hasModifier(GET) -> COMPUTED_ICON_FILE
@@ -71,7 +81,13 @@ class PropValueCompletion : CompletionContributor() {
                     })
                     .withTypeText("function")
                     .withCaseSensitivity(false)
-                    .assignPriority(SUPER_METHOD_WITH_ARGUMENTS))
+                    .assignPriority(SUPER_METHOD_WITH_ARGUMENTS),
+                    if (it.hasModifier(GET)) {
+                      maxFunctionPriority + 10
+                    } else {
+                      maxFunctionPriority
+                    }
+                ))
               }
         }
       }

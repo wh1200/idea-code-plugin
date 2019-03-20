@@ -52,7 +52,6 @@ class VueTemplateJSReferenceContributor : PsiReferenceContributor() {
     ).inFile(VUE_FILE), object : PsiReferenceProvider() {
 
       override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
-        println(element.text)
         val tsClass = findTSClass(element.containingFile)
         if (tsClass != null) {
           val list: List<PsiNameIdentifierOwner> = tsClass.allFields.toList() + tsClass.allFunctions

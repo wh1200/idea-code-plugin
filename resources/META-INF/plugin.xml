@@ -136,7 +136,9 @@
     </ul>
     <h5>1.4.5</h5>
     <ul>
-      <li>Add gutters for class style component of vue.js, including lifecycle functions, props, computed props and watchers</li>
+      <li>Add gutters for class style component of vue.js, including lifecycle functions, props, computed props and
+        watchers
+      </li>
     </ul>
     <h5>v1.4.0</h5>
     <ul>
@@ -167,6 +169,9 @@
     <psi.referenceContributor language="JavaScript"
                               implementation="com.wuhao.code.check.lang.VueTemplateJSReferenceContributor"/>
     <psi.referenceContributor language="Vue"
+                              implementation="com.wuhao.code.check.lang.VueTemplateTagReferenceContributor"
+                              order="first"/>
+    <psi.referenceContributor language="Vue"
                               implementation="com.wuhao.code.check.lang.VueTemplateAttrReferenceContributor"/>
     <fileIconPatcher implementation="com.wuhao.code.check.lang.VueBasedTsFileIconPatcher"/>
     <completion.contributor
@@ -178,19 +183,19 @@
     <spring.customLocalComponentsDiscoverer
       implementation="com.wuhao.code.check.lang.spring.FeignComponentDiscoverer"/>
     <completion.contributor
-        implementationClass="com.wuhao.code.check.completion.FontAwesomeIconNameCompletion"
-        language="Vue" order="FIRST"/>
+      implementationClass="com.wuhao.code.check.completion.FontAwesomeIconNameCompletion"
+      language="Vue" order="FIRST"/>
     <completion.contributor
-        implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
-        language="JAVA" order="FIRST"/>
+      implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
+      language="JAVA" order="FIRST"/>
     <completion.contributor
-        implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
-        language="kotlin" order="FIRST"/>
+      implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
+      language="kotlin" order="FIRST"/>
     <inspectionToolProvider id="aegis.code.check.inspection"
                             order="FIRST"
                             implementation="com.wuhao.code.check.inspection.inspections.CheckProvider"/>
     <gotoDeclarationHandler
-        implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
+      implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyBatisGotoDeclarationHandler"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.VueHandler"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrFixPreProcessor"
@@ -210,30 +215,30 @@
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPostProcessor"
                          id="FixKotlinProcessor" order="last"/>
     <codeInsight.lineMarkerProvider
-        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
-        id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>
+      implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
+      id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>
     <codeInsight.lineMarkerProvider
-        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
-        id="MybatisMapperClassLineMarkerProviderKotlin" language="kotlin"/>
+      implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
+      id="MybatisMapperClassLineMarkerProviderKotlin" language="kotlin"/>
     <codeInsight.lineMarkerProvider
-        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider"
-        id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
+      implementationClass="com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider"
+      id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
     <codeInsight.lineMarkerProvider
-        implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
-        id="VueLineMarkerProvider" language="Vue"/>
+      implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
+      id="VueLineMarkerProvider" language="Vue"/>
     <codeInsight.lineMarkerProvider
       implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
       id="VueLineMarkerProviderJS" language="JavaScript"/>
     <applicationConfigurable
-        instance="com.wuhao.code.check.ui.AegisPluginSettingsConfigurable"/>
+      instance="com.wuhao.code.check.ui.AegisPluginSettingsConfigurable"/>
     <applicationService
-        serviceImplementation="com.wuhao.code.check.ui.PluginSettings"/>
+      serviceImplementation="com.wuhao.code.check.ui.PluginSettings"/>
   </extensions>
 
   <actions>
     <!--<action id="CreateRunConfigurationAegis" class="com.wuhao.code.check.action.CreateRunConfiguration" text="新建运行配置"-->
-            <!--description="新建运行配置">-->
-      <!--<add-to-group group-id="NewGroup" anchor="first"/>-->
+    <!--description="新建运行配置">-->
+    <!--<add-to-group group-id="NewGroup" anchor="first"/>-->
     <!--</action>-->
     <action id="CreateVueProject" class="com.wuhao.code.check.action.CreateVueProjectAction" text="擎盾VueJS项目"
             description="新建Vue项目">

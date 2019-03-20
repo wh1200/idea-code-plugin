@@ -10,14 +10,19 @@ import com.intellij.psi.PsiReference
  * @author 吴昊
  * @since 1.4.6
  */
-class VueTemplateReference(private val originEl: PsiElement, private val refEl: PsiNameIdentifierOwner) : PsiReference {
+class VueTemplateReference(private val originEl: PsiElement,
+                           private val refEl: PsiElement) : PsiReference {
 
   override fun bindToElement(el: PsiElement): PsiElement {
     throw IllegalStateException("can not bind")
   }
 
   override fun getCanonicalText(): String {
-    return refEl.name!!
+    return if (refEl is PsiNameIdentifierOwner) {
+      refEl.name!!
+    } else {
+      refEl.text
+    }
   }
 
   override fun getElement(): PsiElement {
@@ -29,7 +34,11 @@ class VueTemplateReference(private val originEl: PsiElement, private val refEl: 
   }
 
   override fun handleElementRename(newName: String): PsiElement {
-    return refEl.nameIdentifier!!
+    return if (refEl is PsiNameIdentifierOwner) {
+      refEl.nameIdentifier!!
+    } else {
+      refEl
+    }
   }
 
   override fun isReferenceTo(p0: PsiElement): Boolean {

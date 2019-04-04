@@ -47,13 +47,13 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
   companion object {
     const val COMPUTED_ATTRIBUTE = "computed"
     const val MAX_TEMPLATE_LINES = 300
+    const val SLOT_TAG = "slot"
     const val TEMPLATE_TAG = "template"
   }
 
   override fun support(language: Language): Boolean {
     return language.displayName == LanguageNames.VUE
   }
-
 
   override fun visitXmlAttribute(attribute: XmlAttribute) {
     // v-if和v-for不应出现在同一元素之上
@@ -74,7 +74,6 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
           originTag.replaced(newTag)
         }
 
-
         override fun getFamilyName(): String {
           return "将v-for属性提取到template"
         }
@@ -82,7 +81,7 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
       })
     }
     //v-for标签应当有:key属性
-    if (attribute.name == FOR) {
+    if (attribute.name == FOR && attribute.parent.name != SLOT_TAG) {
       if ((attribute.parent.name == TEMPLATE_TAG
               && keyAttrOnChild(attribute.parent) == null)
           || (attribute.parent.name != TEMPLATE_TAG && attribute.parent.getAttribute(KEY) == null)) {
@@ -103,7 +102,6 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
             }
           }
 
-
           override fun getFamilyName(): String {
             return "添加${KEY}属性"
           }
@@ -120,7 +118,6 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
     }
     super.visitXmlAttribute(attribute)
   }
-
 
   override fun visitXmlAttributeValue(value: XmlAttributeValue) {
     if (isInjectAttribute(value.parent as XmlAttribute)
@@ -139,28 +136,26 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
     super.visitXmlAttributeValue(value)
   }
 
-
   override fun visitXmlTag(tag: XmlTag) {
     if (tag.parent is XmlDocument) {
       when (tag.name) {
-        TEMPLATE_TAG -> {
+        TEMPLATE_TAG    -> {
           if (tag.getLineCount() > MAX_TEMPLATE_LINES) {
             holder.registerProblem(tag, "template长度不得超过${MAX_TEMPLATE_LINES}行")
           }
         }
-        SCRIPT_TAG_NAME   -> {
+        SCRIPT_TAG_NAME -> {
           val script = tag.getChildByType<JSEmbeddedContent>()
           if (script != null) {
             script.accept(VueJsVisitor())
           }
         }
-        STYLE_TAG_NAME    -> {
+        STYLE_TAG_NAME  -> {
         }
       }
     }
     super.visitXmlTag(tag)
   }
-
 
   private fun keyAttrOnChild(parent: XmlTag): XmlAttribute? {
     var son = parent.getChildByType<XmlTag>()
@@ -190,4 +185,3 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
   }
 
 }
-

@@ -42,7 +42,7 @@ class FixVueTemplateExpressionPostProcessor : PostFormatProcessor {
           if (isInjectAttribute(attribute) && attribute.value != null) {
             val exp = JSElementFactory.createExpressionCodeFragment(attribute.project, attribute.value, attribute)
             JSExpressionVisitor().visit(exp)
-            attribute.value = exp.text
+            attribute.setValue(exp.text)
           }
           super.visitXmlAttribute(attribute)
         }

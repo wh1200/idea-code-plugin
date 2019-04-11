@@ -6,6 +6,7 @@ package com.wuhao.code.check.inspection.visitor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
+import com.intellij.lang.javascript.dialects.TypeScriptJSXLanguageDialect
 import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
@@ -28,11 +29,12 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
                                                                      BaseCodeFormatVisitor {
 
   companion object {
-    val TS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.ts\$".toRegex()
+    val TS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.ts(x)?\$".toRegex()
   }
 
   override fun support(language: Language): Boolean {
     return language.displayName == LanguageNames.TYPESCRIPT
+        || language is TypeScriptJSXLanguageDialect
   }
 
   override fun visitFile(file: PsiFile) {
@@ -47,13 +49,15 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
       element.parent is TypeScriptAsExpression -> element.getAncestor(4)
       else                                     -> element.getAncestor(3)
     }
+    if (element.properties.any { it.name == "name" }) {
+      holder.registerProblem(element, Messages.CONVERT_TO_CLASS_COMPONENT, ProblemHighlightType.INFORMATION, ConvertToClassComponent())
+    }
     if (VUE_LANG_PATTERN.accepts(element)
         && VUE_SCRIPT_TAG.accepts(ac)) {
       val sortedProperties = VueComponentPropertySortFix.sortVueComponentProperties(element.properties)
       if (element.properties.toList() != sortedProperties) {
         holder.registerWarning(element, "Vue组件属性排序", VueComponentPropertySortFix())
       }
-      holder.registerProblem(element, Messages.CONVERT_TO_CLASS_COMPONENT, ProblemHighlightType.INFORMATION, ConvertToClassComponent())
     } else {
       val sortedProperties = element.properties.sortedBy { it.name }
       if (element.properties.toList() != sortedProperties) {

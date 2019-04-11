@@ -87,7 +87,7 @@ class ConvertToClassComponent : LocalQuickFix {
         } else {
           "mixins($mixinsString)"
         }
-        val renderString = renderProperty?.text
+        val renderString = "public " + renderProperty?.text
         if (renderProperty != null) {
           allProperties.remove(renderProperty)
         }

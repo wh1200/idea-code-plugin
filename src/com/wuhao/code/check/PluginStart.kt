@@ -201,6 +201,12 @@ class PluginStart : StartupActivity {
       if (fields.contains("JSDOC_INCLUDE_TYPES")) {
         this.JSDOC_INCLUDE_TYPES = true
       }
+      if (fields.contains("FUNCTION_EXPRESSION_BRACE_STYLE")) {
+        this.FUNCTION_EXPRESSION_BRACE_STYLE = 1
+      }
+      if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
+        this.SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
+      }
       if (fields.contains("IMPORT_SORT_MEMBERS")) {
         IMPORT_SORT_MEMBERS = true
       }

@@ -6,7 +6,7 @@ package com.wuhao.code.check.inspection.fix
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
-import com.intellij.lang.javascript.TypeScriptFileType
+import com.intellij.lang.javascript.TypeScriptJSXFileType
 import com.intellij.lang.javascript.psi.*
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunctionExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunctionProperty
@@ -110,7 +110,7 @@ class ConvertToClassComponent : LocalQuickFix {
           | ${body.joinToString("\n")}
         }""".trimMargin()
         val dummy = PsiFileFactory.getInstance(project).createFileFromText(
-            "Dummy", TypeScriptFileType.INSTANCE, text)
+            "Dummy", TypeScriptJSXFileType.INSTANCE, text)
         element.parent.insertElementsBefore(*dummy.children)
         element.parent.delete()
       }
@@ -187,6 +187,9 @@ class ConvertToClassComponent : LocalQuickFix {
   private fun buildWatchString(watchProperty: JSProperty?): String? {
     if (watchProperty != null) {
       val watchProperties = (watchProperty.value as JSObjectLiteralExpression).properties
+      if (watchProperties.any { it.value is TypeScriptFunctionExpression }) {
+        return null
+      }
       return watchProperties.joinToString("\n") { property ->
         val name = property.name
         val nameText = property.nameIdentifier!!.text

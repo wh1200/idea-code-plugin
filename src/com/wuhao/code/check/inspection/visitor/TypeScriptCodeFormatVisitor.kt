@@ -10,6 +10,7 @@ import com.intellij.lang.javascript.dialects.TypeScriptJSXLanguageDialect
 import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
+import com.intellij.lang.javascript.psi.ecma6.TypeScriptClass
 import com.intellij.psi.PsiFile
 import com.wuhao.code.check.PsiPatterns.VUE_LANG_PATTERN
 import com.wuhao.code.check.PsiPatterns.VUE_SCRIPT_TAG
@@ -19,6 +20,7 @@ import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.inspection.fix.ConvertToClassComponent
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
+import com.wuhao.code.check.inspection.fix.ReactToVueFix
 import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix
 
 /**
@@ -49,7 +51,7 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
       element.parent is TypeScriptAsExpression -> element.getAncestor(4)
       else                                     -> element.getAncestor(3)
     }
-    if (element.properties.any { it.name == "name" }) {
+    if (element.findProperty("name") != null) {
       holder.registerProblem(element, Messages.CONVERT_TO_CLASS_COMPONENT, ProblemHighlightType.INFORMATION, ConvertToClassComponent())
     }
     if (VUE_LANG_PATTERN.accepts(element)
@@ -65,6 +67,14 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
       }
     }
     super.visitJSObjectLiteralExpression(element)
+  }
+
+  override fun visitTypeScriptClass(cls: TypeScriptClass) {
+    if (cls.extendsList?.members?.any { it.referenceText == "React.Component" } == true) {
+      holder.registerProblem(cls, "转为Vue组件",
+          ProblemHighlightType.INFORMATION, ReactToVueFix())
+    }
+    super.visitTypeScriptClass(cls)
   }
 
 }

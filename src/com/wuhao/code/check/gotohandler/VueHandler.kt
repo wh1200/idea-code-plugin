@@ -5,8 +5,8 @@ import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.ecmascript6.psi.ES6ImportedBinding
 import com.intellij.lang.javascript.psi.JSCallExpression
 import com.intellij.lang.javascript.psi.JSEmbeddedContent
-import com.intellij.lang.javascript.psi.JSField
 import com.intellij.lang.javascript.psi.JSFile
+import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClassExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunction
 import com.intellij.lang.xml.XMLLanguage
@@ -36,16 +36,25 @@ import org.jetbrains.vuejs.language.VueJSLanguage
 class VueHandler : GotoDeclarationHandler {
 
   companion object {
-    fun findRefField(attr: XmlAttribute): JSField? {
+    fun findRefField(attr: XmlAttribute): PsiElement? {
       val tsClass = getRefTSClass(attr)
+      val matchName = when {
+        attr.name.startsWith(":")       -> attr.name.substring(1)
+        attr.name.startsWith("v-bind:") -> attr.name.substring(7)
+        else                            -> attr.name
+      }
       if (tsClass != null) {
-        val matchName = when {
-          attr.name.startsWith(":")       -> attr.name.substring(1)
-          attr.name.startsWith("v-bind:") -> attr.name.substring(7)
-          else                            -> attr.name
-        }
         return tsClass.allFields.firstOrNull {
           it.hasDecorator("Prop") && it.name == matchName
+        }
+      } else {
+        val jsObject = getRefObject(attr)
+        if (jsObject != null) {
+          val propsProperty = jsObject.findProperty("props")
+          if (propsProperty != null && propsProperty.value is JSObjectLiteralExpression) {
+            val propsValue = propsProperty.value as JSObjectLiteralExpression
+            return propsValue.findProperty(matchName)
+          }
         }
       }
       return null
@@ -57,6 +66,15 @@ class VueHandler : GotoDeclarationHandler {
             ?.firstOrNull { it.name == SCRIPT_TAG_NAME }
             ?.getChildByType<JSEmbeddedContent>()?.getChildOfType<ES6ExportDefaultAssignment>()
             ?.getChildOfType()
+      }
+      return null
+    }
+
+    fun getRefObject(attr: XmlAttribute): JSObjectLiteralExpression? {
+      val tag = attr.parent;
+      val refEl = tag.reference?.resolve()?.parent
+      if (refEl is JSObjectLiteralExpression) {
+        return refEl
       }
       return null
     }

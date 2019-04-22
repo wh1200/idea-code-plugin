@@ -3,6 +3,7 @@ package com.wuhao.code.check.completion
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptField
+import com.intellij.lang.javascript.psi.types.primitives.JSBooleanType
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlToken
@@ -42,16 +43,21 @@ class ComponentPropCompletion : CompletionContributor() {
       val ref = VueHandler.getRefTSClass(el)
       ref?.allFields?.filter { it.hasDecorator("Prop") }?.forEach {
         val type = if (it is TypeScriptField) {
-          it.type?.typeText
+          it.jsType?.typeText
         } else {
           null
         }
+        val completionName = it.name!!.toDashCase().toLowerCase()
         result.addElement(PrioritizedLookupElement.withExplicitProximity(
             LookupElementBuilder
-                .create(":" + it.name!!.toDashCase().toLowerCase())
+                .create(if (it.jsType is JSBooleanType) {
+                  completionName
+                } else {
+                  ":$completionName"
+                })
                 .bold()
                 .withIcon(PROP_ICON_FILE)
-                .withPresentableText(it.name!!)
+                .withPresentableText(completionName)
                 .withTypeText(type)
                 .withCaseSensitivity(false),
             10000

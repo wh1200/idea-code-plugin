@@ -94,12 +94,12 @@ class ConvertToClassComponent : LocalQuickFix {
         val existsLifeCycleMethods = LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
         val lifeCycleMethodsString = existsLifeCycleMethods.joinToString("\n") { "public " + it.text }
         allProperties.removeAll(existsLifeCycleMethods)
-        val body = listOf(
+        val body = listOfNotNull(
             propsString, dataString,
             computedString, watchString,
             lifeCycleMethodsString, methodsString,
             renderString
-        ).filterNotNull()
+        )
         val text = """
           |${importList.joinToString("\n")}
           |

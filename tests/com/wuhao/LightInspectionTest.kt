@@ -45,8 +45,8 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
 
   override fun setUp() {
     System.setProperty(PathManager.PROPERTY_HOME_PATH, homePath)
-    println(PluginManager.getPlugins().size)
     PluginManager.getPlugins().forEach {
+      println(it.path)
       println(it.name)
     }
     super.setUp()

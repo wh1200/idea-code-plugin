@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check</name>
-  <version>1.4.8</version>
+  <version>1.4.9</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
@@ -130,6 +130,11 @@
     ]]>
   </description>
   <change-notes><![CDATA[
+    <h5>1.4.9</h5>
+    <ul>
+      <li>Fix incorrect @ApiOperation annotation inspections</li>
+      <li>Add inspections for @FeignClient annotated interface</li>
+    </ul>
     <h5>1.4.6</h5>
     <ul>
       <li>Enhanced check for single-character naming</li>

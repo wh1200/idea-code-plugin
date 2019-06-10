@@ -57,6 +57,16 @@ fun ProblemsHolder.registerError(element: PsiElement, message: String, fix: Loca
   this.registerProblem(element, message, ProblemHighlightType.GENERIC_ERROR, fix)
 }
 
+
+/**
+ * 注册元素错误提示信息
+ * @param element 提示错误的元素
+ * @param message 注册错误提示
+ */
+fun ProblemsHolder.registerError(element: PsiElement, message: String) {
+  this.registerProblem(element, message, ProblemHighlightType.GENERIC_ERROR)
+}
+
 /**
  * 注册元素警告提示信息，并提供修复方法
  * @param element 错误元素

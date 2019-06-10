@@ -24,6 +24,7 @@ object Messages {
   const val JUMP_TO_INTERFACE = "跳转至接口"
   const val MISSING_API_ANNOTATION = "缺少@Api注解"
   const val MISSING_API_OPERATION_ANNOTATION = "缺少@ApiOperation注解"
+  const val MISSING_PARAM_ANNOTATION = "必须添加@PathVaribal, @RequestBody, @RequestParam其中一个注解"
   const val MISSING_ATTR_VALUE = "缺少属性值"
   const val MISSING_COMMENT_CONTENT = "缺少注释内容"
   const val MISSING_REQUEST_MAPPING_ANNOTATION = "缺少@RequestMapping注解"

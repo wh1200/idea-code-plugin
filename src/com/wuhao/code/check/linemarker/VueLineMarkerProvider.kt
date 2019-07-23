@@ -17,6 +17,7 @@ import com.intellij.openapi.util.IconLoader
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.PsiPatterns.COMPONENT_DECORATOR_PATTERN
+import com.wuhao.code.check.PsiPatterns.NEW_VUE_PATTERN
 import com.wuhao.code.check.PsiPatterns.VUE_LANG_PATTERN
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.getChildByType
@@ -43,7 +44,7 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
   override fun collectNavigationMarkers(el: PsiElement,
                                         result: MutableCollection<in RelatedItemLineMarkerInfo<*>>) {
-    if (COMPONENT_DECORATOR_PATTERN.accepts(el)) {
+    if (COMPONENT_DECORATOR_PATTERN.accepts(el) || NEW_VUE_PATTERN.accepts(el)) {
       result.add(createLineMarkerInfo(el, VuejsIcons.Vue))
     } else if (VUE_LANG_PATTERN.accepts(el)) {
       val maybeFunctionIdentifier = el.getAncestor(2) is TypeScriptClassExpression
@@ -64,12 +65,10 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
               result.add(createLineMarkerInfo(el, COMPUTED_ICON_FILE))
             }
           }
-        } else if (maybePropertyIdentifier && el.parent is TypeScriptField) {
-          if (hasAnnotationDecorator(el.getAncestor(3) as TypeScriptClassExpression)) {
-            if (hasAnnotation(el.parent, "@Prop")) {
-              result.add(createLineMarkerInfo(el, PROP_ICON_FILE))
-            }
-          }
+        } else if (maybePropertyIdentifier && el.parent is TypeScriptField
+            && hasAnnotationDecorator(el.getAncestor(3) as TypeScriptClassExpression)
+            && hasAnnotation(el.parent, "@Prop")) {
+          result.add(createLineMarkerInfo(el, PROP_ICON_FILE))
         }
       }
     }

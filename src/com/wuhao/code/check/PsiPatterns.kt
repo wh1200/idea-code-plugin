@@ -1,5 +1,7 @@
 package com.wuhao.code.check
 
+import com.intellij.lang.javascript.psi.JSNewExpression
+import com.intellij.lang.javascript.psi.JSReferenceExpression
 import com.intellij.lang.javascript.psi.ecma6.ES6Decorator
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.patterns.PlatformPatterns.psiElement
@@ -47,6 +49,11 @@ object PsiPatterns {
 
   val COMPONENT_DECORATOR_PATTERN = PlatformPatterns.psiElement(LeafPsiElement::class.java)
       .withText("Component").withAncestor(3, PlatformPatterns.psiElement(ES6Decorator::class.java))
+
+  val NEW_VUE_PATTERN =  psiElement(JSNewExpression::class.java)
+      .withChild(
+          psiElement(JSReferenceExpression::class.java).withText("Vue")
+      )
 
   val VUE_FILE = PlatformPatterns.psiFile().withLanguage(VueLanguage.INSTANCE)
       .or(PlatformPatterns.psiFile().withLanguage(VueJSLanguage.INSTANCE))

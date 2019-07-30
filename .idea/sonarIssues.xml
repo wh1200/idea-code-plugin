@@ -3,12 +3,177 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="$PROJECT_DIR$/../aegis/OaMobilePage/public/index.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/src/main/java/com/ukefu/util/UKTools.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/src/main/java/com/ukefu/webim/util/weixin/utils/JsonUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/src/main/java/com/ukefu/webim/web/handler/CurrentUserAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/src/main/java/com/ukefu/webim/web/handler/api/ApiLoginController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/src/main/java/com/ukefu/webim/web/handler/apps/internet/IMController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/src/main/java/com/ukefu/webim/web/model/AdType.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/src/main/java/com/ukefu/webim/web/model/CousultInvite.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/src/main/resources/templates/apps/im/index.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/oa/src/main/java/com/aegis/oa/web/controller/BasicDataAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/oa/src/test/java/com/aegis/oa/OaApplicationTests.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/api.config.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/babel.config.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/node_modules/aegis-ui-tools/src/generate-api.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/package.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/public/index.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/api/definition.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/api/index.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/config.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/directives/index.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/main.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/plugins/api.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/router/index.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/store/mutations.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/store/state.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/types/api.d.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/types/global-modifying-module.d.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/utils/token.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/src/views/left-nav.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/vue.config.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/resources/META-INF/plugin.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/HtmlLineMarkerProvider.kt">
           <value>
             <set />
           </value>

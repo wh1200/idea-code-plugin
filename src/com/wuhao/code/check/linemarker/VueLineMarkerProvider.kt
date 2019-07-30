@@ -8,6 +8,8 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.javascript.JSTokenTypes
+import com.intellij.lang.javascript.psi.JSNewExpression
+import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.ES6Decorator
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClassExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptField
@@ -15,12 +17,14 @@ import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunction
 import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
 import com.intellij.openapi.util.IconLoader
 import com.intellij.psi.PsiElement
+import com.intellij.psi.html.HtmlTag
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.PsiPatterns.COMPONENT_DECORATOR_PATTERN
 import com.wuhao.code.check.PsiPatterns.NEW_VUE_PATTERN
 import com.wuhao.code.check.PsiPatterns.VUE_LANG_PATTERN
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.getChildByType
+import com.wuhao.code.check.id
+import com.wuhao.code.check.posterity
 import icons.VuejsIcons
 import javax.swing.Icon
 
@@ -44,8 +48,24 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
   override fun collectNavigationMarkers(el: PsiElement,
                                         result: MutableCollection<in RelatedItemLineMarkerInfo<*>>) {
-    if (COMPONENT_DECORATOR_PATTERN.accepts(el) || NEW_VUE_PATTERN.accepts(el)) {
-      result.add(createLineMarkerInfo(el, VuejsIcons.Vue))
+    if (NEW_VUE_PATTERN.accepts(el)) {
+      if (el is JSNewExpression) {
+        val targets = arrayListOf<PsiElement>()
+        if (el.arguments.size == 1) {
+          val arg = el.arguments[0]
+          if (arg is JSObjectLiteralExpression) {
+            val properties = arg.properties.filter { (it.name in listOf("el", "template")) }
+            properties.forEach { property ->
+              targets.addAll(el.containingFile.posterity.filter {
+                it is HtmlTag && property.value?.text ==
+                    "'#${it.id}'"
+              })
+            }
+
+          }
+        }
+        result.add(createLineMarkerInfo(el, VuejsIcons.Vue, targets))
+      }
     } else if (VUE_LANG_PATTERN.accepts(el)) {
       val maybeFunctionIdentifier = el.getAncestor(2) is TypeScriptClassExpression
       val maybePropertyIdentifier = el.getAncestor(3) is TypeScriptClassExpression
@@ -74,8 +94,9 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
     }
   }
 
-  private fun createLineMarkerInfo(source: PsiElement, file: Icon): RelatedItemLineMarkerInfo<*> {
-    return NavigationGutterIconBuilder.create(file).setTargets(listOf()).createLineMarkerInfo(source)
+  private fun createLineMarkerInfo(source: PsiElement, file: Icon,
+                                   targets: List<PsiElement> = listOf()): RelatedItemLineMarkerInfo<*> {
+    return NavigationGutterIconBuilder.create(file).setTargets(targets).createLineMarkerInfo(source)
   }
 
   private fun hasAnnotation(el: PsiElement, annotation: String): Boolean {

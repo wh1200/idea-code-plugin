@@ -229,6 +229,9 @@
       implementationClass="com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider"
       id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
     <codeInsight.lineMarkerProvider
+      implementationClass="com.wuhao.code.check.linemarker.HtmlLineMarkerProvider"
+      id="HtmlLineMarkerProvider" language="HTML"/>
+    <codeInsight.lineMarkerProvider
       implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
       id="VueLineMarkerProvider" language="Vue"/>
     <codeInsight.lineMarkerProvider

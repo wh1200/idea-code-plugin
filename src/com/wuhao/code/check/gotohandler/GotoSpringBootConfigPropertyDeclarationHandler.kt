@@ -27,7 +27,6 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
     return null
   }
 
-
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
     val res = arrayListOf<PsiElement>()
     if (PlatformUtils.isIdeaUltimate()) {

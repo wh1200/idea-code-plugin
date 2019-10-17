@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt" line="150" />
-  </component>
   <component name="BuildServerSettings">
     <option name="LOGIN" value="" />
     <option name="SERVER_URL" value="http://buildserver" />
@@ -35,7 +32,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/8/088b2091cbf311e75a5ced832e0e6dba49d9e212" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a69c7fdfb6d29699172cc0db49bc6e6546859fc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/8/185bff7f5a17130a808e7f86355a43e593ea5938" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/f/4f02a37ae82eab91fb6ba211304d3178560add52" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5343827a31ecb8de3b82b6b507b81721e1aa4692" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/5/5590fbc1272d0756c25685165de769da8eac6514" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/0/6034978aecc7fbf966425f9f16fd269a51448ebe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/0/609a85c6460483485e9485293de8ccaa28179c21" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64c5797c907df9910f81053792fcd8e8643241ab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/9/693fb9111f6562e1aa7eeaa5524427eee5b163ba" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/7/7703d11fb9f92ab373caefdb755e519cbbf8b7f9" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/a/7a0b8251f37f1fbaca63c24d512994217abd855b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/f/8fd2509c5ff7288eff7240ab9aefd76915a25e31" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/a/9aa6606aea432f329eb29d2c0b8991da5d6d4d5b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/e/aecc9a7df9ecccdc56bcc35fd6104e5cbd8ec0e0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b26801b62e59d4e44c82af079f682513eab402a4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/d/bd9b509963a34400d99c9288f9cb816324af8183" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/8/c8954eb87c0cfe9a441b273af32924296a5d6da9" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/a/ead0c05954956e0bdabcf63ce1c775d5b204f1b6" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/2/f2e34e5cd7cbb866630c37d3ad6246c5e22191d9" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/9/f999135e23b099b83fe45bd068d00de2ae3687e1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoFileHandler.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/HtmlLineMarkerProvider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-idea-plugin.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/FontAwesomeIconNameCompletion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/FontAwesomeIconNameCompletion.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Annotations.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Annotations.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/com/wuhao/LightInspectionTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/com/wuhao/LightInspectionTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/com/wuhao/Test.kt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/com/wuhao/Test.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,6 +89,9 @@
       </map>
     </option>
   </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
   <component name="DefaultGradleProjectSettings">
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
@@ -57,48 +99,17 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
         <option value="Class" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>sort</find>
-      <find>default</find>
-      <find>a-</find>
-      <find>a-layout</find>
-      <find>checklist</find>
-      <find>&quot;template</find>
-      <find>&quot;style&quot;</find>
-      <find>resolveFromco</find>
-      <find>println</find>
-      <find>key属性</find>
-      <find>class compo</find>
-      <find>direc</find>
-      <find>FUNCTION_EXPRESSION_BRACE_STYLE</find>
-      <find>class com</find>
-      <find>watc</find>
-      <find>commonPropsType</find>
-      <find>dummy</find>
-      <find>:</find>
-      <find>type</find>
-      <find>class component</find>
-      <find>createDummyHolder</find>
-      <find>extendsList</find>
-      <find>react</find>
-      <find>registerReferenceProviders</find>
-      <find>recur</find>
-      <find>recursiv</find>
-      <find>insertElementsBefore</find>
-      <find>insertelements</find>
-      <find>semicolon</find>
-      <find>objectdesc</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JRebelWorkspace">
+    <option name="jrebelEnabledAutocompile" value="true" />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -129,21 +140,8 @@
       </map>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1280" />
-    <option name="height" value="800" />
-  </component>
   <component name="ProjectId" id="1PSyzR5JowS2dGCgd2wUnRAymd0" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <autoscrollFromSource ProjectPane="true" />
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Course" />
-    </panes>
-  </component>
   <component name="PropertiesComponent">
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
@@ -162,7 +160,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="C:/Program Files/nodejs/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.28390804" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -177,11 +175,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.wuhao.code.check.gotohandler" />
       <recent name="com.wuhao.code.check.inspection.fix" />
       <recent name="com.wuhao.code.check.lang" />
       <recent name="com.wuhao.code.check.style.arrangement.vue" />
       <recent name="com.wuhao.code.check.linemarker" />
-      <recent name="com.wuhao.code.check.gotohandler" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="H:\workspace\aegis\idea-code-plugin\resources\META-INF" />
@@ -219,6 +217,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CodeRearrangeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="aegis-idea-plugin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.wuhao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.wuhao" />
+      <option name="MAIN_CLASS_NAME" value="com.wuhao.CodeRearrangeTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CompletionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="aegis-idea-plugin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.wuhao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.wuhao" />
+      <option name="MAIN_CLASS_NAME" value="com.wuhao.CompletionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CreateProjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="aegis-idea-plugin" />
       <extension name="coverage">
@@ -230,23 +260,6 @@
       <option name="PACKAGE_NAME" value="com.wuhao" />
       <option name="MAIN_CLASS_NAME" value="com.wuhao.CreateProjectTest" />
       <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CreateProjectTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="aegis-idea-plugin" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.wuhao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.wuhao" />
-      <option name="MAIN_CLASS_NAME" value="com.wuhao.CreateProjectTest" />
-      <option name="METHOD_NAME" value="test" />
-      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -268,22 +281,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="TEST_OBJECT" value="class" />
+    <configuration name="LightInspectionTest.testJavaTypeArgument" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="aegis-idea-plugin" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.wuhao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.wuhao" />
+      <option name="MAIN_CLASS_NAME" value="com.wuhao.LightInspectionTest" />
+      <option name="METHOD_NAME" value="testJavaTypeArgument" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="com.wuhao.code.check.inspection.visitor.KotlinActionSpecificationVisitorKt" type="JetRunConfigurationType" factoryName="Kotlin" temporary="true" nameIsGenerated="true">
-      <module name="aegis-idea-plugin" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="MAIN_CLASS_NAME" value="com.wuhao.code.check.inspection.visitor.KotlinActionSpecificationVisitorKt" />
-      <option name="WORKING_DIRECTORY" />
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -316,18 +333,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CreateProjectTest.test" />
       <item itemvalue="JUnit.CreateProjectTest" />
       <item itemvalue="JUnit.LightInspectionTest" />
-      <item itemvalue="Kotlin.com.wuhao.code.check.inspection.visitor.KotlinActionSpecificationVisitorKt" />
+      <item itemvalue="JUnit.CompletionTest" />
+      <item itemvalue="JUnit.CodeRearrangeTest" />
+      <item itemvalue="JUnit.LightInspectionTest.testJavaTypeArgument" />
       <item itemvalue="Plugin.Plugin" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.LightInspectionTest" />
-        <item itemvalue="Kotlin.com.wuhao.code.check.inspection.visitor.KotlinActionSpecificationVisitorKt" />
+        <item itemvalue="JUnit.LightInspectionTest.testJavaTypeArgument" />
+        <item itemvalue="JUnit.CodeRearrangeTest" />
+        <item itemvalue="JUnit.CompletionTest" />
         <item itemvalue="JUnit.CreateProjectTest" />
-        <item itemvalue="JUnit.CreateProjectTest.test" />
       </list>
     </recent_temporary>
   </component>
@@ -417,40 +436,18 @@
       <workItem from="1557666487070" duration="1591000" />
       <workItem from="1557668493700" duration="711000" />
       <workItem from="1565882059283" duration="254000" />
+      <workItem from="1565883277495" duration="17000" />
+      <workItem from="1565883392605" duration="874000" />
+      <workItem from="1565884505959" duration="20000" />
+      <workItem from="1565884963832" duration="69000" />
+      <workItem from="1569275512114" duration="2680000" />
+      <workItem from="1569310488011" duration="343000" />
+      <workItem from="1569326676824" duration="638000" />
+      <workItem from="1569400652738" duration="1872000" />
+      <workItem from="1571247294701" duration="4636000" />
+      <workItem from="1571274874028" duration="219000" />
     </task>
     <servers />
-  </component>
-  <component name="TestHistory">
-    <history-entry file="CreateProjectTest_test - 2018.07.05 at 11h 41m 23s.xml">
-      <configuration name="CreateProjectTest.test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CreateProjectTest_test - 2018.07.05 at 11h 41m 40s.xml">
-      <configuration name="CreateProjectTest.test" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CreateProjectTest - 2018.07.05 at 12h 24m 50s.xml">
-      <configuration name="CreateProjectTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CreateProjectTest - 2018.07.05 at 12h 25m 44s.xml">
-      <configuration name="CreateProjectTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CreateProjectTest - 2018.07.05 at 12h 26m 44s.xml">
-      <configuration name="CreateProjectTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CreateProjectTest - 2018.07.05 at 12h 27m 30s.xml">
-      <configuration name="CreateProjectTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CreateProjectTest - 2018.07.05 at 12h 27m 58s.xml">
-      <configuration name="CreateProjectTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CreateProjectTest - 2018.07.23 at 21h 34m 28s.xml">
-      <configuration name="CreateProjectTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="LightInspectionTest - 2019.04.22 at 20h 14m 43s.xml">
-      <configuration name="LightInspectionTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="LightInspectionTest - 2019.04.22 at 20h 15m 58s.xml">
-      <configuration name="LightInspectionTest" configurationId="JUnit" />
-    </history-entry>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -470,11 +467,43 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="0" y="23" key="#Project_Structure" />
+    <state x="0" y="23" key="#Project_Structure/2560.1600" />
+    <state width="1224" height="393" key="GridCell.Tab.0.bottom" />
+    <state width="1224" height="393" key="GridCell.Tab.0.bottom/2560.1600" />
+    <state width="1224" height="393" key="GridCell.Tab.0.center" />
+    <state width="1224" height="393" key="GridCell.Tab.0.center/2560.1600" />
+    <state width="1224" height="393" key="GridCell.Tab.0.left" />
+    <state width="1224" height="393" key="GridCell.Tab.0.left/2560.1600" />
+    <state width="1224" height="393" key="GridCell.Tab.0.right" />
+    <state width="1224" height="393" key="GridCell.Tab.0.right/2560.1600" />
+    <state width="1224" height="393" key="GridCell.Tab.1.bottom" />
+    <state width="1224" height="393" key="GridCell.Tab.1.bottom/2560.1600" />
+    <state width="1224" height="393" key="GridCell.Tab.1.center" />
+    <state width="1224" height="393" key="GridCell.Tab.1.center/2560.1600" />
+    <state width="1224" height="393" key="GridCell.Tab.1.left" />
+    <state width="1224" height="393" key="GridCell.Tab.1.left/2560.1600" />
+    <state width="1224" height="393" key="GridCell.Tab.1.right" />
+    <state width="1224" height="393" key="GridCell.Tab.1.right/2560.1600" />
+    <state x="218" y="23" key="IDE.errors.dialog" />
+    <state x="218" y="23" key="IDE.errors.dialog/2560.1600" />
+    <state x="263" y="75" key="MultipleFileMergeDialog" />
+    <state x="263" y="75" key="MultipleFileMergeDialog/2560.1600" />
+    <state x="0" y="26" width="1280" height="709" key="SettingsEditor" />
+    <state x="0" y="26" width="1280" height="709" key="SettingsEditor/2560.1600" />
+    <state x="224" y="91" width="1056" height="619" key="find.popup" />
+    <state x="224" y="91" width="1056" height="619" key="find.popup/2560.1600" />
+    <state x="262" y="23" width="838" height="709" key="search.everywhere.popup" />
+    <state x="262" y="23" width="838" height="709" key="search.everywhere.popup/2560.1600" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -486,157 +515,6 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
-        <watch expression="expressions.map { it.text }" language="kotlin" />
-        <watch expression="member" language="kotlin" />
-        <watch expression="(member as TypeScriptPropertySignatureImpl).type" language="kotlin" custom="import com.intellij.lang.javascript.psi.ecma6.impl.TypeScriptPropertySignatureImpl" />
-        <watch expression="(member as TypeScriptPropertySignatureImpl).type.resolvedTypeText" language="kotlin" />
-      </configuration>
-    </watches-manager>
-  </component>
-  <component name="debuggerHistoryManager">
-    <expressions id="watch">
-      <expression>
-        <expression-string>(member as TypeScriptPropertySignatureImpl).type.resolvedTypeText</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>(member as TypeScriptPropertySignatureImpl).type.typeText</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>(member as TypeScriptPropertySignatureImpl).type</expression-string>
-        <language-id>kotlin</language-id>
-        <custom-info>import com.intellij.lang.javascript.psi.ecma6.impl.TypeScriptPropertySignatureImpl</custom-info>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>member</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>expressions.map { it.text }</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>expressions.map {  }</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>props.extendsList.members[0].children[0].reference.resolve()</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>props.extendsList.members[0].children</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>props.extendsList.members[0]</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>props.extendsList.members</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-    </expressions>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.28390804" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>No facets are configured</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.28390804" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>jweixin-1.2.0</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.28390804" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.28390804" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>aegis-idea-plugin</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.28390804" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>IntelliJ IDEA IU-181.4445.78</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.28390804" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>KotlinJavaRuntime</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.28390804" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
   <component name="regexState">
     <option name="map">

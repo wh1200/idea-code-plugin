@@ -2,7 +2,6 @@ package com.wuhao.code.check.completion
 
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.patterns.PlatformPatterns
 import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlAttributeValue
@@ -217,8 +216,7 @@ class FontAwesomeIconNameCompletion : CompletionContributor() {
 
   init {
     val provider = ConfigPropertiesCompletionProvider()
-    val pattern = PlatformPatterns
-        .psiElement(XmlToken::class.java)
+    val pattern = psiElement(XmlToken::class.java)
         .withParent(XmlAttributeValue::class.java)
         .withSuperParent(2, psiElement(XmlAttribute::class.java).withName("name"))
         .withSuperParent(3, psiElement(XmlTag::class.java).withName("fa-icon", "FaIcon"))

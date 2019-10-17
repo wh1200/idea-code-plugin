@@ -8,7 +8,6 @@ import com.intellij.codeInspection.CommonProblemDescriptor
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemDescriptorBase
 import com.intellij.codeInspection.ex.LocalInspectionToolWrapper
-import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.application.PathManager
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
@@ -45,10 +44,6 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
 
   override fun setUp() {
     System.setProperty(PathManager.PROPERTY_HOME_PATH, homePath)
-    PluginManager.getPlugins().forEach {
-      println(it.path)
-      println(it.name)
-    }
     super.setUp()
   }
 

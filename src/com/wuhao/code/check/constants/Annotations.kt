@@ -10,9 +10,13 @@ package com.wuhao.code.check.constants
 object Annotations {
 
   const val FEIGN_CLIENT = "org.springframework.cloud.openfeign.FeignClient"
+  const val PATH_VARIABLE = "org.springframework.web.bind.annotation.PathVariable"
+  const val REQUEST_BODY = "org.springframework.web.bind.annotation.RequestBody"
+  const val REQUEST_PARAM = "org.springframework.web.bind.annotation.RequestParam"
   const val FEIGN_CLIENT_CONFIGURATION = "org.springframework.cloud.openfeign.FeignAutoConfiguration"
   const val MYBATIS_CONFIGURATION = "org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration"
   const val SWAGGER_API = "io.swagger.annotations.Api"
+  const val SWAGGER_API_IGNORE = "springfox.documentation.annotations.ApiIgnore"
   const val SWAGGER_API_OPERATION = "io.swagger.annotations.ApiOperation"
   const val DELETE_MAPPING: String = "org.springframework.web.bind.annotation.DeleteMapping"
   const val GET_MAPPING: String = "org.springframework.web.bind.annotation.GetMapping"

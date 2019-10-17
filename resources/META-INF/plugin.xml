@@ -5,7 +5,7 @@
 <idea-plugin>
   <id>com.wuhao.code.check</id>
   <name>Aegis Code Check</name>
-  <version>1.4.8</version>
+  <version>1.4.9</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[
@@ -130,6 +130,11 @@
     ]]>
   </description>
   <change-notes><![CDATA[
+    <h5>1.4.9</h5>
+    <ul>
+      <li>Fix incorrect @ApiOperation annotation inspections</li>
+      <li>Add inspections for @FeignClient annotated interface</li>
+    </ul>
     <h5>1.4.6</h5>
     <ul>
       <li>Enhanced check for single-character naming</li>
@@ -175,27 +180,31 @@
                               implementation="com.wuhao.code.check.lang.VueTemplateAttrReferenceContributor"/>
     <fileIconPatcher implementation="com.wuhao.code.check.lang.VueBasedTsFileIconPatcher"/>
     <completion.contributor
-      implementationClass="com.wuhao.code.check.completion.ComponentPropCompletion"
-      language="Vue" order="FIRST"/>
+        implementationClass="com.wuhao.code.check.completion.ComponentPropCompletion"
+        language="Vue" order="FIRST"/>
     <completion.contributor
-      implementationClass="com.wuhao.code.check.completion.PropValueCompletion"
-      language="JavaScript" order="FIRST"/>
+        implementationClass="com.wuhao.code.check.completion.PropValueCompletion"
+        language="JavaScript" order="FIRST"/>
     <spring.customLocalComponentsDiscoverer
-      implementation="com.wuhao.code.check.lang.spring.FeignComponentDiscoverer"/>
+        implementation="com.wuhao.code.check.lang.spring.FeignComponentDiscoverer"/>
     <completion.contributor
-      implementationClass="com.wuhao.code.check.completion.FontAwesomeIconNameCompletion"
-      language="Vue" order="FIRST"/>
+        implementationClass="com.wuhao.code.check.completion.FontAwesomeIconNameCompletion"
+        language="Vue" order="FIRST"/>
     <completion.contributor
-      implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
-      language="JAVA" order="FIRST"/>
+        implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
+        language="JAVA" order="FIRST"/>
     <completion.contributor
-      implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
-      language="kotlin" order="FIRST"/>
+        implementationClass="com.wuhao.code.check.completion.SpringBootConfigValueInjectCodeCompletion"
+        language="kotlin" order="FIRST"/>
     <inspectionToolProvider id="aegis.code.check.inspection"
                             order="FIRST"
                             implementation="com.wuhao.code.check.inspection.inspections.CheckProvider"/>
     <gotoDeclarationHandler
-      implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
+        implementation="com.wuhao.code.check.gotohandler.GotoSpringBootConfigPropertyDeclarationHandler"/>
+    <gotoDeclarationHandler
+        implementation="com.wuhao.code.check.gotohandler.GotoFileHandler"/>
+    <gotoDeclarationHandler
+        implementation="com.wuhao.code.check.gotohandler.GotoController"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyBatisGotoDeclarationHandler"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.VueHandler"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrFixPreProcessor"
@@ -215,24 +224,27 @@
     <postFormatProcessor implementation="com.wuhao.code.check.processors.FixKotlinPostProcessor"
                          id="FixKotlinProcessor" order="last"/>
     <codeInsight.lineMarkerProvider
-      implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
-      id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>
+        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
+        id="MybatisMapperClassLineMarkerProvider" language="JAVA"/>
     <codeInsight.lineMarkerProvider
-      implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
-      id="MybatisMapperClassLineMarkerProviderKotlin" language="kotlin"/>
+        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperClassLineMarkerProvider"
+        id="MybatisMapperClassLineMarkerProviderKotlin" language="kotlin"/>
     <codeInsight.lineMarkerProvider
-      implementationClass="com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider"
-      id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
+        implementationClass="com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider"
+        id="MybatisMapperFileLineMarkerProvider2" language="XML"/>
     <codeInsight.lineMarkerProvider
-      implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
-      id="VueLineMarkerProvider" language="Vue"/>
+        implementationClass="com.wuhao.code.check.linemarker.HtmlLineMarkerProvider"
+        id="HtmlLineMarkerProvider" language="HTML"/>
     <codeInsight.lineMarkerProvider
-      implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
-      id="VueLineMarkerProviderJS" language="JavaScript"/>
+        implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
+        id="VueLineMarkerProvider" language="Vue"/>
+    <codeInsight.lineMarkerProvider
+        implementationClass="com.wuhao.code.check.linemarker.VueLineMarkerProvider"
+        id="VueLineMarkerProviderJS" language="JavaScript"/>
     <applicationConfigurable
-      instance="com.wuhao.code.check.ui.AegisPluginSettingsConfigurable"/>
+        instance="com.wuhao.code.check.ui.AegisPluginSettingsConfigurable"/>
     <applicationService
-      serviceImplementation="com.wuhao.code.check.ui.PluginSettings"/>
+        serviceImplementation="com.wuhao.code.check.ui.PluginSettings"/>
   </extensions>
 
   <actions>
@@ -254,11 +266,12 @@
       <add-to-group group-id="NewGroup" anchor="first"/>
     </action>
   </actions>
-  <depends optional="true">org.jetbrains.kotlin</depends>
-  <depends optional="true">com.intellij.modules.json</depends>
-  <depends optional="true">com.intellij.spring</depends>
-  <depends optional="true">com.intellij.spring.boot</depends>
-  <depends optional="true">org.jetbrains.plugins.vue</depends>
-  <depends optional="true">org.jetbrains.plugins.less</depends>
+  <depends optional="true" config-file="">org.jetbrains.kotlin</depends>
+  <depends optional="true" config-file="">com.intellij.modules.json</depends>
+  <!--  <depends optional="true" config-file="">com.intellij.spring</depends>-->
+  <!--  <depends optional="true" config-file="">com.intellij.spring.boot</depends>-->
+  <depends optional="true" config-file="">org.jetbrains.plugins.vue</depends>
+  <depends optional="true" config-file="">org.jetbrains.plugins.less</depends>
+  <depends optional="true" config-file="">com.intellij.freemarker</depends>
 </idea-plugin>
 

@@ -8,14 +8,12 @@ import com.intellij.lang.javascript.psi.JSEmbeddedContent
 import com.intellij.lang.javascript.psi.JSFile
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClassExpression
-import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunction
 import com.intellij.lang.xml.XMLLanguage
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.html.HtmlTag
-import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
@@ -24,9 +22,8 @@ import com.wuhao.code.check.*
 import com.wuhao.code.check.style.arrangement.VueRootTagOrderToken
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
-import org.jetbrains.vuejs.VueLanguage
-import org.jetbrains.vuejs.codeInsight.VueComponentsCache
-import org.jetbrains.vuejs.language.VueJSLanguage
+import org.jetbrains.vuejs.lang.expr.VueJSLanguage
+import org.jetbrains.vuejs.lang.html.VueLanguage
 
 /**
  * Created by 吴昊 on 2017/7/18.
@@ -71,7 +68,7 @@ class VueHandler : GotoDeclarationHandler {
     }
 
     fun getRefObject(attr: XmlAttribute): JSObjectLiteralExpression? {
-      val tag = attr.parent;
+      val tag = attr.parent
       val refEl = tag.reference?.resolve()?.parent
       if (refEl is JSObjectLiteralExpression) {
         return refEl
@@ -113,35 +110,36 @@ class VueHandler : GotoDeclarationHandler {
     fun resolveReferenceOfVueComponentTag(element: XmlTag): PsiElement? {
       var res: PsiElement? = null
       if (element.name !in VueRootTagOrderToken.rootTags) {
-        val components = VueComponentsCache.getAllComponentsGroupedByModules((element.project), { true }, true)
-        components.forEach {
-          val moduleName = it.key
-          val toAdd = arrayListOf<Pair<String, Pair<PsiElement, Boolean>>>()
-          it.value.forEach { t, u ->
-            val componentName = if (moduleName == "ant-design-vue" && !t.startsWith("a-")) {
-              if (it.value is LinkedHashMap) {
-                toAdd.add("a-$t" to u)
-              }
-              "a-$t"
-            } else {
-              t
-            }
-            if (element.name == componentName) {
-              val refEl = u.first
-              if (refEl is JSCallExpression && refEl.arguments.size == 2) {
-                val realRef = VueHandler.resolveCommonRefFromComponentRegisterCall(refEl)
-                if (realRef != null) {
-                  res = realRef
-                  return@forEach
-                }
-              }
-            }
-          }
-          val tmp = it.value as LinkedHashMap
-          toAdd.forEach {
-            tmp[it.first] = it.second
-          }
-        }
+//        val data = VueComponentsCalculation.calculateScopeComponents(GlobalSearchScope.allScope(project),true)
+//        val components = VueComponentsCache.getAllComponentsGroupedByModules((element.project), { true }, true)
+//        components.forEach {
+//          val moduleName = it.key
+//          val toAdd = arrayListOf<Pair<String, Pair<PsiElement, Boolean>>>()
+//          it.value.forEach { t, u ->
+//            val componentName = if (moduleName == "ant-design-vue" && !t.startsWith("a-")) {
+//              if (it.value is LinkedHashMap) {
+//                toAdd.add("a-$t" to u)
+//              }
+//              "a-$t"
+//            } else {
+//              t
+//            }
+//            if (element.name == componentName) {
+//              val refEl = u.first
+//              if (refEl is JSCallExpression && refEl.arguments.size == 2) {
+//                val realRef = VueHandler.resolveCommonRefFromComponentRegisterCall(refEl)
+//                if (realRef != null) {
+//                  res = realRef
+//                  return@forEach
+//                }
+//              }
+//            }
+//          }
+//          val tmp = it.value as LinkedHashMap
+//          toAdd.forEach {
+//            tmp[it.first] = it.second
+//          }
+//        }
       }
       return res
     }
@@ -174,22 +172,17 @@ class VueHandler : GotoDeclarationHandler {
   }
 
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
-    if (vueEnabled && el != null) {
-      if (el.containingFile.language is VueLanguage || el.containingFile.language is VueJSLanguage) {
-        if (el.language is XMLLanguage) {
-          val field = when {
-            el.parent is XmlAttribute -> findRefField(el.parent as XmlAttribute)
-            el is XmlAttribute        -> findRefField(el)
-            el.parent is HtmlTag      -> {
-              resolveReferenceOfVueComponentTag(el.parent as HtmlTag)
-            }
-            else                      -> null
-          }
-          if (field != null) {
-            return arrayOf(field)
-          }
-        } else if (el is LeafPsiElement && el.parent is TypeScriptFunction) {
+    if (vueEnabled && el != null && (el.containingFile.language is VueLanguage || el.containingFile.language is VueJSLanguage) && el.language is XMLLanguage) {
+      val field = when {
+        el.parent is XmlAttribute -> findRefField(el.parent as XmlAttribute)
+        el is XmlAttribute        -> findRefField(el)
+        el.parent is HtmlTag      -> {
+          resolveReferenceOfVueComponentTag(el.parent as HtmlTag)
         }
+        else                      -> null
+      }
+      if (field != null) {
+        return arrayOf(field)
       }
     }
     return arrayOf()

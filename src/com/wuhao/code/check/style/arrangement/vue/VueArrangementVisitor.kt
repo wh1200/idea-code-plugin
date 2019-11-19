@@ -68,6 +68,7 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     }
   }
 
+
   override fun visitXmlAttribute(attribute: XmlAttribute) {
     val entry = createNewEntry(
         attribute.textRange, XML_ATTRIBUTE, attribute.name, attribute.value, attribute.namespace, true)

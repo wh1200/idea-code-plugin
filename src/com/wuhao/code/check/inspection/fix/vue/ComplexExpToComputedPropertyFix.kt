@@ -18,7 +18,7 @@ import com.wuhao.code.check.constants.PROPERTY_NAME_PLACEHOLDER
 import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor.Companion.COMPUTED_ATTRIBUTE
 import com.wuhao.code.check.lang.vue.VueDirectives.FOR
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
-import org.jetbrains.vuejs.language.VueVForExpression
+import org.jetbrains.vuejs.lang.expr.psi.VueJSVForExpression
 
 /**
  * vue组件模板中，引用的复杂js表达式导出为计算属性的修复
@@ -33,7 +33,7 @@ class ComplexExpToComputedPropertyFix : LocalQuickFix {
         .filter { it.getAttribute(FOR) != null }
         .map {
           it.getAttribute(FOR)?.valueElement?.getChildOfType<JSEmbeddedContent>()?.firstChild as
-              VueVForExpression?
+               VueJSVForExpression?
         }.map { it?.getVarStatement()?.variables?.toList() }.filterNotNull()
         .flatten().map { it.name }.filterNotNull()
     val arguments = sortedSetOf<String>()

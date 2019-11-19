@@ -5,7 +5,7 @@ package com.wuhao.code.check.gotohandler
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.openapi.actionSystem.DataContext
-import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.Editorimport com.intellij.openapi.vfs.VirtualFileSystem
 import com.intellij.psi.PsiElement
 import com.intellij.spring.boot.SpringBootConfigFileConstants
 import com.intellij.util.PlatformUtils
@@ -33,7 +33,8 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
       if (el != null && JAVA_VALUE_ANNOTATION_PATTERN.accepts(el)) {
         val project = el.project
         val yamlFile = el.containingFile.virtualFile.fileSystem
-            .findFileByPath("${project.basePath}/$RESOURCES_PATH/${SpringBootConfigFileConstants.APPLICATION_YML}")?.toPsiFile(project)
+            .findFileByPath("${project.basePath}/$RESOURCES_PATH/${SpringBootConfigFileConstants.APPLICATION_YML}")
+            ?.toPsiFile(project)
         val currentKey = getRealProperty(el.text)
         if (yamlFile != null) {
           object : RecursiveVisitor() {

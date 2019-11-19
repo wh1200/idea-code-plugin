@@ -1,2 +1,4 @@
 
-Dkotlin:S1066".Merge this "if" statement with the nested one.(ïİ¦ª
+vkotlin:S3776"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(ÈÕ‡†üÿÿÿÿ8Íá¼‹è-
+Mkotlin:S1066 ".Merge this "if" statement with the nested one.(ïİ¦ª8Íá¼‹è-
+akotlin:S134+"CRefactor this code to not nest more than 3 control flow statements.(‘‚ÌÇ8Íá¼‹è-

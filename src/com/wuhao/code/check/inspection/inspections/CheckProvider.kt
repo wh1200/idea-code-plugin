@@ -4,6 +4,7 @@
 package com.wuhao.code.check.inspection.inspections
 
 import com.intellij.codeInspection.InspectionToolProvider
+import com.intellij.codeInspection.LocalInspectionTool
 import com.wuhao.code.check.isIdea
 import com.wuhao.code.check.vueEnabled
 
@@ -13,10 +14,10 @@ import com.wuhao.code.check.vueEnabled
  */
 class CheckProvider : InspectionToolProvider {
 
-  override fun getInspectionClasses(): Array<Class<*>> {
+  override fun getInspectionClasses(): Array<out Class<out LocalInspectionTool>> {
 //    val packageName = this.javaClass.name.replace("." + this.javaClass.simpleName, "")
 //    val url = this.javaClass.getResource("/" + packageName.replace(".", "/"))
-    val classes = arrayListOf<Class<*>>()
+    val classes = arrayListOf<Class<out LocalInspectionTool>>()
     if (isIdea) {
       classes.add(JavaCommentInspection::class.java)
       classes.add(JavaFormatInspection::class.java)

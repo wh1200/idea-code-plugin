@@ -3,6 +3,146 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/openapi/vfs/LocalFileSystem.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/psi/InjectedLanguagePlaces.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/psi/LanguageInjector.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/psi/xml/XmlTokenType.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/ide/plugins/PluginManagerCore.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/openapi/application/impl/ApplicationInfoImpl.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/psi/impl/file/impl/FileManager.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/com/intellij/psi/impl/source/tree/injected/InjectionRegistrarImpl.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/lib/resources.jar!/META-INF/LangExtensionPoints.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/lib/util.jar!/com/intellij/openapi/util/TextRange.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/JSField.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/JSObjectLiteralExpression.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/JSProperty.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecma6/TypeScriptField.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecma6/TypeScriptFunctionExpression.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecma6/TypeScriptObjectType.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/ecmal4/JSAttributeListOwner.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/Dummy.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/resources/META-INF/plugin.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/HtmlLineMarkerProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/testData/static/a.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/tests/com/wuhao/CompletionTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../aegis/OaMobilePage/public/index.html">
           <value>
             <set />
@@ -153,32 +293,397 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/resources/META-INF/plugin.xml">
+        <entry key="$PROJECT_DIR$/../customer-service-page/node_modules/v-schema-form-types/types/bean.d.ts">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/api/api-definition.ts">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt">
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/assets/style/12368/information.less">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt">
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/assets/style/common.less">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/HtmlLineMarkerProvider.kt">
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/main.ts">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt">
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/store/index.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/types/api-beans.d.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/types/api-definition.d.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/types/global.d.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/views/workorders/edit/edit-tab.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/views/workorders/edit/index.d.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/views/workorders/edit/index.less">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/views/workorders/edit/index.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/views/workorders/edit/left.less">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/views/workorders/edit/left.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/views/workorders/edit/party-form.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/views/workorders/edit/party-item.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/views/workorders/edit/utils.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/src/views/workorders/list/index.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../customer-service-page/tsconfig.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/.babelrc">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/doc/前端测试.md">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/jest.config.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/package.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/java/com/ukefu/webim/web/handler/apps/callcenter/highCourt/NewSoftPhoneController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/java/com/ukefu/webim/web/handler/apps/quality/highcourt/QualityGroupController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/java/com/ukefu/webim/web/handler/apps/workorders/highcourt/ReportAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/java/com/ukefu/webim/web/handler/apps/workorders/highcourt/WorkOrdersAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/java/org/snaker/engine/helper/XmlHelper.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/common/api-definition.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/common/common.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/common/common.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/callcenter/softphone/__tests__/information.test.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/callcenter/softphone/__tests__/information.test.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/callcenter/softphone/information.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/quality/12368/objection-handle.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/detail-tab.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/edit-tab.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/history.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/index.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/left-nav.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/list.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/list.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/router.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/router.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/common/SchemaForm.umd.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/common/a.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/apps/business/workorders/12368/detail_form/advice.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/apps/business/workorders/12368/detail_form/call_record.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/apps/business/workorders/12368/detail_form/case_search.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/apps/business/workorders/12368/detail_form/consult.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/apps/business/workorders/12368/detail_form/consult_v2.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/apps/business/workorders/12368/detail_form/enforcement_search.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/apps/business/workorders/12368/detail_form/meaningless_call.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/apps/business/workorders/12368/detail_form/other.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/apps/business/workorders/12368/detail_main.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/apps/business/workorders/12368/main.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/templates/common-dependencies.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/tsconfig.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/customer-service-system/tslint.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/lib/SchemaForm.umd.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/node_modules/v-schema-form-types/types/bean.d.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/package-lock.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/package.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/components/code-wrapper.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/main.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/mixins/emitter.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/schema-form/antd/button.tsx">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/schema-form/element/register.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/schema-form/form.tsx">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/schema-form/internal/field.tsx">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/views/demo/antd/dynamic.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/views/demo/antd/visible-scope-input.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/views/demo/base.tsx">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/views/demo/element/default.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/views/demo/element/destruct.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../github/vue-schema-form/src/views/demo/element/simple.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/Vue Fragment (information.ts:1542).vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/Vue Fragment (information.ts:1578).vue">
           <value>
             <set />
           </value>

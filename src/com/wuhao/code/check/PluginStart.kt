@@ -72,8 +72,8 @@ import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.core.formatter.KotlinCodeStyleSettings
 import org.jetbrains.plugins.less.LESSFileType
 import org.jetbrains.plugins.less.LESSLanguage
-import org.jetbrains.vuejs.VueFileType
-import org.jetbrains.vuejs.VueLanguage
+import org.jetbrains.vuejs.lang.html.VueFileType
+import org.jetbrains.vuejs.lang.html.VueLanguage
 import org.jetbrains.yaml.YAMLFileType
 import org.jetbrains.yaml.YAMLLanguage
 import java.awt.Color
@@ -193,7 +193,7 @@ class PluginStart : StartupActivity {
     }
   }
 
-  fun setTypeScriptDefaults(settings: CodeStyleSettings) {
+  private fun setTypeScriptDefaults(settings: CodeStyleSettings) {
     val typescriptSettings = settings.getCustomSettings(TypeScriptCodeStyleSettings::class.java)
 
     typescriptSettings.apply {
@@ -228,15 +228,13 @@ class PluginStart : StartupActivity {
       if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
         SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
       }
-      if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
-        this.SPACE_BEFORE_FUNCTION_LEFT_PARENTH = true
-      }
       if (fields.contains("IMPORT_SORT_MODULE_NAME")) {
         this.IMPORT_SORT_MODULE_NAME = true
       }
       if (fields.contains("IMPORT_MERGE_MEMBERS")) {
         this.IMPORT_MERGE_MEMBERS = JSCodeStyleSettings.BooleanWithGlobalOption.TRUE
       }
+      println(fields)
     }
   }
 

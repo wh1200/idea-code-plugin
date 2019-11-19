@@ -205,6 +205,7 @@
         implementation="com.wuhao.code.check.gotohandler.GotoFileHandler"/>
     <gotoDeclarationHandler
         implementation="com.wuhao.code.check.gotohandler.GotoController"/>
+    <languageInjector implementation="com.wuhao.code.injector.VueInjector" id="jsvueInjector"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.MyBatisGotoDeclarationHandler"/>
     <gotoDeclarationHandler implementation="com.wuhao.code.check.gotohandler.VueHandler"/>
     <preFormatProcessor implementation="com.wuhao.code.check.processors.VueAttrFixPreProcessor"

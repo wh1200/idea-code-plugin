@@ -7,7 +7,7 @@ import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.freemarker.psi.FtlStringLiteral
 import com.intellij.freemarker.psi.directives.FtlIncludeDirective
 import com.intellij.ide.plugins.PluginManager
-import com.intellij.openapi.actionSystem.DataContext
+import com.intellij.openapi.actionSystem.DataContextimport com.intellij.openapi.application.PluginPathManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.patterns.PlatformPatterns.psiElement
@@ -72,7 +72,10 @@ class GotoFileHandler : GotoDeclarationHandler {
   private fun toFilePath(staticPath: String, el: PsiElement): Array<PsiElement> {
     val file = LocalFileSystem.getInstance().findFileByPath(staticPath)
     if (file != null && file.exists()) {
-      return arrayOf(file.toPsiFile(el.project)!!.finalElement)
+      val psiFile = file.toPsiFile(el.project)
+      if (psiFile != null) {
+        return arrayOf(psiFile.finalElement)
+      }
     }
     return arrayOf()
   }

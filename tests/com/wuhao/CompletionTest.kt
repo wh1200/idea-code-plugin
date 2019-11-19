@@ -16,10 +16,6 @@ class CompletionTest : LightCompletionTestCase() {
     return "testData"
   }
 
-  override fun setUp() {
-    super.setUp()
-  }
-
   fun test() {
   }
 

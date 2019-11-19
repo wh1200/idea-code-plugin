@@ -28,8 +28,8 @@ val TypeScriptClassExpression.allFunctions: List<JSFunction>
  * 获取包含自己以及所有继承的类的列表
  * @return
  */
-private fun TypeScriptClassExpression.getAllClasses(): ArrayList<JSClass<*>> {
-  val classList = arrayListOf<JSClass<*>>(this)
+private fun TypeScriptClassExpression.getAllClasses(): ArrayList<JSClass> {
+  val classList: ArrayList<JSClass> = arrayListOf(this)
   if (this.extendsList != null) {
     this.extendsList!!.referencedClasses.forEach {
       if (!classList.contains(it)) {

@@ -3,6 +3,41 @@
   <component name="issues">
     <option name="index">
       <map>
+        <entry key="$PROJECT_DIR$/resources/META-INF/plugin.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/HtmlLineMarkerProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../aegis/OaMobilePage/public/index.html">
           <value>
             <set />
@@ -149,36 +184,6 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../cloud/customer-service-platform-page/vue.config.js">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/resources/META-INF/plugin.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/HtmlLineMarkerProvider.kt">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt">
           <value>
             <set />
           </value>

@@ -12,8 +12,8 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.xml.XmlTag
 import com.intellij.xml.util.HtmlUtil
 import org.jetbrains.kotlin.idea.completion.or
-import org.jetbrains.vuejs.lang.expr.VueJSLanguage
-import org.jetbrains.vuejs.lang.html.VueLanguage
+import org.jetbrains.vuejs.VueLanguage
+import org.jetbrains.vuejs.language.VueJSLanguage
 
 fun leaf(): Capture<LeafPsiElement>? {
   return psiElement(LeafPsiElement::class.java)

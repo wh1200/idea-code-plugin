@@ -22,8 +22,8 @@ import com.wuhao.code.check.*
 import com.wuhao.code.check.style.arrangement.VueRootTagOrderToken
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
-import org.jetbrains.vuejs.lang.expr.VueJSLanguage
-import org.jetbrains.vuejs.lang.html.VueLanguage
+import org.jetbrains.vuejs.VueLanguage
+import org.jetbrains.vuejs.language.VueJSLanguage
 
 /**
  * Created by 吴昊 on 2017/7/18.

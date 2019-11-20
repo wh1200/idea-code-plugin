@@ -7,8 +7,10 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.Language
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
+import com.intellij.lang.javascript.psi.JSBinaryExpression
 import com.intellij.lang.javascript.psi.JSEmbeddedContent
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.openapi.project.Project
@@ -36,7 +38,9 @@ import com.wuhao.code.check.lang.vue.VueDirectives.IF
 import com.wuhao.code.check.lang.vue.VueDirectives.ON
 import com.wuhao.code.check.lang.vue.isInjectAttribute
 import org.jetbrains.kotlin.idea.core.replaced
+import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.vuejs.codeInsight.VueFileVisitor
+import org.jetbrains.vuejs.lang.expr.psi.VueJSEmbeddedExpression
 
 /**
  *
@@ -66,11 +70,13 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
           val originTag = (descriptor.psiElement as XmlAttribute).parent
           attr.delete()
           val newTag = XmlElementFactory.getInstance(project)
-              .createTagFromText("""
+              .createTagFromText(
+                  """
             <template v-for="$value">
               ${originTag.text}
             </template>
-          """.trimIndent())
+          """.trimIndent()
+              )
           originTag.replaced(newTag)
         }
 
@@ -84,7 +90,8 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
     if (attribute.name == FOR && attribute.parent.name != SLOT_TAG) {
       if ((attribute.parent.name == TEMPLATE_TAG
               && keyAttrOnChild(attribute.parent) == null)
-          || (attribute.parent.name != TEMPLATE_TAG && attribute.parent.getAttribute(KEY) == null)) {
+          || (attribute.parent.name != TEMPLATE_TAG && attribute.parent.getAttribute(KEY) == null)
+      ) {
         holder.registerWarning(attribute, Messages.FOR_TAG_SHOULD_HAVE_KEY_ATTR, object : LocalQuickFix {
 
           override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
@@ -122,14 +129,32 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
   override fun visitXmlAttributeValue(value: XmlAttributeValue) {
     if (isInjectAttribute(value.parent as XmlAttribute)
         && (value.parent as XmlAttribute).name != FOR
-        && !(value.parent as XmlAttribute).name.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)) {
-      val jsContent = value.getChildByType<JSEmbeddedContent>()
-      if (jsContent != null) {
-        val depth = jsContent.depth
-        if (depth >= 4) {
-          holder.registerProblem(jsContent, "复杂的属性应当声明在计算属性中",
-              ProblemHighlightType.INFORMATION,
-              ComplexExpToComputedPropertyFix())
+        && !(value.parent as XmlAttribute).name.startsWith(CommonCodeFormatVisitor.ACTION_PREFIX)
+    ) {
+      val astWrapper = value.getChildByType<ASTWrapperPsiElement>()
+      if (astWrapper != null) {
+        val vueJSEmbeddedExpression = astWrapper.getChildOfType<VueJSEmbeddedExpression>()
+        if (vueJSEmbeddedExpression != null && vueJSEmbeddedExpression.getChildOfType<JSBinaryExpression>() != null) {
+          val exp = vueJSEmbeddedExpression.getChildOfType<JSBinaryExpression>()!!
+          if (exp.depth >= 4) {
+            holder.registerProblem(
+                exp, "复杂的属性应当声明在计算属性中",
+                ProblemHighlightType.INFORMATION,
+                ComplexExpToComputedPropertyFix()
+            )
+          }
+        }
+      } else {
+        val jsContent = value.getChildByType<JSEmbeddedContent>()
+        if (jsContent != null) {
+          val depth = jsContent.depth
+          if (depth >= 4) {
+            holder.registerProblem(
+                jsContent, "复杂的属性应当声明在计算属性中",
+                ProblemHighlightType.INFORMATION,
+                ComplexExpToComputedPropertyFix()
+            )
+          }
         }
       }
     }

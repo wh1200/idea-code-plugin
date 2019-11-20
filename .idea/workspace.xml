@@ -32,49 +32,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/8/088b2091cbf311e75a5ced832e0e6dba49d9e212" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a69c7fdfb6d29699172cc0db49bc6e6546859fc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/8/185bff7f5a17130a808e7f86355a43e593ea5938" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/f/4f02a37ae82eab91fb6ba211304d3178560add52" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5343827a31ecb8de3b82b6b507b81721e1aa4692" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/5/5590fbc1272d0756c25685165de769da8eac6514" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/0/6034978aecc7fbf966425f9f16fd269a51448ebe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/0/609a85c6460483485e9485293de8ccaa28179c21" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64c5797c907df9910f81053792fcd8e8643241ab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/9/693fb9111f6562e1aa7eeaa5524427eee5b163ba" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/7/7703d11fb9f92ab373caefdb755e519cbbf8b7f9" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/a/7a0b8251f37f1fbaca63c24d512994217abd855b" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/f/8fd2509c5ff7288eff7240ab9aefd76915a25e31" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/a/9aa6606aea432f329eb29d2c0b8991da5d6d4d5b" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/e/aecc9a7df9ecccdc56bcc35fd6104e5cbd8ec0e0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b26801b62e59d4e44c82af079f682513eab402a4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/d/bd9b509963a34400d99c9288f9cb816324af8183" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/8/c8954eb87c0cfe9a441b273af32924296a5d6da9" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/a/ead0c05954956e0bdabcf63ce1c775d5b204f1b6" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/2/f2e34e5cd7cbb866630c37d3ad6246c5e22191d9" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/9/f999135e23b099b83fe45bd068d00de2ae3687e1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoFileHandler.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/HtmlLineMarkerProvider.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a69c7fdfb6d29699172cc0db49bc6e6546859fc" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a69c7fdfb6d29699172cc0db49bc6e6546859fc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5343827a31ecb8de3b82b6b507b81721e1aa4692" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5343827a31ecb8de3b82b6b507b81721e1aa4692" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64c5797c907df9910f81053792fcd8e8643241ab" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64c5797c907df9910f81053792fcd8e8643241ab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/a/7a0b8251f37f1fbaca63c24d512994217abd855b" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/a/7a0b8251f37f1fbaca63c24d512994217abd855b" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b26801b62e59d4e44c82af079f682513eab402a4" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b26801b62e59d4e44c82af079f682513eab402a4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/9/f999135e23b099b83fe45bd068d00de2ae3687e1" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/9/f999135e23b099b83fe45bd068d00de2ae3687e1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-idea-plugin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/FontAwesomeIconNameCompletion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/FontAwesomeIconNameCompletion.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Annotations.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Annotations.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/CommonConstants.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/VueHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/com/wuhao/LightInspectionTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/com/wuhao/LightInspectionTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/com/wuhao/Test.kt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/com/wuhao/Test.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.zip" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-idea-plugin.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/PsiPatternConstants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/PsiPatternConstants.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ConvertToClassComponent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ConvertToClassComponent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -163,7 +137,7 @@
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.28390804" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
   </component>
   <component name="PsiViewer.ProjectComponent">
     <option name="HIGHLIGHT" value="false" />
@@ -446,7 +420,24 @@
       <workItem from="1569400652738" duration="1872000" />
       <workItem from="1571247294701" duration="4636000" />
       <workItem from="1571274874028" duration="219000" />
+      <workItem from="1574196442643" duration="246000" />
+      <workItem from="1574196735336" duration="12409000" />
     </task>
+    <task id="LOCAL-00001" summary="fix">
+      <created>1574196503216</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574196503216</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fix">
+      <created>1574196534347</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1574196534347</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -474,6 +465,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix" />
   </component>
   <component name="WindowStateProjectService">
     <state x="0" y="23" key="#Project_Structure" />
@@ -513,8 +508,25 @@
           <line>18</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ConvertToClassComponent.kt</url>
+          <line>176</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+        <watch expression="imports.map{it.namedImports?.text}" language="kotlin" />
+        <watch expression="imports.map { it.importSpecifiers }" language="kotlin" />
+        <watch expression="&quot;import {${vuePropertyDecoratorImport.importSpecifiers.map { it.text }}, Watch} &quot; +                       &quot;${vuePropertyDecoratorImport.fromClause!!.text};&quot;" language="kotlin" />
+        <watch expression="&quot;import {${vuePropertyDecoratorImport.namedImports!!.specifiers.map { it.text }}, Watch} &quot; +                       &quot;${vuePropertyDecoratorImport.fromClause!!.text};&quot;" language="kotlin" />
+        <watch expression="importStatement.text" language="kotlin" />
+        <watch expression="&quot;import {${vuePropertyDecoratorImport.namedImports!!.specifiers.map { it.declaredName }}, Watch} &quot; +                       &quot;${vuePropertyDecoratorImport.fromClause!!.text};&quot;" language="kotlin" />
+        <watch expression="&quot;import {${vuePropertyDecoratorImport.namedImports!!.specifiers.map { it.declaredName }                       .joinToString(&quot;, &quot;)}, Watch} &quot; +                       &quot;${vuePropertyDecoratorImport.fromClause!!.text};&quot;" language="kotlin" />
+        <watch expression="(PsiFileFactory.getInstance(project).createFileFromText(         &quot;Dummy&quot;, TypeScriptJSXLanguageDialect.findInstance(TypeScriptJSXLanguageDialect::class.java),         &quot;import a from 'a';&quot;     ) as JSFile).children" language="kotlin" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="regexState">
     <option name="map">

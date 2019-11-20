@@ -70,7 +70,7 @@ class PropValueCompletion : CompletionContributor() {
           }
           tsClass.allFunctions
               .filter {
-                !it.hasDecorator("Watch") && it.name!! !in LIFETIME_FUNCTIONS
+                !it.hasDecorator("Watch") && (it.name == null || it.name!! !in LIFETIME_FUNCTIONS)
               }
               .forEach {
                 result.addElement(PrioritizedLookupElement.withExplicitProximity(LookupElementBuilder.create(it.name!!)

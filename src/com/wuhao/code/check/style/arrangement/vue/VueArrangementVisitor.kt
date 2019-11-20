@@ -11,6 +11,7 @@ import com.intellij.lang.javascript.psi.ecma6.TypeScriptClassExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptField
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunction
 import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList.ModifierType.GET
+import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList.ModifierType.SET
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.codeStyle.arrangement.DefaultArrangementEntry
@@ -39,10 +40,13 @@ import java.util.*
  * @author 吴昊
  * @since 1.3.1
  */
-class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
-                            private val myRanges: Collection<TextRange>) : VueRecursiveVisitor() {
+class VueArrangementVisitor(
+    private val myInfo: VueArrangementParseInfo,
+    private val myRanges: Collection<TextRange>
+) : VueRecursiveVisitor() {
 
-  private val myCachedClassProperties = ContainerUtil.newHashMap<TypeScriptClassExpression, Set<ES6FieldStatementImpl>>()
+  private val myCachedClassProperties =
+      ContainerUtil.newHashMap<TypeScriptClassExpression, Set<ES6FieldStatementImpl>>()
   private val myStack = Stack<VueElementArrangementEntry>()
 
   companion object {
@@ -70,7 +74,8 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
 
   override fun visitXmlAttribute(attribute: XmlAttribute) {
     val entry = createNewEntry(
-        attribute.textRange, XML_ATTRIBUTE, attribute.name, attribute.value, attribute.namespace, true)
+        attribute.textRange, XML_ATTRIBUTE, attribute.name, attribute.value, attribute.namespace, true
+    )
     processEntry(entry, null)
   }
 
@@ -87,7 +92,8 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
       XML_TAG
     }
     val entry = createNewEntry(
-        tag.textRange, type, tag.name, null, tag.namespace, true)
+        tag.textRange, type, tag.name, null, tag.namespace, true
+    )
     if (tag.name == SCRIPT_TAG_NAME) {
       if (tag.getAttribute("lang") != null && tag.getAttributeValue("lang") in listOf("ts", "tsx")) {
         processEntry(entry, tag)
@@ -99,18 +105,21 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     }
   }
 
-  private fun createNewEntry(range: TextRange,
-                             type: ArrangementSettingsToken,
-                             name: String?,
-                             value: String?,
-                             namespace: String?,
-                             canBeMatched: Boolean): VueElementArrangementEntry? {
+  private fun createNewEntry(
+      range: TextRange,
+      type: ArrangementSettingsToken,
+      name: String?,
+      value: String?,
+      namespace: String?,
+      canBeMatched: Boolean
+  ): VueElementArrangementEntry? {
     if (range.startOffset == 0 && range.endOffset == 0 || !isWithinBounds(range)) {
       return null
     }
     val current = getCurrent()
     val entry = VueElementArrangementEntry(
-        current, range, type, name ?: "", value, namespace, canBeMatched)
+        current, range, type, name ?: "", value, namespace, canBeMatched
+    )
     if (current == null) {
       myInfo.addEntry(entry)
     } else {
@@ -127,7 +136,10 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     }
   }
 
-  private fun getReferencedProperties(property: ES6FieldStatementImpl, tsField: TypeScriptField): List<ES6FieldStatementImpl> {
+  private fun getReferencedProperties(
+      property: ES6FieldStatementImpl,
+      tsField: TypeScriptField
+  ): List<ES6FieldStatementImpl> {
     val referencedElements = ArrayList<ES6FieldStatementImpl>()
     val containingClass = property.parent as TypeScriptClassExpression
     var classProperties: Set<ES6FieldStatementImpl>? = myCachedClassProperties[containingClass]
@@ -209,10 +221,11 @@ class VueArrangementVisitor(private val myInfo: VueArrangementParseInfo,
     val type = when {
       element.hasDecorator("Watch") -> VUE_WATCH
       element.hasModifier(GET)      -> VUE_COMPUTED
+      element.hasModifier(SET)      -> VUE_COMPUTED
       else                          -> when {
-        element.name in LIFE_CYCLE_METHODS              -> VUE_LIFE_HOOK
+        element.name in LIFE_CYCLE_METHODS -> VUE_LIFE_HOOK
         element.name in listOf("render", "renderError") -> VUE_RENDER
-        else                                            -> VUE_METHOD
+        else -> VUE_METHOD
       }
     }
     val entry = createNewEntry(

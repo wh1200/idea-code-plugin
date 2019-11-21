@@ -35,59 +35,73 @@ class PropValueCompletion : CompletionContributor() {
    */
   inner class ConfigPropertiesCompletionProvider : CompletionProvider<CompletionParameters>() {
 
-    override fun addCompletions(parameters: CompletionParameters,
-                                processingContext: ProcessingContext,
-                                result: CompletionResultSet) {
+    override fun addCompletions(
+        parameters: CompletionParameters,
+        processingContext: ProcessingContext,
+        result: CompletionResultSet
+    ) {
       val el = parameters.position
       val attr = el.getAncestorOfType<XmlAttribute>()
       if (attr != null
-          && (attr.value.isNullOrBlank() || attr.value!!.contains("IntellijIdeaRulezzz"))) {
+          && (attr.value.isNullOrBlank() || attr.value!!.contains("IntellijIdeaRulezzz"))
+      ) {
         val tsClass = findTSClass(attr.containingFile)
         if (tsClass != null) {
           val maxFieldPriority = 10000
           val maxFunctionPriority = maxFieldPriority - 1000
           tsClass.allFields.forEach {
-            result.addElement(PrioritizedLookupElement.withExplicitProximity(
-                LookupElementBuilder.create(it.name!!)
-                    .bold()
-                    .withIcon(when {
-                      it.hasDecorator("Prop") -> PROP_ICON_FILE
-                      else                    -> null
-                    })
-                    .withTypeText(if (it is TypeScriptField) {
-                      it.type?.typeText
-                    } else {
-                      null
-                    })
-                    .withCaseSensitivity(false)
-                    .assignPriority(SUPER_METHOD_WITH_ARGUMENTS),
-                when {
-                  it.name!!.startsWith("$") -> maxFieldPriority - 10
-                  it.hasDecorator("Prop")   -> maxFieldPriority + 10
-                  else                      -> maxFieldPriority
-                }
-            ))
+            result.addElement(
+                PrioritizedLookupElement.withExplicitProximity(
+                    LookupElementBuilder.create(it.name!!)
+                        .bold()
+                        .withIcon(
+                            when {
+                              it.hasDecorator("Prop") -> PROP_ICON_FILE
+                              else                    -> null
+                            }
+                        )
+                        .withTypeText(
+                            if (it is TypeScriptField) {
+                              it.type?.typeText
+                            } else {
+                              null
+                            }
+                        )
+                        .withCaseSensitivity(false)
+                        .assignPriority(SUPER_METHOD_WITH_ARGUMENTS),
+                    when {
+                      it.name!!.startsWith("$") -> maxFieldPriority - 10
+                      it.hasDecorator("Prop")   -> maxFieldPriority + 10
+                      else                      -> maxFieldPriority
+                    }
+                )
+            )
           }
           tsClass.allFunctions
               .filter {
-                !it.hasDecorator("Watch") && (it.name == null || it.name!! !in LIFETIME_FUNCTIONS)
+                !it.hasDecorator("Watch") && (it.name != null && it.name!! !in LIFETIME_FUNCTIONS)
               }
               .forEach {
-                result.addElement(PrioritizedLookupElement.withExplicitProximity(LookupElementBuilder.create(it.name!!)
-                    .bold()
-                    .withIcon(when {
-                      it.hasModifier(GET) -> COMPUTED_ICON_FILE
-                      else                -> null
-                    })
-                    .withTypeText("function")
-                    .withCaseSensitivity(false)
-                    .assignPriority(SUPER_METHOD_WITH_ARGUMENTS),
-                    if (it.hasModifier(GET)) {
-                      maxFunctionPriority + 10
-                    } else {
-                      maxFunctionPriority
-                    }
-                ))
+                result.addElement(
+                    PrioritizedLookupElement.withExplicitProximity(
+                        LookupElementBuilder.create(it.name!!)
+                            .bold()
+                            .withIcon(
+                                when {
+                                  it.hasModifier(GET) -> COMPUTED_ICON_FILE
+                                  else                -> null
+                                }
+                            )
+                            .withTypeText("function")
+                            .withCaseSensitivity(false)
+                            .assignPriority(SUPER_METHOD_WITH_ARGUMENTS),
+                        if (it.hasModifier(GET)) {
+                          maxFunctionPriority + 10
+                        } else {
+                          maxFunctionPriority
+                        }
+                    )
+                )
               }
         }
       }

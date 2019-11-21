@@ -72,8 +72,8 @@ import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.core.formatter.KotlinCodeStyleSettings
 import org.jetbrains.plugins.less.LESSFileType
 import org.jetbrains.plugins.less.LESSLanguage
-import org.jetbrains.vuejs.VueFileType
-import org.jetbrains.vuejs.VueLanguage
+import org.jetbrains.vuejs.lang.html.VueFileType
+import org.jetbrains.vuejs.lang.html.VueLanguage
 import org.jetbrains.yaml.YAMLFileType
 import org.jetbrains.yaml.YAMLLanguage
 import java.awt.Color
@@ -108,6 +108,7 @@ class PluginStart : StartupActivity {
       Class.forName("org.jetbrains.yaml.YAMLFileType")
       yamlEnabled = true
     } catch (e: Exception) {
+      e.printStackTrace()
     }
   }
 
@@ -123,7 +124,7 @@ class PluginStart : StartupActivity {
     sendEvent(project)
   }
 
-  fun setKotlinDefaults(settings: CodeStyleSettings) {
+  private fun setKotlinDefaults(settings: CodeStyleSettings) {
     try {
       val kotlinStyleSettings = settings.getCustomSettings(KotlinCodeStyleSettings::class.java)
       kotlinStyleSettings.apply {
@@ -193,7 +194,7 @@ class PluginStart : StartupActivity {
     }
   }
 
-  fun setTypeScriptDefaults(settings: CodeStyleSettings) {
+  private fun setTypeScriptDefaults(settings: CodeStyleSettings) {
     val typescriptSettings = settings.getCustomSettings(TypeScriptCodeStyleSettings::class.java)
 
     typescriptSettings.apply {

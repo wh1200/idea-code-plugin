@@ -40,7 +40,8 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
   }
 
   override fun visitFile(file: PsiFile) {
-    if (!TS_FILE_NAME_PATTERN.matches(file.name) && !file.name.endsWith(".d.ts")) {
+    if (!TS_FILE_NAME_PATTERN.matches(file.name) && !file.name.endsWith(".d.ts")
+        && (file.name.endsWith(".ts") || file.name.endsWith(".tsx"))) {
       holder.registerWarning(file, Messages.JS_FILE_NAME_INVALID)
     }
     super.visitFile(file)

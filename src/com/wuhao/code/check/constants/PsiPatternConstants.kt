@@ -3,6 +3,7 @@
  */
 package com.wuhao.code.check.constants
 
+import com.intellij.lang.javascript.psi.jsdoc.JSDocComment
 import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.patterns.PsiElementPattern
 import com.intellij.psi.PsiElement
@@ -38,6 +39,6 @@ val KOTLIN_VALUE_ANNOTATION_PATTERN: PsiElementPattern.Capture<LeafPsiElement> =
  * 判断是否有文档型注释
  */
 fun PsiElement.hasDocComment(): Boolean {
-  return this.firstChild is KDoc || this.firstChild is PsiDocComment
+  return this.firstChild is KDoc || this.firstChild is PsiDocComment || this.firstChild is JSDocComment
 }
 

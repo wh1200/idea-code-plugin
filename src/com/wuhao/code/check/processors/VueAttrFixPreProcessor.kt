@@ -13,7 +13,7 @@ import com.wuhao.code.check.lang.vue.VueDirectives
 import com.wuhao.code.check.lang.vue.VueDirectives.BIND
 import com.wuhao.code.check.lang.vue.VueDirectives.ON
 import com.wuhao.code.check.style.arrangement.vue.VueRecursiveVisitor
-import org.jetbrains.vuejs.VueLanguage
+import org.jetbrains.vuejs.lang.html.VueLanguage
 
 /**
  * 预处理标签属性，对v-bind,v-on等进行缩写

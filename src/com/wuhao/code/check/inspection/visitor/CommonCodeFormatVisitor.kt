@@ -16,8 +16,8 @@ import com.intellij.psi.PsiFile
 import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.vueEnabled
 import org.jetbrains.kotlin.idea.KotlinLanguage
-import org.jetbrains.vuejs.VueLanguage
-import org.jetbrains.vuejs.language.VueJSLanguage
+import org.jetbrains.vuejs.lang.expr.VueJSLanguage
+import org.jetbrains.vuejs.lang.html.VueLanguage
 import java.nio.charset.StandardCharsets
 
 /**

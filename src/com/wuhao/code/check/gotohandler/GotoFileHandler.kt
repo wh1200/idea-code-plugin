@@ -7,7 +7,8 @@ import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.freemarker.psi.FtlStringLiteral
 import com.intellij.freemarker.psi.directives.FtlIncludeDirective
 import com.intellij.ide.plugins.PluginManager
-import com.intellij.openapi.actionSystem.DataContextimport com.intellij.openapi.application.PluginPathManager
+import com.intellij.openapi.actionSystem.DataContext
+import com.intellij.openapi.application.PluginPathManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.patterns.PlatformPatterns.psiElement

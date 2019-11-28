@@ -5,7 +5,7 @@ package com.wuhao.code.check.gotohandler
 
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.openapi.actionSystem.DataContext
-import com.intellij.openapi.editor.Editorimport com.intellij.openapi.vfs.VirtualFileSystem
+import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.spring.boot.SpringBootConfigFileConstants
 import com.intellij.util.PlatformUtils
@@ -13,7 +13,7 @@ import com.wuhao.code.check.ancestors
 import com.wuhao.code.check.constants.JAVA_VALUE_ANNOTATION_PATTERN
 import com.wuhao.code.check.constants.RESOURCES_PATH
 import com.wuhao.code.check.lang.RecursiveVisitor
-import org.jetbrains.kotlin.idea.refactoring.toPsiFile
+import com.wuhao.code.check.toPsiFile
 import org.jetbrains.yaml.psi.YAMLKeyValue
 
 /**

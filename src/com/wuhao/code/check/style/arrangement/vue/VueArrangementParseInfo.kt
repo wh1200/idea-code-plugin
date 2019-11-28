@@ -3,8 +3,7 @@
  */
 package com.wuhao.code.check.style.arrangement.vue
 
-import us
-com.intellij.lang.ecmascript6.psi.impl.ES6FieldStatementImpl
+import com.intellij.lang.ecmascript6.psi.impl.ES6FieldStatementImpl
 import com.intellij.util.containers.ContainerUtil
 import java.util.*
 

@@ -15,7 +15,7 @@ import com.wuhao.code.check.constants.Annotations.IBATIS_MAPPER
 import com.wuhao.code.check.constants.MAPPER_RELATIVE_PATH
 import com.wuhao.code.check.hasAnnotation
 import com.wuhao.code.check.linemarker.MybatisMapperFileLineMarkerProvider.Companion.ID_ATTR
-import org.jetbrains.kotlin.idea.refactoring.toPsiFile
+import com.wuhao.code.check.toPsiFile
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFunction

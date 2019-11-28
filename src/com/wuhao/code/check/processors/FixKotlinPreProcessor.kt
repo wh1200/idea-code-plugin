@@ -11,8 +11,7 @@ import com.intellij.psi.impl.source.codeStyle.PreFormatProcessor
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
 import com.wuhao.code.check.style.arrangement.kotlin.KotlinRecursiveVisitor
-import org.jetbrains.kotlin.idea.KotlinLanguageimportimport org.jetbrains.kotlin.idea.core.util.getLineCount org.jetbrains.kotlin.idea.core.util.getLineCount
-import org.jetbrains.kotlin.idea.refactoring.getLineCount
+import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.lexer.KtTokens.ANDAND
 import org.jetbrains.kotlin.lexer.KtTokens.OROR
 import org.jetbrains.kotlin.psi.KtPsiFactory

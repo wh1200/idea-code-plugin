@@ -20,7 +20,7 @@ import javax.swing.Icon
  */
 class VueBasedTsFileIconPatcher : FileIconPatcher {
 
-  override fun patchIcon(icon: Icon, file: VirtualFile, p2: Int, project: Project?): Icon {
+  override fun patchIcon(icon: Icon?, file: VirtualFile, p2: Int, project: Project?): Icon? {
     if (project != null && file.name.endsWith(".ts") || project != null && file.name.endsWith(".tsx")) {
       val tsFile = file.toPsiFile(project) as JSFile
       val exportDefault = tsFile.getChildOfType<ES6ExportDefaultAssignment>()

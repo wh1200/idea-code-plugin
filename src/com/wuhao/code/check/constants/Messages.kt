@@ -10,6 +10,7 @@ package com.wuhao.code.check.constants
  */
 object Messages {
 
+  const val PARAMETER_MISSING_TYPE = "参数缺少类型声明"
   const val CLASS_COMMENT_REQUIRED = "缺少类注释"
   const val COMMENT_REQUIRED = "缺少注释"
   const val COMPANION_CLASS_TO_OBJECT = "只包含伴随对象的类应该声明为object"

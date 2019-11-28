@@ -13,7 +13,8 @@ import com.wuhao.code.check.linemarker.VueLineMarkerProvider.Companion.COMPUTED_
 import com.wuhao.code.check.linemarker.VueLineMarkerProvider.Companion.LIFETIME_FUNCTIONS
 import com.wuhao.code.check.linemarker.VueLineMarkerProvider.Companion.PROP_ICON_FILE
 import org.jetbrains.kotlin.idea.completion.ItemPriority.SUPER_METHOD_WITH_ARGUMENTS
-import org.jetbrains.kotlin.idea.completion.assignPriorityimport org.jetbrains.vuejs.lang.html.VueLanguage
+import org.jetbrains.kotlin.idea.completion.assignPriority
+import org.jetbrains.vuejs.lang.html.VueLanguage
 
 /**
  * Created by 吴昊 on 2019/2/12.

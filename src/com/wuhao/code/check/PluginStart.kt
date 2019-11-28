@@ -108,6 +108,7 @@ class PluginStart : StartupActivity {
       Class.forName("org.jetbrains.yaml.YAMLFileType")
       yamlEnabled = true
     } catch (e: Exception) {
+      e.printStackTrace()
     }
   }
 
@@ -123,7 +124,7 @@ class PluginStart : StartupActivity {
     sendEvent(project)
   }
 
-  fun setKotlinDefaults(settings: CodeStyleSettings) {
+  private fun setKotlinDefaults(settings: CodeStyleSettings) {
     try {
       val kotlinStyleSettings = settings.getCustomSettings(KotlinCodeStyleSettings::class.java)
       kotlinStyleSettings.apply {

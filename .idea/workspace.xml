@@ -32,51 +32,96 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/wuhao/code/injector/VueInjector.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testData/static/a.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/aegis-code-plugin.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/wuhao.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/emacs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/3/03d10686b28707f0e060adf3a84d6b41057982ac" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/8/088b2091cbf311e75a5ced832e0e6dba49d9e212" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a69c7fdfb6d29699172cc0db49bc6e6546859fc" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a69c7fdfb6d29699172cc0db49bc6e6546859fc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5343827a31ecb8de3b82b6b507b81721e1aa4692" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5343827a31ecb8de3b82b6b507b81721e1aa4692" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64c5797c907df9910f81053792fcd8e8643241ab" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64c5797c907df9910f81053792fcd8e8643241ab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/c/0c99818b51c2e54672f4e0407d6d8c0fc34342d2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/8/185bff7f5a17130a808e7f86355a43e593ea5938" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/9/19ba1ea62a4ee283d0f184b79eaadb193e6dac7e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/0/20185bd4a8e65a4020a44f41648fab041f7ce66a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/1/210db8bef0fb8a21308e90fce6dce1f125620ce8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/3/330a598df10b56f81a77612b55d0f33ad68c8ed8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/6/360debe6719faf70903e57fd3b73fdca6afd6077" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/9/3921183691f634e371910598d4931bf3629d2040" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/5/454eec65d2f48caf34e9595b0fa1eff57eaefced" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/a/4a6966c6a49cbebe66de884a656a35ce2b47d756" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/f/4f02a37ae82eab91fb6ba211304d3178560add52" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/f/4fb8bcef2cc944d5106f4af630e437bd065dcf79" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5364528fd07e5377ddba181dcb93d715ee30abfd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/5/5590fbc1272d0756c25685165de769da8eac6514" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/0/6034978aecc7fbf966425f9f16fd269a51448ebe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/0/609a85c6460483485e9485293de8ccaa28179c21" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/9/693fb9111f6562e1aa7eeaa5524427eee5b163ba" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/f/6f7b139a66022895db9a10d13addb03898ae54cd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/1/71497ec29ba3e9b30b849a59ecd0d77f29ce8fa0" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/7/7703d11fb9f92ab373caefdb755e519cbbf8b7f9" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/7/7703d11fb9f92ab373caefdb755e519cbbf8b7f9" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/8/7868928b16a765d84e741f9e52dc93721136f827" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/9/79f2f3bae638fb07c7353dce95e69babb1fb9d93" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/a/7a0b8251f37f1fbaca63c24d512994217abd855b" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/a/7a0b8251f37f1fbaca63c24d512994217abd855b" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/c/7c48695d4b71925287c3625aa2f4e19f29fb7300" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/1/818ce014b735f0a1b73ab505f35ba9fd8b7c945b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/6/86750a2f079e5ee33cf868b0f5bfd84c2af42ba3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/b/8b26b39e8ebba754726d44764631d315b18188da" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/e/8e043125fec9b1c47f4007f537c135f33bbcdbe9" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/f/8fd2509c5ff7288eff7240ab9aefd76915a25e31" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/a/9aa6606aea432f329eb29d2c0b8991da5d6d4d5b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/9/a9831d7d7d7ae604afdb364b4a1837c1e597fc08" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/e/aecc9a7df9ecccdc56bcc35fd6104e5cbd8ec0e0" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b26801b62e59d4e44c82af079f682513eab402a4" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b26801b62e59d4e44c82af079f682513eab402a4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/d/bd9b509963a34400d99c9288f9cb816324af8183" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/e/bef06e088394668f3069999424b2f5fdf3c47a24" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/f/bf5e6dce7cc1b51e216b795f3da3e9314cdb22cb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/8/c8954eb87c0cfe9a441b273af32924296a5d6da9" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/8/c8b06522245ee79969efb86d979214cff333fd06" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/9/c970041020b2c18f66074b8aec4ebd3da478630e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/1/d13a757cf0e7d454a6b34a26eecfdf079b16e94c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/1/d1ff0924f6f4758c7a78f6cb806fda958c423eef" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/3/e3c4cbc7a9d768069391dbe5dd8aa410caab500a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/6/e6f1cc8a0eca1791f94eb685bec202599a27b824" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/a/ead0c05954956e0bdabcf63ce1c775d5b204f1b6" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/2/f2e34e5cd7cbb866630c37d3ad6246c5e22191d9" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/9/f999135e23b099b83fe45bd068d00de2ae3687e1" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/9/f999135e23b099b83fe45bd068d00de2ae3687e1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/d/fd87790970e4970d44b9f83e2dd9b693dbb493b3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.zip" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-idea-plugin.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-code-plugin.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/TypeScriptExt.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/TypeScriptExt.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/PsiPatternConstants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/PsiPatternConstants.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoFileHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoFileHandler.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/java/JavaBlockCommentFix.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/java/JavaBlockCommentFix.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ConvertToClassComponent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ConvertToClassComponent.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/CheckProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/CheckProvider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperClassLineMarkerProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperClassLineMarkerProvider.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/VueAttrFixPreProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/VueAttrFixPreProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementParseInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementParseInfo.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueRearranger.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueRearranger.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueRecursiveVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueRecursiveVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/com/wuhao/CompletionTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/com/wuhao/CompletionTest.kt" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/out/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/app.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/target/classes/static/js/apps/business/workorders/12368/left-nav.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/target/classes/static/js/apps/business/workorders/12368/app.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/quality/12368/my_qualified_list.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/topic/law-retrieve.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/report/list.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/report/dialog.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/report/read-dialog.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/callcenter/softphone/information.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/quality/12368/score.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/left-nav.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/target/classes/static/js/apps/business/callcenter/softphone/information.js/" />
-    <ignored path="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/searchcenter/template/tablelist.js/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -109,112 +154,6 @@
   <component name="DefaultGradleProjectSettings">
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateJavaKotlinProjectAction.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/MyBatisExt.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="129">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
-              <folding>
-                <element signature="e#30#465#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-              <folding>
-                <element signature="e#37#876#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateRunConfiguration.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="28" column="15" selection-start-line="28" selection-start-column="15" selection-end-line="28" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/ComponentPropCompletion.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-              <folding>
-                <element signature="e#41#936#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="72" column="29" selection-start-line="72" selection-start-column="29" selection-end-line="72" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixLessPreProcessor.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-              <folding>
-                <element signature="e#41#690#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -268,100 +207,6 @@
   </component>
   <component name="ProjectId" id="1PSyzR5JowS2dGCgd2wUnRAymd0" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="action" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="completion" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="processors" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="style" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="style" type="462c0819:PsiDirectoryNode" />
-              <item name="arrangement" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-              <item name="check" type="462c0819:PsiDirectoryNode" />
-              <item name="style" type="462c0819:PsiDirectoryNode" />
-              <item name="arrangement" type="462c0819:PsiDirectoryNode" />
-              <item name="vue" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="aegis-idea-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="aegis-idea-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
-  </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="autoscrollToSource" value="true" />
@@ -393,7 +238,7 @@
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.28390804" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="PsiViewer.ProjectComponent">
@@ -428,18 +273,6 @@
     <option name="referenceOn" value="false" />
     <option name="referencePos" value="0" />
     <option name="showLabels" value="true" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Plugin.Plugin">
     <configuration default="true" type="Application" factoryName="Application">
@@ -705,46 +538,9 @@
       <workItem from="1573780835404" duration="13000" />
       <workItem from="1574095060587" duration="2014000" />
       <workItem from="1574145301748" duration="502000" />
+      <workItem from="1574929251246" duration="1534000" />
     </task>
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="502000" />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="720" extended-state="6" />
-    <layout>
-      <window_info id="Designer" />
-      <window_info id="Image Layers" />
-      <window_info id="Capture Tool" />
-      <window_info id="UI Designer" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24555735" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Problems" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info active="true" anchor="bottom" id="Messages" visible="true" weight="0.3089172" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -782,12 +578,6 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
@@ -812,6 +602,14 @@
   <component name="WindowStateProjectService">
     <state x="0" y="23" key="#Project_Structure" timestamp="1574128936786" />
     <state x="0" y="23" key="#Project_Structure/2560.1600" timestamp="1574128936786" />
+    <state x="643" y="418" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1574929558417">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="643" y="418" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574929558417" />
+    <state x="328" y="109" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor" timestamp="1574929554179">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="328" y="109" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574929554179" />
     <state width="1224" height="393" key="GridCell.Tab.0.bottom" timestamp="1574128936786" />
     <state width="1224" height="393" key="GridCell.Tab.0.bottom/2560.1600" timestamp="1574128936786" />
     <state width="1224" height="393" key="GridCell.Tab.0.center" timestamp="1574128936786" />
@@ -835,8 +633,19 @@
     <state x="218" y="23" key="IDE.errors.dialog/2560.1600" timestamp="1574128936786" />
     <state x="263" y="75" key="MultipleFileMergeDialog" timestamp="1574128936786" />
     <state x="263" y="75" key="MultipleFileMergeDialog/2560.1600" timestamp="1574128936786" />
-    <state x="0" y="26" width="1280" height="709" key="SettingsEditor" timestamp="1574128936786" />
+    <state x="0" y="13" width="1280" height="709" key="SettingsEditor" timestamp="1574930664492">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="0" y="13" key="SettingsEditor/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574930664492" />
     <state x="0" y="26" width="1280" height="709" key="SettingsEditor/2560.1600" timestamp="1574128936786" />
+    <state x="340" y="204" key="Vcs.Push.Dialog.v2" timestamp="1574930891775">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="340" y="204" key="Vcs.Push.Dialog.v2/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574930891775" />
+    <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1574929476142">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574929476142" />
     <state x="224" y="91" width="1056" height="619" key="find.popup" timestamp="1574128936786" />
     <state x="224" y="91" width="1056" height="619" key="find.popup/2560.1600" timestamp="1574128936786" />
     <state x="262" y="23" width="838" height="709" key="search.everywhere.popup" timestamp="1574128936786" />
@@ -848,7 +657,6 @@
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$APPLICATION_HOME_DIR$/plugins/CSS/lib/css.jar!/com/intellij/psi/css/impl/CssTokenImpl.class</url>
           <line>18</line>
-          <properties />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
@@ -859,162 +667,6 @@
         <watch expression="rangeInsideHost.shiftRight(hostTextRange.getStartOffset())" language="JAVA" />
       </configuration>
     </watches-manager>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateJavaKotlinProjectAction.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/MyBatisExt.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="129">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-          <folding>
-            <element signature="e#30#465#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding>
-            <element signature="e#37#876#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateRunConfiguration.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="28" column="15" selection-start-line="28" selection-start-column="15" selection-end-line="28" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/ComponentPropCompletion.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding>
-            <element signature="e#41#936#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="72" column="29" selection-start-line="72" selection-start-column="29" selection-end-line="72" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixLessPreProcessor.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-          <folding>
-            <element signature="e#41#690#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>IntelliJ IDEA IU-191.8026.42</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.28390804" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
   <component name="regexState">
     <option name="map">

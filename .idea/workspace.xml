@@ -1,174 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BuildServerSettings">
-    <option name="LOGIN" value="" />
-    <option name="SERVER_URL" value="http://buildserver" />
-    <option name="REMEMBER_ME" value="true" />
-    <option name="USE_IDEA_PROXY_SETTINGS" value="true" />
-    <option name="INSPECTIONS_BUILD_TYPE_IDS" />
-    <option name="DUPLICATES_BUILD_TYPE_IDS" />
-    <option name="COVERAGE_SETTINGS" />
-    <option name="TEST_STATUS_ENABLED" value="true" />
-    <option name="TEST_STATUS_SHOW_SUCCESSFUL" value="false" />
-    <option name="POSTPONE_SUITABLE_CONFIGURATIONS_SEARCH" value="false" />
-    <option name="ARTIFACTS_BUILD_TYPE_IDS" />
-    <option name="PERFORM_COMMIT_IF_SUCCESSFUL" value="true" />
-    <option name="PERFORM_COMMIT_IF_NO_NEW_FAILED_TESTS" value="false" />
-    <option name="REQUEST_CONFIRMATON" value="false" />
-    <option name="PRE_TESTED_COMMIT" value="true" />
-    <option name="FILTER_BY_STATUS" value="false" />
-    <option name="FILTER_MARKED_AS_FIXED" value="false" />
-    <option name="SHOW_CLOSE_PROMPT" value="true" />
-    <option name="TOOL_WINDOW_SELECTED_CONTENT_INDEX" value="0" />
-    <option name="FILTER_BY_CURRENT_PROJECT" value="true" />
-    <treeState key="project">
-      <selectedPath>
-        <pathElement>
-          <option name="myNodeId" value="helperText" />
-          <option name="myNodeType" value="jetbrains.buildServer.tree.descriptors.LinkedTextDescriptor" />
-        </pathElement>
-      </selectedPath>
-    </treeState>
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/aegis-code-plugin.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/wuhao.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/emacs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" beforeDir="false" />
+    <list default="true" id="c96c2547-b30d-4716-addf-0c148aec4303" name="Default Changelist" comment="sonar可维护性问题修复">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/3/03d10686b28707f0e060adf3a84d6b41057982ac" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/8/088b2091cbf311e75a5ced832e0e6dba49d9e212" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a69c7fdfb6d29699172cc0db49bc6e6546859fc" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a69c7fdfb6d29699172cc0db49bc6e6546859fc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/c/0c99818b51c2e54672f4e0407d6d8c0fc34342d2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/8/185bff7f5a17130a808e7f86355a43e593ea5938" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/9/19ba1ea62a4ee283d0f184b79eaadb193e6dac7e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/0/20185bd4a8e65a4020a44f41648fab041f7ce66a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/1/210db8bef0fb8a21308e90fce6dce1f125620ce8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/3/330a598df10b56f81a77612b55d0f33ad68c8ed8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/6/360debe6719faf70903e57fd3b73fdca6afd6077" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/9/3921183691f634e371910598d4931bf3629d2040" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/5/454eec65d2f48caf34e9595b0fa1eff57eaefced" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/a/4a6966c6a49cbebe66de884a656a35ce2b47d756" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/f/4f02a37ae82eab91fb6ba211304d3178560add52" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/f/4fb8bcef2cc944d5106f4af630e437bd065dcf79" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5364528fd07e5377ddba181dcb93d715ee30abfd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/5/5590fbc1272d0756c25685165de769da8eac6514" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/0/6034978aecc7fbf966425f9f16fd269a51448ebe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/0/609a85c6460483485e9485293de8ccaa28179c21" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/9/693fb9111f6562e1aa7eeaa5524427eee5b163ba" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/f/6f7b139a66022895db9a10d13addb03898ae54cd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/1/71497ec29ba3e9b30b849a59ecd0d77f29ce8fa0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/7/7703d11fb9f92ab373caefdb755e519cbbf8b7f9" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/7/7703d11fb9f92ab373caefdb755e519cbbf8b7f9" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/8/7868928b16a765d84e741f9e52dc93721136f827" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/9/79f2f3bae638fb07c7353dce95e69babb1fb9d93" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/a/7a0b8251f37f1fbaca63c24d512994217abd855b" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/a/7a0b8251f37f1fbaca63c24d512994217abd855b" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/c/7c48695d4b71925287c3625aa2f4e19f29fb7300" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/1/818ce014b735f0a1b73ab505f35ba9fd8b7c945b" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/6/86750a2f079e5ee33cf868b0f5bfd84c2af42ba3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/b/8b26b39e8ebba754726d44764631d315b18188da" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/e/8e043125fec9b1c47f4007f537c135f33bbcdbe9" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/f/8fd2509c5ff7288eff7240ab9aefd76915a25e31" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/a/9aa6606aea432f329eb29d2c0b8991da5d6d4d5b" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/9/a9831d7d7d7ae604afdb364b4a1837c1e597fc08" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/e/aecc9a7df9ecccdc56bcc35fd6104e5cbd8ec0e0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b26801b62e59d4e44c82af079f682513eab402a4" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b26801b62e59d4e44c82af079f682513eab402a4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/d/bd9b509963a34400d99c9288f9cb816324af8183" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/e/bef06e088394668f3069999424b2f5fdf3c47a24" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/f/bf5e6dce7cc1b51e216b795f3da3e9314cdb22cb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/8/c8954eb87c0cfe9a441b273af32924296a5d6da9" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/8/c8b06522245ee79969efb86d979214cff333fd06" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/9/c970041020b2c18f66074b8aec4ebd3da478630e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/1/d13a757cf0e7d454a6b34a26eecfdf079b16e94c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/1/d1ff0924f6f4758c7a78f6cb806fda958c423eef" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/3/e3c4cbc7a9d768069391dbe5dd8aa410caab500a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/6/e6f1cc8a0eca1791f94eb685bec202599a27b824" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/a/ead0c05954956e0bdabcf63ce1c775d5b204f1b6" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/2/f2e34e5cd7cbb866630c37d3ad6246c5e22191d9" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/9/f999135e23b099b83fe45bd068d00de2ae3687e1" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/9/f999135e23b099b83fe45bd068d00de2ae3687e1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/d/fd87790970e4970d44b9f83e2dd9b693dbb493b3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/b/2bd94f5311f0176209e9ea94ee87914b40934890" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5343827a31ecb8de3b82b6b507b81721e1aa4692" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64c5797c907df9910f81053792fcd8e8643241ab" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64c5797c907df9910f81053792fcd8e8643241ab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/3/d3f008d218fcfd81beb378da4c2e3d6b3c0b853b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aegis-idea-plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-code-plugin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/aegis-code-plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-code-plugin.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateMyBatisMapperAction.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/completion/SpringBootConfigValueInjectCodeCompletion.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/PsiPatternConstants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/PsiPatternConstants.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoFileHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoFileHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ConvertToClassComponent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/ConvertToClassComponent.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperClassLineMarkerProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/MybatisMapperClassLineMarkerProvider.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/VueAttrFixPreProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/VueAttrFixPreProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementParseInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementParseInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CheckStyle-IDEA-workspace">
-    <option name="configuration">
-      <map>
-        <entry key="last-active-plugin-version" value="5.23.0" />
-      </map>
-    </option>
-  </component>
-  <component name="CompilerWorkspaceConfiguration">
-    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
-  </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand />
-    <select />
-  </component>
-  <component name="DefaultGradleProjectSettings">
-    <option name="testRunner" value="GRADLE" />
-    <option name="delegatedBuild" value="true" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Kotlin File" />
-        <option value="Kotlin Class" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="JRebelWorkspace">
-    <option name="jrebelEnabledAutocompile" value="true" />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -177,35 +32,7 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="localRepository" value="H:\.m2\repository" />
-        <option name="mavenHome" value="H:/apache-maven-3.3.9" />
-        <option name="userSettingsFile" value="H:\.m2\settings.xml" />
-      </MavenGeneralSettings>
-    </option>
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="createModuleGroups" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
-  <component name="MavenRunner">
-    <option name="jreName" value="1.8" />
-    <option name="mavenProperties">
-      <map>
-        <entry key="archetypeCatalog" value="internal" />
-      </map>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="9" />
-    <option name="y" value="42" />
-    <option name="width" value="1262" />
-    <option name="height" value="682" />
-  </component>
-  <component name="ProjectId" id="1PSyzR5JowS2dGCgd2wUnRAymd0" />
+  <component name="ProjectId" id="1UEoQWyRcKAcUR6GPTFlXCqCL3W" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
@@ -215,31 +42,17 @@
     <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
-    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
-    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="idea-code-plugin" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="SearchEverywhereHistoryKey" value="JSElementType&#9;FILE&#9;jar://C:/Program Files/JetBrains/IntelliJ IDEA 2018.2.4/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/JSElementTypes.class&#10;comment&#9;FILE&#9;file://H:/workspace/aegis/idea-code-plugin/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt&#10;MybatisMapperInspection&#9;FILE&#9;file://C:/Users/wuhao/Desktop/idea-code-plugin/src/com/wuhao/code/check/inspection/inspections/MybatisMapperInspection.kt&#10;httprequest&#9;FILE&#9;file://C:/Users/wuhao/Desktop/idea-code-plugin/src/com/wuhao/code/check/http/HttpRequest.kt&#10;httpre&#9;null&#9;null&#10;less&#9;FILE&#9;file://C:/Users/wuhao/Desktop/idea-code-plugin/src/com/wuhao/code/check/style/arrangement/less/LessRearranger.kt" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553063456552" />
-    <property name="eu.ydp.idea.ts.spec.generator.settings.spec.template" value="import {$ClassName$} from '$TestsRelativePath$../src/$classRelativePath$/$ClassName$';&#10;&#10;describe('$ClassName$', () =&gt; {&#10;  let $ObjName$:$ClassName$;&#10;&#10;  beforeEach(() =&gt; {&#10;    $ObjName$ = new $ClassName$();&#10;  });&#10;&#10;  describe('', () =&gt; {&#10;    it('', () =&gt; {&#10;      // given&#10;&#10;      // when&#10;&#10;      // then&#10;    });&#10;  });&#10;});&#10;" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="/usr/local/lib/node_modules/eslint" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="C:/Program Files/nodejs/node" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.28390804" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
-    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="PsiViewer.ProjectComponent">
     <option name="HIGHLIGHT" value="false" />
@@ -249,170 +62,25 @@
     <option name="AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="AUTOSCROLL_FROM_SOURCE" value="false" />
   </component>
-  <component name="RecentsManager">
-    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="com.wuhao.code.check.gotohandler" />
-      <recent name="com.wuhao.code.check.inspection.fix" />
-      <recent name="com.wuhao.code.check.lang" />
-      <recent name="com.wuhao.code.check.style.arrangement.vue" />
-      <recent name="com.wuhao.code.check.linemarker" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="H:\workspace\aegis\idea-code-plugin\resources\META-INF" />
-      <recent name="H:\workspace\aegis\idea-code-plugin\src\icons" />
-      <recent name="C:\Users\wuhao\Desktop\idea-code-plugin" />
-    </key>
-  </component>
-  <component name="Regex">
-    <option name="pos1" value="664" />
-    <option name="pos2" value="664" />
-    <option name="pos3" value="159" />
-    <option name="pos4" value="1328" />
-    <option name="pos5" value="159" />
-    <option name="autoUpdate" value="true" />
-    <option name="referenceOn" value="false" />
-    <option name="referencePos" value="0" />
-    <option name="showLabels" value="true" />
-  </component>
-  <component name="RunManager" selected="Plugin.Plugin">
-    <configuration default="true" type="Application" factoryName="Application">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CodeRearrangeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="aegis-idea-plugin" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.wuhao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.wuhao" />
-      <option name="MAIN_CLASS_NAME" value="com.wuhao.CodeRearrangeTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CompletionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="aegis-idea-plugin" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.wuhao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.wuhao" />
-      <option name="MAIN_CLASS_NAME" value="com.wuhao.CompletionTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CreateProjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="aegis-idea-plugin" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.wuhao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.wuhao" />
-      <option name="MAIN_CLASS_NAME" value="com.wuhao.CreateProjectTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LightInspectionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="aegis-idea-plugin" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.wuhao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.wuhao" />
-      <option name="MAIN_CLASS_NAME" value="com.wuhao.LightInspectionTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LightInspectionTest.testJavaTypeArgument" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="aegis-idea-plugin" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.wuhao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.wuhao" />
-      <option name="MAIN_CLASS_NAME" value="com.wuhao.LightInspectionTest" />
-      <option name="METHOD_NAME" value="testJavaTypeArgument" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="TestNG">
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration name="Plugin" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
-      <module name="aegis-idea-plugin" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <predefined_log_file enabled="true" id="idea.log" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
-      <module name="idea-code-plugin" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <module name="aegis-code-plugin" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -ea" />
       <option name="PROGRAM_PARAMETERS" />
       <predefined_log_file enabled="true" id="idea.log" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="JUnit.CreateProjectTest" />
-      <item itemvalue="JUnit.LightInspectionTest" />
-      <item itemvalue="JUnit.CompletionTest" />
-      <item itemvalue="JUnit.CodeRearrangeTest" />
-      <item itemvalue="JUnit.LightInspectionTest.testJavaTypeArgument" />
-      <item itemvalue="Plugin.Plugin" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.LightInspectionTest" />
-        <item itemvalue="JUnit.LightInspectionTest.testJavaTypeArgument" />
-        <item itemvalue="JUnit.CodeRearrangeTest" />
-        <item itemvalue="JUnit.CompletionTest" />
-        <item itemvalue="JUnit.CreateProjectTest" />
-      </list>
-    </recent_temporary>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+      <module name="aegis-code-plugin" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file enabled="true" id="idea.log" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -426,256 +94,87 @@
       </list>
     </option>
   </component>
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="df5b0699-2507-46e5-be41-0a2b30bb8717" name="Default" comment="" />
-      <created>1526957032851</created>
+      <changelist id="c96c2547-b30d-4716-addf-0c148aec4303" name="Default Changelist" comment="" />
+      <created>1574931099821</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1526957032851</updated>
-      <workItem from="1526957034196" duration="802000" />
-      <workItem from="1526967501810" duration="1045000" />
-      <workItem from="1526970919041" duration="2321000" />
-      <workItem from="1526973302511" duration="1558000" />
-      <workItem from="1526975713453" duration="4702000" />
-      <workItem from="1530618126826" duration="2820000" />
-      <workItem from="1530621064571" duration="20064000" />
-      <workItem from="1532352692835" duration="52000" />
-      <workItem from="1532352826265" duration="150000" />
-      <workItem from="1532353038734" duration="1629000" />
-      <workItem from="1533044200742" duration="609000" />
-      <workItem from="1533044886227" duration="2000" />
-      <workItem from="1537185129619" duration="155000" />
-      <workItem from="1537185293489" duration="510000" />
-      <workItem from="1537185905132" duration="4176000" />
-      <workItem from="1537447527971" duration="592000" />
-      <workItem from="1537448135767" duration="683000" />
-      <workItem from="1538278836754" duration="99000" />
-      <workItem from="1538278951532" duration="931000" />
-      <workItem from="1538279926071" duration="1925000" />
-      <workItem from="1541756669450" duration="3123000" />
-      <workItem from="1541761145453" duration="3560000" />
-      <workItem from="1541765477569" duration="3960000" />
-      <workItem from="1541770226493" duration="652000" />
-      <workItem from="1541770910371" duration="1987000" />
-      <workItem from="1542108284119" duration="1808000" />
-      <workItem from="1542855756408" duration="9852000" />
-      <workItem from="1546686251031" duration="1705000" />
-      <workItem from="1546802585451" duration="1428000" />
-      <workItem from="1546831804013" duration="676000" />
-      <workItem from="1546848473178" duration="1172000" />
-      <workItem from="1546925696031" duration="357000" />
-      <workItem from="1547369202962" duration="6027000" />
-      <workItem from="1547375965582" duration="12249000" />
-      <workItem from="1547447159105" duration="997000" />
-      <workItem from="1547449982020" duration="602000" />
-      <workItem from="1547458451872" duration="5020000" />
-      <workItem from="1547484815975" duration="3038000" />
-      <workItem from="1547487961623" duration="1694000" />
-      <workItem from="1549864247544" duration="45729000" />
-      <workItem from="1549966374093" duration="21719000" />
-      <workItem from="1550191335567" duration="2057000" />
-      <workItem from="1550194274080" duration="4611000" />
-      <workItem from="1550308234166" duration="2412000" />
-      <workItem from="1550411022808" duration="163000" />
-      <workItem from="1550539705143" duration="1225000" />
-      <workItem from="1550570238600" duration="2855000" />
-      <workItem from="1553044491920" duration="1161000" />
-      <workItem from="1553045899699" duration="15358000" />
-      <workItem from="1553063497870" duration="87000" />
-      <workItem from="1554359118721" duration="465000" />
-      <workItem from="1554359681965" duration="590000" />
-      <workItem from="1554690589393" duration="597000" />
-      <workItem from="1554955439361" duration="767000" />
-      <workItem from="1554956270530" duration="1556000" />
-      <workItem from="1554959641137" duration="84000" />
-      <workItem from="1554963448604" duration="158000" />
-      <workItem from="1554963642785" duration="120000" />
-      <workItem from="1554963800282" duration="291000" />
-      <workItem from="1554964301092" duration="4602000" />
-      <workItem from="1555066444901" duration="1142000" />
-      <workItem from="1555135349340" duration="20000" />
-      <workItem from="1555896859970" duration="320000" />
-      <workItem from="1555899334743" duration="13350000" />
-      <workItem from="1555918760354" duration="631000" />
-      <workItem from="1555921831117" duration="2415000" />
-      <workItem from="1555938159016" duration="4876000" />
-      <workItem from="1556001078652" duration="90000" />
-      <workItem from="1556001194534" duration="117000" />
-      <workItem from="1556001337228" duration="203000" />
-      <workItem from="1556001562857" duration="697000" />
-      <workItem from="1556002467482" duration="599000" />
-      <workItem from="1556008790213" duration="598000" />
-      <workItem from="1557666487070" duration="1591000" />
-      <workItem from="1557668493700" duration="711000" />
-      <workItem from="1565882059283" duration="254000" />
-      <workItem from="1565883277495" duration="17000" />
-      <workItem from="1565883392605" duration="874000" />
-      <workItem from="1565884505959" duration="20000" />
-      <workItem from="1565884963832" duration="69000" />
-      <workItem from="1569275512114" duration="2680000" />
-      <workItem from="1569310488011" duration="343000" />
-      <workItem from="1569326676824" duration="638000" />
-      <workItem from="1569400652738" duration="1872000" />
-      <workItem from="1571247294701" duration="4636000" />
-      <workItem from="1571274874028" duration="365000" />
-      <workItem from="1571652118308" duration="134000" />
-      <workItem from="1571652293183" duration="817000" />
-      <workItem from="1571692799435" duration="1424000" />
-      <workItem from="1571848190554" duration="1706000" />
-      <workItem from="1571914307152" duration="48000" />
-      <workItem from="1571914400543" duration="1747000" />
-      <workItem from="1571932833385" duration="65000" />
-      <workItem from="1572445064869" duration="1227000" />
-      <workItem from="1572451124331" duration="960000" />
-      <workItem from="1572456369524" duration="1006000" />
-      <workItem from="1573704859777" duration="430000" />
-      <workItem from="1573705343770" duration="938000" />
-      <workItem from="1573708098665" duration="1722000" />
-      <workItem from="1573780835404" duration="13000" />
-      <workItem from="1574095060587" duration="2014000" />
-      <workItem from="1574145301748" duration="502000" />
-      <workItem from="1574929251246" duration="1534000" />
+      <updated>1574931099821</updated>
+      <workItem from="1574931101404" duration="11000" />
+      <workItem from="1574931283446" duration="112000" />
+      <workItem from="1574931460224" duration="121000" />
+      <workItem from="1574931605930" duration="47000" />
+      <workItem from="1574931680836" duration="35000" />
+      <workItem from="1575636819999" duration="687000" />
+      <workItem from="1575637703538" duration="25000" />
+      <workItem from="1575638945567" duration="1531000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/app.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/target/classes/static/js/apps/business/workorders/12368/left-nav.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/target/classes/static/js/apps/business/workorders/12368/app.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/quality/12368/my_qualified_list.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/topic/law-retrieve.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/report/list.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/report/dialog.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/report/read-dialog.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/callcenter/softphone/information.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/quality/12368/score.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/workorders/12368/left-nav.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/target/classes/static/js/apps/business/callcenter/softphone/information.js" />
-        <option value="$PROJECT_DIR$/../github/customer-service-system/src/main/resources/static/js/apps/business/searchcenter/template/tablelist.js" />
-      </list>
-    </option>
   </component>
-  <component name="Vcs.Log.History.Properties">
-    <option name="COLUMN_ORDER">
-      <list>
-        <option value="0" />
-        <option value="2" />
-        <option value="3" />
-        <option value="1" />
-      </list>
-    </option>
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list />
-          </value>
-        </entry>
-        <entry key="User">
-          <value>
-            <list />
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/.." />
+    </ignored-roots>
+    <MESSAGE value="sonar可维护性问题修复" />
+    <option name="LAST_COMMIT_MESSAGE" value="sonar可维护性问题修复" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="0" y="23" key="#Project_Structure" timestamp="1574128936786" />
-    <state x="0" y="23" key="#Project_Structure/2560.1600" timestamp="1574128936786" />
-    <state x="643" y="418" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1574929558417">
-      <screen x="0" y="0" width="1680" height="1050" />
-    </state>
-    <state x="643" y="418" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574929558417" />
-    <state x="328" y="109" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor" timestamp="1574929554179">
-      <screen x="0" y="0" width="1680" height="1050" />
-    </state>
-    <state x="328" y="109" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574929554179" />
-    <state width="1224" height="393" key="GridCell.Tab.0.bottom" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.0.bottom/2560.1600" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.0.center" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.0.center/2560.1600" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.0.left" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.0.left/2560.1600" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.0.right" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.0.right/2560.1600" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.1.bottom" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.1.bottom/2560.1600" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.1.center" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.1.center/2560.1600" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.1.left" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.1.left/2560.1600" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.1.right" timestamp="1574128936786" />
-    <state width="1224" height="393" key="GridCell.Tab.1.right/2560.1600" timestamp="1574128936786" />
-    <state x="218" y="23" key="IDE.errors.dialog" timestamp="1574129733792">
+    <state x="172" y="28" key="CommitChangelistDialog2" timestamp="1575639932845">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="218" y="23" key="IDE.errors.dialog/0.0.1280.800@0.0.1280.800" timestamp="1574129733792" />
-    <state x="218" y="23" key="IDE.errors.dialog/2560.1600" timestamp="1574128936786" />
-    <state x="263" y="75" key="MultipleFileMergeDialog" timestamp="1574128936786" />
-    <state x="263" y="75" key="MultipleFileMergeDialog/2560.1600" timestamp="1574128936786" />
-    <state x="0" y="13" width="1280" height="709" key="SettingsEditor" timestamp="1574930664492">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state x="172" y="28" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1575639932845" />
+    <state width="1224" height="198" key="GridCell.Tab.0.bottom" timestamp="1575638314299">
+      <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="0" y="13" key="SettingsEditor/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574930664492" />
-    <state x="0" y="26" width="1280" height="709" key="SettingsEditor/2560.1600" timestamp="1574128936786" />
-    <state x="340" y="204" key="Vcs.Push.Dialog.v2" timestamp="1574930891775">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state width="1224" height="198" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1575638314299" />
+    <state width="1224" height="198" key="GridCell.Tab.0.center" timestamp="1575638314297">
+      <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="340" y="204" key="Vcs.Push.Dialog.v2/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574930891775" />
-    <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1574929476142">
-      <screen x="0" y="0" width="1680" height="1050" />
+    <state width="1224" height="198" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1575638314297" />
+    <state width="1224" height="198" key="GridCell.Tab.0.left" timestamp="1575638314295">
+      <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="100" y="100" width="1480" height="850" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574929476142" />
-    <state x="224" y="91" width="1056" height="619" key="find.popup" timestamp="1574128936786" />
-    <state x="224" y="91" width="1056" height="619" key="find.popup/2560.1600" timestamp="1574128936786" />
-    <state x="262" y="23" width="838" height="709" key="search.everywhere.popup" timestamp="1574128936786" />
-    <state x="262" y="23" width="838" height="709" key="search.everywhere.popup/2560.1600" timestamp="1574128936786" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$APPLICATION_HOME_DIR$/plugins/CSS/lib/css.jar!/com/intellij/psi/css/impl/CssTokenImpl.class</url>
-          <line>18</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-    <watches-manager>
-      <configuration name="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
-        <watch expression="hostTextRange" language="JAVA" />
-        <watch expression="rangeInsideHost.shiftRight(hostTextRange.getStartOffset())" language="JAVA" />
-      </configuration>
-    </watches-manager>
-  </component>
-  <component name="regexState">
-    <option name="map">
-      <map>
-        <entry key="flags" value="0" />
-        <entry key="mode" value="0" />
-        <entry key="regex" value="[a-z]+(_[a-z]+){0}" />
-        <entry key="text" value="a_b_c_fdsafdwqfewq" />
-      </map>
-    </option>
+    <state width="1224" height="198" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1575638314295" />
+    <state width="1224" height="198" key="GridCell.Tab.0.right" timestamp="1575638314298">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1224" height="198" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1575638314298" />
+    <state width="1224" height="198" key="GridCell.Tab.1.bottom" timestamp="1575638314302">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1224" height="198" key="GridCell.Tab.1.bottom/0.0.1280.800@0.0.1280.800" timestamp="1575638314302" />
+    <state width="1224" height="198" key="GridCell.Tab.1.center" timestamp="1575638314300">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1224" height="198" key="GridCell.Tab.1.center/0.0.1280.800@0.0.1280.800" timestamp="1575638314300" />
+    <state width="1224" height="198" key="GridCell.Tab.1.left" timestamp="1575638314299">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1224" height="198" key="GridCell.Tab.1.left/0.0.1280.800@0.0.1280.800" timestamp="1575638314299" />
+    <state width="1224" height="198" key="GridCell.Tab.1.right" timestamp="1575638314301">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1224" height="198" key="GridCell.Tab.1.right/0.0.1280.800@0.0.1280.800" timestamp="1575638314301" />
+    <state x="358" y="52" key="RollbackChangesDialog" timestamp="1575638117586">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="358" y="52" key="RollbackChangesDialog/0.0.1280.800@0.0.1280.800" timestamp="1575638117586" />
+    <state x="0" y="0" key="SettingsEditor" timestamp="1575641514548">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="0" y="0" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1575641514548" />
+    <state x="200" y="6" key="SettingsEditor/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574931712170" />
+    <state x="246" y="98" width="788" height="604" key="find.popup" timestamp="1575641688740">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="246" y="98" width="788" height="604" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1575641688740" />
+    <state x="221" y="0" width="838" height="1032" key="search.everywhere.popup" timestamp="1575637868744">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="221" y="0" width="838" height="1032" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1575637868744" />
   </component>
 </project>

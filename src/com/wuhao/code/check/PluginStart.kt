@@ -108,7 +108,7 @@ class PluginStart : StartupActivity {
       Class.forName("org.jetbrains.yaml.YAMLFileType")
       yamlEnabled = true
     } catch (e: Exception) {
-      e.printStackTrace()
+      yamlEnabled = false
     }
   }
 

@@ -82,7 +82,7 @@ class VueRearranger : Rearranger<ArrangementEntry> {
     return if (newEntryInfo.entries.size != 1) {
       null
     } else {
-      Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo.entries[0], existingEntriesInfo.entries)
+      Pair.create(newEntryInfo.entries[0], existingEntriesInfo.entries)
     }
   }
 

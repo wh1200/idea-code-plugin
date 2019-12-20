@@ -6,18 +6,25 @@ package com.wuhao.code.check.inspection.fix
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
+import com.intellij.lang.ecmascript6.psi.ES6ImportDeclaration
+import com.intellij.lang.javascript.JSTokenTypes.COMMA
 import com.intellij.lang.javascript.TypeScriptJSXFileType
 import com.intellij.lang.javascript.psi.*
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunctionExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunctionProperty
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.tree.LeafPsiElement
+import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.Messages.CONVERT_TO_CLASS_COMPONENT
-import com.wuhao.code.check.insertElementsBefore
+import com.wuhao.code.check.constants.hasDocComment
 import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix.Companion.LIFE_CYCLE_METHODS
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
+import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
+import org.jetbrains.kotlin.psi.psiUtil.textRangeWithoutComments
 
 /**
  * javascript对象属性排序
@@ -29,6 +36,8 @@ class ConvertToClassComponent : LocalQuickFix {
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val element = descriptor.psiElement as JSObjectLiteralExpression
     if (element.parent is ES6ExportDefaultAssignment) {
+      val embeddedContent = element.parent.parent as JSEmbeddedContent
+      val imports = embeddedContent.getChildrenOfType<ES6ImportDeclaration>()
       val propertyMap = element.properties.associateBy { it.name }
       val nameProperty = propertyMap["name"]
       val mixinsProperty = propertyMap["mixins"]
@@ -71,7 +80,7 @@ class ConvertToClassComponent : LocalQuickFix {
           allProperties.remove(computedProperty)
         }
         val importList = arrayListOf<String>()
-        if (!hasMixins) {
+        if (!hasMixins && imports.none { it.fromClause != null && it.fromClause!!.referenceText == "Vue" }) {
           importList.add("import Vue from 'vue';")
         }
         if (decorators.isNotEmpty()) {
@@ -87,8 +96,9 @@ class ConvertToClassComponent : LocalQuickFix {
         } else {
           "mixins($mixinsString)"
         }
-        val renderString = "public " + renderProperty?.text
+        var renderString = ""
         if (renderProperty != null) {
+          renderString = "public ${renderProperty.text}"
           allProperties.remove(renderProperty)
         }
         val existsLifeCycleMethods = LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
@@ -99,7 +109,7 @@ class ConvertToClassComponent : LocalQuickFix {
             computedString, watchString,
             lifeCycleMethodsString, methodsString,
             renderString
-        )
+        ).filter { it.trim().isNotEmpty() }
         val text = """
           |${importList.joinToString("\n")}
           |
@@ -110,7 +120,8 @@ class ConvertToClassComponent : LocalQuickFix {
           | ${body.joinToString("\n")}
         }""".trimMargin()
         val dummy = PsiFileFactory.getInstance(project).createFileFromText(
-            "Dummy", TypeScriptJSXFileType.INSTANCE, text)
+            "Dummy", TypeScriptJSXFileType.INSTANCE, text
+        )
         element.parent.insertElementsBefore(*dummy.children)
         element.parent.delete()
       }
@@ -138,7 +149,28 @@ class ConvertToClassComponent : LocalQuickFix {
         if (isPureReturn(dataProperty)) {
           val returnObject = findReturnObject(dataProperty)
           return returnObject?.properties?.joinToString("\n") {
-            "public ${it.name} = ${it.value?.text};"
+            val next = it.nextIgnoreWs
+            var commentAfter = "";
+            if (next is PsiElement && next.typeMatch(COMMA)) {
+              val nextToComma = next.next
+              if (nextToComma is PsiWhiteSpace) {
+                if (nextToComma.next is PsiComment) {
+                  if (nextToComma.getLineCount() == 1) {
+                    commentAfter = "\n    " + nextToComma.next!!.text
+                  } else {
+                    commentAfter = nextToComma.next!!.text
+                  }
+                }
+              } else if (nextToComma is PsiComment) {
+                commentAfter = nextToComma.text
+              }
+            }
+            val exp = "public ${it.name} = ${it.value?.text};"
+            if (commentAfter.isNotBlank()) {
+              "$exp $commentAfter"
+            } else {
+              exp
+            }
           }
         }
       } else {
@@ -156,7 +188,31 @@ class ConvertToClassComponent : LocalQuickFix {
     if (methodsProperty != null) {
       val methods = methodsProperty.value as JSObjectLiteralExpression
       return methods.properties.joinToString("\n") {
-        "public " + it.text
+        if (it is TypeScriptFunctionProperty) {
+          val function = "public " + it.containingFile.text.substring(
+              it.textRangeWithoutComments.startOffset,
+              it.textRangeWithoutComments.endOffset
+          )
+          if (it.hasDocComment()) {
+            "${it.firstChild.text}\n$function"
+          } else {
+            function
+          }
+        } else if (it is JSProperty) {
+          val value = it.value
+          if (value is TypeScriptFunctionExpression) {
+            val function = "public ${it.name}${value.parameterList!!.text} ${value.block!!.text}"
+            if (it.hasDocComment()) {
+              "${it.firstChild.text}\n$function"
+            } else {
+              function
+            }
+          } else {
+            "public " + it.text
+          }
+        } else {
+          "public " + it.text
+        }
       }
     }
     return null

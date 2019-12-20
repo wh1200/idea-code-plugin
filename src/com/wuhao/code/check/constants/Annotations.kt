@@ -25,5 +25,6 @@ object Annotations {
   const val PUT_MAPPING: String = "org.springframework.web.bind.annotation.PutMapping"
   const val REQUEST_MAPPING: String = "org.springframework.web.bind.annotation.RequestMapping"
   const val REST_CONTROLLER: String = "org.springframework.web.bind.annotation.RestController"
+  const val CONTROLLER: String = "org.springframework.web.bind.annotation.Controller"
 
 }

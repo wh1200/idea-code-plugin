@@ -5,7 +5,7 @@ package com.wuhao.code.check.style.arrangement.vue
 
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveVisitor
-import org.jetbrains.vuejs.codeInsight.VueFileVisitor
+import org.jetbrains.vuejs.index.VueFileVisitor
 
 /**
  * vue文件psi元素递归访问器

@@ -11,18 +11,17 @@ import com.intellij.lang.jvm.JvmModifier.STATIC
 import com.intellij.psi.*
 import com.intellij.psi.JavaTokenType.*
 import com.intellij.psi.impl.source.PsiClassImpl
-import com.wuhao.code.check.ancestorOfType
+import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.*
 import com.wuhao.code.check.enums.NamingMethod
 import com.wuhao.code.check.enums.NamingMethod.*
-import com.wuhao.code.check.getAncestor
-import com.wuhao.code.check.getAncestorsOfType
-import com.wuhao.code.check.getLineCount
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
 import com.wuhao.code.check.inspection.fix.java.JavaConsolePrintFix
 import com.wuhao.code.check.inspection.fix.java.JavaElementNameFix
+import com.wuhao.code.check.inspection.fix.kotlin.MissingAnnotationFix
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
+import org.jetbrains.kotlin.name.FqName
 
 /**
  * Java代码格式检查访问器
@@ -103,6 +102,16 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
         identifier.checkNaming(Camel)
       }
     }
+  }
+
+  override fun visitClass(aClass: PsiClass) {
+    if ((aClass.hasAnnotation(Annotations.REST_CONTROLLER) || aClass.hasAnnotation(Annotations.CONTROLLER)) && !aClass
+            .hasAnnotation(Annotations.REQUEST_MAPPING)) {
+      holder.registerError(
+          aClass.nameIdentifier!!, Messages.MISSING_REQUEST_MAPPING_ANNOTATION
+      )
+    }
+    super.visitClass(aClass)
   }
 
   override fun visitIfStatement(statement: PsiIfStatement) {

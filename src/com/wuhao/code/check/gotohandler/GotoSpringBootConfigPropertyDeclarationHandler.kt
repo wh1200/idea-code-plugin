@@ -13,7 +13,7 @@ import com.wuhao.code.check.ancestors
 import com.wuhao.code.check.constants.JAVA_VALUE_ANNOTATION_PATTERN
 import com.wuhao.code.check.constants.RESOURCES_PATH
 import com.wuhao.code.check.lang.RecursiveVisitor
-import org.jetbrains.kotlin.idea.refactoring.toPsiFile
+import com.wuhao.code.check.toPsiFile
 import org.jetbrains.yaml.psi.YAMLKeyValue
 
 /**
@@ -27,14 +27,14 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
     return null
   }
 
-
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
     val res = arrayListOf<PsiElement>()
     if (PlatformUtils.isIdeaUltimate()) {
       if (el != null && JAVA_VALUE_ANNOTATION_PATTERN.accepts(el)) {
         val project = el.project
         val yamlFile = el.containingFile.virtualFile.fileSystem
-            .findFileByPath("${project.basePath}/$RESOURCES_PATH/${SpringBootConfigFileConstants.APPLICATION_YML}")?.toPsiFile(project)
+            .findFileByPath("${project.basePath}/$RESOURCES_PATH/${SpringBootConfigFileConstants.APPLICATION_YML}")
+            ?.toPsiFile(project)
         val currentKey = getRealProperty(el.text)
         if (yamlFile != null) {
           object : RecursiveVisitor() {

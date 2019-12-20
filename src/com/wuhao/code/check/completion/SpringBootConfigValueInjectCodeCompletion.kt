@@ -13,7 +13,7 @@ import com.intellij.util.ProcessingContext
 import com.wuhao.code.check.constants.JAVA_VALUE_ANNOTATION_PATTERN
 import com.wuhao.code.check.constants.KOTLIN_VALUE_ANNOTATION_PATTERN
 import com.wuhao.code.check.constants.RESOURCES_PATH
-import org.jetbrains.kotlin.idea.refactoring.toPsiFile
+import com.wuhao.code.check.toPsiFile
 
 /**
  * Created by 吴昊 on 2017/7/17.

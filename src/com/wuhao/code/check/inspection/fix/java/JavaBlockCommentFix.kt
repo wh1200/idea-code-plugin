@@ -6,10 +6,9 @@ package com.wuhao.code.check.inspection.fix.java
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
-import com.intellij.psi.*
-import com.intellij.psi.impl.PsiElementFactoryImpl
-import com.intellij.psi.impl.PsiManagerEx
+import com.intellij.psi.*import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.wuhao.code.check.ui.PluginSettings
+
 
 /**
  * java元素添加块注释修复
@@ -50,7 +49,7 @@ class JavaBlockCommentFix : LocalQuickFix {
       is PsiMethod -> buildMethodComment(measureElement)
       else -> BLOCK_COMMENT_STRING
     }
-    val factory = PsiElementFactoryImpl(PsiManagerEx.getInstanceEx(element.project))
+    val factory = PsiElementFactoryImpl(element.project)
     return factory.createCommentFromText(commentText, element)
   }
 

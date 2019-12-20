@@ -5,11 +5,14 @@ package com.wuhao.code.check.processors
 
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
+import com.intellij.psi.JavaDocTokenType.DOC_COMMENT_DATA
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.javadoc.PsiDocComment
+import com.intellij.psi.javadoc.PsiDocToken
 import com.intellij.psi.search.searches.SuperMethodsSearch
 import com.wuhao.code.check.*
+import org.jetbrains.kotlin.idea.core.replaced
 import org.jetbrains.kotlin.psi.KtPsiFactory
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 import org.jetbrains.kotlin.psi.psiUtil.getNextSiblingIgnoringWhitespace
@@ -64,13 +67,32 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
 
     override fun visitClass(aClass: PsiClass) {
       if (aClass !is PsiTypeParameter
-          && aClass !is PsiAnonymousClass) {
+          && aClass !is PsiAnonymousClass
+      ) {
         aClass.setBlankLineBoth(1)
       }
       super.visitClass(aClass)
     }
 
     override fun visitDocComment(comment: PsiDocComment) {
+      if (comment.parent is PsiCodeBlock) {
+        val commentDataList = comment.children.filter { it is PsiDocToken && it.tokenType == DOC_COMMENT_DATA }
+        val newEl = if (commentDataList.size == 1) {
+          comment.psiElementFactory.createCommentFromText("/* ${commentDataList.first().text.trim()} */", comment)
+        } else if (commentDataList.size > 1) {
+          comment.psiElementFactory.createCommentFromText(
+              "/* \n*${commentDataList.map { it.text.trim() }.joinToString("\n* ")} "
+                  + "\n*/", comment
+          )
+        } else {
+          null
+        }
+        if (newEl != null) {
+          comment.replaced(newEl)
+        } else {
+          comment.delete()
+        }
+      }
       comment.setBlankLineAfter()
       super.visitDocComment(comment)
     }

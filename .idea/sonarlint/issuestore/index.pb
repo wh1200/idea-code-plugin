@@ -41,3 +41,6 @@ b
 2src/com/wuhao/code/check/gotohandler/VueHandler.kt,7\a\7a0b8251f37f1fbaca63c24d512994217abd855b
 €
 Psrc/com/wuhao/code/check/style/arrangement/kotlin/PropertyDependenciesManager.kt,5\5\5590fbc1272d0756c25685165de769da8eac6514
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302

@@ -74,10 +74,7 @@ class PropertyClassCreateInspection : BaseInspection(PROPERTY_CLASS) {
             object Q${cls.name} {
             $fieldStr
           }""")
-          val field = factory.createProperty("""q${cls.name?.take(1)?.toLowerCase() + cls.name?.substring(1)}""".trimMargin(), null, false, "Q${cls.name}")
-          field.firstChild.insertElementBefore(factory.createModifierList("""@Suppress("$ALL")"""))
           file.add(newCls)
-          file.add(field)
         }
       } catch (e: IncorrectOperationException) {
         LOG.error(e)

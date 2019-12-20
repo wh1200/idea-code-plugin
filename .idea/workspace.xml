@@ -2,20 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c96c2547-b30d-4716-addf-0c148aec4303" name="Default Changelist" comment="sonar可维护性问题修复">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/b/2bd94f5311f0176209e9ea94ee87914b40934890" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5343827a31ecb8de3b82b6b507b81721e1aa4692" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64c5797c907df9910f81053792fcd8e8643241ab" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/4/64c5797c907df9910f81053792fcd8e8643241ab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/3/d3f008d218fcfd81beb378da4c2e3d6b3c0b853b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/4/d49bb73b71b51b615ab13409fa343e8f21ded6ce" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/4/d49bb73b71b51b615ab13409fa343e8f21ded6ce" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aegis-code-plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-code-plugin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/VueAttrFixPreProcessor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/processors/VueAttrFixPreProcessor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aegis-code-plugin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/aegis-code-plugin.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-code-plugin/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/aegis-code-plugin/META-INF/plugin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-code-plugin/com/wuhao/code/check/constants/Annotations.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/aegis-code-plugin/com/wuhao/code/check/constants/Annotations.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-code-plugin/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection$MyQuickFix$getPropertyFieldsMap$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/aegis-code-plugin/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection$MyQuickFix$getPropertyFieldsMap$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-code-plugin/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection$MyQuickFix.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/aegis-code-plugin/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection$MyQuickFix.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-code-plugin/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor$Companion.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/aegis-code-plugin/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor$Companion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/aegis-code-plugin/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/aegis-code-plugin/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Annotations.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Annotations.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +108,10 @@
       <workItem from="1574931680836" duration="35000" />
       <workItem from="1575636819999" duration="687000" />
       <workItem from="1575637703538" duration="25000" />
-      <workItem from="1575638945567" duration="1531000" />
+      <workItem from="1575638945567" duration="1745000" />
+      <workItem from="1575646250946" duration="844000" />
+      <workItem from="1576765496411" duration="415000" />
+      <workItem from="1576765959977" duration="170000" />
     </task>
     <servers />
   </component>
@@ -127,54 +130,82 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="172" y="28" key="CommitChangelistDialog2/0.0.1280.800@0.0.1280.800" timestamp="1575639932845" />
-    <state width="1224" height="198" key="GridCell.Tab.0.bottom" timestamp="1575638314299">
+    <state width="1224" height="248" key="GridCell.Tab.0.bottom" timestamp="1575651668990">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1224" height="198" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1575638314299" />
-    <state width="1224" height="198" key="GridCell.Tab.0.center" timestamp="1575638314297">
+    <state width="1224" height="248" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1575651668990" />
+    <state width="1224" height="248" key="GridCell.Tab.0.bottom/0.23.1280.713@0.23.1280.713" timestamp="1575651654052" />
+    <state width="1224" height="248" key="GridCell.Tab.0.center" timestamp="1575651668989">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1224" height="198" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1575638314297" />
-    <state width="1224" height="198" key="GridCell.Tab.0.left" timestamp="1575638314295">
+    <state width="1224" height="248" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1575651668989" />
+    <state width="1224" height="248" key="GridCell.Tab.0.center/0.23.1280.713@0.23.1280.713" timestamp="1575651654050" />
+    <state width="1224" height="248" key="GridCell.Tab.0.left" timestamp="1575651668989">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1224" height="198" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1575638314295" />
-    <state width="1224" height="198" key="GridCell.Tab.0.right" timestamp="1575638314298">
+    <state width="1224" height="248" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1575651668989" />
+    <state width="1224" height="248" key="GridCell.Tab.0.left/0.23.1280.713@0.23.1280.713" timestamp="1575651654049" />
+    <state width="1224" height="248" key="GridCell.Tab.0.right" timestamp="1575651668990">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1224" height="198" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1575638314298" />
-    <state width="1224" height="198" key="GridCell.Tab.1.bottom" timestamp="1575638314302">
+    <state width="1224" height="248" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1575651668990" />
+    <state width="1224" height="248" key="GridCell.Tab.0.right/0.23.1280.713@0.23.1280.713" timestamp="1575651654051" />
+    <state width="1224" height="248" key="GridCell.Tab.1.bottom" timestamp="1575651668993">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1224" height="198" key="GridCell.Tab.1.bottom/0.0.1280.800@0.0.1280.800" timestamp="1575638314302" />
-    <state width="1224" height="198" key="GridCell.Tab.1.center" timestamp="1575638314300">
+    <state width="1224" height="248" key="GridCell.Tab.1.bottom/0.0.1280.800@0.0.1280.800" timestamp="1575651668993" />
+    <state width="1224" height="248" key="GridCell.Tab.1.bottom/0.23.1280.713@0.23.1280.713" timestamp="1575651653957" />
+    <state width="1224" height="248" key="GridCell.Tab.1.center" timestamp="1575651668991">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1224" height="198" key="GridCell.Tab.1.center/0.0.1280.800@0.0.1280.800" timestamp="1575638314300" />
-    <state width="1224" height="198" key="GridCell.Tab.1.left" timestamp="1575638314299">
+    <state width="1224" height="248" key="GridCell.Tab.1.center/0.0.1280.800@0.0.1280.800" timestamp="1575651668991" />
+    <state width="1224" height="248" key="GridCell.Tab.1.center/0.23.1280.713@0.23.1280.713" timestamp="1575651653955" />
+    <state width="1224" height="248" key="GridCell.Tab.1.left" timestamp="1575651668991">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1224" height="198" key="GridCell.Tab.1.left/0.0.1280.800@0.0.1280.800" timestamp="1575638314299" />
-    <state width="1224" height="198" key="GridCell.Tab.1.right" timestamp="1575638314301">
+    <state width="1224" height="248" key="GridCell.Tab.1.left/0.0.1280.800@0.0.1280.800" timestamp="1575651668991" />
+    <state width="1224" height="248" key="GridCell.Tab.1.left/0.23.1280.713@0.23.1280.713" timestamp="1575651653955" />
+    <state width="1224" height="248" key="GridCell.Tab.1.right" timestamp="1575651668992">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1224" height="198" key="GridCell.Tab.1.right/0.0.1280.800@0.0.1280.800" timestamp="1575638314301" />
+    <state width="1224" height="248" key="GridCell.Tab.1.right/0.0.1280.800@0.0.1280.800" timestamp="1575651668992" />
+    <state width="1224" height="248" key="GridCell.Tab.1.right/0.23.1280.713@0.23.1280.713" timestamp="1575651653956" />
+    <state width="1224" height="248" key="GridCell.Tab.2.bottom" timestamp="1575651668995">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1224" height="248" key="GridCell.Tab.2.bottom/0.0.1280.800@0.0.1280.800" timestamp="1575651668995" />
+    <state width="1224" height="248" key="GridCell.Tab.2.bottom/0.23.1280.713@0.23.1280.713" timestamp="1575651653959" />
+    <state width="1224" height="248" key="GridCell.Tab.2.center" timestamp="1575651668994">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1224" height="248" key="GridCell.Tab.2.center/0.0.1280.800@0.0.1280.800" timestamp="1575651668994" />
+    <state width="1224" height="248" key="GridCell.Tab.2.center/0.23.1280.713@0.23.1280.713" timestamp="1575651653958" />
+    <state width="1224" height="248" key="GridCell.Tab.2.left" timestamp="1575651668993">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1224" height="248" key="GridCell.Tab.2.left/0.0.1280.800@0.0.1280.800" timestamp="1575651668993" />
+    <state width="1224" height="248" key="GridCell.Tab.2.left/0.23.1280.713@0.23.1280.713" timestamp="1575651653957" />
+    <state width="1224" height="248" key="GridCell.Tab.2.right" timestamp="1575651668994">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1224" height="248" key="GridCell.Tab.2.right/0.0.1280.800@0.0.1280.800" timestamp="1575651668994" />
+    <state width="1224" height="248" key="GridCell.Tab.2.right/0.23.1280.713@0.23.1280.713" timestamp="1575651653958" />
     <state x="358" y="52" key="RollbackChangesDialog" timestamp="1575638117586">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="358" y="52" key="RollbackChangesDialog/0.0.1280.800@0.0.1280.800" timestamp="1575638117586" />
-    <state x="0" y="0" key="SettingsEditor" timestamp="1575641514548">
+    <state x="0" y="0" key="SettingsEditor" timestamp="1576765909653">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="0" y="0" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1575641514548" />
+    <state x="0" y="0" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1576765909653" />
     <state x="200" y="6" key="SettingsEditor/0.0.1680.1050/-1920.0.1920.1080@0.0.1680.1050" timestamp="1574931712170" />
-    <state x="246" y="98" width="788" height="604" key="find.popup" timestamp="1575641688740">
+    <state x="246" y="98" width="788" height="604" key="find.popup" timestamp="1576765526743">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="246" y="98" width="788" height="604" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1575641688740" />
-    <state x="221" y="0" width="838" height="1032" key="search.everywhere.popup" timestamp="1575637868744">
+    <state x="246" y="98" width="788" height="604" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1576765526743" />
+    <state x="221" y="0" width="838" height="800" key="search.everywhere.popup" timestamp="1575651879334">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="221" y="0" width="838" height="1032" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1575637868744" />
+    <state x="221" y="0" width="838" height="800" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1575651879334" />
   </component>
 </project>

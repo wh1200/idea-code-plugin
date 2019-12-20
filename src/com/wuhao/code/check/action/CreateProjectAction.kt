@@ -11,7 +11,7 @@ import com.intellij.openapi.ui.InputValidator
 import com.intellij.openapi.ui.Messages
 import com.wuhao.code.check.http.HttpRequest
 import com.wuhao.code.check.ui.PluginSettings
-import org.apache.http.HttpStatus.SC_NOT_FOUND
+import org.apache.http.HttpStatus
 import org.jetbrains.kotlin.idea.run.addBuildTask
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -101,10 +101,10 @@ abstract class CreateProjectAction : AnAction() {
         //http://git2.aegis-info.com/template/aegis-vue-template/-/archive/master/aegis-vue-template-master.zip
         //http://git2.aegis-info.com/template/aegis-vue-template/-/archive/master/aegis-vue-template-master.zip
         when {
-          httpResult.status == SC_NOT_FOUND -> Messages.showErrorDialog("模板项目不存在", "新建项目出错")
-          httpResult.bytes == null          -> Messages.showErrorDialog(httpResult.response
+          httpResult.status == HttpStatus.SC_NOT_FOUND -> Messages.showErrorDialog("模板项目不存在", "新建项目出错")
+          httpResult.bytes == null                     -> Messages.showErrorDialog(httpResult.response
               ?: httpResult.exception?.message ?: "未知错误", "下载模板出错")
-          else                              -> try {
+          else                                         -> try {
             unzip(httpResult.bytes!!, newProjectRoot)
             return PrepareInfo(newProjectName, newProjectRoot)
           } catch (e: Exception) {

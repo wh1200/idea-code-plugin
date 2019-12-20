@@ -10,6 +10,7 @@ package com.wuhao.code.check.constants
  */
 object Messages {
 
+  const val USE_LOG_INSTEAD_OF_PRINT = "使用日志向控制台输出"
   const val PARAMETER_MISSING_TYPE = "参数缺少类型声明"
   const val CLASS_COMMENT_REQUIRED = "缺少类注释"
   const val COMMENT_REQUIRED = "缺少注释"

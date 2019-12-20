@@ -6,9 +6,8 @@ package com.wuhao.code.check.gotohandler
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.freemarker.psi.FtlStringLiteral
 import com.intellij.freemarker.psi.directives.FtlIncludeDirective
-import com.intellij.ide.plugins.PluginManager
+import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.actionSystem.DataContext
-import com.intellij.openapi.application.PluginPathManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.patterns.PlatformPatterns.psiElement
@@ -31,7 +30,7 @@ import org.jetbrains.kotlin.js.translate.utils.finalElement
 class GotoFileHandler : GotoDeclarationHandler {
 
   fun freemarkerEnabled(): Boolean {
-    return PluginManager.getPlugins().any { it.name == "FreeMarker" }
+    return PluginManagerCore.getPlugins().any { it.name == "FreeMarker" }
   }
 
   override fun getActionText(context: DataContext): String? {
@@ -39,23 +38,22 @@ class GotoFileHandler : GotoDeclarationHandler {
   }
 
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
-    if (el != null) {
-      if (isMavenProject(el)) {
-        val staticPath = "${el.project.basePath}/$RESOURCES_PATH/static/" + el.text
-        val pattern = psiElement(XmlToken::class.java)
-            .withParent(XmlAttributeValue::class.java)
-            .withSuperParent(2, psiElement(XmlAttribute::class.java).withName("src"))
-            .withSuperParent(3, psiElement(XmlTag::class.java).withName("script"))
-        if (pattern.accepts(el)) {
-          return toFilePath(staticPath, el)
-        } else if (this.freemarkerEnabled()) {
-          val includePathPattern = psiElement(LeafPsiElement::class.java)
-              .withParent(FtlStringLiteral::class.java)
-              .withSuperParent(2, psiElement(FtlIncludeDirective::class.java))
-          val templatePath = "${el.project.basePath}/$RESOURCES_PATH/templates/" + el.text
-          if (includePathPattern.accepts(el)) {
-            return toFilePath(templatePath, el)
-          }
+    if (el != null && isMavenProject(el)) {
+      val staticPath = "${el.project.basePath}/$RESOURCES_PATH/static/" + el.text
+      val pattern = psiElement(XmlToken::class.java)
+          .withParent(XmlAttributeValue::class.java)
+          .withSuperParent(2, psiElement(XmlAttribute::class.java).withName("src"))
+          .withSuperParent(3, psiElement(XmlTag::class.java).withName("script"))
+      if (pattern.accepts(el)) {
+        return toFilePath(staticPath, el)
+      }
+      if (this.freemarkerEnabled()) {
+        val includePathPattern = psiElement(LeafPsiElement::class.java)
+            .withParent(FtlStringLiteral::class.java)
+            .withSuperParent(2, psiElement(FtlIncludeDirective::class.java))
+        val templatePath = "${el.project.basePath}/$RESOURCES_PATH/templates/" + el.text
+        if (includePathPattern.accepts(el)) {
+          return toFilePath(templatePath, el)
         }
       }
     }

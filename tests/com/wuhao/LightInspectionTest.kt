@@ -16,12 +16,13 @@ import com.intellij.testFramework.builders.ModuleFixtureBuilder
 import com.intellij.testFramework.createGlobalContextForTool
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
+import com.wuhao.code.check.constants.Messages.MISSING_REQUEST_MAPPING_ANNOTATION
+import com.wuhao.code.check.constants.Messages.USE_LOG_INSTEAD_OF_PRINT
 import com.wuhao.code.check.inspection.inspections.JavaCommentInspection
 import com.wuhao.code.check.inspection.inspections.JavaFormatInspection
 import com.wuhao.code.check.inspection.inspections.KotlinActionSpecificationInspection
 import com.wuhao.code.check.inspection.inspections.KotlinFormatInspection
 import java.io.File
-
 
 /**
  *
@@ -29,14 +30,6 @@ import java.io.File
  * @since 1.2.6
  */
 class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>() {
-
-  companion object {
-    const val BASE_PATH = "testData/src/"
-  }
-
-  override fun getBasePath(): String {
-    return File("").absolutePath
-  }
 
   override fun getHomePath(): String {
     return ""
@@ -48,7 +41,10 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
   }
 
   fun testAllJava() {
-    doTestGlobalInspection("src", JavaFormatInspection())
+    val problems = doTestGlobalInspection("src", JavaFormatInspection())
+    problems.assertProblem("JavaExample.java", USE_LOG_INSTEAD_OF_PRINT)
+    problems.assertProblem("ExampleController.java", MISSING_REQUEST_MAPPING_ANNOTATION)
+    problems.assertProblem("ExampleController2.java", MISSING_REQUEST_MAPPING_ANNOTATION)
   }
 
   fun testAllKotlin() {
@@ -75,9 +71,17 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
 
   fun testJavaWhiteSpace() {
     val inspector = JavaFormatInspection()
-    myFixture.configureByFile(BASE_PATH + "WhiteSpace.java")
+    myFixture.configureByFile(basePath + "WhiteSpace.java")
     myFixture.enableInspections(inspector)
     myFixture.testHighlighting(true, false, true)
+  }
+
+  fun testMissingRequestMapping() {
+    doJavaInspectionTest("error/java/ExampleController.java")
+  }
+
+  fun testMissingReuqestMapping2() {
+    doJavaInspectionTest("error/java/ExampleController2.java")
   }
 
   fun testKotlinInspection() {
@@ -101,6 +105,7 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
   }
 
   private fun buildProblemMessage(problem: ProblemDescriptorBase): String {
+
     return """------------------------------
 | 文件: ${problem.psiElement.containingFile.name}
 | 路径: ${problem.psiElement.containingFile.virtualFile.path}
@@ -112,14 +117,18 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
   }
 
   private fun doInspectionTest(path: String, inspector: LocalInspectionTool) {
-    myFixture.configureByFile(BASE_PATH + path)
+    myFixture.configureByFile(resolvePath(path))
     myFixture.enableInspections(inspector)
     myFixture.testHighlighting(true, false, true)
   }
 
+  private fun resolvePath(path: String): String {
+    return (basePath + path).replace("/", "\\\\");
+  }
+
   private fun doJavaInspectionTest(path: String) {
-    doTestGlobalInspection(path, JavaFormatInspection())
-    doTestGlobalInspection(path, JavaCommentInspection())
+    doInspectionTest(path, JavaFormatInspection())
+    doInspectionTest(path, JavaCommentInspection())
   }
 
   private fun doKotlinInspectionTest(path: String) {
@@ -127,12 +136,11 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     doInspectionTest(path, inspector)
   }
 
-  private fun doTestGlobalInspection(path: String, inspection: LocalInspectionTool): Collection<CommonProblemDescriptor> {
+  private fun doTestGlobalInspection(path: String, inspection: LocalInspectionTool): Collection<ProblemDescriptorBase> {
     val problemDescriptors = getGlobalInspectionResults(path, inspection)
+        .map { it as ProblemDescriptorBase }
     for (problem in problemDescriptors) {
-      if (problem is ProblemDescriptorBase) {
-        println(buildProblemMessage(problem))
-      }
+      println(buildProblemMessage(problem))
     }
     return problemDescriptors
   }
@@ -162,4 +170,12 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     return globalContext.getPresentation(toolWrapper).problemDescriptors
   }
 
+}
+
+private fun Collection<ProblemDescriptorBase>.assertProblem(file: String, description: String) {
+  val problems = this.filter { it.psiElement.containingFile.name == file }
+      .map { it.descriptionTemplate }
+  if (!problems.contains(description)) {
+    throw IllegalStateException(description)
+  }
 }

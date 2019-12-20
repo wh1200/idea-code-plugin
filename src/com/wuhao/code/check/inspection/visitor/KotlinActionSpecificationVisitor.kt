@@ -83,14 +83,12 @@ class KotlinActionSpecificationVisitor(val holder: ProblemsHolder)
   }
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?): Any? {
-    if (function.containingClassOrObject != null && function.containingClassOrObject!!.hasAnnotation(FEIGN_CLIENT)) {
-      if (function.valueParameters.size > 1) {
-        function.valueParameters.forEach {
-          if (!it.hasAnnotation(PATH_VARIABLE)
-              && !it.hasAnnotation(REQUEST_BODY)
-              && !it.hasAnnotation(REQUEST_PARAM)) {
-            holder.registerError(it.nameIdentifier!!, Messages.MISSING_PARAM_ANNOTATION)
-          }
+    if (function.containingClassOrObject != null && function.containingClassOrObject!!.hasAnnotation(FEIGN_CLIENT) && function.valueParameters.size > 1) {
+      function.valueParameters.forEach {
+        if (!it.hasAnnotation(PATH_VARIABLE)
+            && !it.hasAnnotation(REQUEST_BODY)
+            && !it.hasAnnotation(REQUEST_PARAM)) {
+          holder.registerError(it.nameIdentifier!!, Messages.MISSING_PARAM_ANNOTATION)
         }
       }
     }

@@ -6,10 +6,7 @@ package com.wuhao.code.check.inspection.visitor
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
-import com.intellij.lang.jvm.JvmModifier.FINAL
-import com.intellij.lang.jvm.JvmModifier.STATIC
 import com.intellij.psi.*
-import com.intellij.psi.JavaTokenType.*
 import com.intellij.psi.impl.source.PsiClassImpl
 import com.wuhao.code.check.ancestorOfType
 import com.wuhao.code.check.constants.*
@@ -18,11 +15,14 @@ import com.wuhao.code.check.enums.NamingMethod.*
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.getAncestorsOfType
 import com.wuhao.code.check.getLineCount
+import com.wuhao.code.check.inspection.fix.DeleteFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.Before
 import com.wuhao.code.check.inspection.fix.java.JavaConsolePrintFix
 import com.wuhao.code.check.inspection.fix.java.JavaElementNameFix
+import com.wuhao.code.check.inspection.fix.kotlin.MissingAnnotationFix
 import org.jetbrains.kotlin.idea.quickfix.RenameIdentifierFix
+import org.jetbrains.kotlin.name.FqName
 
 /**
  * Java代码格式检查访问器
@@ -79,16 +79,12 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
   }
 
   override fun visitIdentifier(identifier: PsiIdentifier) {
-    // 方法名、字段名长度不能少于2个字符
-    if (identifier.text.length <= 1 && identifier.parent !is PsiTypeParameter) {
-      // for循环中的变量可以为单字符
-      if (identifier.parent is PsiLocalVariable && identifier.getAncestor(2) is PsiDeclarationStatement
-          && identifier.getAncestor(3) is PsiForStatement) {
-      } else if ((identifier.parent is PsiParameter || identifier.parent is PsiParameterList)
-          || (identifier.parent is PsiMethod || identifier.parent is PsiClass)
-          || (identifier.parent is PsiField && identifier.getAncestor(2) is PsiClass)) {
-        holder.registerWarning(identifier, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, RenameIdentifierFix())
-      }
+    // 方法名、字段名长度不能少于2个字符, for循环中的变量可以为单字符
+    if (identifier.text.length <= 1 && identifier.parent !is PsiTypeParameter
+        && (identifier.parent !is PsiLocalVariable || identifier.getAncestor(2) !is PsiDeclarationStatement || identifier.getAncestor(3) !is PsiForStatement) && ((identifier.parent is PsiParameter || identifier.parent is PsiParameterList)
+            || (identifier.parent is PsiMethod || identifier.parent is PsiClass)
+            || (identifier.parent is PsiField && identifier.getAncestor(2) is PsiClass))) {
+      holder.registerWarning(identifier, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, RenameIdentifierFix())
     }
     val namedElement = identifier.parent
     if (namedElement is PsiClassImpl || namedElement is PsiEnumConstant) {
@@ -96,8 +92,8 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     } else if (namedElement is PsiField || namedElement is PsiLocalVariable
         || (namedElement is PsiMethod && !namedElement.isConstructor)) {
       if (namedElement is PsiField
-          && namedElement.hasModifier(STATIC)
-          && namedElement.hasModifier(FINAL)) {
+          && namedElement.hasModifierProperty("static")
+          && namedElement.hasModifierProperty("final")) {
         identifier.checkNaming(Constant)
       } else {
         identifier.checkNaming(Camel)
@@ -117,40 +113,63 @@ class JavaCodeFormatVisitor(val holder: ProblemsHolder) :
     shouldHaveSpaceBeforeOrAfter(statement.rParenth, holder, SpaceQuickFix.Position.After)
   }
 
-  override fun visitLiteralExpression(expression: PsiLiteralExpression) {
-    // 检查数字参数
-    if (expression.parent is PsiExpressionList
-        && expression.firstChild.node.elementType in listOf(
-            INTEGER_LITERAL, LONG_LITERAL, FLOAT_LITERAL,
-            DOUBLE_LITERAL, STRING_LITERAL)
-        && expression.text.length > 1) {
-      if (expression.firstChild.node.elementType != STRING_LITERAL
-          || expression.textLength > MAX_STRING_ARGUMENT_LENGTH) {
-//        holder.registerWarning(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractToVariableFix())
-      }
-    }
-  }
-
   override fun visitMethod(method: PsiMethod) {
     // 方法长度不能超过指定长度
     if (method.nameIdentifier != null && method.getLineCount() > MAX_LINES_PER_FUNCTION) {
       holder.registerWarning(method.nameIdentifier!!,
           "方法长度不能超过${MAX_LINES_PER_FUNCTION}行")
     }
+    if (method.containingClass != null) {
+      val restControllerAnno = method.containingClass!!.getAnnotation(Annotations.REST_CONTROLLER)
+      val controllerAnno = method.containingClass!!.getAnnotation(Annotations.CONTROLLER)
+      if (restControllerAnno != null || controllerAnno != null) {
+        val classMappingURI = if (restControllerAnno != null) {
+          restControllerAnno.findAttributeValue("value")
+        } else {
+          controllerAnno!!.findAttributeValue("value")
+        }
+        val requestAnnotations = listOf(Annotations.GET_MAPPING, Annotations.PUT_MAPPING, Annotations.DELETE_MAPPING, Annotations.POST_MAPPING).mapNotNull {
+          method.getAnnotation(it)
+        }
+        if (requestAnnotations.isNotEmpty()) {
+          if (!method.hasAnnotation(Annotations.SWAGGER_API_OPERATION)
+              && method.containingClass!!.hasAnnotation(Annotations.REST_CONTROLLER)
+              && !method.containingClass!!.hasAnnotation(Annotations.SWAGGER_API_IGNORE)
+              && !method.hasAnnotation(Annotations.SWAGGER_API_IGNORE)) {
+            holder.registerWarning(
+                method.nameIdentifier!!, Messages.MISSING_API_OPERATION_ANNOTATION,
+                MissingAnnotationFix(FqName(Annotations.SWAGGER_API_OPERATION), "\"\"")
+            )
+          }
+          if (requestAnnotations.size > 1) {
+            requestAnnotations.forEach {
+              holder.registerWarning(
+                  it, "GetMapping, PutMapping, PostMapping, DeleteMapping只能使用一个",
+                  DeleteFix()
+              )
+            }
+          } else {
+            val mappingAnnotation = requestAnnotations.first()
+            val methodMappingURI = mappingAnnotation.findAttributeValue("value")
+            if ((classMappingURI?.text == null || classMappingURI.text == "/" || classMappingURI.text == "\"\"")
+                && methodMappingURI?.text != null && methodMappingURI.text.matches("\"/?\\{.*\\}\"".toRegex())) {
+              holder.registerError(mappingAnnotation, Messages.DO_NOT_MATCH_ROOT_PATH)
+            }
+          }
+        }
+      }
+    }
   }
 
   override fun visitMethodCallExpression(expression: PsiMethodCallExpression) {
     // 使用日志输入代替System.out
-    if (expression.text.startsWith("System.out") || expression.text.startsWith("System.err")) {
-      if (expression.ancestorOfType<PsiMethod>() == null
-          || !expression.getAncestorsOfType<PsiMethod>().any { func ->
-            func.annotations.any { annotation ->
-              annotation.qualifiedName == JUNIT_TEST_ANNOTATION_CLASS_NAME
-            }
+    if ((expression.text.startsWith("System.out") || expression.text.startsWith("System.err")) && (expression.ancestorOfType<PsiMethod>() == null
+            || !expression.getAncestorsOfType<PsiMethod>().any { func ->
+          func.annotations.any { annotation ->
+            annotation.qualifiedName == JUNIT_TEST_ANNOTATION_CLASS_NAME
           }
-      ) {
-        holder.registerWarning(expression, Messages.USE_LOG_INSTEAD_OF_PRINT, JavaConsolePrintFix())
-      }
+        })) {
+      holder.registerWarning(expression, Messages.USE_LOG_INSTEAD_OF_PRINT, JavaConsolePrintFix())
     }
   }
 

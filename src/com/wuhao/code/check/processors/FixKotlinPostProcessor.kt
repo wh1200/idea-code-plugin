@@ -42,10 +42,8 @@ class FixKotlinPostProcessor : PostFormatProcessor {
   }
 
   override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
-    if (isIdea) {
-      if (source.language is KotlinLanguage) {
-        source.accept(KotlinFixVisitor(source.ktPsiFactory))
-      }
+    if (isIdea && source.language is KotlinLanguage) {
+      source.accept(KotlinFixVisitor(source.ktPsiFactory))
     }
     return TextRange(0, source.endOffset)
   }

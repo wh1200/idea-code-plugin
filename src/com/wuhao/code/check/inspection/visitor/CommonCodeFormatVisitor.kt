@@ -52,7 +52,6 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
 
   override fun visitFile(file: PsiFile) {
     this.checkEncoding(file)
-//    this.checkIndent(file)
   }
 
   private fun checkEncoding(element: PsiElement) {
@@ -60,34 +59,5 @@ class CommonCodeFormatVisitor(private val holder: ProblemsHolder) : PsiElementVi
       holder.registerWarning(element, "${element.name}的编码为${element.virtualFile.charset}，应该使用UTF-8")
     }
   }
-
-  /*
-  private fun checkIndent(element: PsiElement) {
-    if (element is PsiFile) {
-      val styleContainer = JavaCodeStyleSettings.getInstance(element.project)
-          .container
-      val indent = styleContainer.getIndentSize(element.fileType)
-      val continuationIndent = styleContainer.getContinuationIndentSize(element.fileType)
-      if (indent != DEFAULT_INDENT_SPACE_COUNT) {
-        val indentFix = object : LocalQuickFix {
-
-          override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-            PluginStart.setIndent(element.fileType, element.language, CodeStyle.getSettings(element.project))
-          }
-
-          override fun getFamilyName(): String {
-            return "设置缩进"
-          }
-
-        }
-//        holder.registerWarning(element, "${element.fileType.name}文件的缩进必须为${DEFAULT_INDENT_SPACE_COUNT}个空格",
-//            indentFix)
-      }
-      if (continuationIndent != DEFAULT_CONTINUATION_INDENT_SPACE_COUNT) {
-//        holder.registerWarning(element, "${element.fileType.name}文件的持续缩进必须为${DEFAULT_CONTINUATION_INDENT_SPACE_COUNT}个空格")
-      }
-    }
-  }
-  */
 
 }

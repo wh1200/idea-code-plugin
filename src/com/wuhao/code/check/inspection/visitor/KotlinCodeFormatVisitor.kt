@@ -44,33 +44,17 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
   }
 
   override fun visitClassBody(classBody: KtClassBody, data: Any?) {
-    if (classBody.prevSibling !is PsiWhiteSpace) {
-      if (classBody.lBrace != null) {
-        holder.registerWarning(classBody.lBrace!!, "前面应当有空格", SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
-      }
+    if (classBody.prevSibling !is PsiWhiteSpace && classBody.lBrace != null) {
+      holder.registerWarning(classBody.lBrace!!, "前面应当有空格", SpaceQuickFix(SpaceQuickFix.Position.BeforeParent))
     }
     super.visitClassBody(classBody, data)
   }
 
-  override fun visitConstantExpression(expression: KtConstantExpression, data: Any?) {
-    // 不能使用未声明的数字作为参数
-//    if (expression.parent is KtValueArgument
-//        && expression.node.elementType in listOf(INTEGER_CONSTANT, FLOAT_CONSTANT, STRING_TEMPLATE)
-//        && expression.parent.getChildByType<KtValueArgumentName>() == null
-//        && expression.textLength > 1) {
-//      if (expression.node.elementType != STRING_TEMPLATE || expression.textLength >= MAX_STRING_ARGUMENT_LENGTH) {
-    //        holder.registerWarning(expression, Messages.NO_CONSTANT_ARGUMENT, ExtractConstantToPropertyFix())
-//      }
-//    }
-  }
-
   override fun visitElement(element: PsiElement) {
-    if (element.typeMatch(IDENTIFIER) && element.textLength <= 1) {
-      if (psiElement().withAncestor(2, typePattern(FOR))
-              .andNot(leaf()).accepts(element)) {
-        holder.registerWarning(element, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, KotlinCommaFix())
-      }
-    }
+    if (element.typeMatch(IDENTIFIER) && element.textLength <= 1 && psiElement().withAncestor(2, typePattern(FOR))
+            .andNot(leaf()).accepts(element)) {
+  holder.registerWarning(element, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, KotlinCommaFix())
+}
     when (element) {
       is LeafPsiElement -> {
         // Kotlin中不需要使用分号
@@ -95,16 +79,6 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
   override fun visitIfExpression(expression: KtIfExpression, data: Any?) {
     shouldHaveSpaceBeforeOrAfter(expression.rightParenthesis, holder, After)
-  }
-
-  override fun visitLambdaExpression(expression: KtLambdaExpression, data: Any?) {
-//    val lambdaAncestors = expression.getAncestorsOfType<KtLambdaExpression>()
-//    if (expression.parent is KtLambdaArgument) {
-//      val argument = expression.parent as KtLambdaArgument
-//      val list = argument.resolveMainReferenceToDescriptors()
-//      list.forEach {
-//      }
-//    }
   }
 
   override fun visitNamedFunction(function: KtNamedFunction, data: Any?) {
@@ -165,11 +139,9 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
   override fun visitReferenceExpression(expression: KtReferenceExpression, data: Any?) {
     // 使用日志输入代替System.out
-    if (expression.text == "println") {
-      if (expression.ancestorOfType<KtFunction>() == null
-          || !isInJUnitTestMethod(expression)) {
-        holder.registerWarning(expression, "使用日志向控制台输出", KotlinConsolePrintFix())
-      }
+    if (expression.text == "println" && (expression.ancestorOfType<KtFunction>() == null
+            || !isInJUnitTestMethod(expression))) {
+      holder.registerWarning(expression, "使用日志向控制台输出", KotlinConsolePrintFix())
     }
   }
 

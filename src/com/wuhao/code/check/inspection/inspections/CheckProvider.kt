@@ -15,8 +15,6 @@ import com.wuhao.code.check.vueEnabled
 class CheckProvider : InspectionToolProvider {
 
   override fun getInspectionClasses(): Array<out Class<out LocalInspectionTool>> {
-//    val packageName = this.javaClass.name.replace("." + this.javaClass.simpleName, "")
-//    val url = this.javaClass.getResource("/" + packageName.replace(".", "/"))
     val classes = arrayListOf<Class<out LocalInspectionTool>>()
     if (isIdea) {
       classes.add(JavaCommentInspection::class.java)

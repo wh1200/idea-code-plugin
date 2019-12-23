@@ -3,6 +3,7 @@
  */
 package com.wuhao
 
+import com.wuhao.code.check.http.HttpRequest
 import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -113,6 +114,13 @@ class Test5 {
         }
       }
     }
+  }
+
+  @Test
+  fun sendMsg() {
+    val res = HttpRequest.newPost("https://os.aegis-info.com/api/idea/callback")
+        .execute()
+    println(res.response)
   }
 
 }

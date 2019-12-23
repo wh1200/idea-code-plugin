@@ -16,6 +16,7 @@ import com.intellij.testFramework.builders.ModuleFixtureBuilder
 import com.intellij.testFramework.createGlobalContextForTool
 import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
+import com.wuhao.code.check.constants.Messages.DO_NOT_MATCH_ROOT_PATH
 import com.wuhao.code.check.constants.Messages.MISSING_REQUEST_MAPPING_ANNOTATION
 import com.wuhao.code.check.constants.Messages.USE_LOG_INSTEAD_OF_PRINT
 import com.wuhao.code.check.inspection.inspections.JavaCommentInspection
@@ -45,6 +46,7 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
     problems.assertProblem("JavaExample.java", USE_LOG_INSTEAD_OF_PRINT)
     problems.assertProblem("ExampleController.java", MISSING_REQUEST_MAPPING_ANNOTATION)
     problems.assertProblem("ExampleController2.java", MISSING_REQUEST_MAPPING_ANNOTATION)
+    problems.assertProblem("ExampleController3.java", DO_NOT_MATCH_ROOT_PATH)
   }
 
   fun testAllKotlin() {
@@ -123,7 +125,7 @@ class LightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>(
   }
 
   private fun resolvePath(path: String): String {
-    return (basePath + path).replace("/", "\\\\");
+    return (basePath + path).replace("/", "\\\\")
   }
 
   private fun doJavaInspectionTest(path: String) {
@@ -176,6 +178,6 @@ private fun Collection<ProblemDescriptorBase>.assertProblem(file: String, descri
   val problems = this.filter { it.psiElement.containingFile.name == file }
       .map { it.descriptionTemplate }
   if (!problems.contains(description)) {
-    throw IllegalStateException(description)
+    throw IllegalStateException("Missing problem " + description + " in file $file")
   }
 }

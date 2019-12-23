@@ -91,35 +91,33 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
       })
     }
     //v-for标签应当有:key属性
-    if (attribute.name == FOR && attribute.parent.name != SLOT_TAG) {
-      if ((attribute.parent.name == TEMPLATE_TAG
-              && keyAttrOnChild(attribute.parent) == null)
-          || (attribute.parent.name != TEMPLATE_TAG && attribute.parent.getAttribute(KEY) == null)
-      ) {
-        holder.registerWarning(attribute, Messages.FOR_TAG_SHOULD_HAVE_KEY_ATTR, object : LocalQuickFix {
+    if (attribute.name == FOR && attribute.parent.name != SLOT_TAG
+        && ((attribute.parent.name == TEMPLATE_TAG
+            && keyAttrOnChild(attribute.parent) == null)
+            || (attribute.parent.name != TEMPLATE_TAG && attribute.parent.getAttribute(KEY) == null))) {
+          holder.registerWarning(attribute, Messages.FOR_TAG_SHOULD_HAVE_KEY_ATTR, object : LocalQuickFix {
 
-          override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-            val tag = descriptor.psiElement.parent as XmlTag
-            if (tag.name == TEMPLATE_TAG) {
-              val child = tag.getChildByType<XmlTag>()
-              if (child != null) {
-                child.setAttribute(KEY, "")
+            override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+              val tag = descriptor.psiElement.parent as XmlTag
+              if (tag.name == TEMPLATE_TAG) {
+                val child = tag.getChildByType<XmlTag>()
+                if (child != null) {
+                  child.setAttribute(KEY, "")
+                } else {
+                  val div = XmlElementFactory.getInstance(project).createTagFromText("<div :key=''></div>")
+                  tag.add(div)
+                }
               } else {
-                val div = XmlElementFactory.getInstance(project).createTagFromText("<div :key=''></div>")
-                tag.add(div)
+                tag.setAttribute(KEY, "")
               }
-            } else {
-              tag.setAttribute(KEY, "")
             }
-          }
 
-          override fun getFamilyName(): String {
-            return "添加${KEY}属性"
-          }
+            override fun getFamilyName(): String {
+              return "添加${KEY}属性"
+            }
 
-        })
-      }
-    }
+          })
+        }
     if (attribute.name == KEY && attribute.value.isNullOrBlank()) {
       holder.registerWarning(attribute, Messages.MISSING_ATTR_VALUE)
     }

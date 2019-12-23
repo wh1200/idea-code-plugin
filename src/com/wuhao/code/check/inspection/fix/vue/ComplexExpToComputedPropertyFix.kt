@@ -3,9 +3,11 @@ package com.wuhao.code.check.inspection.fix.vue
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
-import com.intellij.lang.ecmascript6.psi.ES6ImportDeclaration
 import com.intellij.lang.javascript.dialects.TypeScriptJSXLanguageDialect
-import com.intellij.lang.javascript.psi.*
+import com.intellij.lang.javascript.psi.JSEmbeddedContent
+import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
+import com.intellij.lang.javascript.psi.JSReferenceExpression
+import com.intellij.lang.javascript.psi.JSThisExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClass
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClassExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunction
@@ -92,13 +94,6 @@ class ComplexExpToComputedPropertyFix : LocalQuickFix {
     }.visit(el)
   }
 
-  private fun createImport(importStr: String, project: Project): ES6ImportDeclaration {
-    return (PsiFileFactory.getInstance(project).createFileFromText(
-        "Dummy", TypeScriptJSXLanguageDialect.findInstance(TypeScriptJSXLanguageDialect::class.java),
-        importStr.trimMargin()
-    ) as JSFile).children[0] as ES6ImportDeclaration
-  }
-
   private fun createNewPlaceHolder(
       arguments: TreeSet<String>,
       propertyName: String,
@@ -147,9 +142,6 @@ class ComplexExpToComputedPropertyFix : LocalQuickFix {
     val newPlaceholder = createNewPlaceHolder(arguments, propertyName, el)
     el.firstChild.replace(newPlaceholder)
     val element = el.firstChild
-    //      val newDescriptor = ProblemDescriptorImpl(element, element, "test",
-    //          arrayOf(RenameIdentifierFix()), ProblemHighlightType.ERROR, false, null, false)
-    //      RenameIdentifierFix().applyFix(project, newDescriptor)
     renameElement(element)
   }
 

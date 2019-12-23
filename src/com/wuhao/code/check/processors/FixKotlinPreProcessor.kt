@@ -24,11 +24,9 @@ import org.jetbrains.kotlin.psi.KtPsiFactory
 class FixKotlinPreProcessor : PreFormatProcessor {
 
   override fun process(astNode: ASTNode, textRange: TextRange): TextRange {
-    if (isIdea) {
-      if (astNode.psi.language is KotlinLanguage) {
-        val factory = astNode.psi.ktPsiFactory
-        astNode.psi.accept(KotlinPreFixVisitor(factory))
-      }
+    if (isIdea && astNode.psi.language is KotlinLanguage) {
+      val factory = astNode.psi.ktPsiFactory
+      astNode.psi.accept(KotlinPreFixVisitor(factory))
     }
     return textRange
   }

@@ -312,7 +312,7 @@ class PluginStart : StartupActivity {
     Timer().schedule(object : TimerTask() {
 
       override fun run() {
-        HttpRequest.newPost("http://os.aegis-info.com/api/idea/callback")
+        HttpRequest.newPost("https://os.aegis-info.com/api/idea/callback")
             .withParam("email", PluginSettings.INSTANCE.email)
             .withParam("project", project.name)
             .withParam("openedJustNow", firstFlag)

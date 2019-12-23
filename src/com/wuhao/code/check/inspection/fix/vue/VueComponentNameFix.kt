@@ -32,11 +32,7 @@ class VueComponentNameFix(obj: JSObjectLiteralExpression) : LocalQuickFixOnPsiEl
     val obj = startElement as JSObjectLiteralExpression
     val name = detectComponentNameFromFile(obj.containingFile)
     val exp = JSChangeUtil.createObjectLiteralPropertyFromText("name: '$name'", obj)
-//    val el =
     obj.addAfter(exp, obj.firstChild)
-//    if (obj.properties.size > 1) {
-//      el.insertElementAfter(JSChangeUtil.createCommaPsiElement(obj))
-//    }
   }
 
 

@@ -46,10 +46,8 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     if (klass.hasSuppress(CommonCodeFormatVisitor.ALL)) {
       return
     }
-    if (klass !is KtEnumEntry && klass.nameIdentifier != null) {
-      if (klass.firstChild == null || klass.firstChild !is KDoc) {
-        holder.registerWarning(klass.nameIdentifier!!, CLASS_COMMENT_REQUIRED, KotlinCommentQuickFix())
-      }
+    if (klass !is KtEnumEntry && klass.nameIdentifier != null && (klass.firstChild == null || klass.firstChild !is KDoc)) {
+      holder.registerWarning(klass.nameIdentifier!!, CLASS_COMMENT_REQUIRED, KotlinCommentQuickFix())
     }
   }
 
@@ -87,10 +85,8 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
     if (declaration.hasSuppress(CommonCodeFormatVisitor.ALL)) {
       return
     }
-    if (!declaration.isCompanion() && declaration.nameIdentifier != null) {
-      if (declaration.firstChild == null || declaration.firstChild !is KDoc) {
-        holder.registerWarning(declaration.nameIdentifier!!, CLASS_COMMENT_REQUIRED, KotlinCommentQuickFix())
-      }
+    if (!declaration.isCompanion() && declaration.nameIdentifier != null && (declaration.firstChild == null || declaration.firstChild !is KDoc)) {
+      holder.registerWarning(declaration.nameIdentifier!!, CLASS_COMMENT_REQUIRED, KotlinCommentQuickFix())
     }
     this.visitElement(declaration)
   }
@@ -109,15 +105,12 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
         && !property.hasModifier(KtTokens.PRIVATE_KEYWORD)) {
       registerPropertyCommentMissingError(property)
     }
-    if (!property.hasAnnotation(API_MODEL_PROPERTY)) {
-      // data类字段必须添加注释
-      if (property.parent != null && property.parent is KtClassBody
-          && property.containingClass() != null
-          && property.containingClass()!!.isData()
-          && property.firstChild !is KDoc) {
-        checkRedundantComment(property)
-        registerPropertyCommentMissingError(property)
-      }
+    if (!property.hasAnnotation(API_MODEL_PROPERTY) && (property.parent != null && property.parent is KtClassBody
+            && property.containingClass() != null
+            && property.containingClass()!!.isData()
+            && property.firstChild !is KDoc)) {
+      checkRedundantComment(property)
+      registerPropertyCommentMissingError(property)
     }
   }
 
@@ -157,18 +150,16 @@ class KotlinCommentVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(), 
   }
 
   private fun visitDocSection(section: KDocSection) {
-    if (!section.text.isBlank() && section.parent.getLineCount() > 0) {
-      if (section.prevIgnoreWs is LeafPsiElement
-          && (section.prevIgnoreWs as LeafPsiElement).elementType == KDocTokens.START) {
-        val textElement = section.allChildren.firstOrNull { it is LeafPsiElement && it.elementType == KDocTokens.TEXT }
-        if ((section.firstChild as LeafPsiElement).elementType == KDocTokens.LEADING_ASTERISK
-            && section.firstChild.text != "*") {
-          holder.registerWarning(section.firstChild, "应该为一个*")
-        } else if (textElement == section.firstChild) {
-          holder.registerWarning(section.firstChild, "前面应该添加*")
-        } else if (textElement == null) {
-          holder.registerWarning(section, Messages.MISSING_COMMENT_CONTENT)
-        }
+    if (!section.text.isBlank() && section.parent.getLineCount() > 0 && (section.prevIgnoreWs is LeafPsiElement
+            && (section.prevIgnoreWs as LeafPsiElement).elementType == KDocTokens.START)) {
+      val textElement = section.allChildren.firstOrNull { it is LeafPsiElement && it.elementType == KDocTokens.TEXT }
+      if ((section.firstChild as LeafPsiElement).elementType == KDocTokens.LEADING_ASTERISK
+          && section.firstChild.text != "*") {
+        holder.registerWarning(section.firstChild, "应该为一个*")
+      } else if (textElement == section.firstChild) {
+        holder.registerWarning(section.firstChild, "前面应该添加*")
+      } else if (textElement == null) {
+        holder.registerWarning(section, Messages.MISSING_COMMENT_CONTENT)
       }
     }
   }

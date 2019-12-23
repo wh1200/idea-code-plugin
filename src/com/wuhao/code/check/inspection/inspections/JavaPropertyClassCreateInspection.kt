@@ -7,8 +7,6 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.java.JavaLanguage
-import com.intellij.lang.jvm.JvmAnnotatedElement
-import com.intellij.lang.jvm.JvmAnnotation
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
@@ -35,25 +33,14 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
     return object : JavaElementVisitor() {
 
       override fun visitClass(aClass: PsiClass) {
-        if (aClass.hasAnnotation(JavaCommentVisitor.ENTITY_CLASS)
-            || aClass.hasAnnotation(JavaCommentVisitor.TABLE_CLASS)
-            || aClass.hasAnnotation(JavaCommentVisitor.SPRING_DOCUMENT_CLASS)) {
-          if (aClass.containingFile.containingDirectory.findFile("Q${aClass.name}.java") == null) {
-            holder.registerProblem(aClass.containingFile, "创建属性名称对象", myQuickFix)
-          }
+        if ((aClass.hasAnnotation(JavaCommentVisitor.ENTITY_CLASS)
+                || aClass.hasAnnotation(JavaCommentVisitor.TABLE_CLASS)
+                || aClass.hasAnnotation(JavaCommentVisitor.SPRING_DOCUMENT_CLASS)) && aClass.containingFile.containingDirectory.findFile("Q${aClass.name}.java") == null) {
+          holder.registerProblem(aClass.containingFile, "创建属性名称对象", myQuickFix)
         }
       }
 
     }
-  }
-
-  fun getAnnotation(element: JvmAnnotatedElement, fqn: String): JvmAnnotation? {
-    for (annotation in element.annotations) {
-      if (fqn == annotation.qualifiedName) {
-        return annotation
-      }
-    }
-    return null
   }
 
   override fun loadDescription(): String? {

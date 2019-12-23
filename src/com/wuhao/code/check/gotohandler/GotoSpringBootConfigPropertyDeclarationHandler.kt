@@ -29,30 +29,28 @@ class GotoSpringBootConfigPropertyDeclarationHandler : GotoDeclarationHandler {
 
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
     val res = arrayListOf<PsiElement>()
-    if (PlatformUtils.isIdeaUltimate()) {
-      if (el != null && JAVA_VALUE_ANNOTATION_PATTERN.accepts(el)) {
-        val project = el.project
-        val yamlFile = el.containingFile.virtualFile.fileSystem
-            .findFileByPath("${project.basePath}/$RESOURCES_PATH/${SpringBootConfigFileConstants.APPLICATION_YML}")
-            ?.toPsiFile(project)
-        val currentKey = getRealProperty(el.text)
-        if (yamlFile != null) {
-          object : RecursiveVisitor() {
+    if (PlatformUtils.isIdeaUltimate() && el != null && JAVA_VALUE_ANNOTATION_PATTERN.accepts(el)) {
+      val project = el.project
+      val yamlFile = el.containingFile.virtualFile.fileSystem
+          .findFileByPath("${project.basePath}/$RESOURCES_PATH/${SpringBootConfigFileConstants.APPLICATION_YML}")
+          ?.toPsiFile(project)
+      val currentKey = getRealProperty(el.text)
+      if (yamlFile != null) {
+        object : RecursiveVisitor() {
 
-            override fun visitElement(element: PsiElement) {
-              if (element is YAMLKeyValue) {
-                val key = element.ancestors.filter { it is YAMLKeyValue }
-                    .reversed().joinToString(".") {
-                      (it as YAMLKeyValue).keyText
-                    }
-                if (key == currentKey) {
-                  res.add(element)
-                }
+          override fun visitElement(element: PsiElement) {
+            if (element is YAMLKeyValue) {
+              val key = element.ancestors.filter { it is YAMLKeyValue }
+                  .reversed().joinToString(".") {
+                    (it as YAMLKeyValue).keyText
+                  }
+              if (key == currentKey) {
+                res.add(element)
               }
             }
+          }
 
-          }.visit(yamlFile)
-        }
+        }.visit(yamlFile)
       }
     }
     return res.toTypedArray()

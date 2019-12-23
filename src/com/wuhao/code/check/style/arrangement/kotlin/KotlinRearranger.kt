@@ -18,7 +18,6 @@ import com.intellij.psi.codeStyle.arrangement.std.StdArrangementRuleAliasToken
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementSettings
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens
 import com.intellij.psi.codeStyle.arrangement.std.StdArrangementTokens.Grouping.GETTERS_AND_SETTERS
-import com.intellij.util.containers.ContainerUtilRt
 import com.wuhao.code.check.style.KotlinEntryType.CLASS
 import com.wuhao.code.check.style.KotlinEntryType.ENUM_ENTRY
 import com.wuhao.code.check.style.KotlinEntryType.FUNCTION
@@ -38,8 +37,8 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
 
   companion object {
     private fun getDefaultSettings(): StdArrangementSettings {
-      val groupingRules = ContainerUtilRt.newArrayList(ArrangementGroupingRule(GETTERS_AND_SETTERS))
-      val matchRules = ContainerUtilRt.newArrayList<StdArrangementMatchRule>()
+      val groupingRules = listOf(ArrangementGroupingRule(GETTERS_AND_SETTERS))
+      val matchRules = arrayListOf<StdArrangementMatchRule>()
       val aliasTokens = listOf(StdArrangementRuleAliasToken("visibility").apply {
         definitionRules = listOf(StdArrangementTokens.Modifier.PUBLIC, StdArrangementTokens.Modifier.PACKAGE_PRIVATE, StdArrangementTokens.Modifier.PROTECTED, StdArrangementTokens.Modifier.PRIVATE).map {
           StdArrangementMatchRule(
@@ -66,12 +65,7 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
         previous.type == PROPERTY -> 0
         else -> 0
       }
-      FUNCTION -> when {
-        parent != null && parent.type === INTERFACE -> 1
-        previous == null -> 1
-        previous.type == PROPERTY -> 1
-        else -> 1
-      }
+      FUNCTION -> 1
       CLASS -> 1
       ENUM_ENTRY -> when {
         previous != null && previous.type == ENUM_ENTRY -> 0
@@ -93,7 +87,7 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
     val parseInfo = KotlinArrangementParseInfo()
     root.accept(KotlinArrangementVisitor(parseInfo, document, ranges, settings))
     val propertyDependencyRoots = parseInfo.getPropertyDependencyRoots()
-    if (!propertyDependencyRoots.isEmpty()) {
+    if (propertyDependencyRoots.isNotEmpty()) {
       setupPropertyInitializationDependencies(propertyDependencyRoots)
     }
     return parseInfo.entries

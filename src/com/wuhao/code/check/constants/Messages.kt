@@ -10,6 +10,7 @@ package com.wuhao.code.check.constants
  */
 object Messages {
 
+  const val DO_NOT_MATCH_ROOT_PATH = "不能使用路径参数匹配根路径"
   const val USE_LOG_INSTEAD_OF_PRINT = "使用日志向控制台输出"
   const val PARAMETER_MISSING_TYPE = "参数缺少类型声明"
   const val CLASS_COMMENT_REQUIRED = "缺少类注释"

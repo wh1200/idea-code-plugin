@@ -7,31 +7,9 @@ package com.wuhao.code.check.template
  */
 object KotlinTemplates {
 
-  private const val DEFAULT_BLOCK_COMMENT = """/**
- *
- * Created by ${'$'}{USER} on ${'$'}{DATE}.
- *
- * @author ${'$'}{USER}
- * @since
- */
-  """
-
-  val FILE = """#if (${'$'}{PACKAGE_NAME} && ${'$'}{PACKAGE_NAME} != "")package ${'$'}{PACKAGE_NAME}
-
-#end
-$DEFAULT_BLOCK_COMMENT""".trimIndent()
-  val CLASS = FILE + "\n" + """class ${'$'}{NAME} {
-    }""".trimIndent()
-
-  val OBJECT = FILE + "\n" + """
-    object ${'$'}{NAME} {
-    }""".trimIndent()
-  val ENUM: String = FILE + "\n" + """
-    enum class ${'$'}{NAME} {
-    }""".trimIndent()
-  val INTERFACE: String = FILE + "\n" + """
-    interface ${'$'}{NAME} {
-    }""".trimIndent()
+  fun getClass(): String = JavaTemplates.getTemplateContent("kotlin_class")
+  fun getEnum(): String = JavaTemplates.getTemplateContent("kotlin_enum")
+  fun getFile(): String = JavaTemplates.getTemplateContent("kotlin_file")
+  fun getInterface(): String = JavaTemplates.getTemplateContent("kotlin_interface")
 
 }
-

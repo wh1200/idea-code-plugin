@@ -464,6 +464,13 @@ inline fun <reified T> PsiElement.getContinuousAncestorsOfType(): ArrayList<T> {
 }
 
 /**
+ * 获取指定名称的装饰器
+ */
+fun JSAttributeList.getDecorator(name: String): ES6Decorator? {
+  return this.decorators.firstOrNull { it.decoratorName == name }
+}
+
+/**
  * 获取元素占用的行数
  * @return
  */
@@ -586,13 +593,6 @@ fun JSAttributeListOwner.hasDecorator(name: String): Boolean {
  */
 fun JSAttributeList.hasDecorator(name: String): Boolean {
   return this.decorators.any { it.decoratorName == name }
-}
-
-/**
- * 获取指定名称的装饰器
- */
-fun JSAttributeList.getDecorator(name: String): ES6Decorator? {
-  return this.decorators.firstOrNull { it.decoratorName == name }
 }
 
 /**

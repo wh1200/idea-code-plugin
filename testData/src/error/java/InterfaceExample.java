@@ -5,12 +5,6 @@ package error.java;
 
 interface InterfaceExample {
 
-  <
-
-      T
-
-      > void test(String text);
-
+  <T> void test(String text);
 
 }
-

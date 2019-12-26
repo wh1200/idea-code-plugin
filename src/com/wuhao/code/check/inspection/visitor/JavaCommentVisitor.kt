@@ -8,10 +8,14 @@ import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.jvm.JvmModifier
 import com.intellij.psi.*
+import com.intellij.psi.JavaDocTokenType.DOC_COMMENT_DATA
 import com.intellij.psi.javadoc.PsiDocComment
+import com.intellij.psi.javadoc.PsiDocTag
+import com.intellij.psi.javadoc.PsiDocToken
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix
+import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
 /**
  * Java代码格式检查访问器
@@ -37,11 +41,36 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
    * @param clazz 类元素
    */
   override fun visitClass(clazz: PsiClass) {
-    if (clazz !is PsiTypeParameter && (clazz.firstChild == null || clazz.firstChild !is PsiDocComment) && clazz !is PsiAnonymousClass) {
-      if (clazz.nameIdentifier != null) {
-        holder.registerWarning(clazz.nameIdentifier!!, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
-      } else {
-        holder.registerWarning(clazz, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
+    if (clazz !is PsiTypeParameter && clazz !is PsiAnonymousClass) {
+      if (clazz.firstChild == null || clazz.firstChild !is PsiDocComment) {
+        if (clazz.nameIdentifier != null) {
+          holder.registerWarning(clazz.nameIdentifier!!, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
+        } else {
+          holder.registerWarning(clazz, Messages.CLASS_COMMENT_REQUIRED, JavaBlockCommentFix())
+        }
+      } else if (clazz.firstChild is PsiDocComment) {
+        val psiDocComment = clazz.firstChild
+        if (psiDocComment.children.none { it is PsiDocToken && it.tokenType == DOC_COMMENT_DATA }
+            || psiDocComment.getChildrenOfType<PsiDocToken>().all { it.text.isNullOrBlank() }) {
+          holder.registerWarning(psiDocComment, Messages.DESCRIPTION_COMMENT_MISSING)
+        }
+        val docTags = psiDocComment.getChildrenOfType<PsiDocTag>()
+        val sinceTag = docTags.find { it.name == "since" }
+        val authorTag = docTags.find { it.name == "author" }
+        val dateTag = docTags.find { it.name == "date" }
+        val versionTag = docTags.find { it.name == "version" }
+        if (authorTag == null || authorTag.valueElement?.text.isNullOrBlank()) {
+          holder.registerWarning(psiDocComment, Messages.COMMENT_MISSING_AUTHOR)
+        }
+        if (dateTag == null || dateTag.valueElement?.text.isNullOrBlank()) {
+          holder.registerWarning(psiDocComment, Messages.COMMENT_MISSING_DATE)
+        }
+        if (versionTag == null || versionTag.valueElement?.text.isNullOrBlank()) {
+          holder.registerWarning(psiDocComment, Messages.COMMENT_MISSING_VERSION)
+        }
+        if (sinceTag == null || sinceTag.valueElement?.text.isNullOrBlank()) {
+          holder.registerWarning(psiDocComment, Messages.COMMENT_MISSING_SINCE)
+        }
       }
     }
     if (clazz.annotations.any { it.qualifiedName in listOf(ENTITY_CLASS, TABLE_CLASS, SPRING_DOCUMENT_CLASS) }) {

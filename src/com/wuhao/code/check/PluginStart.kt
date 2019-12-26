@@ -50,6 +50,7 @@ import com.intellij.sql.SqlFileType
 import com.intellij.sql.formatter.settings.SqlCodeStyleSettings
 import com.intellij.sql.formatter.settings.SqlCodeStyleSettings.*
 import com.intellij.sql.psi.SqlLanguage
+import com.intellij.util.PlatformUtils
 import com.wuhao.code.check.constants.DEFAULT_CONTINUATION_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.DEFAULT_INDENT_SPACE_COUNT
 import com.wuhao.code.check.constants.InspectionNames
@@ -65,17 +66,20 @@ import com.wuhao.code.check.http.HttpRequest
 import com.wuhao.code.check.style.KotlinModifier.LATEINIT
 import com.wuhao.code.check.style.KotlinModifier.OPEN
 import com.wuhao.code.check.style.arrangement.*
+import com.wuhao.code.check.template.JavaTemplates
 import com.wuhao.code.check.template.KotlinTemplates
 import com.wuhao.code.check.ui.PluginSettings
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.idea.core.formatter.KotlinCodeStyleSettings
+import org.jetbrains.kotlin.idea.versions.bundledRuntimeVersion
 import org.jetbrains.plugins.less.LESSFileType
 import org.jetbrains.plugins.less.LESSLanguage
 import org.jetbrains.vuejs.lang.html.VueFileType
 import org.jetbrains.vuejs.lang.html.VueLanguage
 import org.jetbrains.yaml.YAMLFileType
 import org.jetbrains.yaml.YAMLLanguage
+import sun.awt.OSInfo
 import java.awt.Color
 import java.util.*
 
@@ -114,129 +118,15 @@ class PluginStart : StartupActivity {
 
   override fun runActivity(project: Project) {
     // 强制启用java代码重排和import重新组织的功能
-    val settings = CodeStyle.getSettings(project)
-    setRearrange(settings)
+
+    val codeStyleSettings = CodeStyle.getSettings(project)
+    setRearrange(codeStyleSettings)
     // 设定代码缩进
-    setIndent(settings)
+    setIndent(codeStyleSettings)
     setTemplates(project)
     setSeverity(project)
-    setDefaults(settings)
+    setCodeStyleDefaults(codeStyleSettings)
     sendEvent(project)
-  }
-
-  private fun setKotlinDefaults(settings: CodeStyleSettings) {
-    try {
-      val kotlinStyleSettings = settings.getCustomSettings(KotlinCodeStyleSettings::class.java)
-      kotlinStyleSettings.apply {
-        val fields = kotlinStyleSettings.javaClass.fields.map { it.name }
-        if (fields.contains("SPACE_BEFORE_WHEN_PARENTHESES")) {
-          SPACE_BEFORE_WHEN_PARENTHESES = true
-        }
-        if (fields.contains("SPACE_AROUND_RANGE")) {
-          SPACE_AROUND_RANGE = false
-        }
-        if (fields.contains("SPACE_BEFORE_EXTEND_COLON")) {
-          SPACE_BEFORE_EXTEND_COLON = true
-        }
-        if (fields.contains("SPACE_AFTER_EXTEND_COLON")) {
-          SPACE_AFTER_EXTEND_COLON = true
-        }
-        if (fields.contains("SPACE_BEFORE_TYPE_COLON")) {
-          SPACE_BEFORE_TYPE_COLON = false
-        }
-        if (fields.contains("SPACE_AFTER_TYPE_COLON")) {
-          SPACE_AFTER_TYPE_COLON = true
-        }
-        if (fields.contains("ALIGN_IN_COLUMNS_CASE_BRANCH")) {
-          ALIGN_IN_COLUMNS_CASE_BRANCH = true
-        }
-        if (fields.contains("SPACE_AROUND_FUNCTION_TYPE_ARROW")) {
-          SPACE_AROUND_FUNCTION_TYPE_ARROW = true
-        }
-        if (fields.contains("SPACE_AROUND_WHEN_ARROW")) {
-          SPACE_AROUND_WHEN_ARROW = true
-        }
-        if (fields.contains("SPACE_BEFORE_LAMBDA_ARROW")) {
-          SPACE_BEFORE_LAMBDA_ARROW = true
-        }
-        if (fields.contains("SPACE_BEFORE_WHEN_PARENTHESES")) {
-          SPACE_BEFORE_WHEN_PARENTHESES = true
-        }
-        if (fields.contains("LBRACE_ON_NEXT_LINE")) {
-          LBRACE_ON_NEXT_LINE = false
-        }
-        if (fields.contains("NAME_COUNT_TO_USE_STAR_IMPORT")) {
-          NAME_COUNT_TO_USE_STAR_IMPORT = 5
-        }
-        if (fields.contains("NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS")) {
-          NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS = 3
-        }
-        if (fields.contains("CONTINUATION_INDENT_IN_PARAMETER_LISTS")) {
-          CONTINUATION_INDENT_IN_PARAMETER_LISTS = true
-        }
-        if (fields.contains("CONTINUATION_INDENT_IN_ARGUMENT_LISTS")) {
-          CONTINUATION_INDENT_IN_ARGUMENT_LISTS = true
-        }
-        if (fields.contains("CONTINUATION_INDENT_FOR_EXPRESSION_BODIES")) {
-          CONTINUATION_INDENT_FOR_EXPRESSION_BODIES = true
-        }
-        if (fields.contains("CONTINUATION_INDENT_FOR_CHAINED_CALLS")) {
-          CONTINUATION_INDENT_FOR_CHAINED_CALLS = true
-        }
-        if (fields.contains("CONTINUATION_INDENT_IN_SUPERTYPE_LISTS")) {
-          CONTINUATION_INDENT_IN_SUPERTYPE_LISTS = true
-        }
-        if (fields.contains("CONTINUATION_INDENT_IN_IF_CONDITIONS")) {
-          CONTINUATION_INDENT_IN_IF_CONDITIONS = true
-        }
-      }
-    } catch (e: Exception) {
-    }
-  }
-
-  private fun setTypeScriptDefaults(settings: CodeStyleSettings) {
-    val typescriptSettings = settings.getCustomSettings(TypeScriptCodeStyleSettings::class.java)
-
-    typescriptSettings.apply {
-      val fields = typescriptSettings.javaClass.fields.map { it.name }
-      if (fields.contains("JSDOC_INCLUDE_TYPES")) {
-        this.JSDOC_INCLUDE_TYPES = true
-      }
-      if (fields.contains("FUNCTION_EXPRESSION_BRACE_STYLE")) {
-        this.FUNCTION_EXPRESSION_BRACE_STYLE = 1
-      }
-      if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
-        this.SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
-      }
-      if (fields.contains("IMPORT_SORT_MEMBERS")) {
-        IMPORT_SORT_MEMBERS = true
-      }
-      if (fields.contains("ENFORCE_TRAILING_COMMA")) {
-        ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
-      }
-      if (fields.contains("USE_SEMICOLON_AFTER_STATEMENT")) {
-        USE_SEMICOLON_AFTER_STATEMENT = true
-      }
-      if (fields.contains("FORCE_SEMICOLON_STYLE")) {
-        FORCE_SEMICOLON_STYLE = true
-      }
-      if (fields.contains("FORCE_QUOTE_STYlE")) {
-        FORCE_QUOTE_STYlE = true
-      }
-      if (fields.contains("USE_DOUBLE_QUOTES")) {
-        USE_DOUBLE_QUOTES = false
-      }
-      if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
-        SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
-      }
-      if (fields.contains("IMPORT_SORT_MODULE_NAME")) {
-        this.IMPORT_SORT_MODULE_NAME = true
-      }
-      if (fields.contains("IMPORT_MERGE_MEMBERS")) {
-        this.IMPORT_MERGE_MEMBERS = JSCodeStyleSettings.BooleanWithGlobalOption.TRUE
-      }
-      println(fields)
-    }
   }
 
   private fun createJavaSettings(): StdArrangementSettings {
@@ -318,6 +208,10 @@ class PluginStart : StartupActivity {
             .withParam("openedJustNow", firstFlag)
             .withParam("projectVersion", project.getVersion() ?: "")
             .withParam("disposed", project.disposed)
+            .withParam("pluginVersion", "1.4.12")
+            .withParam("ideVersion", bundledRuntimeVersion())
+            .withParam("platform", PlatformUtils.getPlatformPrefix())
+            .withParam("os", OSInfo.getOSType())
             .withParam("user", PluginSettings.INSTANCE.user.let {
               if (it.isEmpty()) {
                 System.getProperty("user.name")
@@ -329,10 +223,10 @@ class PluginStart : StartupActivity {
         firstFlag = false
       }
 
-    }, 5000, 30_000)
+    }, 5000, 60_000)
   }
 
-  private fun setDefaults(settings: CodeStyleSettings) {
+  private fun setCodeStyleDefaults(settings: CodeStyleSettings) {
     if (isIdea) {
       setSqlDefault(settings)
       setKotlinDefaults(settings)
@@ -399,6 +293,76 @@ class PluginStart : StartupActivity {
       if (language != null) {
         setIndent(fileType, language, settings)
       }
+    }
+  }
+
+  private fun setKotlinDefaults(settings: CodeStyleSettings) {
+    try {
+      val kotlinStyleSettings = settings.getCustomSettings(KotlinCodeStyleSettings::class.java)
+      kotlinStyleSettings.apply {
+        val fields = kotlinStyleSettings.javaClass.fields.map { it.name }
+        if (fields.contains("SPACE_BEFORE_WHEN_PARENTHESES")) {
+          SPACE_BEFORE_WHEN_PARENTHESES = true
+        }
+        if (fields.contains("SPACE_AROUND_RANGE")) {
+          SPACE_AROUND_RANGE = false
+        }
+        if (fields.contains("SPACE_BEFORE_EXTEND_COLON")) {
+          SPACE_BEFORE_EXTEND_COLON = true
+        }
+        if (fields.contains("SPACE_AFTER_EXTEND_COLON")) {
+          SPACE_AFTER_EXTEND_COLON = true
+        }
+        if (fields.contains("SPACE_BEFORE_TYPE_COLON")) {
+          SPACE_BEFORE_TYPE_COLON = false
+        }
+        if (fields.contains("SPACE_AFTER_TYPE_COLON")) {
+          SPACE_AFTER_TYPE_COLON = true
+        }
+        if (fields.contains("ALIGN_IN_COLUMNS_CASE_BRANCH")) {
+          ALIGN_IN_COLUMNS_CASE_BRANCH = true
+        }
+        if (fields.contains("SPACE_AROUND_FUNCTION_TYPE_ARROW")) {
+          SPACE_AROUND_FUNCTION_TYPE_ARROW = true
+        }
+        if (fields.contains("SPACE_AROUND_WHEN_ARROW")) {
+          SPACE_AROUND_WHEN_ARROW = true
+        }
+        if (fields.contains("SPACE_BEFORE_LAMBDA_ARROW")) {
+          SPACE_BEFORE_LAMBDA_ARROW = true
+        }
+        if (fields.contains("SPACE_BEFORE_WHEN_PARENTHESES")) {
+          SPACE_BEFORE_WHEN_PARENTHESES = true
+        }
+        if (fields.contains("LBRACE_ON_NEXT_LINE")) {
+          LBRACE_ON_NEXT_LINE = false
+        }
+        if (fields.contains("NAME_COUNT_TO_USE_STAR_IMPORT")) {
+          NAME_COUNT_TO_USE_STAR_IMPORT = 5
+        }
+        if (fields.contains("NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS")) {
+          NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS = 3
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_PARAMETER_LISTS")) {
+          CONTINUATION_INDENT_IN_PARAMETER_LISTS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_ARGUMENT_LISTS")) {
+          CONTINUATION_INDENT_IN_ARGUMENT_LISTS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_FOR_EXPRESSION_BODIES")) {
+          CONTINUATION_INDENT_FOR_EXPRESSION_BODIES = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_FOR_CHAINED_CALLS")) {
+          CONTINUATION_INDENT_FOR_CHAINED_CALLS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_SUPERTYPE_LISTS")) {
+          CONTINUATION_INDENT_IN_SUPERTYPE_LISTS = true
+        }
+        if (fields.contains("CONTINUATION_INDENT_IN_IF_CONDITIONS")) {
+          CONTINUATION_INDENT_IN_IF_CONDITIONS = true
+        }
+      }
+    } catch (e: Exception) {
     }
   }
 
@@ -470,11 +434,69 @@ class PluginStart : StartupActivity {
     if (isIdea) {
       val fileTemplateManager = FileTemplateManager.getInstance(project)
       fileTemplateManager.apply {
-        getInternalTemplate("Kotlin File").text = KotlinTemplates.FILE
-        getInternalTemplate("Kotlin Class").text = KotlinTemplates.CLASS
-        getInternalTemplate("Kotlin Enum").text = KotlinTemplates.ENUM
-        getInternalTemplate("Kotlin Interface").text = KotlinTemplates.INTERFACE
+        getInternalTemplate("Kotlin File").text = KotlinTemplates.getFile()
+        getInternalTemplate("Kotlin Class").text = KotlinTemplates.getClass()
+        getInternalTemplate("Kotlin Enum").text = KotlinTemplates.getEnum()
+        getInternalTemplate("Kotlin Interface").text = KotlinTemplates.getInterface()
+        getInternalTemplate("Class").text = JavaTemplates.getClass()
+        getInternalTemplate("Interface").text = JavaTemplates.getInterface()
+        getInternalTemplate("Enum").text = JavaTemplates.getEnum()
+        getInternalTemplate("AnnotationType").text = JavaTemplates.getAnnotation()
       }
+      fileTemplateManager.addTemplate("Controller", "java").apply {
+        text = JavaTemplates.getController()
+      }
+      fileTemplateManager.addTemplate("Service", "java").apply {
+        text = JavaTemplates.getService()
+      }
+      fileTemplateManager.addTemplate("Entity", "java").apply {
+        text = JavaTemplates.getEntity()
+      }
+    }
+  }
+
+  private fun setTypeScriptDefaults(settings: CodeStyleSettings) {
+    val typescriptSettings = settings.getCustomSettings(TypeScriptCodeStyleSettings::class.java)
+
+    typescriptSettings.apply {
+      val fields = typescriptSettings.javaClass.fields.map { it.name }
+      if (fields.contains("JSDOC_INCLUDE_TYPES")) {
+        this.JSDOC_INCLUDE_TYPES = true
+      }
+      if (fields.contains("FUNCTION_EXPRESSION_BRACE_STYLE")) {
+        this.FUNCTION_EXPRESSION_BRACE_STYLE = 1
+      }
+      if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
+        this.SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
+      }
+      if (fields.contains("IMPORT_SORT_MEMBERS")) {
+        IMPORT_SORT_MEMBERS = true
+      }
+      if (fields.contains("ENFORCE_TRAILING_COMMA")) {
+        ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
+      }
+      if (fields.contains("USE_SEMICOLON_AFTER_STATEMENT")) {
+        USE_SEMICOLON_AFTER_STATEMENT = true
+      }
+      if (fields.contains("FORCE_SEMICOLON_STYLE")) {
+        FORCE_SEMICOLON_STYLE = true
+      }
+      if (fields.contains("FORCE_QUOTE_STYlE")) {
+        FORCE_QUOTE_STYlE = true
+      }
+      if (fields.contains("USE_DOUBLE_QUOTES")) {
+        USE_DOUBLE_QUOTES = false
+      }
+      if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
+        SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
+      }
+      if (fields.contains("IMPORT_SORT_MODULE_NAME")) {
+        this.IMPORT_SORT_MODULE_NAME = true
+      }
+      if (fields.contains("IMPORT_MERGE_MEMBERS")) {
+        this.IMPORT_MERGE_MEMBERS = JSCodeStyleSettings.BooleanWithGlobalOption.TRUE
+      }
+      println(fields)
     }
   }
 

@@ -36,7 +36,7 @@ class ConvertToClassComponent : LocalQuickFix {
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val element = descriptor.psiElement as JSObjectLiteralExpression
     if (element.parent is ES6ExportDefaultAssignment) {
-      val embeddedContent = element.parent.parent as JSEmbeddedContent
+      val embeddedContent = element.parent.parent
       val imports = embeddedContent.getChildrenOfType<ES6ImportDeclaration>()
       val propertyMap = element.properties.associateBy { it.name }
       val nameProperty = propertyMap["name"]

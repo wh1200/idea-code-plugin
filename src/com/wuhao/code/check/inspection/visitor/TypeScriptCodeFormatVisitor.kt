@@ -11,6 +11,7 @@ import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClass
+import com.intellij.lang.javascript.psi.ecma6.TypeScriptObjectType
 import com.intellij.psi.PsiFile
 import com.wuhao.code.check.PsiPatterns.VUE_LANG_PATTERN
 import com.wuhao.code.check.PsiPatterns.VUE_SCRIPT_TAG
@@ -18,10 +19,7 @@ import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAncestor
-import com.wuhao.code.check.inspection.fix.ConvertToClassComponent
-import com.wuhao.code.check.inspection.fix.JsPropertySortFix
-import com.wuhao.code.check.inspection.fix.ReactToVueFix
-import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix
+import com.wuhao.code.check.inspection.fix.*
 
 /**
  * Created by 吴昊 on 2018/4/28.
@@ -52,8 +50,15 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
       element.parent is TypeScriptAsExpression -> element.getAncestor(4)
       else                                     -> element.getAncestor(3)
     }
+    if ((element.findProperty("data") != null || element.findProperty("methods") != null)
+        && element.findProperty("setup") == null) {
+      holder.registerProblem(element, Messages.CONVERT_TO_VUE3_COMPONENT,
+          ProblemHighlightType.INFORMATION,
+          ConvertToVue3Component())
+    }
     if (element.findProperty("name") != null) {
-      holder.registerProblem(element, Messages.CONVERT_TO_CLASS_COMPONENT, ProblemHighlightType.INFORMATION, ConvertToClassComponent())
+      holder.registerProblem(element, Messages.CONVERT_TO_CLASS_COMPONENT, ProblemHighlightType.INFORMATION,
+          ConvertToClassComponent())
     }
     if (VUE_LANG_PATTERN.accepts(element)
         && VUE_SCRIPT_TAG.accepts(ac)) {
@@ -76,6 +81,10 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
           ProblemHighlightType.INFORMATION, ReactToVueFix())
     }
     super.visitTypeScriptClass(cls)
+  }
+
+  override fun visitTypeScriptObjectType(objectType: TypeScriptObjectType?) {
+    super.visitTypeScriptObjectType(objectType)
   }
 
 }

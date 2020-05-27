@@ -23,6 +23,13 @@ class VueComponentPropertySortFix : LocalQuickFix {
         "mounted", "beforeUpdate", "updated", "activated", "deactivated",
         "beforeDestroy", "destroyed"
     )
+    val VUE3_LIFE_CYCLE_METHOD_MAP = mapOf(
+        "beforeMount" to "onBeforeMount",
+        "mounted" to "onMounted", "beforeUpdate" to "onBeforeUpdate",
+        "updated" to "onUpdated", "activated" to "onActivated",
+        "deactivated" to "onDeactivated",
+        "beforeDestroy" to "onBeforeUnmount", "destroyed" to "onUnmounted"
+    )
     private val attrList = listOf("el", "name", "parent", "functional",
         "delimiters", "comments", "components", "directives", "filters",
         "extends", "mixins", "inheritAttrs", "model", "props", "propsData",

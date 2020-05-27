@@ -17,6 +17,7 @@ object Messages {
   const val COMMENT_REQUIRED = "缺少注释"
   const val COMPANION_CLASS_TO_OBJECT = "只包含伴随对象的类应该声明为object"
   const val CONVERT_TO_CLASS_COMPONENT = "转为class component"
+  const val CONVERT_TO_VUE3_COMPONENT = "转为 vue 3.0 组件"
   const val DESCRIPTION_COMMENT_MISSING = "注释缺少描述"
   const val COMMENT_MISSING_AUTHOR = "注释缺少作者信息（@author）"
   const val COMMENT_MISSING_DATE = "注释缺少创建时间（@date）"

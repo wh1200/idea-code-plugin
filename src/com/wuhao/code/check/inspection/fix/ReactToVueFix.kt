@@ -31,9 +31,9 @@ class JsRecursiveVisitor : JSElementVisitor() {
   val propsExpressions = arrayListOf<JSReferenceExpression>()
   val stateCallExpressions = arrayListOf<JSCallExpression>()
 
-  override fun visitElement(element: PsiElement?) {
+  override fun visitElement(element: PsiElement) {
     super.visitElement(element)
-    element?.children?.forEach {
+    element.children.forEach {
       it.accept(this)
     }
   }
@@ -55,6 +55,11 @@ class JsRecursiveVisitor : JSElementVisitor() {
 
 }
 
+/**
+ *
+ * @author 吴昊
+ * @since 0.1.13
+ */
 class ObjectDescriptor {
 
   private val properties: ArrayList<Property> = arrayListOf()

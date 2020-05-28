@@ -15,6 +15,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.wuhao.code.check.constants.Messages.CONVERT_TO_VUE3_COMPONENT
 import com.wuhao.code.check.insertElementsBefore
+import com.wuhao.code.check.inspection.fix.ConvertToVue3Component.Companion.PROPS_PARAMETER_NAME
 import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix.Companion.VUE3_LIFE_CYCLE_METHOD_MAP
 import org.jetbrains.kotlin.backend.common.push
 import org.jetbrains.kotlin.idea.core.replaced
@@ -26,6 +27,10 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
  * @since 1.1
  */
 class ConvertToVue3Component : LocalQuickFix {
+
+  companion object {
+    const val  PROPS_PARAMETER_NAME = "${'$'}props";
+  }
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     val element = descriptor.psiElement as JSObjectLiteralExpression
@@ -52,75 +57,81 @@ class ConvertToVue3Component : LocalQuickFix {
     )
     existsLifeCycleMethods.forEach {
       if (it is TypeScriptFunctionProperty) {
-        if (VUE3_LIFE_CYCLE_METHOD_MAP.containsKey(it.name)) {
-          allProperties.remove(it)
-          val vue3HookName = VUE3_LIFE_CYCLE_METHOD_MAP[it.name]!!
-          vueImportSpecifiers.add(vue3HookName)
-          lifeCycleMethodsString.push(
-              """$vue3HookName (() => 
-                | ${it.block!!.text})""".trimMargin()
-          )
-        } else if (it.name == "beforeCreate") {
-          allProperties.remove(it)
-          beforeCreate = it.block!!.children
-              .toList().drop(1).dropLast(1)
-              .joinToString("\n") { it.text }
-        } else if (it.name == "created") {
-          allProperties.remove(it)
-          created = it.block!!.children
-              .toList().drop(1).dropLast(1).joinToString("\n") { it.text }
+        when {
+          VUE3_LIFE_CYCLE_METHOD_MAP.containsKey(it.name) -> {
+            allProperties.remove(it)
+            preHandleMethod(it)
+            val vue3HookName = VUE3_LIFE_CYCLE_METHOD_MAP[it.name]!!
+            vueImportSpecifiers.add(vue3HookName)
+            lifeCycleMethodsString.push(
+                """$vue3HookName (() => 
+                    | ${it.block!!.text})""".trimMargin()
+            )
+          }
+          it.name == "beforeCreate"                       -> {
+            allProperties.remove(it)
+            preHandleMethod(it)
+            beforeCreate = it.block!!.children
+                .toList().drop(1).dropLast(1)
+                .joinToString("\n") { it.text }
+          }
+          it.name == "created"                            -> {
+            allProperties.remove(it)
+            preHandleMethod(it)
+            created = it.block!!.children
+                .toList().drop(1).dropLast(1).joinToString("\n") { it.text }
+          }
         }
       }
     }
     val renderProperty = propertyMap["render"]
-    if (nameProperty != null) {
-      val mixinsString = mixinsProperty?.let { property ->
-        (property.value as JSArrayLiteralExpression).expressions.joinToString(",") { it.text }
-      }
-      val importList = arrayListOf<String>()
-      if (imports.none { it.fromClause != null && it.fromClause!!.referenceText == "Vue" }) {
-        importList.add("import {${vueImportSpecifiers.joinToString(", ")}} from 'vue';")
-      }
-      val methodsStr = arrayListOf<String>()
-      val setupReturn = arrayListOf<String>()
-      var unrecognizedProperties = listOf<JSProperty>()
-      if (methodsProperty != null && methodsProperty.value is JSObjectLiteralExpression) {
-        val methods = methodsProperty.value as JSObjectLiteralExpression
-        unrecognizedProperties = methods.properties.filter { it !is JSProperty && it !is TypeScriptFunctionProperty }
-        methods.properties.forEach {
-          if (it is TypeScriptFunctionProperty) {
-            preHandleMethod(it)
-            methodsStr.add("const ${it.name} = ${it.parameterList!!.text} => ${it.block!!.text}")
-            setupReturn.add(it.name!!)
-          } else if (it is JSProperty) {
-            if (it.nameIdentifier != it.value) {
-              methodsStr.add("const ${it.name} = ${it.value?.text}")
-            }
-            setupReturn.add(it.name!!)
+    val mixinsString = mixinsProperty?.let { property ->
+      (property.value as JSArrayLiteralExpression).expressions.joinToString(",") { it.text }
+    }
+    val importList = arrayListOf<String>()
+    if (imports.none { it.fromClause != null && it.fromClause!!.referenceText == "Vue" }) {
+      importList.add("import {${vueImportSpecifiers.joinToString(", ")}} from 'vue';")
+    }
+    val methodsStr = arrayListOf<String>()
+    val setupReturn = arrayListOf<String>()
+    var unrecognizedProperties = listOf<JSProperty>()
+    if (methodsProperty != null && methodsProperty.value is JSObjectLiteralExpression) {
+      val methods = methodsProperty.value as JSObjectLiteralExpression
+      unrecognizedProperties = methods.properties.filter { it !is JSProperty && it !is TypeScriptFunctionProperty }
+      methods.properties.forEach {
+        if (it is TypeScriptFunctionProperty) {
+          preHandleMethod(it)
+          methodsStr.add("const ${it.name} = ${it.parameterList!!.text} => ${it.block!!.text}")
+          setupReturn.add(it.name!!)
+        } else if (it is JSProperty) {
+          if (it.nameIdentifier != it.value) {
+            methodsStr.add("const ${it.name} = ${it.value?.text}")
           }
+          setupReturn.add(it.name!!)
         }
       }
-      val hasUnRecognizedMethods = unrecognizedProperties.isNotEmpty()
-      if (!hasUnRecognizedMethods) {
-        allProperties.remove(methodsProperty)
+    }
+    val hasUnRecognizedMethods = unrecognizedProperties.isNotEmpty()
+    if (!hasUnRecognizedMethods) {
+      allProperties.remove(methodsProperty)
+    }
+    var renderStr = ""
+    if (renderProperty != null && renderProperty is TypeScriptFunctionProperty) {
+      if (renderProperty.parameters.isNotEmpty() && renderProperty.parameters[0].name == "h") {
+        renderProperty.parameters[0].delete()
       }
-      var renderStr = ""
-      if (renderProperty != null && renderProperty is TypeScriptFunctionProperty) {
-        if (renderProperty.parameters.isNotEmpty() && renderProperty.parameters[0].name == "h") {
-          renderProperty.parameters[0].delete()
-        }
-        allProperties.remove(renderProperty)
-        renderStr = renderProperty.text
-      }
+      allProperties.remove(renderProperty)
+      renderStr = renderProperty.text
+    }
 //        val existsLifeCycleMethods = LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
 //        val lifeCycleMethodsString = existsLifeCycleMethods.joinToString("\n") { "public " + it.text }
 //        allProperties.removeAll(existsLifeCycleMethods)
-      val propertiesStrList = arrayListOf<String>()
-      allProperties.forEach {
-        propertiesStrList.add(it.text)
-      }
-      propertiesStrList.add(
-          """setup(props, {emit}) {
+    val propertiesStrList = arrayListOf<String>()
+    allProperties.forEach {
+      propertiesStrList.add(it.text)
+    }
+    propertiesStrList.add(
+        """setup(${PROPS_PARAMETER_NAME}, {emit}) {
               | ${beforeCreate.trim()}
               | ${methodsStr.joinToString(";\n")}
               | ${lifeCycleMethodsString.joinToString(";\n")}
@@ -129,23 +140,22 @@ class ConvertToVue3Component : LocalQuickFix {
               |   ${setupReturn.joinToString(",\n")}
               | };
               |}""".trimMargin()
-      )
-      if (renderStr.isNotBlank()) {
-        propertiesStrList.add(renderStr)
-      }
-      val text = """defineComponent({
+    )
+    if (renderStr.isNotBlank()) {
+      propertiesStrList.add(renderStr)
+    }
+    val text = """defineComponent({
           |${propertiesStrList.joinToString(",\n")},
           |})""".trimMargin()
-      val dummy = PsiFileFactory.getInstance(project).createFileFromText(
-          "Dummy", TypeScriptJSXFileType.INSTANCE, text
-      )
-      val importStatement = JSPsiElementFactory.createJSSourceElement("import {${vueImportSpecifiers.joinToString(", ")}} " +
-          "from 'vue';",
-          element)
-      element.insertElementsBefore(*dummy.children)
-      element.containingFile.firstChild.insertElementsBefore(importStatement)
-      element.delete()
-    }
+    val dummy = PsiFileFactory.getInstance(project).createFileFromText(
+        "Dummy", TypeScriptJSXFileType.INSTANCE, text
+    )
+    val importStatement = JSPsiElementFactory.createJSSourceElement("import {${vueImportSpecifiers.joinToString(", ")}} " +
+        "from 'vue';",
+        element)
+    element.insertElementsBefore(*dummy.children)
+    element.containingFile.firstChild.insertElementsBefore(importStatement)
+    element.delete()
   }
 
   override fun getFamilyName(): String {
@@ -165,11 +175,17 @@ class ConvertToVue3Component : LocalQuickFix {
  */
 class VueMethodRecursiveVisitor : JSElementVisitor() {
 
+  val nameMap = mapOf(
+      "this.${'$'}nextTick" to "nextTick",
+      "this.${'$'}emit" to "emit",
+      "this.${'$'}props" to PROPS_PARAMETER_NAME
+  )
+
   override fun visitElement(element: PsiElement) {
     super.visitElement(element)
     if (element is JSReferenceExpression) {
-      if (element.text == "this.${'$'}nextTick") {
-        val newExp = JSPsiElementFactory.createJSExpression("nextTick", element)
+      if (element.text in nameMap) {
+        val newExp = JSPsiElementFactory.createJSExpression(nameMap[element.text]!!, element)
         element.replaced(newExp)
         return
       }

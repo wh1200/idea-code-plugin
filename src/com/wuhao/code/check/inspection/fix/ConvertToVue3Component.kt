@@ -56,6 +56,15 @@ class ConvertToVue3Component : LocalQuickFix {
         "nextTick"
     )
     val propsNames = getPropNames(propsProperty);
+    val watchString = buildWatchStr(watchProperty, propsNames)
+    if (watchProperty != null && watchProperty.value is JSObjectLiteralExpression
+        && (watchProperty.value as JSObjectLiteralExpression).properties.isEmpty()
+    ) {
+      allProperties.remove(watchProperty)
+    }
+    if (watchString.isNotBlank()) {
+      vueImportSpecifiers.add("watch");
+    }
     existsLifeCycleMethods.forEach {
       if (it is TypeScriptFunctionProperty) {
         when {
@@ -134,7 +143,8 @@ class ConvertToVue3Component : LocalQuickFix {
     propertiesStrList.add(
         """setup(${PROPS_PARAMETER_NAME}, {emit}) {
               | ${beforeCreate.trim()}
-              | ${methodsStr.joinToString(";\n")}
+              | $watchString
+              | ${methodsStr.joinToString(";\n")};
               | ${lifeCycleMethodsString.joinToString(";\n")}
               | ${created.trim()}
               | return {
@@ -163,6 +173,28 @@ class ConvertToVue3Component : LocalQuickFix {
 
   override fun getFamilyName(): String {
     return CONVERT_TO_VUE3_COMPONENT
+  }
+
+  private fun buildWatchStr(watchProperty: JSProperty?, propsNames: List<String>): String {
+    val result = arrayListOf<String>()
+    if (watchProperty == null) {
+      return ""
+    }
+    if (watchProperty.value is JSObjectLiteralExpression) {
+      val properties = (watchProperty.value as JSObjectLiteralExpression).properties
+      properties.forEach { property ->
+        if (property is TypeScriptFunctionProperty) {
+          if (property.name in propsNames) {
+            result.push(
+                """watch(() => ${PROPS_PARAMETER_NAME}.${property.name}, ${property.parameterList!!.text} => 
+              |${property.block!!.text})""".trimMargin()
+            )
+            property.delete()
+          }
+        }
+      }
+    }
+    return result.joinToString(";\n") + ";"
   }
 
   private fun getPropNames(propsProperty: JSProperty?): List<String> {

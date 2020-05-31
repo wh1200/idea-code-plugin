@@ -29,7 +29,7 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 class ConvertToVue3Component : LocalQuickFix {
 
   companion object {
-    const val  PROPS_PARAMETER_NAME = "${'$'}props";
+    const val PROPS_PARAMETER_NAME = "${'$'}props";
   }
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
@@ -45,22 +45,23 @@ class ConvertToVue3Component : LocalQuickFix {
     val computedProperty = propertyMap["computed"]
     val dataProperty = propertyMap["data"]
     val methodsProperty = propertyMap["methods"]
-
     val existsLifeCycleMethods = VueComponentPropertySortFix.LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
     val lifeCycleMethodsString = arrayListOf<String>()
     var beforeCreate = "";
     var created = "";
-    val vueImportSpecifiers = arrayListOf("ref",
+    val vueImportSpecifiers = arrayListOf(
+        "ref",
         "defineComponent",
         "getCurrentInstance",
         "nextTick"
     )
+    val propsNames = getPropNames(propsProperty);
     existsLifeCycleMethods.forEach {
       if (it is TypeScriptFunctionProperty) {
         when {
           VUE3_LIFE_CYCLE_METHOD_MAP.containsKey(it.name) -> {
             allProperties.remove(it)
-            preHandleMethod(it)
+            preHandleMethod(it, propsNames)
             val vue3HookName = VUE3_LIFE_CYCLE_METHOD_MAP[it.name]!!
             vueImportSpecifiers.add(vue3HookName)
             lifeCycleMethodsString.push(
@@ -70,14 +71,14 @@ class ConvertToVue3Component : LocalQuickFix {
           }
           it.name == "beforeCreate"                       -> {
             allProperties.remove(it)
-            preHandleMethod(it)
+            preHandleMethod(it, propsNames)
             beforeCreate = it.block!!.children
                 .toList().drop(1).dropLast(1)
                 .joinToString("\n") { it.text }
           }
           it.name == "created"                            -> {
             allProperties.remove(it)
-            preHandleMethod(it)
+            preHandleMethod(it, propsNames)
             created = it.block!!.children
                 .toList().drop(1).dropLast(1).joinToString("\n") { it.text }
           }
@@ -100,7 +101,7 @@ class ConvertToVue3Component : LocalQuickFix {
       unrecognizedProperties = methods.properties.filter { it !is JSProperty && it !is TypeScriptFunctionProperty }
       methods.properties.forEach {
         if (it is TypeScriptFunctionProperty) {
-          preHandleMethod(it)
+          preHandleMethod(it, propsNames)
           methodsStr.add("const ${it.name} = ${it.parameterList!!.text} => ${it.block!!.text}")
           setupReturn.add(it.name!!)
         } else if (it is JSProperty) {
@@ -150,9 +151,11 @@ class ConvertToVue3Component : LocalQuickFix {
     val dummy = PsiFileFactory.getInstance(project).createFileFromText(
         "Dummy", TypeScriptJSXFileType.INSTANCE, text
     )
-    val importStatement = JSPsiElementFactory.createJSSourceElement("import {${vueImportSpecifiers.joinToString(", ")}} " +
-        "from 'vue';",
-        element)
+    val importStatement = JSPsiElementFactory.createJSSourceElement(
+        "import {${vueImportSpecifiers.joinToString(", ")}} " +
+            "from 'vue';",
+        element
+    )
     element.insertElementsBefore(*dummy.children)
     element.containingFile.firstChild.insertElementsBefore(importStatement)
     element.delete()
@@ -162,8 +165,22 @@ class ConvertToVue3Component : LocalQuickFix {
     return CONVERT_TO_VUE3_COMPONENT
   }
 
-  private fun preHandleMethod(it: TypeScriptFunctionProperty) {
-    VueMethodRecursiveVisitor().visitElement(it)
+  private fun getPropNames(propsProperty: JSProperty?): List<String> {
+    if (propsProperty == null) {
+      return listOf()
+    }
+    if (propsProperty.value is JSObjectLiteralExpression) {
+      return (propsProperty.value as JSObjectLiteralExpression).properties
+          .map { it.name!! }
+    }
+    return listOf()
+  }
+
+  private fun preHandleMethod(
+      it: TypeScriptFunctionProperty,
+      propsNames: List<String>
+  ) {
+    VueMethodRecursiveVisitor(propsNames).visitElement(it)
   }
 
 }
@@ -173,7 +190,7 @@ class ConvertToVue3Component : LocalQuickFix {
  * @author 吴昊
  * @since 0.1.15
  */
-class VueMethodRecursiveVisitor : JSElementVisitor() {
+class VueMethodRecursiveVisitor(private val propsNames: List<String>) : JSElementVisitor() {
 
   val nameMap = mapOf(
       "this.${'$'}nextTick" to "nextTick",
@@ -190,7 +207,18 @@ class VueMethodRecursiveVisitor : JSElementVisitor() {
         return
       }
       if (element.text.startsWith("this.")) {
-        val newExp = JSPsiElementFactory.createJSExpression(element.text.replace("this.", ""), element)
+        val name = element.text.replace("this.", "")
+        var newExp: Any? = null
+        if (name in propsNames) {
+          newExp = JSPsiElementFactory.createJSExpression(
+              element.text.replace(
+                  "this.",
+                  "$PROPS_PARAMETER_NAME."
+              ), element
+          )
+        } else {
+          newExp = JSPsiElementFactory.createJSExpression(element.text.replace("this.", ""), element)
+        }
         element.replaced(newExp)
         return
       }

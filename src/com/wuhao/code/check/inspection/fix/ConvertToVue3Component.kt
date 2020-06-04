@@ -185,6 +185,7 @@ class ConvertToVue3Component : LocalQuickFix {
       properties.forEach { property ->
         if (property is TypeScriptFunctionProperty) {
           if (property.name in propsNames) {
+            preHandleMethod(property)
             result.push(
                 """watch(() => ${PROPS_PARAMETER_NAME}.${property.name}, ${property.parameterList!!.text} => 
               |${property.block!!.text})""".trimMargin()

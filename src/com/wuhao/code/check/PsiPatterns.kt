@@ -38,29 +38,12 @@ fun typePattern(type: IElementType): Capture<PsiElement> {
   return psiElement().withElementType(type)
 }
 
-/**
- *
- * Created by 吴昊 on 2019/2/13.
- *
- * @author 吴昊
- * @since
- */
-object PsiPatterns {
-
-  val COMPONENT_DECORATOR_PATTERN = PlatformPatterns.psiElement(LeafPsiElement::class.java)
-      .withText("Component").withAncestor(3, PlatformPatterns.psiElement(ES6Decorator::class.java))
-
-  val NEW_VUE_PATTERN = psiElement(JSNewExpression::class.java).withChild(
-      psiElement(JSReferenceExpression::class.java).withText("Vue")
-  )
-
-  val VUE_FILE = PlatformPatterns.psiFile().withLanguage(VueLanguage.INSTANCE)
-      .or(PlatformPatterns.psiFile().withLanguage(VueJSLanguage.INSTANCE))
-
-  val VUE_LANG_PATTERN = PlatformPatterns.psiElement()
-      .inFile(VUE_FILE)
-
-  val VUE_SCRIPT_TAG = PlatformPatterns.psiElement(XmlTag::class.java).withParent(VUE_LANG_PATTERN)
-      .withName(HtmlUtil.SCRIPT_TAG_NAME)
-
-}
+val NEW_VUE_PATTERN = psiElement(JSNewExpression::class.java).withChild(
+    psiElement(JSReferenceExpression::class.java).withText("Vue")
+)
+val VUE_FILE = PlatformPatterns.psiFile().withLanguage(VueLanguage.INSTANCE)
+    .or(PlatformPatterns.psiFile().withLanguage(VueJSLanguage.INSTANCE))
+val VUE_LANG_PATTERN = psiElement()
+    .inFile(VUE_FILE)
+val VUE_SCRIPT_TAG = psiElement(XmlTag::class.java).withParent(VUE_LANG_PATTERN)
+    .withName(HtmlUtil.SCRIPT_TAG_NAME)

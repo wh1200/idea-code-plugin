@@ -166,8 +166,8 @@ class ConvertToVue3Component : LocalQuickFix {
             "from 'vue';",
         element
     )
-    element.insertElementsBefore(*dummy.children)
     element.containingFile.firstChild.insertElementsBefore(importStatement)
+    element.insertElementsBefore(*dummy.children)
     element.delete()
   }
 
@@ -185,7 +185,7 @@ class ConvertToVue3Component : LocalQuickFix {
       properties.forEach { property ->
         if (property is TypeScriptFunctionProperty) {
           if (property.name in propsNames) {
-            preHandleMethod(property)
+            preHandleMethod(property, propsNames)
             result.push(
                 """watch(() => ${PROPS_PARAMETER_NAME}.${property.name}, ${property.parameterList!!.text} => 
               |${property.block!!.text})""".trimMargin()

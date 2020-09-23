@@ -13,13 +13,16 @@ import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClass
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptObjectType
 import com.intellij.psi.PsiFile
-import com.wuhao.code.check.PsiPatterns.VUE_LANG_PATTERN
-import com.wuhao.code.check.PsiPatterns.VUE_SCRIPT_TAG
+import com.wuhao.code.check.VUE_LANG_PATTERN
+import com.wuhao.code.check.VUE_SCRIPT_TAG
 import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAncestor
+import com.wuhao.code.check.hasDecorator
 import com.wuhao.code.check.inspection.fix.*
+import com.wuhao.code.check.inspection.fix.vue.Vue2ClassToVue3ClassFix
+import com.wuhao.code.check.inspection.fix.vue.Vue2ClassToVue3CompositionAPIFix
 
 /**
  * Created by 吴昊 on 2018/4/28.
@@ -79,6 +82,12 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
     if (cls.extendsList?.members?.any { it.referenceText == "React.Component" } == true) {
       holder.registerProblem(cls, "转为Vue组件",
           ProblemHighlightType.INFORMATION, ReactToVueFix())
+    }
+    if (cls.hasDecorator("Component")) {
+      holder.registerProblem(cls, "转为Vue3组件",
+          ProblemHighlightType.INFORMATION, Vue2ClassToVue3ClassFix())
+      holder.registerProblem(cls, "转为Vue3 Composition API",
+          ProblemHighlightType.INFORMATION, Vue2ClassToVue3CompositionAPIFix())
     }
     super.visitTypeScriptClass(cls)
   }

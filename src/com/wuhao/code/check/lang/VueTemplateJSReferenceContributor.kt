@@ -7,11 +7,16 @@ import com.intellij.lang.javascript.psi.resolve.JSModuleReferenceContributor
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import com.intellij.util.ProcessingContext
-import com.wuhao.code.check.PsiPatterns.VUE_FILE
 import com.wuhao.code.check.allFields
 import com.wuhao.code.check.allFunctions
 import com.wuhao.code.check.gotohandler.VueHandler.Companion.findTSClass
 import com.wuhao.code.check.hasDecorator
+import org.jetbrains.kotlin.idea.completion.or
+import org.jetbrains.vuejs.lang.expr.VueJSLanguage
+import org.jetbrains.vuejs.lang.html.VueLanguage
+
+val VUE_FILE = PlatformPatterns.psiFile().withLanguage(VueLanguage.INSTANCE)
+    .or(PlatformPatterns.psiFile().withLanguage(VueJSLanguage.INSTANCE))
 
 /**
  *

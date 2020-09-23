@@ -11,7 +11,7 @@ import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSFile
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.psi.PsiFile
-import com.wuhao.code.check.PsiPatterns.VUE_SCRIPT_TAG
+import com.wuhao.code.check.VUE_SCRIPT_TAG
 import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages.JS_FILE_NAME_INVALID
 import com.wuhao.code.check.constants.registerWarning

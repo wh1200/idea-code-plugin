@@ -18,7 +18,7 @@ import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.inspection.fix.FileNameFix
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
-import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix
+import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix
 
 /**
  * javascript文件代码格式检查访问器

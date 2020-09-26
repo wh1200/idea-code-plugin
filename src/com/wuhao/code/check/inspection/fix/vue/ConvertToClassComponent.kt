@@ -1,7 +1,7 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.inspection.fix
+package com.wuhao.code.check.inspection.fix.vue
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
@@ -21,7 +21,7 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.Messages.CONVERT_TO_CLASS_COMPONENT
 import com.wuhao.code.check.constants.hasDocComment
-import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix.Companion.LIFE_CYCLE_METHODS
+import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix.Companion.VUE2_LIFE_CYCLE_METHODS
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 import org.jetbrains.kotlin.psi.psiUtil.textRangeWithoutComments
@@ -101,7 +101,7 @@ class ConvertToClassComponent : LocalQuickFix {
           renderString = "public ${renderProperty.text}"
           allProperties.remove(renderProperty)
         }
-        val existsLifeCycleMethods = LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
+        val existsLifeCycleMethods = VUE2_LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
         val lifeCycleMethodsString = existsLifeCycleMethods.joinToString("\n") { "public " + it.text }
         allProperties.removeAll(existsLifeCycleMethods)
         val body = listOfNotNull(

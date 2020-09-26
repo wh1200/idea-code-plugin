@@ -1,7 +1,7 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.inspection.fix
+package com.wuhao.code.check.inspection.fix.vue
 
 import com.intellij.codeInsight.actions.ReformatCodeProcessor
 import com.intellij.codeInspection.LocalQuickFix
@@ -18,22 +18,32 @@ import com.intellij.openapi.project.Project
 class VueComponentPropertySortFix : LocalQuickFix {
 
   companion object {
-    val LIFE_CYCLE_METHODS = listOf(
-        "beforeCreate", "created", "beforeMount",
-        "mounted", "beforeUpdate", "updated", "activated", "deactivated",
-        "beforeDestroy", "destroyed"
+    val VUE2_LIFE_CYCLE_METHODS = listOf(
+        "beforeCreate",
+        "created",
+        "beforeMount",
+        "mounted",
+        "beforeUpdate",
+        "updated",
+        "activated",
+        "deactivated",
+        "beforeDestroy",
+        "destroyed"
     )
     val VUE3_LIFE_CYCLE_METHOD_MAP = mapOf(
         "beforeMount" to "onBeforeMount",
-        "mounted" to "onMounted", "beforeUpdate" to "onBeforeUpdate",
-        "updated" to "onUpdated", "activated" to "onActivated",
+        "mounted" to "onMounted",
+        "beforeUpdate" to "onBeforeUpdate",
+        "updated" to "onUpdated",
+        "activated" to "onActivated",
         "deactivated" to "onDeactivated",
-        "beforeDestroy" to "onBeforeUnmount", "destroyed" to "onUnmounted"
+        "beforeDestroy" to "onBeforeUnmount",
+        "destroyed" to "onUnmounted"
     )
     private val attrList = listOf("el", "name", "parent", "functional",
         "delimiters", "comments", "components", "directives", "filters",
         "extends", "mixins", "inheritAttrs", "model", "props", "propsData",
-        "data", "computed", "watch", *LIFE_CYCLE_METHODS.toTypedArray(), "methods", "template", "render",
+        "data", "computed", "watch", *VUE2_LIFE_CYCLE_METHODS.toTypedArray(), "methods", "template", "render",
         "renderError")
 
     fun sortVueComponentProperties(properties: Array<JSProperty>): ArrayList<JSProperty> {

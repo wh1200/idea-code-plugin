@@ -1,24 +1,23 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.inspection.fix
+package com.wuhao.code.check.inspection.fix.vue
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.lang.ecmascript6.psi.ES6ImportDeclaration
 import com.intellij.lang.javascript.TypeScriptJSXFileType
-import com.intellij.lang.javascript.psi.*
+import com.intellij.lang.javascript.psi.JSArrayLiteralExpression
+import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
+import com.intellij.lang.javascript.psi.JSProperty
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunctionProperty
 import com.intellij.lang.javascript.psi.impl.JSPsiElementFactory
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.wuhao.code.check.constants.Messages.CONVERT_TO_VUE3_COMPONENT
 import com.wuhao.code.check.insertElementsBefore
-import com.wuhao.code.check.inspection.fix.ConvertToVue3Component.Companion.PROPS_PARAMETER_NAME
-import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix.Companion.VUE3_LIFE_CYCLE_METHOD_MAP
+import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix.Companion.VUE3_LIFE_CYCLE_METHOD_MAP
 import org.jetbrains.kotlin.backend.common.push
-import org.jetbrains.kotlin.idea.core.replaced
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
 /**
@@ -29,7 +28,7 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 class ConvertToVue3Component : LocalQuickFix {
 
   companion object {
-    const val PROPS_PARAMETER_NAME = "${'$'}props";
+    const val PROPS_PARAMETER_NAME = "props";
   }
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
@@ -45,7 +44,7 @@ class ConvertToVue3Component : LocalQuickFix {
     val computedProperty = propertyMap["computed"]
     val dataProperty = propertyMap["data"]
     val methodsProperty = propertyMap["methods"]
-    val existsLifeCycleMethods = VueComponentPropertySortFix.LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
+    val existsLifeCycleMethods = VueComponentPropertySortFix.VUE2_LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
     val lifeCycleMethodsString = arrayListOf<String>()
     var beforeCreate = "";
     var created = "";
@@ -141,7 +140,7 @@ class ConvertToVue3Component : LocalQuickFix {
       propertiesStrList.add(it.text)
     }
     propertiesStrList.add(
-        """setup(${PROPS_PARAMETER_NAME}, {emit}) {
+        """setup($PROPS_PARAMETER_NAME, {emit}) {
               | ${beforeCreate.trim()}
               | $watchString
               | ${methodsStr.joinToString(";\n")};
@@ -187,7 +186,7 @@ class ConvertToVue3Component : LocalQuickFix {
           if (property.name in propsNames) {
             preHandleMethod(property, propsNames)
             result.push(
-                """watch(() => ${PROPS_PARAMETER_NAME}.${property.name}, ${property.parameterList!!.text} => 
+                """watch(() => $PROPS_PARAMETER_NAME.${property.name}, ${property.parameterList!!.text} => 
               |${property.block!!.text})""".trimMargin()
             )
             property.delete()
@@ -218,47 +217,3 @@ class ConvertToVue3Component : LocalQuickFix {
 
 }
 
-/**
- *
- * @author 吴昊
- * @since 0.1.15
- */
-class VueMethodRecursiveVisitor(private val propsNames: List<String>) : JSElementVisitor() {
-
-  val nameMap = mapOf(
-      "this.${'$'}nextTick" to "nextTick",
-      "this.${'$'}emit" to "emit",
-      "this.${'$'}props" to PROPS_PARAMETER_NAME
-  )
-
-  override fun visitElement(element: PsiElement) {
-    super.visitElement(element)
-    if (element is JSReferenceExpression) {
-      if (element.text in nameMap) {
-        val newExp = JSPsiElementFactory.createJSExpression(nameMap[element.text]!!, element)
-        element.replaced(newExp)
-        return
-      }
-      if (element.text.startsWith("this.")) {
-        val name = element.text.replace("this.", "")
-        var newExp: Any? = null
-        if (name in propsNames) {
-          newExp = JSPsiElementFactory.createJSExpression(
-              element.text.replace(
-                  "this.",
-                  "$PROPS_PARAMETER_NAME."
-              ), element
-          )
-        } else {
-          newExp = JSPsiElementFactory.createJSExpression(element.text.replace("this.", ""), element)
-        }
-        element.replaced(newExp)
-        return
-      }
-    }
-    element.children.forEach {
-      it.accept(this)
-    }
-  }
-
-}

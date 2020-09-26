@@ -21,8 +21,7 @@ import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.hasDecorator
 import com.wuhao.code.check.inspection.fix.*
-import com.wuhao.code.check.inspection.fix.vue.Vue2ClassToVue3ClassFix
-import com.wuhao.code.check.inspection.fix.vue.Vue2ClassToVue3CompositionAPIFix
+import com.wuhao.code.check.inspection.fix.vue.*
 
 /**
  * Created by 吴昊 on 2018/4/28.

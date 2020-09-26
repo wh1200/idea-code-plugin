@@ -28,8 +28,7 @@ import com.intellij.util.containers.Stack
 import com.intellij.xml.util.HtmlUtil.SCRIPT_TAG_NAME
 import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.hasDecorator
-import com.wuhao.code.check.hasModifier
-import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix.Companion.LIFE_CYCLE_METHODS
+import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix.Companion.VUE2_LIFE_CYCLE_METHODS
 import com.wuhao.code.check.lang.RecursiveVisitor
 import com.wuhao.code.check.style.invertible
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
@@ -224,7 +223,7 @@ class VueArrangementVisitor(
       element.hasModifier(GET)      -> VUE_COMPUTED
       element.hasModifier(SET)      -> VUE_COMPUTED
       else                          -> when {
-        element.name in LIFE_CYCLE_METHODS -> VUE_LIFE_HOOK
+        element.name in VUE2_LIFE_CYCLE_METHODS         -> VUE_LIFE_HOOK
         element.name in listOf("render", "renderError") -> VUE_RENDER
         else -> VUE_METHOD
       }

@@ -1,7 +1,7 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-package com.wuhao.code.check.inspection.fix
+package com.wuhao.code.check.inspection.fix.vue
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor

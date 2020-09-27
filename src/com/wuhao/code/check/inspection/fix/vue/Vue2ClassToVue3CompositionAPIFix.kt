@@ -176,22 +176,19 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
     val fields = arrayListOf<ES6FieldStatementImpl>()
     val functions = arrayListOf<TypeScriptFunction>()
 
-    val propsNames = arrayListOf<String>()
+    val propNames = arrayListOf<String>()
     val reactiveValueNames = arrayListOf<String>()
     val refValueNames = arrayListOf<String>()
     val injectionNames = arrayListOf<String>()
     val methodNames = arrayListOf<String>()
     val computedNames = arrayListOf<String>()
-    val methodVisitor = VueMethodRecursiveVisitor(propsNames,
-        refValueNames, computedNames
-    )
     cls.children.filter { it !is JSAttributeList }
         .forEach { field ->
           if (field is ES6FieldStatementImpl) {
             fields.add(field)
             val tsField = field.getChildOfType<TypeScriptField>()!!
             if (field.hasDecorator("Prop")) {
-              propsNames.add(tsField.name!!)
+              propNames.add(tsField.name!!)
             } else {
               if (!field.attributeList!!.text.contains("static")
                   && !field.hasDecorator("Provide")) {
@@ -273,6 +270,12 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
           valueExp.comment = comment?.text ?: ""
           valueExp.name = tsField.name!!
           valueExp.type = tsField.typeElement?.text
+          if (tsField.initializer != null) {
+            val methodVisitor = VueMethodRecursiveVisitor(propNames,
+                refValueNames, methodNames, computedNames, reactiveValueNames
+            )
+            methodVisitor.visitElement(tsField.initializer!!)
+          }
           valueExp.initializer = tsField.initializer?.text
           if (field.hasDecorator("Provide")) {
             val provideName = field.attributeList!!.decorators[0].expression!!.getChildOfType<JSArgumentList>()!!.arguments[0]
@@ -311,11 +314,11 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
         }
       }
     }
-    functions.forEach { field ->
-      val comment = field.docComment
+    functions.forEach { func ->
+      val comment = func.docComment
       // watch
-      if (field.hasDecorator("Watch")) {
-        val decoratorArgs = (field.attributeList!!.decorators[0]
+      if (func.hasDecorator("Watch")) {
+        val decoratorArgs = (func.attributeList!!.decorators[0]
             .expression as JSCallExpression)
             .argumentList
         val we = WatchExpression()
@@ -331,13 +334,20 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
           } else {
             null
           }
+          VueMethodRecursiveVisitor(propNames,
+              refValueNames, methodNames, computedNames, reactiveValueNames
+          ).visitElement(valueArg!!)
           val watchProp = unwrap(valueArg?.text)
-          if (watchProp in propsNames) {
+          if (watchProp in propNames) {
             we.watchExpression = "props.$watchProp"
           } else {
             we.watchExpression = "this.$watchProp"
           }
-          we.callbackExpression = " ${field.parameterList?.text ?: "()"} => ${field.block?.text}"
+          val methodVisitor = VueMethodRecursiveVisitor(propNames,
+              refValueNames, methodNames, computedNames, reactiveValueNames
+          )
+          methodVisitor.visitElement(func.block!!)
+          we.callbackExpression = " ${func.parameterList?.text ?: "()"} => ${func.block?.text}"
           if (optionsArg != null) {
             we.optionsExpression = optionsArg.text
           }
@@ -345,30 +355,45 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
         watchList.add(we)
       } else {
         // computed
-        if (field.isGetProperty) {
+        if (func.isGetProperty) {
           val computed = ComputedExpression()
           computed.comment = comment?.text ?: ""
-          computed.name = field.name ?: ""
-          methodVisitor.visitElement(field.block!!)
-          computed.expression = field.block?.text ?: "{}"
+          computed.name = func.name ?: ""
+          val methodVisitor = VueMethodRecursiveVisitor(propNames,
+              refValueNames, methodNames, computedNames, reactiveValueNames
+          )
+          methodVisitor.visitElement(func.block!!)
+          computed.expression = func.block?.text ?: "{}"
           computedList.add(computed)
         } else {
           // methods
           val fn = FunctionExpression()
           fn.comment = comment?.text ?: ""
-          fn.name = field.name ?: ""
-          fn.argumentsExpression = field.parameterList?.text ?: "()"
+          fn.name = func.name ?: ""
+          fn.argumentsExpression = func.parameterList?.text ?: "()"
           // render
           if (fn.name == "render") {
-            fn.bodyExpression = field.block?.text ?: "{}"
-            if (comment != null) {
-              renderFnString = "${comment.text}\nrender${fn.argumentsExpression} ${fn.bodyExpression}"
+            fn.bodyExpression = func.block?.text ?: "{}"
+            renderFnString = if (comment != null) {
+              "${comment.text}\nrender${fn.argumentsExpression} ${fn.bodyExpression}"
             } else {
-              renderFnString = "render${fn.argumentsExpression} ${fn.bodyExpression}"
+              "render${fn.argumentsExpression} ${fn.bodyExpression}"
             }
           } else {
-            methodVisitor.visitElement(field.block!!)
-            fn.bodyExpression = field.block?.text ?: "{}"
+            val methodVisitor = VueMethodRecursiveVisitor(propNames,
+                refValueNames, methodNames, computedNames, reactiveValueNames
+            )
+            methodVisitor.visitElement(func.block!!)
+            if (methodVisitor.refs.isNotEmpty()) {
+              methodVisitor.refs.forEach {
+                if (valueList.none { it.name == "${it}Ref"})
+                valueList.add(ValueExpression().apply {
+                  name = "${it}Ref"
+                  initializer = "ref(null)"
+                })
+              }
+            }
+            fn.bodyExpression = func.block?.text ?: "{}"
             val lifeCycleExpression = LifecycleExpression()
             if (fn.name in VUE2_LIFE_CYCLE_METHODS) {
               lifeCycleExpression.name = VUE3_LIFE_CYCLE_METHOD_MAP[fn.name]
@@ -399,7 +424,7 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
     componentProps.add("""props: {
 ${propsText.lines().joinToString("\n") { "      $it" }}
         }""")
-    componentProps.add("""setup(props) {
+    componentProps.add("""setup(props, {emit, slots}) {
 $valueString
 $watchString
 $computedString
@@ -428,7 +453,9 @@ ${otherSetupExpressions.joinToString(";\n")}
     vueImportSpecifics.add("inject")
     vueImportSpecifics.add("provide")
     vueImportSpecifics.add("ref")
+    vueImportSpecifics.add("Ref")
     vueImportSpecifics.add("reactive")
+    vueImportSpecifics.add("nextTick")
     vueImportSpecifics.addAll(listOf("PropType", "defineComponent"))
     val importStatement = JSPsiElementFactory.createJSSourceElement(
         "import {${vueImportSpecifics.joinToString(", ")}} from 'vue';", cls

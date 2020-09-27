@@ -289,7 +289,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
           continue
         }
         if (e is PsiJavaToken) {
-          if (e.tokenType === JavaTokenType.COMMA) { // Skip comma
+          if (e.tokenType == JavaTokenType.COMMA) { // Skip comma
             e = e.nextSibling
             continue
           } else {

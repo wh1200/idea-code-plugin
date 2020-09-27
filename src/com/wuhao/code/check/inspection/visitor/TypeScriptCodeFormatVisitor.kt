@@ -6,12 +6,14 @@ package com.wuhao.code.check.inspection.visitor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
+import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.javascript.dialects.TypeScriptJSXLanguageDialect
 import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClass
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptObjectType
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.wuhao.code.check.VUE_LANG_PATTERN
 import com.wuhao.code.check.VUE_SCRIPT_TAG
@@ -45,6 +47,11 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
       holder.registerWarning(file, Messages.JS_FILE_NAME_INVALID)
     }
     super.visitFile(file)
+  }
+
+  override fun visitES6ExportDefaultAssignment(node: ES6ExportDefaultAssignment?) {
+
+    super.visitES6ExportDefaultAssignment(node)
   }
 
   override fun visitJSObjectLiteralExpression(element: JSObjectLiteralExpression) {

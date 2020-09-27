@@ -11,7 +11,9 @@ import org.jetbrains.kotlin.idea.core.replaced
  * @author 吴昊
  * @since 0.1.15
  */
-class VueMethodRecursiveVisitor(private val propsNames: List<String>) : JSElementVisitor() {
+class VueMethodRecursiveVisitor(private val propsNames: List<String>,
+                                val refValueNames: List<String> = listOf(),
+                                val computedNames: List<String> = listOf()) : JSElementVisitor() {
 
   val nameMap = mapOf(
       "this.${'$'}nextTick" to "nextTick",
@@ -34,6 +36,13 @@ class VueMethodRecursiveVisitor(private val propsNames: List<String>) : JSElemen
               element.text.replace(
                   "this.",
                   "${ConvertToVue3Component.PROPS_PARAMETER_NAME}."
+              ), element
+          ))
+        } else if (name in computedNames || name in refValueNames) {
+          element.replaced(JSPsiElementFactory.createJSExpression(
+              element.text.replace(
+                  "this.$name",
+                  "$name.value"
               ), element
           ))
         }

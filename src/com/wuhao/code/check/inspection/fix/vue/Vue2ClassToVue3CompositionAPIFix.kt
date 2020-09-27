@@ -70,6 +70,11 @@ class FunctionExpression : VueCompositionExpresion() {
 
 }
 
+/**
+ *
+ * @author 吴昊
+ * @since 1.0
+ */
 class LifecycleExpression : VueCompositionExpresion() {
 
   var bodyExpression: String = ""
@@ -80,6 +85,22 @@ class LifecycleExpression : VueCompositionExpresion() {
       return bodyExpression
     }
     return format("$name(() => $bodyExpression)")
+  }
+
+}
+
+/**
+ *
+ * @author 吴昊
+ * @since 1.0
+ */
+class ObjectFieldExpression(
+    val key: String,
+    val valueString: String?
+) : VueCompositionExpresion() {
+
+  override fun getText(): String {
+    return "$key: ${valueString ?: "null"}"
   }
 
 }
@@ -107,10 +128,20 @@ class PropExpression : VueCompositionExpresion() {
  */
 class ValueExpression : VueCompositionExpresion() {
 
-  var exp = ""
+  var initializer: String? = null
+  var name = ""
+  var type: String? = null
 
   override fun getText(): String {
-    return format("const $exp;")
+    var text = "const $name"
+    if (!type.isNullOrBlank()) {
+      text += ": $type"
+    }
+    if (!initializer.isNullOrBlank()) {
+      text += " = $initializer"
+    }
+    text += ";"
+    return format(text)
   }
 
 }
@@ -136,133 +167,224 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
     val functionList: ArrayList<FunctionExpression> = arrayListOf()
     val computedList: ArrayList<ComputedExpression> = arrayListOf()
     var renderFnString = ""
-    val propsNames = arrayListOf<String>()
-    val methodVisitor = VueMethodRecursiveVisitor(propsNames)
     val lifeCycleExpressions: ArrayList<LifecycleExpression> = arrayListOf()
+    val otherSetupExpressions = arrayListOf<String>()
     val vueImportSpecifics = arrayListOf<String>()
+
+    /**  整个组件对象的属性 */
+    val componentProps = arrayListOf<String>()
+    val fields = arrayListOf<ES6FieldStatementImpl>()
+    val functions = arrayListOf<TypeScriptFunction>()
+
+    val propsNames = arrayListOf<String>()
+    val reactiveValueNames = arrayListOf<String>()
+    val refValueNames = arrayListOf<String>()
+    val injectionNames = arrayListOf<String>()
+    val methodNames = arrayListOf<String>()
+    val computedNames = arrayListOf<String>()
+    val methodVisitor = VueMethodRecursiveVisitor(propsNames,
+        refValueNames, computedNames
+    )
     cls.children.filter { it !is JSAttributeList }
         .forEach { field ->
-          val comment = field.docComment
           if (field is ES6FieldStatementImpl) {
+            fields.add(field)
+            val tsField = field.getChildOfType<TypeScriptField>()!!
             if (field.hasDecorator("Prop")) {
-              val attrList = field.attributeList
-              val fieldArgList = (attrList!!.decorators[0] as ES6Decorator).expression?.getChildOfType<JSArgumentList>()
-              val tsField = field.getChildOfType<TypeScriptField>()
-              val propKey = tsField?.name
-              val propExp = PropExpression()
-              propExp.comment = comment?.text ?: ""
-              propExp.name = propKey ?: ""
-              if (fieldArgList != null && fieldArgList.arguments.size > 0) {
-                val arg = fieldArgList.arguments[0];
-                if (arg is JSObjectLiteralExpression) {
-                  propExp.expression = """{
-                    ${
-                    arg.properties.joinToString(",\n") {
-                      if (it.name == "type") {
-                        it.text + " as PropType<${tsField!!.typeElement?.text}>"
-                      } else {
-                        it.text
-                      }
-                    }
-                  }
-}""".trimIndent()
-                } else if (arg is JSArrayLiteralExpression || fieldArgList.arguments.size == 1) {
-                  propExp.expression = """{
-                    |type: ${arg.text} as PropType<${tsField!!.typeElement?.text}>
-                    |}""".trimMargin()
+              propsNames.add(tsField.name!!)
+            } else {
+              if (!field.attributeList!!.text.contains("static")
+                  && !field.hasDecorator("Provide")) {
+                if (field.hasDecorator("Inject")) {
+                  injectionNames.add(tsField.name!!)
                 } else {
-                  propExp.expression = """{
-                    |type: [${fieldArgList.arguments.joinToString(", ") { it.text }}] as PropType<${
-                    tsField!!
-                        .typeElement?.text
-                  }>
-                    |}""".trimMargin()
+                  if (tsField.initializer is JSObjectLiteralExpression) {
+                    reactiveValueNames.add(tsField.name!!)
+                  } else {
+                    refValueNames.add(tsField.name!!)
+                  }
                 }
               }
-              propsNames.add(propExp.name)
-              propsList.add(propExp)
-            } else {
-              // 不是prop
-              val valueExp = ValueExpression()
-              valueExp.comment = comment?.text ?: ""
-              valueExp.exp = field.getChildByType<TypeScriptField>()?.text ?: ""
-              valueList.add(valueExp)
-
             }
           } else if (field is TypeScriptFunction) {
-            // watch
-            if (field.hasDecorator("Watch")) {
-              val decoratorArgs = (field.attributeList!!.decorators[0]
-                  .expression as JSCallExpression)
-                  .argumentList
-              val we = WatchExpression()
-              we.comment = comment?.text ?: ""
-              if (decoratorArgs != null) {
-                val valueArg = if (decoratorArgs.arguments.isNotEmpty()) {
-                  decoratorArgs.arguments[0]
-                } else {
-                  null
-                }
-                val optionsArg = if (decoratorArgs.arguments.size > 1) {
-                  decoratorArgs.arguments[1]
-                } else {
-                  null
-                }
-                val watchProp = unwrap(valueArg?.text)
-                if (watchProp in propsNames) {
-                  we.watchExpression = "props.$watchProp"
-                } else {
-                  we.watchExpression = "this.$watchProp"
-                }
-                we.callbackExpression = " ${field.parameterList?.text ?: "()"} => ${field.block?.text}"
-                if (optionsArg != null) {
-                  we.optionsExpression = optionsArg.text
-                }
-              }
-              watchList.add(we)
-            } else {
+            functions.add(field)
+            if (!field.hasDecorator("Watch")) {
               // computed
               if (field.isGetProperty) {
-                val computed = ComputedExpression()
-                computed.comment = comment?.text ?: ""
-                computed.name = field.name ?: ""
-                methodVisitor.visitElement(field.block!!)
-                computed.expression = field.block?.text ?: "{}"
-                computedList.add(computed)
+                computedNames.add(field.name!!)
               } else {
                 // methods
-                val fn = FunctionExpression()
-                fn.comment = comment?.text ?: ""
-                fn.name = field.name ?: ""
-                fn.argumentsExpression = field.parameterList?.text ?: "()"
-                // render
-                if (fn.name == "render") {
-                  fn.bodyExpression = field.block?.text ?: "{}"
-                  if (comment != null) {
-                    renderFnString = "${comment.text}\nrender${fn.argumentsExpression} ${fn.bodyExpression}"
-                  } else {
-                    renderFnString = "render${fn.argumentsExpression} ${fn.bodyExpression}"
-                  }
-                } else {
-                  methodVisitor.visitElement(field.block!!)
-                  fn.bodyExpression = field.block?.text ?: "{}"
-                  val lifeCycleExpression = LifecycleExpression()
-                  if (fn.name in VUE2_LIFE_CYCLE_METHODS) {
-                    lifeCycleExpression.name = VUE3_LIFE_CYCLE_METHOD_MAP[fn.name]
-                    if (!lifeCycleExpression.name.isNullOrBlank()) {
-                      vueImportSpecifics.add(lifeCycleExpression.name!!)
-                    }
-                    lifeCycleExpression.comment = comment?.text ?: ""
-                    lifeCycleExpression.bodyExpression = fn.bodyExpression
-                    lifeCycleExpressions.add(lifeCycleExpression)
-                  } else {
-                    functionList.add(fn)
-                  }
+                if (field.name != "render" && field.name !in VUE2_LIFE_CYCLE_METHODS) {
+                  methodNames.add(field.name!!)
                 }
               }
             }
           }
         }
+    fields.forEach { field ->
+      val comment = field.docComment
+      if (field.hasDecorator("Prop")) {
+        val attrList = field.attributeList
+        val fieldArgList = (attrList!!.decorators[0] as ES6Decorator).expression?.getChildOfType<JSArgumentList>()
+        val tsField = field.getChildOfType<TypeScriptField>()
+        val propKey = tsField?.name
+        val propExp = PropExpression()
+        propExp.comment = comment?.text ?: ""
+        propExp.name = propKey ?: ""
+        if (fieldArgList != null && fieldArgList.arguments.size > 0) {
+          val arg = fieldArgList.arguments[0];
+          if (arg is JSObjectLiteralExpression) {
+            propExp.expression = """{
+                    ${
+              arg.properties.joinToString(",\n") {
+                if (it.name == "type") {
+                  it.text + " as PropType<${tsField!!.typeElement?.text}>"
+                } else {
+                  it.text
+                }
+              }
+            }
+}""".trimIndent()
+          } else if (arg is JSArrayLiteralExpression || fieldArgList.arguments.size == 1) {
+            propExp.expression = """{
+                    |type: ${arg.text} as PropType<${tsField!!.typeElement?.text}>
+                    |}""".trimMargin()
+          } else {
+            propExp.expression = """{
+                    |type: [${fieldArgList.arguments.joinToString(", ") { it.text }}] as PropType<${
+              tsField!!
+                  .typeElement?.text
+            }>
+                    |}""".trimMargin()
+          }
+        }
+        propsList.add(propExp)
+      } else {
+        val tsField = field.getChildByType<TypeScriptField>()!!
+
+        val isStatic = field.attributeList!!.text.contains("static")
+        if (isStatic) {
+          componentProps.add(
+              ObjectFieldExpression(tsField.name!!, tsField.initializer?.text)
+                  .getText()
+          )
+        } else {
+          val valueExp = ValueExpression()
+          valueExp.comment = comment?.text ?: ""
+          valueExp.name = tsField.name!!
+          valueExp.type = tsField.typeElement?.text
+          valueExp.initializer = tsField.initializer?.text
+          if (field.hasDecorator("Provide")) {
+            val provideName = field.attributeList!!.decorators[0].expression!!.getChildOfType<JSArgumentList>()!!.arguments[0]
+            otherSetupExpressions.add("provide(${provideName.text}, ${tsField.initializer?.text})")
+          } else if (field.hasDecorator("Inject")) {
+            val arg = field.attributeList!!.decorators[0].expression!!.getChildOfType<JSArgumentList>()!!
+                .arguments[0]
+            if (arg is JSObjectLiteralExpression) {
+              val injectName = arg.properties.find { it.name == "from" }!!.value!!.text
+              val defaultStr = arg.properties.find { it.name == "default" }?.value?.text
+              if (defaultStr.isNullOrBlank()) {
+                valueExp.initializer = "inject(${injectName})"
+              } else {
+                valueExp.initializer = "inject(${injectName}, $defaultStr)"
+              }
+            } else {
+              valueExp.initializer = "inject(${arg.text})"
+            }
+            valueList.add(valueExp)
+          } else {
+            // 不是prop
+            if (tsField.initializer is JSObjectLiteralExpression) {
+              valueExp.initializer = "reactive(${valueExp.initializer})"
+            } else {
+              if (!valueExp.type.isNullOrBlank()) {
+                valueExp.type = "Ref<${valueExp.type}>"
+              }
+              if (valueExp.initializer.isNullOrBlank()) {
+                valueExp.initializer = "ref(null)"
+              } else {
+                valueExp.initializer = "ref(${valueExp.initializer})"
+              }
+            }
+            valueList.add(valueExp)
+          }
+        }
+      }
+    }
+    functions.forEach { field ->
+      val comment = field.docComment
+      // watch
+      if (field.hasDecorator("Watch")) {
+        val decoratorArgs = (field.attributeList!!.decorators[0]
+            .expression as JSCallExpression)
+            .argumentList
+        val we = WatchExpression()
+        we.comment = comment?.text ?: ""
+        if (decoratorArgs != null) {
+          val valueArg = if (decoratorArgs.arguments.isNotEmpty()) {
+            decoratorArgs.arguments[0]
+          } else {
+            null
+          }
+          val optionsArg = if (decoratorArgs.arguments.size > 1) {
+            decoratorArgs.arguments[1]
+          } else {
+            null
+          }
+          val watchProp = unwrap(valueArg?.text)
+          if (watchProp in propsNames) {
+            we.watchExpression = "props.$watchProp"
+          } else {
+            we.watchExpression = "this.$watchProp"
+          }
+          we.callbackExpression = " ${field.parameterList?.text ?: "()"} => ${field.block?.text}"
+          if (optionsArg != null) {
+            we.optionsExpression = optionsArg.text
+          }
+        }
+        watchList.add(we)
+      } else {
+        // computed
+        if (field.isGetProperty) {
+          val computed = ComputedExpression()
+          computed.comment = comment?.text ?: ""
+          computed.name = field.name ?: ""
+          methodVisitor.visitElement(field.block!!)
+          computed.expression = field.block?.text ?: "{}"
+          computedList.add(computed)
+        } else {
+          // methods
+          val fn = FunctionExpression()
+          fn.comment = comment?.text ?: ""
+          fn.name = field.name ?: ""
+          fn.argumentsExpression = field.parameterList?.text ?: "()"
+          // render
+          if (fn.name == "render") {
+            fn.bodyExpression = field.block?.text ?: "{}"
+            if (comment != null) {
+              renderFnString = "${comment.text}\nrender${fn.argumentsExpression} ${fn.bodyExpression}"
+            } else {
+              renderFnString = "render${fn.argumentsExpression} ${fn.bodyExpression}"
+            }
+          } else {
+            methodVisitor.visitElement(field.block!!)
+            fn.bodyExpression = field.block?.text ?: "{}"
+            val lifeCycleExpression = LifecycleExpression()
+            if (fn.name in VUE2_LIFE_CYCLE_METHODS) {
+              lifeCycleExpression.name = VUE3_LIFE_CYCLE_METHOD_MAP[fn.name]
+              if (!lifeCycleExpression.name.isNullOrBlank()) {
+                vueImportSpecifics.add(lifeCycleExpression.name!!)
+              }
+              lifeCycleExpression.comment = comment?.text ?: ""
+              lifeCycleExpression.bodyExpression = fn.bodyExpression
+              lifeCycleExpressions.add(lifeCycleExpression)
+            } else {
+              functionList.add(fn)
+            }
+          }
+        }
+      }
+    }
     val optionsDecoratorContent = argList?.getChildOfType<JSObjectLiteralExpression>()?.text?.drop(1)?.dropLast(1)?.trim()
         ?: ""
     val propsText = propsList.map {
@@ -273,25 +395,25 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
     val computedString = format(computedList)
     val functionString = format(functionList)
     val lifecycleString = format(lifeCycleExpressions)
-    val componentProps = listOf<Pair<String, String>>()
-
-    val text = """
-      defineComponent({
-        ${optionsDecoratorContent},
-        props: {
+    componentProps.add(optionsDecoratorContent)
+    componentProps.add("""props: {
 ${propsText.lines().joinToString("\n") { "      $it" }}
-        },
-        setup(props) {
+        }""")
+    componentProps.add("""setup(props) {
 $valueString
 $watchString
 $computedString
 $functionString
 $lifecycleString
+${otherSetupExpressions.joinToString(";\n")}
           return {
           
           };
-        },
-        $renderFnString
+        }""")
+    componentProps.add(renderFnString)
+    val text = """
+      defineComponent({
+        ${componentProps.joinToString(",\n")}
       })
     """.trimIndent()
     val dummy = PsiFileFactory.getInstance(project).createFileFromText(
@@ -303,6 +425,10 @@ $lifecycleString
     if (computedList.isNotEmpty()) {
       vueImportSpecifics.add("computed")
     }
+    vueImportSpecifics.add("inject")
+    vueImportSpecifics.add("provide")
+    vueImportSpecifics.add("ref")
+    vueImportSpecifics.add("reactive")
     vueImportSpecifics.addAll(listOf("PropType", "defineComponent"))
     val importStatement = JSPsiElementFactory.createJSSourceElement(
         "import {${vueImportSpecifics.joinToString(", ")}} from 'vue';", cls

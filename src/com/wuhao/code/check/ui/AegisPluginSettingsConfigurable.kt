@@ -4,6 +4,7 @@
 package com.wuhao.code.check.ui
 
 import com.intellij.openapi.options.SearchableConfigurable
+import com.intellij.openapi.project.ProjectManager
 import javax.swing.JComponent
 
 

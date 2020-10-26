@@ -105,14 +105,6 @@ class SyncDatabaseComment : LocalQuickFix {
     }
   }
 
-  fun findTableSchemas(fastJdbc: FastJdbc, database: String?, table: String?): List<ColumnSchema?>? {
-    val sql =
-        "select column_name, column_comment from information_schema.COLUMNS where table_schema = '${database}' and " +
-            "table_name = '${table}'"
-    println(sql)
-    return fastJdbc.find(sql, TableRowHandler())
-  }
-
   override fun getFamilyName(): String {
     return "同步数据库注释"
   }
@@ -139,3 +131,12 @@ class TableRowHandler : RowHandler<ColumnSchema> {
   }
 
 }
+
+fun findTableSchemas(fastJdbc: FastJdbc, database: String?, table: String?): List<ColumnSchema?>? {
+  val sql =
+      "select column_name, column_comment from information_schema.COLUMNS where table_schema = '${database}' and " +
+          "table_name = '${table}'"
+  println(sql)
+  return fastJdbc.find(sql, TableRowHandler())
+}
+

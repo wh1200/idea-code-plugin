@@ -28,7 +28,7 @@ object JavaTemplates {
   }
 
   fun getTemplateContent(name: String): String {
-    val comment = javaClass.classLoader.getResource("/resources/templates/comment.tmpl")!!.readText()
+    val comment = javaClass.classLoader.getResource("/resources/templates/comment.tmpl")?.readText() ?: return ""
     val text = javaClass.classLoader.getResource("/resources/templates/${name}.tmpl")!!.readText()
     return text.replace("\${COMMENT}", comment)
   }

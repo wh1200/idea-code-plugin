@@ -4,8 +4,11 @@
 package com.wuhao.code.check.inspection.visitor
 
 import com.intellij.codeInspection.ProblemHighlightType
+import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.database.util.match
 import com.intellij.lang.Language
+import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.javascript.dialects.TypeScriptJSXLanguageDialect
 import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
@@ -19,6 +22,7 @@ import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAncestor
+import com.wuhao.code.check.hasDecorator
 import com.wuhao.code.check.inspection.fix.*
 
 /**
@@ -60,8 +64,7 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
       holder.registerProblem(element, Messages.CONVERT_TO_CLASS_COMPONENT, ProblemHighlightType.INFORMATION,
           ConvertToClassComponent())
     }
-    if (VUE_LANG_PATTERN.accepts(element)
-        && VUE_SCRIPT_TAG.accepts(ac)) {
+    if (VUE_LANG_PATTERN.accepts(element) && VUE_SCRIPT_TAG.accepts(ac)) {
       val sortedProperties = VueComponentPropertySortFix.sortVueComponentProperties(element.properties)
       if (element.properties.toList() != sortedProperties) {
         holder.registerWarning(element, "Vue组件属性排序", VueComponentPropertySortFix())
@@ -79,6 +82,12 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
     if (cls.extendsList?.members?.any { it.referenceText == "React.Component" } == true) {
       holder.registerProblem(cls, "转为Vue组件",
           ProblemHighlightType.INFORMATION, ReactToVueFix())
+    } else if ((cls.hasDecorator("Component") || (
+            cls.parent is ES6ExportDefaultAssignment && (cls.parent as ES6ExportDefaultAssignment).hasDecorator("Component")
+            ))
+        && cls.name != null && cls.name!!.matches("[A-Z][a-z0-9]+".toRegex()
+    )) {
+      holder.registerProblem(cls.nameIdentifier!!, "组件名称不能为单个单词", ERROR)
     }
     super.visitTypeScriptClass(cls)
   }

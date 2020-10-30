@@ -57,10 +57,10 @@ object PsiPatterns {
   val VUE_FILE = PlatformPatterns.psiFile().withLanguage(VueLanguage.INSTANCE)
       .or(PlatformPatterns.psiFile().withLanguage(VueJSLanguage.INSTANCE))
 
-  val VUE_LANG_PATTERN = PlatformPatterns.psiElement()
+  val VUE_LANG_PATTERN = psiElement()
       .inFile(VUE_FILE)
 
-  val VUE_SCRIPT_TAG = PlatformPatterns.psiElement(XmlTag::class.java).withParent(VUE_LANG_PATTERN)
+  val VUE_SCRIPT_TAG = psiElement(XmlTag::class.java).withParent(VUE_LANG_PATTERN)
       .withName(HtmlUtil.SCRIPT_TAG_NAME)
 
 }

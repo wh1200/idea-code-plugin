@@ -18,6 +18,7 @@ import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlTag
 import com.intellij.psi.xml.XmlToken
 import com.wuhao.code.check.constants.RESOURCES_PATH
+import com.wuhao.code.check.isIdea
 import com.wuhao.code.check.toPsiFile
 import org.jetbrains.idea.maven.project.MavenProjectsManager
 import org.jetbrains.kotlin.js.translate.utils.finalElement
@@ -38,7 +39,7 @@ class GotoFileHandler : GotoDeclarationHandler {
   }
 
   override fun getGotoDeclarationTargets(el: PsiElement?, p1: Int, p2: Editor?): Array<PsiElement>? {
-    if (el != null && isMavenProject(el)) {
+    if (isIdea && el != null && isMavenProject(el)) {
       val staticPath = "${el.project.basePath}/$RESOURCES_PATH/static/" + el.text
       val pattern = psiElement(XmlToken::class.java)
           .withParent(XmlAttributeValue::class.java)

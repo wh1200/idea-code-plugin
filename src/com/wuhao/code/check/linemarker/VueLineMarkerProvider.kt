@@ -19,8 +19,8 @@ import com.intellij.openapi.util.IconLoader
 import com.intellij.psi.PsiElement
 import com.intellij.psi.html.HtmlTag
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.PsiPatterns.NEW_VUE_PATTERN
-import com.wuhao.code.check.PsiPatterns.VUE_LANG_PATTERN
+import com.wuhao.code.check.NEW_VUE_PATTERN
+import com.wuhao.code.check.VUE_LANG_PATTERN
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.id

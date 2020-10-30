@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.wuhao.code.check.ui.AutoGeneratorSettings">
+  <grid id="27dc6" binding="rootComponent" layout-manager="FormLayout">
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <colspec value="fill:d:grow"/>
+    <constraints>
+      <xy x="20" y="20" width="937" height="469"/>
+    </constraints>
+    <properties/>
+    <border type="none" title="1"/>
+    <children>
+      <component id="e1421" class="javax.swing.JComboBox" binding="cbxModule">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties/>
+      </component>
+    </children>
+  </grid>
+</form>

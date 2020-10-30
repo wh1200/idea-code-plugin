@@ -131,7 +131,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
         when {
           lBrace.next == rBrace          -> lBrace.setBlankLineAfter()
           rBrace.prev !is PsiWhiteSpace  -> lBrace.setBlankLineAfter(1)
-          rBrace.prevIgnoreWs === lBrace -> // 如果classBody没有内容的话，右括号保持换行，左右括号之间不留空行
+          rBrace.prevIgnoreWs == lBrace -> // 如果classBody没有内容的话，右括号保持换行，左右括号之间不留空行
             rBrace.setBlankLineBefore()
           else                           -> {
             // 如果classBody有内容，则左括号后和右括号前各留一个空行

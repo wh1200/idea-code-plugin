@@ -15,15 +15,17 @@ import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClass
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptObjectType
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.wuhao.code.check.PsiPatterns.VUE_LANG_PATTERN
-import com.wuhao.code.check.PsiPatterns.VUE_SCRIPT_TAG
+import com.wuhao.code.check.VUE_LANG_PATTERN
+import com.wuhao.code.check.VUE_SCRIPT_TAG
 import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.hasDecorator
 import com.wuhao.code.check.inspection.fix.*
+import com.wuhao.code.check.inspection.fix.vue.*
 
 /**
  * Created by 吴昊 on 2018/4/28.
@@ -47,6 +49,11 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
       holder.registerWarning(file, Messages.JS_FILE_NAME_INVALID)
     }
     super.visitFile(file)
+  }
+
+  override fun visitES6ExportDefaultAssignment(node: ES6ExportDefaultAssignment?) {
+
+    super.visitES6ExportDefaultAssignment(node)
   }
 
   override fun visitJSObjectLiteralExpression(element: JSObjectLiteralExpression) {
@@ -88,6 +95,12 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
         && cls.name != null && cls.name!!.matches("[A-Z][a-z0-9]+".toRegex()
     )) {
       holder.registerProblem(cls.nameIdentifier!!, "组件名称不能为单个单词", ERROR)
+    }
+    if (cls.hasDecorator("Component")) {
+      holder.registerProblem(cls, "转为Vue3组件",
+          ProblemHighlightType.INFORMATION, Vue2ClassToVue3ClassFix())
+      holder.registerProblem(cls, "转为Vue3 Composition API",
+          ProblemHighlightType.INFORMATION, Vue2ClassToVue3CompositionAPIFix())
     }
     super.visitTypeScriptClass(cls)
   }

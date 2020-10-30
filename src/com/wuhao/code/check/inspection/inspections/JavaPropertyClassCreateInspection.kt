@@ -5,6 +5,7 @@ package com.wuhao.code.check.inspection.inspections
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
+import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.openapi.diagnostic.Logger
@@ -14,6 +15,9 @@ import com.intellij.psi.util.PsiTypesUtil
 import com.intellij.util.IncorrectOperationException
 import com.wuhao.code.check.ancestorOfType
 import com.wuhao.code.check.constants.InspectionNames.JAVA_PROPERTY_CLASS
+import com.wuhao.code.check.constants.Messages
+import com.wuhao.code.check.inspection.fix.java.SyncDatabaseComment
+import com.wuhao.code.check.inspection.fix.vue.ConvertToClassComponent
 import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor.Companion.ALL
 import com.wuhao.code.check.inspection.visitor.JavaCommentVisitor
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
@@ -37,6 +41,9 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
                 || aClass.hasAnnotation(JavaCommentVisitor.TABLE_CLASS)
                 || aClass.hasAnnotation(JavaCommentVisitor.SPRING_DOCUMENT_CLASS)) && aClass.containingFile.containingDirectory.findFile("Q${aClass.name}.java") == null) {
           holder.registerProblem(aClass.containingFile, "创建属性名称对象", myQuickFix)
+          holder.registerProblem(aClass, Messages.SYNC_DATABASE_COMMENT, ProblemHighlightType.INFORMATION,
+              SyncDatabaseComment()
+          )
         }
       }
 

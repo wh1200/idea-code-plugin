@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="issues">
+    <option name="index">
+      <map>
+        <entry key="/Dummy.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/a.sql">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/dummy.sql">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/fragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/fragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_CONFIG_DIR$/consoles/db/11e1c8e5-c529-4341-bb92-d12f97f25fb6/console.sql">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_CONFIG_DIR$/consoles/db/42c7e6c6-65b7-49e3-8fd3-7a28b781d1a8/console.sql">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/apps/quality/QualityFilterController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-core/src/main/java/com/ukefu/webim/service/cache/CacheBean.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-core/src/main/java/com/ukefu/webim/service/cache/hazelcast/AbstractCacheBean.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-elasticsearch/src/main/java/com/ukefu/webim/service/es/OnlineUserESRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-im/REAMDE.md">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-im/src/main/java/com/aegis/webim/service/server/handler/AgentEventHandler.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-service/src/main/java/com/ukefu/webim/util/QualityDataUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WuhaoTools/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WuhaoTools/src/main/java/wuhao/tools/http/HttpRequest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WuhaoTools/src/main/java/wuhao/tools/http/HttpResult.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WuhaoTools/src/test/java/UploadContract.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WuhaoTools/wuhao-tools.iml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/constants/Messages.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/logic/aspect/LogOperateAspect.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/logic/aspect/MyVariableTableParameterNameDiscoverer.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/logic/aspect/UserDAOAspect.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/logic/interceptor/ConfigPermissionInterceptor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/logic/service/impl/AppServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/logic/service/impl/CheckServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/logic/service/impl/DataBaseOperationServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/logic/service/impl/IdeaPluginInfoServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/logic/service/impl/ScriptServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/logic/service/inter/IdeaPluginInfoService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/model/dao/IdeaPluginInfoDAO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/model/entity/IdeaPluginInfo.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/model/vo/IDEAPluginInfoVO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/web/controller/IdeaCallbackAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/resources/application.yml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/resources/db/migration/add_idea_plugin_info_table.sql">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/resources/scripts/add_idea_plugin_info_table.sql">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/WeChatService/src/main/java/com/aegis/wechat/dao/impl/CheckInDataDAO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/WeChatService/src/test/java/com/aegis/wechat/service/impl/CheckInServiceImplTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-page/src/assets/layui/css/layui.css">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-page/src/views/admin/system/config/mixins.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-page/src/views/admin/system/config/utils.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-page/src/views/workorders/edit/types/enforcement-search.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-page/tests/a.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-admin/src/main/java/com/ukefu/webim/web/handler/admin/system/MetadataController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-admin/src/main/java/com/ukefu/webim/web/handler/admin/system/RequestLogController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-admin/src/main/java/com/ukefu/webim/web/handler/admin/system/RequestLogController.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/LoginController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/api/rest/ApiContactsController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/api/rest/ApiOnlineUserController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/api/rest/ApiOrganController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/api/rest/ApiQuickReplyController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/apps/callcenter/service/CallCenterProcessedController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/apps/contacts/ContactsController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/rest/court/callcenter/NewSoftPhoneController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/rest/court/workorder/ReportAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/resources/application-bjdev-noes.yml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/resources/application-bjlocal.yml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/test/java/com/aegis/ControllerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/test/java/com/aegis/ControllerTest.java.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/test/java/com/aegis/ControllerTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-common/src/main/java/com/ukefu/webim/config/web/MySpringSessionConfig.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-common/src/main/java/com/ukefu/webim/config/web/StringToDateConverter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-common/src/main/java/com/ukefu/webim/service/repository/CallAgentRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-common/src/main/java/com/ukefu/webim/service/resource/QualityResource.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-common/src/main/java/com/ukefu/webim/web/handler/Handler.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-core/src/main/java/com/ukefu/util/DateTools.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/AgentReport.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/CallAgent.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/CallOutFilter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/CallOutNames.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/CallOutNamesHis.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/EkmKnowledgeBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/EkmKnowledgePublish.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/EkmKnowledgeVersion.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/QualityActivityTask.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/QualityFilter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/User.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/base/EkmKnowledgeBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/base/FilterBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/base/NamesBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/base/TaskBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/base/UserBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/.gitignore">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/.idea/workspace.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/resources/META-INF/plugin.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PluginStart.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiExt.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/PsiPatterns.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateProjectAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoFileHandler.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/GotoSpringBootConfigPropertyDeclarationHandler.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/ComplexExpToComputedPropertyFix.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/vue/VueComponentNameFix.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/CheckProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/JavaPropertyClassCreateInspection.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinActionSpecificationVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCodeFormatVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/KotlinCommentVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/TypeScriptCodeFormatVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/VueCodeFormatVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPostProcessor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinRearranger.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinRecursiveVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/ui/AegisPluginSettings.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/testData/src/error/java/ControllerExample.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/testData/src/error/java/ExampleController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/testData/src/error/java/ExampleController2.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/testData/src/error/java/ExampleController3.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/tests/com/wuhao/LightInspectionTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/tests/com/wuhao/Test.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -5,7 +5,7 @@ package com.wuhao.code.check.style.arrangement.vue
 
 import com.intellij.psi.codeStyle.arrangement.ArrangementEntry
 import com.intellij.psi.codeStyle.arrangement.std.CustomArrangementOrderToken
-import com.wuhao.code.check.inspection.fix.VueComponentPropertySortFix.Companion.LIFE_CYCLE_METHODS
+import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix.Companion.VUE2_LIFE_CYCLE_METHODS
 
 /**
  * vue代码重排属性排序器
@@ -18,7 +18,7 @@ class VueLifeHookOrderToken(id: String, name: String) : CustomArrangementOrderTo
     return Comparator { e1, e2 ->
       if (e1 is VueElementArrangementEntry
           && e2 is VueElementArrangementEntry) {
-        LIFE_CYCLE_METHODS.indexOf(e1.name) - LIFE_CYCLE_METHODS.indexOf(e2.name)
+        VUE2_LIFE_CYCLE_METHODS.indexOf(e1.name) - VUE2_LIFE_CYCLE_METHODS.indexOf(e2.name)
       } else {
         0
       }

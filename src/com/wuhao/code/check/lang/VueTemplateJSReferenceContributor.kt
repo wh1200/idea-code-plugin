@@ -7,11 +7,12 @@ import com.intellij.lang.javascript.psi.resolve.JSModuleReferenceContributor
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import com.intellij.util.ProcessingContext
-import com.wuhao.code.check.PsiPatterns.VUE_FILE
 import com.wuhao.code.check.allFields
 import com.wuhao.code.check.allFunctions
 import com.wuhao.code.check.gotohandler.VueHandler.Companion.findTSClass
 import com.wuhao.code.check.hasDecorator
+import org.jetbrains.vuejs.lang.expr.VueJSLanguage
+import org.jetbrains.vuejs.lang.html.VueLanguage
 
 /**
  *
@@ -47,9 +48,7 @@ class VueTemplateJSReferenceContributor : PsiReferenceContributor() {
       }
 
     })
-    registrar.registerReferenceProvider(PlatformPatterns.psiElement(
-        JSReferenceExpression::class.java
-    ).inFile(VUE_FILE), object : PsiReferenceProvider() {
+    val provider = object : PsiReferenceProvider() {
 
       override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
         val tsClass = findTSClass(element.containingFile)
@@ -65,7 +64,13 @@ class VueTemplateJSReferenceContributor : PsiReferenceContributor() {
         return arrayOf()
       }
 
-    })
+    }
+    registrar.registerReferenceProvider(PlatformPatterns.psiElement(
+        JSReferenceExpression::class.java
+    ).inFile(PlatformPatterns.psiFile().withLanguage(VueLanguage.INSTANCE)), provider)
+    registrar.registerReferenceProvider(PlatformPatterns.psiElement(
+        JSReferenceExpression::class.java
+    ).inFile(PlatformPatterns.psiFile().withLanguage(VueJSLanguage.INSTANCE)), provider)
   }
 
 }

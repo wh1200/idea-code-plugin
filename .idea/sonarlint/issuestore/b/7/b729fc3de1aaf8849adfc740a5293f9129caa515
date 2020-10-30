@@ -1,0 +1,18 @@
+
+T
+java:S1128"2Remove this unused import 'javax.swing.JCheckBox'.(ˆ£…ğüÿÿÿÿ8¿Š÷ÚÕ.
+Y
+java:S1144"7Remove this unused private "createUIComponents" method.(Á›°çıÿÿÿÿ8Áä÷ÚÕ.
+i
+java:S1128
+"LRemove this unused import 'jdk.nashorn.internal.objects.annotations.Getter'.(éÌ’«8¥¬İÚÕ.
+L
+java:S1128"/Remove this unused import 'javax.swing.JLabel'.(ı—àÓ8Áä÷ÚÕ.
+£
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Á›°çıÿÿÿÿ8Áä÷ÚÕ.
+M
+java:S1128"0Remove this unused import 'javax.swing.JButton'.(´ÀÃ“8§É‰ÛÕ.
+P
+java:S1128"3Remove this unused import 'javax.swing.JTextField'.(İË—8ëØÛÕ.
+J
+java:S1068"-Remove this unused "cbxModule" private field.(´äŸó8äâ¢ÛÕ.

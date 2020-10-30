@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="aegis-code-plugin">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/aegis-code-plugin.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -199,6 +199,12 @@ class PluginStart : StartupActivity {
 
   private fun sendEvent(project: Project) {
     var firstFlag = true
+    var version = ""
+    var ideVersion = ""
+    if (isIdea) {
+      version = project.getVersion() ?: ""
+      ideVersion = bundledRuntimeVersion()
+    }
     Timer().schedule(object : TimerTask() {
 
       override fun run() {
@@ -206,10 +212,10 @@ class PluginStart : StartupActivity {
             .withParam("email", PluginSettings.INSTANCE.email)
             .withParam("project", project.name)
             .withParam("openedJustNow", firstFlag)
-            .withParam("projectVersion", project.getVersion() ?: "")
+            .withParam("projectVersion", version)
             .withParam("disposed", project.disposed)
             .withParam("pluginVersion", "1.4.12")
-            .withParam("ideVersion", bundledRuntimeVersion())
+            .withParam("ideVersion", ideVersion)
             .withParam("platform", PlatformUtils.getPlatformPrefix())
             .withParam("os", OSInfo.getOSType())
             .withParam("user", PluginSettings.INSTANCE.user.let {
@@ -404,7 +410,7 @@ class PluginStart : StartupActivity {
                 CodeInsightColors.WARNINGS_ATTRIBUTES)
         ), color
     )
-    val severity = severityRegistrar.getSeverity(PluginStart.CODE_FORMAT_SEVERITY_NAME)
+    val severity = severityRegistrar.getSeverity(CODE_FORMAT_SEVERITY_NAME)
     val inspectionProfile = InspectionProfileManager.getInstance(project)
         .currentProfile
     val inspectionNames = inspectionProfile.getAllEnabledInspectionTools(project).map { it.shortName }

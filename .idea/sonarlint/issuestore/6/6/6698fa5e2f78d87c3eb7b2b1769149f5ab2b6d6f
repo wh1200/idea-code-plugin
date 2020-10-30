@@ -1,0 +1,7 @@
+
+z
+java:S1221"aEither override Object.equals(Object obj), or totally rename the method to prevent any confusion.(ŞŞüÿÿÿÿ
+k
+java:S1450"RRemove the "sql" field and declare it as a local variable in the relevant methods.(ş²©ÿÿÿÿÿ
+2
+java:S1700"Rename field "sqlBuilder"(Ã¨‹Ãıÿÿÿÿ

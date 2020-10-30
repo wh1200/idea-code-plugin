@@ -1,34 +1,34 @@
 /*
  * ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
  */
-
 package com.wuhao.code.check.ui;
 
-import java.awt.Dimension;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.intellij.database.model.DasDataSource;
+import com.intellij.database.psi.DataSourceManager;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 
-/**
- * Created by 吴昊 on 18-4-25.
- */
 public class AegisPluginSettings {
 
-  private JTextField emailInput;
-  private JTextField gitPrivateTokenInput;
-  private JTextField javaKotlinTemplateUrlInput;
-  private JPanel     mainPanel;
-  private JTextField reactTemplateUrlInput;
-  private JTextField userInput;
-  private JTextField vueTemplateUrlInput;
-  private JLabel     emailLabel;
-  private JLabel     gitPrivateTokenLabel;
-  private JLabel     javaKotlinTemplateUrlLabel;
-  private JLabel     reactTemplateUrlLabel;
+  private JTextField     emailInput;
+  private JLabel         emailLabel;
+  private JTextField     gitPrivateTokenInput;
+  private JLabel         gitPrivateTokenLabel;
+  private JTextField     javaKotlinTemplateUrlInput;
+  private JLabel         javaKotlinTemplateUrlLabel;
+  private JPanel         mainPanel;
+  private JTextField     reactTemplateUrlInput;
+  private JLabel         reactTemplateUrlLabel;
   @SuppressWarnings("unused")
-  private JPanel     settingsPanel;
-  private JLabel     userLabel;
+  private JPanel         settingsPanel;
+  private JTextField     userInput;
+  private JLabel         userLabel;
+  private JTextField     vueTemplateUrlInput;
   private JLabel     vueTemplateUrlLabel;
 
   public AegisPluginSettings() {
@@ -71,4 +71,3 @@ public class AegisPluginSettings {
   }
 
 }
-

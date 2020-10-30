@@ -31,7 +31,6 @@ import com.intellij.util.IncorrectOperationException
 import com.intellij.util.PlatformUtils
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix
 import com.wuhao.code.check.inspection.fix.SpaceQuickFix.Position.*
-import org.jetbrains.idea.maven.project.MavenProjectsManager
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.kdoc.parser.KDocKnownTag
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
@@ -235,7 +234,7 @@ inline fun <reified T> PsiElement.ancestorOfType(): T? {
 fun PsiElement.clearBlankLineBeforeOrAfter(position: SpaceQuickFix.Position) {
   val whiteSpaceEl = when (position) {
     Before -> this.prev
-    After  -> this.next
+    After -> this.next
     else   -> null
   }
   if (whiteSpaceEl !is PsiWhiteSpace) {
@@ -556,20 +555,6 @@ inline fun <reified T> PsiElement.getSiblingsOfType(): List<PsiElement> {
   } else {
     return this.parent.children.filter { it is T }
   }
-}
-
-/**
- * 读取项目版本号，目前支持maven
- */
-fun Project.getVersion(): String? {
-  val mavenProjectsManager = MavenProjectsManager.getInstance(this)
-  if (mavenProjectsManager != null && mavenProjectsManager.hasProjects()) {
-    val mavenProject = mavenProjectsManager.projects.firstOrNull()
-    if (mavenProject != null) {
-      return mavenProject.modelMap["version"]
-    }
-  }
-  return null
 }
 
 /**

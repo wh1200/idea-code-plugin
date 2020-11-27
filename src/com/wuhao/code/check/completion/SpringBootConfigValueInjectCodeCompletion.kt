@@ -4,17 +4,13 @@
 package com.wuhao.code.check.completion
 
 import com.intellij.codeInsight.completion.*
-import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.codeInsight.lookup.LookupElementDecorator
 import com.intellij.spring.boot.SpringBootConfigFileConstants.APPLICATION_YML
-import com.intellij.spring.boot.application.metadata.SpringBootApplicationMetaConfigKeyManager
 import com.intellij.util.PlatformUtils
 import com.intellij.util.ProcessingContext
 import com.wuhao.code.check.constants.JAVA_VALUE_ANNOTATION_PATTERN
 import com.wuhao.code.check.constants.KOTLIN_VALUE_ANNOTATION_PATTERN
 import com.wuhao.code.check.constants.RESOURCES_PATH
 import com.wuhao.code.check.toPsiFile
-import org.jetbrains.kotlin.idea.util.module
 
 /**
  * Created by 吴昊 on 2017/7/17.
@@ -42,17 +38,17 @@ class SpringBootConfigValueInjectCodeCompletion : CompletionContributor() {
       val project = parameters.originalFile.project
       val yamlFile = parameters.originalFile.virtualFile.fileSystem
           .findFileByPath("${project.basePath}/$RESOURCES_PATH/$APPLICATION_YML")?.toPsiFile(project)
-      if (yamlFile != null) {
-        val configKeys = SpringBootApplicationMetaConfigKeyManager.getInstance()
-            .getAllMetaConfigKeys(yamlFile.module)
-        configKeys.forEach { configKey ->
-          val builder = configKey.presentation.lookupElement
-          val insertHandler = LookupElementDecorator.withInsertHandler<LookupElementBuilder>(builder, { _, _ ->
-          })
-          val lookupElement = configKey.presentation.tuneLookupElement(insertHandler)
-          completionResultSet.addElement(lookupElement)
-        }
-      }
+//      if (yamlFile != null) {
+//        val configKeys = SpringBootApplicationMetaConfigKeyManager.getInstance()
+//            .getAllMetaConfigKeys(yamlFile.module)
+//        configKeys.forEach { configKey ->
+//          val builder = configKey.presentation.lookupElement
+//          val insertHandler = LookupElementDecorator.withInsertHandler<LookupElementBuilder>(builder, { _, _ ->
+//          })
+//          val lookupElement = configKey.presentation.tuneLookupElement(insertHandler)
+//          completionResultSet.addElement(lookupElement)
+//        }
+//      }
     }
 
   }

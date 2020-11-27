@@ -297,26 +297,6 @@ class ConvertToClassComponent : LocalQuickFix {
     return null
   }
 
-  private fun findReturnObject(dataProperty: TypeScriptFunctionProperty): JSObjectLiteralExpression? {
-    dataProperty.getChildOfType<JSBlockStatement>()?.let {
-      val returnStatement = it.getChildOfType<JSReturnStatement>()
-      if (returnStatement != null) {
-        return returnStatement.getChildOfType()
-      }
-    }
-    return null
-  }
-
-  private fun isPureReturn(dataProperty: TypeScriptFunctionProperty): Boolean {
-    val body = dataProperty.getChildOfType<JSBlockStatement>()
-    if (body != null) {
-      return body.children.filter {
-        it !is PsiWhiteSpace && it !is LeafPsiElement
-      }.size == 1
-    }
-    return false
-  }
-
   private fun resolveTypeOfProp(property: JSProperty): String? {
     val value = property.value
     if (value is JSObjectLiteralExpression) {
@@ -328,3 +308,25 @@ class ConvertToClassComponent : LocalQuickFix {
   }
 
 }
+
+
+fun isPureReturn(dataProperty: TypeScriptFunctionProperty): Boolean {
+  val body = dataProperty.getChildOfType<JSBlockStatement>()
+  if (body != null) {
+    return body.children.filter {
+      it !is PsiWhiteSpace && it !is LeafPsiElement
+    }.size == 1
+  }
+  return false
+}
+
+fun findReturnObject(dataProperty: TypeScriptFunctionProperty): JSObjectLiteralExpression? {
+  dataProperty.getChildOfType<JSBlockStatement>()?.let {
+    val returnStatement = it.getChildOfType<JSReturnStatement>()
+    if (returnStatement != null) {
+      return returnStatement.getChildOfType()
+    }
+  }
+  return null
+}
+

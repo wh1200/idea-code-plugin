@@ -39,7 +39,8 @@ class SyncDatabaseComment : LocalQuickFix {
         schema = store[project.name]!![3]
       }
       ApplicationManager.getApplication().invokeLater {
-        if (url == null) {
+        var prepared = false
+        if (url.isNullOrBlank() || username.isNullOrBlank() || password.isNullOrBlank() || schema.isNullOrBlank()) {
           val dataSourceManager = DataSourceManager
               .getManagers(project)
           if (dataSourceManager.size > 0 && dataSourceManager[0].dataSources.size > 0) {
@@ -65,34 +66,41 @@ class SyncDatabaseComment : LocalQuickFix {
                 schema = Messages.showInputDialog("输入数据库名称", "提示", null)
               }
             }
+            prepared = true
+          } else {
+            Messages.showErrorDialog("缺少数据源配置", "警告")
           }
+        } else {
+          prepared = true
         }
-        when {
-          password.isNullOrBlank() -> {
-            Messages.showErrorDialog("请输入密码", "错误")
-          }
-          schema.isNullOrBlank()   -> {
-            Messages.showErrorDialog("请输入Schema", "错误")
-          }
-          else                     -> {
-            val fastJdbc: FastJdbc = SimpleFastJdbc(NoPoolDataSource(url, username, password))
-            val columns = findTableSchemas(fastJdbc, schema, tableName)
-            if (columns!!.isNotEmpty()) {
-              store[project.name] = listOf(url!!, username!!, password!!, schema!!)
-              columns.forEach {
-                println(it?.columnName + "/" + it?.columnComment)
-              }
-              WriteCommandAction.runWriteCommandAction(project) {
-                el.fields.forEach { field ->
-                  val col = columns.find {
-                    field.name.toLowerCase() == it!!.columnName!!.toLowerCase()
-                        || field.name.toLowerCase() == it.columnName!!.replace("_", "")
-                  }
-                  if (col?.columnComment != null) {
-                    val comment = PsiElementFactoryImpl(project)
-                        .createCommentFromText("/** " + col.columnComment!! + " */", field)
-                    if (field.children[0] !is PsiComment) {
-                      comment.insertBefore(field.children[0])
+        if (prepared) {
+          when {
+            password.isNullOrBlank() -> {
+              Messages.showErrorDialog("请输入密码", "错误")
+            }
+            schema.isNullOrBlank()   -> {
+              Messages.showErrorDialog("请输入Schema", "错误")
+            }
+            else                     -> {
+              val fastJdbc: FastJdbc = SimpleFastJdbc(NoPoolDataSource(url, username, password))
+              val columns = findTableSchemas(fastJdbc, schema, tableName)
+              if (columns!!.isNotEmpty()) {
+                store[project.name] = listOf(url!!, username!!, password!!, schema!!)
+                columns.forEach {
+                  println(it?.columnName + "/" + it?.columnComment)
+                }
+                WriteCommandAction.runWriteCommandAction(project) {
+                  el.fields.forEach { field ->
+                    val col = columns.find {
+                      field.name.toLowerCase() == it!!.columnName!!.toLowerCase()
+                          || field.name.toLowerCase() == it.columnName!!.replace("_", "")
+                    }
+                    if (col?.columnComment != null) {
+                      val comment = PsiElementFactoryImpl(project)
+                          .createCommentFromText("/** " + col.columnComment!! + " */", field)
+                      if (field.children[0] !is PsiComment) {
+                        comment.insertBefore(field.children[0])
+                      }
                     }
                   }
                 }
@@ -136,7 +144,6 @@ fun findTableSchemas(fastJdbc: FastJdbc, database: String?, table: String?): Lis
   val sql =
       "select column_name, column_comment from information_schema.COLUMNS where table_schema = '${database}' and " +
           "table_name = '${table}'"
-  println(sql)
   return fastJdbc.find(sql, TableRowHandler())
 }
 

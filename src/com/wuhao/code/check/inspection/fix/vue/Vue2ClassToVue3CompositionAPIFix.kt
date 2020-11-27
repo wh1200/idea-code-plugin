@@ -17,7 +17,6 @@ import com.intellij.lang.javascript.psi.impl.JSPsiElementFactory
 import com.intellij.lang.typescript.psi.impl.ES6DecoratorImpl
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFileFactory
-import com.wuhao.code.check.constants.docComment
 import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.hasDecorator
 import com.wuhao.code.check.insertElementsBefore
@@ -219,7 +218,7 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
           }
         }
     fields.forEach { field ->
-      val comment = field.docComment
+      val comment = field.jsDocComment
       if (field.hasDecorator("Prop")) {
         val attrList = field.attributeList
         val fieldArgList = (attrList!!.decorators[0] as ES6Decorator).expression?.getChildOfType<JSArgumentList>()
@@ -315,7 +314,7 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
       }
     }
     functions.forEach { func ->
-      val comment = func.docComment
+      val comment = func.jsDocComment
       // watch
       if (func.hasDecorator("Watch")) {
         val decoratorArgs = (func.attributeList!!.decorators[0]
@@ -415,32 +414,8 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
     val propsText = propsList.map {
       it.getText()
     }.joinToString(",\n")
-    val valueString = format(valueList)
-    val watchString = format(watchList)
-    val computedString = format(computedList)
-    val functionString = format(functionList)
-    val lifecycleString = format(lifeCycleExpressions)
-    componentProps.add(optionsDecoratorContent)
-    componentProps.add("""props: {
-${propsText.lines().joinToString("\n") { "      $it" }}
-        }""")
-    componentProps.add("""setup(props, {emit, slots}) {
-$valueString
-$watchString
-$computedString
-$functionString
-$lifecycleString
-${otherSetupExpressions.joinToString(";\n")}
-          return {
-          
-          };
-        }""")
-    componentProps.add(renderFnString)
-    val text = """
-      defineComponent({
-        ${componentProps.joinToString(",\n")}
-      })
-    """.trimIndent()
+    val text = createCompositionApiCode(valueList, watchList, computedList, functionList, lifeCycleExpressions,
+        componentProps, optionsDecoratorContent, propsText, otherSetupExpressions, renderFnString)
     val dummy = PsiFileFactory.getInstance(project).createFileFromText(
         "Dummy", TypeScriptJSXFileType.INSTANCE, text
     )
@@ -469,10 +444,58 @@ ${otherSetupExpressions.joinToString(";\n")}
     return "Vue2 Class 转 Vue3 Composition API"
   }
 
-  private fun format(valueList: ArrayList<out VueCompositionExpresion>): String {
-    return valueList.joinToString("\n") { it.getText() }.lines().joinToString("\n") { "      $it" }
-  }
+}
 
+private fun format(valueList: List<out VueCompositionExpresion>): String {
+  return valueList.joinToString("\n") { it.getText() }.lines().joinToString("\n") { "      $it" }
+}
+
+fun createCompositionApiCode(valueList: List<ValueExpression>,
+                                     watchList: List<WatchExpression>,
+                                     computedList: List<ComputedExpression>,
+                                     functionList: List<FunctionExpression>,
+                                     lifeCycleExpressions: List<LifecycleExpression>,
+                                     componentProps: ArrayList<String>,
+                                     optionsDecoratorContent: String,
+                                     propsText: String,
+                                     otherSetupExpressions: List<String>,
+                                     renderFnString: String): String {
+  val valueString = format(valueList)
+  val watchString = format(watchList)
+  val computedString = format(computedList)
+  val functionString = format(functionList)
+  val lifecycleString = format(lifeCycleExpressions)
+  val returnList = arrayListOf<String>()
+  returnList.addAll(valueList.map { it.name })
+  returnList.addAll(computedList.map { it.name })
+  returnList.addAll(functionList.map { it.name })
+  if (optionsDecoratorContent.isNotBlank()) {
+    componentProps.add(optionsDecoratorContent)
+  }
+  if (propsText.isNotEmpty()) {
+    componentProps.add("""props: {
+${propsText.lines().joinToString("\n") { "      $it" }}
+        }""")
+  }
+  componentProps.add("""setup(props, {emit, slots}) {
+$valueString
+$watchString
+$computedString
+$functionString
+$lifecycleString
+${otherSetupExpressions.joinToString(";\n")}
+          return {
+             ${returnList.joinToString(",  \n")}
+          };
+        }""")
+  if (renderFnString.isNotBlank()) {
+    componentProps.add(renderFnString)
+  }
+  val text = """
+  defineComponent({
+    ${componentProps.joinToString(",    \n")}
+  });""".trimIndent()
+  return text
 }
 
 /**

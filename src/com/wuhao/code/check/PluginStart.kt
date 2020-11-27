@@ -502,7 +502,6 @@ class PluginStart : StartupActivity {
       if (fields.contains("IMPORT_MERGE_MEMBERS")) {
         this.IMPORT_MERGE_MEMBERS = JSCodeStyleSettings.BooleanWithGlobalOption.TRUE
       }
-      println(fields)
     }
   }
 

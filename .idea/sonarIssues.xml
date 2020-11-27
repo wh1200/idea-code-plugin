@@ -38,7 +38,22 @@
             <set />
           </value>
         </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/service/MysqlToElasticsearchService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/service/MysqlToElasticsearchService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/apps/quality/QualityFilterController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-app/src/main/resources/static/js/UKeFu-SoftPhone.js">
           <value>
             <set />
           </value>
@@ -49,6 +64,11 @@
           </value>
         </entry>
         <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-core/src/main/java/com/ukefu/webim/service/cache/hazelcast/AbstractCacheBean.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/highCourt/WorkOrdersConsult.java">
           <value>
             <set />
           </value>
@@ -469,6 +489,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/gotohandler/MyBatisGotoDeclarationHandler.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/java/ConvertToClassComponent.kt">
           <value>
             <set />
           </value>

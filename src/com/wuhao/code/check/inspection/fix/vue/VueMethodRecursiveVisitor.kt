@@ -24,11 +24,10 @@ class VueMethodRecursiveVisitor(private val propsNames: List<String>,
       "this.${'$'}emit" to "emit",
       "this.${'$'}props" to ConvertToVue3Component.PROPS_PARAMETER_NAME
   )
-  val refs = arrayListOf<String>()
+  val refs = hashSetOf<String>()
 
   override fun visitElement(element: PsiElement) {
     super.visitElement(element)
-    println(element.text)
     if (element is JSReferenceExpression) {
       if (element.text in nameMap) {
         val newExp = JSPsiElementFactory.createJSExpression(nameMap[element.text]!!, element)
@@ -37,6 +36,7 @@ class VueMethodRecursiveVisitor(private val propsNames: List<String>,
       if (element.text.startsWith("this.${'$'}refs.")) {
         val name = element.text.replace("this.${'$'}refs.", "")
         if (!name.contains(".")) {
+          refs.add(name)
           element.replaced(JSPsiElementFactory.createJSExpression(
               "${name}Ref.value", element
           ))

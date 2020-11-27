@@ -7,18 +7,33 @@ import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.lang.ecmascript6.psi.ES6ImportDeclaration
 import com.intellij.lang.javascript.TypeScriptJSXFileType
-import com.intellij.lang.javascript.psi.JSArrayLiteralExpression
+import com.intellij.lang.javascript.psi.JSEmbeddedContent
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
+import com.intellij.lang.javascript.psi.JSParenthesizedExpression
 import com.intellij.lang.javascript.psi.JSProperty
+import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunctionExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunctionProperty
 import com.intellij.lang.javascript.psi.impl.JSPsiElementFactory
+import com.intellij.lang.javascript.psi.jsdoc.JSDocComment
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
+import com.wuhao.code.check.ancestorOfType
 import com.wuhao.code.check.constants.Messages.CONVERT_TO_VUE3_COMPONENT
 import com.wuhao.code.check.insertElementsBefore
+import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix.Companion.VUE2_LIFE_CYCLE_METHODS
 import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix.Companion.VUE3_LIFE_CYCLE_METHOD_MAP
-import org.jetbrains.kotlin.backend.common.push
+import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
+
+val PsiElement.jsDocComment: JSDocComment?
+  get() {
+    return if (this.firstChild is JSDocComment) {
+      return this.firstChild as JSDocComment
+    } else {
+      null
+    }
+  }
 
 /**
  * javascript对象属性排序
@@ -28,7 +43,7 @@ import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 class ConvertToVue3Component : LocalQuickFix {
 
   companion object {
-    const val PROPS_PARAMETER_NAME = "props";
+    const val PROPS_PARAMETER_NAME = "props"
   }
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
@@ -36,7 +51,6 @@ class ConvertToVue3Component : LocalQuickFix {
     val embeddedContent = element.parent.parent
     val imports = embeddedContent.getChildrenOfType<ES6ImportDeclaration>()
     val propertyMap = element.properties.associateBy { it.name }
-    val nameProperty = propertyMap["name"]
     val mixinsProperty = propertyMap["mixins"]
     val propsProperty = propertyMap["props"]
     val allProperties = element.properties.toMutableList()
@@ -44,157 +58,101 @@ class ConvertToVue3Component : LocalQuickFix {
     val computedProperty = propertyMap["computed"]
     val dataProperty = propertyMap["data"]
     val methodsProperty = propertyMap["methods"]
-    val existsLifeCycleMethods = VueComponentPropertySortFix.VUE2_LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
-    val lifeCycleMethodsString = arrayListOf<String>()
-    var beforeCreate = "";
-    var created = "";
-    val vueImportSpecifiers = arrayListOf(
+    val vueImportSpecifiers = hashSetOf(
         "ref",
         "defineComponent",
         "getCurrentInstance",
         "nextTick"
     )
-    val propsNames = getPropNames(propsProperty);
-    val watchString = buildWatchStr(watchProperty, propsNames)
+    val propNames = resolvePropNames(propsProperty)
+    val refValueNames = resolveRefNames(dataProperty)
+    val injectionNames = arrayListOf<String>()
+    val methodNames = resolveMethodNames(methodsProperty)
+    val reactiveValueNames = resolveReactiveValueNames(dataProperty)
+    val computedNames = resolveComputedNames(computedProperty)
+    val methodVisitor = VueMethodRecursiveVisitor(propNames,
+        refValueNames, methodNames, computedNames, reactiveValueNames
+    )
+    val watchList = resolveWatchList(watchProperty, propNames, methodVisitor)
+    val valueList: ArrayList<ValueExpression> =
+        resolveValues(dataProperty)
+    val functionList: List<FunctionExpression> = resolveFunctionList(
+        methodsProperty, methodVisitor, valueList
+    )
     if (watchProperty != null && watchProperty.value is JSObjectLiteralExpression
         && (watchProperty.value as JSObjectLiteralExpression).properties.isEmpty()
     ) {
       allProperties.remove(watchProperty)
     }
-    if (watchString.isNotBlank()) {
+    if (watchList.isNotEmpty()) {
       vueImportSpecifiers.add("watch");
     }
-    existsLifeCycleMethods.forEach {
-      if (it is TypeScriptFunctionProperty) {
-        when {
-          VUE3_LIFE_CYCLE_METHOD_MAP.containsKey(it.name) -> {
-            allProperties.remove(it)
-            preHandleMethod(it, propsNames)
-            val vue3HookName = VUE3_LIFE_CYCLE_METHOD_MAP[it.name]!!
-            vueImportSpecifiers.add(vue3HookName)
-            lifeCycleMethodsString.push(
-                """$vue3HookName (() => 
-                    | ${it.block!!.text})""".trimMargin()
-            )
-          }
-          it.name == "beforeCreate"                       -> {
-            allProperties.remove(it)
-            preHandleMethod(it, propsNames)
-            beforeCreate = it.block!!.children
-                .toList().drop(1).dropLast(1)
-                .joinToString("\n") { it.text }
-          }
-          it.name == "created"                            -> {
-            allProperties.remove(it)
-            preHandleMethod(it, propsNames)
-            created = it.block!!.children
-                .toList().drop(1).dropLast(1).joinToString("\n") { it.text }
-          }
+    val computedList: ArrayList<ComputedExpression> = resolveComputedList(computedProperty, methodVisitor)
+    if (computedProperty != null && (computedProperty.value as JSObjectLiteralExpression).properties.isEmpty()) {
+      computedProperty.delete()
+    }
+    if (watchProperty != null && (watchProperty.value as JSObjectLiteralExpression).properties.isEmpty()) {
+      watchProperty.delete()
+    }
+    if (methodVisitor.refs.isNotEmpty()) {
+      methodVisitor.refs.forEach {
+        if (valueList.none { it.name == "${it}Ref" }) {
+          valueList.add(ValueExpression().apply {
+            name = "${it}Ref"
+            initializer = "ref(null)"
+          })
         }
       }
     }
     val renderProperty = propertyMap["render"]
-    val mixinsString = mixinsProperty?.let { property ->
-      (property.value as JSArrayLiteralExpression).expressions.joinToString(",") { it.text }
-    }
     val importList = arrayListOf<String>()
     if (imports.none { it.fromClause != null && it.fromClause!!.referenceText == "Vue" }) {
       importList.add("import {${vueImportSpecifiers.joinToString(", ")}} from 'vue';")
     }
-    val methodsStr = arrayListOf<String>()
-    val setupReturn = arrayListOf<String>()
-    var unrecognizedProperties = listOf<JSProperty>()
-    if (methodsProperty != null && methodsProperty.value is JSObjectLiteralExpression) {
-      val methods = methodsProperty.value as JSObjectLiteralExpression
-      unrecognizedProperties = methods.properties.filter { it !is JSProperty && it !is TypeScriptFunctionProperty }
-      methods.properties.forEach {
-        if (it is TypeScriptFunctionProperty) {
-          preHandleMethod(it, propsNames)
-          methodsStr.add("const ${it.name} = ${it.parameterList!!.text} => ${it.block!!.text}")
-          setupReturn.add(it.name!!)
-        } else if (it is JSProperty) {
-          if (it.nameIdentifier != it.value) {
-            methodsStr.add("const ${it.name} = ${it.value?.text}")
-          }
-          setupReturn.add(it.name!!)
-        }
-      }
-    }
-    val hasUnRecognizedMethods = unrecognizedProperties.isNotEmpty()
-    if (!hasUnRecognizedMethods) {
-      allProperties.remove(methodsProperty)
-    }
-    var renderStr = ""
     if (renderProperty != null && renderProperty is TypeScriptFunctionProperty) {
       if (renderProperty.parameters.isNotEmpty() && renderProperty.parameters[0].name == "h") {
         renderProperty.parameters[0].delete()
       }
       allProperties.remove(renderProperty)
-      renderStr = renderProperty.text
     }
-//        val existsLifeCycleMethods = LIFE_CYCLE_METHODS.mapNotNull { propertyMap[it] }
-//        val lifeCycleMethodsString = existsLifeCycleMethods.joinToString("\n") { "public " + it.text }
-//        allProperties.removeAll(existsLifeCycleMethods)
-    val propertiesStrList = arrayListOf<String>()
+    val lifeCycleExpressions: List<LifecycleExpression> = resolveLifeCycelFunctions(propertyMap, methodVisitor)
+    val componentProps = arrayListOf<String>()
     allProperties.forEach {
-      propertiesStrList.add(it.text)
+      componentProps.add(it.text)
     }
-    propertiesStrList.add(
-        """setup($PROPS_PARAMETER_NAME, {emit}) {
-              | ${beforeCreate.trim()}
-              | $watchString
-              | ${methodsStr.joinToString(";\n")};
-              | ${lifeCycleMethodsString.joinToString(";\n")}
-              | ${created.trim()}
-              | return {
-              |   ${setupReturn.joinToString(",\n")}
-              | };
-              |}""".trimMargin()
-    )
-    if (renderStr.isNotBlank()) {
-      propertiesStrList.add(renderStr)
-    }
-    val text = """defineComponent({
-          |${propertiesStrList.joinToString(",\n")},
-          |})""".trimMargin()
+    val otherSetupExpressions = listOf<String>()
+    val text = createCompositionApiCode(valueList,
+        watchList, computedList, functionList,
+        lifeCycleExpressions, componentProps, "",
+        "", otherSetupExpressions, renderProperty?.text ?: "")
     val dummy = PsiFileFactory.getInstance(project).createFileFromText(
         "Dummy", TypeScriptJSXFileType.INSTANCE, text
     )
+    vueImportSpecifiers.add("inject")
+    vueImportSpecifiers.add("provide")
+    vueImportSpecifiers.add("ref")
+    vueImportSpecifiers.add("Ref")
+    vueImportSpecifiers.add("reactive")
+    vueImportSpecifiers.add("computed")
+    vueImportSpecifiers.add("nextTick")
+    vueImportSpecifiers.addAll(listOf("PropType", "defineComponent"))
     val importStatement = JSPsiElementFactory.createJSSourceElement(
         "import {${vueImportSpecifiers.joinToString(", ")}} " +
             "from 'vue';",
         element
     )
-    element.containingFile.firstChild.insertElementsBefore(importStatement)
+    val embedContent = element.ancestorOfType<JSEmbeddedContent>()
+    if (embedContent != null) {
+      embedContent.firstChild.insertElementsBefore(importStatement)
+    } else {
+      element.containingFile.firstChild.insertElementsBefore(importStatement)
+    }
     element.insertElementsBefore(*dummy.children)
     element.delete()
   }
 
   override fun getFamilyName(): String {
     return CONVERT_TO_VUE3_COMPONENT
-  }
-
-  private fun buildWatchStr(watchProperty: JSProperty?, propsNames: List<String>): String {
-    val result = arrayListOf<String>()
-    if (watchProperty == null) {
-      return ""
-    }
-    if (watchProperty.value is JSObjectLiteralExpression) {
-      val properties = (watchProperty.value as JSObjectLiteralExpression).properties
-      properties.forEach { property ->
-        if (property is TypeScriptFunctionProperty) {
-          if (property.name in propsNames) {
-            preHandleMethod(property, propsNames)
-            result.push(
-                """watch(() => $PROPS_PARAMETER_NAME.${property.name}, ${property.parameterList!!.text} => 
-              |${property.block!!.text})""".trimMargin()
-            )
-            property.delete()
-          }
-        }
-      }
-    }
-    return result.joinToString(";\n") + ";"
   }
 
   private fun getPropNames(propsProperty: JSProperty?): List<String> {
@@ -215,5 +173,208 @@ class ConvertToVue3Component : LocalQuickFix {
     VueMethodRecursiveVisitor(propsNames).visitElement(it)
   }
 
-}
+  private fun resolveComputedList(computedProperty: JSProperty?, methodVisitor: VueMethodRecursiveVisitor): ArrayList<ComputedExpression> {
+    val res = arrayListOf<ComputedExpression>()
+    if (computedProperty == null) {
+      return res
+    }
+    if (computedProperty.value is JSObjectLiteralExpression) {
+      val computedObj = computedProperty.value as JSObjectLiteralExpression
+      computedObj.properties.forEach {
+        if (it is TypeScriptFunctionProperty) {
+          val computed = ComputedExpression()
+          computed.comment = it.jsDocComment?.text ?: ""
+          computed.name = it.name ?: ""
+          methodVisitor.visitElement(it.block!!)
+          computed.expression = it.block?.text ?: "{}"
+          res.add(computed)
+          it.delete()
+        }
+      }
+    }
+    return res;
+  }
 
+  private fun resolveComputedNames(computedProperty: JSProperty?): List<String> {
+    if (computedProperty == null) {
+      return listOf()
+    }
+    return (computedProperty.value as JSObjectLiteralExpression).properties.map { it.name!! }
+  }
+
+  private fun resolveDataNames(dataProperty: JSProperty, isobj: Boolean): List<String> {
+    if (dataProperty is TypeScriptFunctionProperty) {
+      if (isPureReturn(dataProperty)) {
+        val returnObject = findReturnObject(dataProperty)
+        return returnObject?.properties?.map { it.name!! } ?: listOf()
+      }
+    } else {
+      val exp = dataProperty.value!!.getChildOfType<JSParenthesizedExpression>()!!
+      val obj = exp.getChildOfType<JSObjectLiteralExpression>()
+      return obj?.properties?.filter {
+        if (isobj) {
+          it.initializer is JSObjectLiteralExpression
+        } else {
+          it.initializer !is JSObjectLiteralExpression
+        }
+      }?.map { it.name!! } ?: listOf()
+    }
+    return listOf()
+  }
+
+  private fun resolveFunctionList(methodsProperty: JSProperty?,
+                                  methodVisitor: VueMethodRecursiveVisitor, valueList: ArrayList<ValueExpression>): List<FunctionExpression> {
+    if (methodsProperty == null) {
+      return listOf()
+    }
+    val result = arrayListOf<FunctionExpression>()
+    // methods
+    (methodsProperty.value as JSObjectLiteralExpression).properties.forEach { property ->
+      if (property is TypeScriptFunctionProperty) {
+        val fn = FunctionExpression()
+        fn.comment = property.jsDocComment?.text ?: ""
+        fn.name = property.name ?: ""
+        fn.argumentsExpression = property.parameterList?.text ?: "()"
+        methodVisitor.visitElement(property.block!!)
+        fn.bodyExpression = property.block?.text ?: "{}"
+        result.add(fn)
+        property.delete()
+      }
+    }
+    return result
+  }
+
+  private fun resolveLifeCycelFunctions(propertyMap: Map<String?, JSProperty>, methodVisitor: VueMethodRecursiveVisitor): List<LifecycleExpression> {
+    val result = arrayListOf<LifecycleExpression>()
+    propertyMap.filter {
+      it.key in VUE2_LIFE_CYCLE_METHODS
+    }.forEach { entry ->
+      val fnProperty = entry.value as TypeScriptFunctionProperty
+      methodVisitor.visitElement(fnProperty.block!!)
+      val fn = LifecycleExpression()
+      fn.name = VUE3_LIFE_CYCLE_METHOD_MAP[entry.key]
+      fn.comment = entry.value.jsDocComment?.text ?: ""
+      fn.bodyExpression = fnProperty.block?.text ?: "{}"
+      result.add(fn)
+      fnProperty.delete()
+    }
+    return result
+  }
+
+  private fun resolveMethodNames(methodsProperty: JSProperty?): List<String> {
+    if (methodsProperty == null) {
+      return listOf()
+    }
+    val methods = methodsProperty.value
+    if (methods is JSObjectLiteralExpression) {
+      return methods.properties.map { it.name!! }
+    }
+    return listOf()
+  }
+
+  private fun resolvePropNames(propsProperty: JSProperty?): List<String> {
+    if (propsProperty == null) {
+      return listOf()
+    }
+    val props = propsProperty.value
+    if (props is JSObjectLiteralExpression) {
+      return props.properties.map { it.name!! }
+    }
+    return listOf()
+  }
+
+  private fun resolveReactiveValueNames(dataProperty: JSProperty?): List<String> {
+    if (dataProperty == null) {
+      return listOf()
+    }
+    return resolveDataNames(dataProperty, true)
+  }
+
+  private fun resolveRefNames(dataProperty: JSProperty?): List<String> {
+    if (dataProperty == null) {
+      return listOf()
+    }
+    return resolveDataNames(dataProperty, false)
+  }
+
+  private fun resolveValues(dataProperty: JSProperty?): ArrayList<ValueExpression> {
+    if (dataProperty == null) {
+      return arrayListOf()
+    }
+    val valueList = arrayListOf<ValueExpression>()
+    if (dataProperty is TypeScriptFunctionProperty) {
+      if (isPureReturn(dataProperty)) {
+        val returnObject = findReturnObject(dataProperty)
+        if (returnObject != null) {
+          returnObject.properties.forEach {
+            val valueExp = ValueExpression()
+            valueExp.name = it.name!!
+            // 不是prop
+            valueExp.initializer = it.initializer?.text
+            if (it.initializer is JSObjectLiteralExpression) {
+              valueExp.initializer = "reactive(${valueExp.initializer})"
+            } else {
+              if (!valueExp.type.isNullOrBlank()) {
+                valueExp.type = "Ref<${valueExp.type}>"
+              }
+              if (valueExp.initializer.isNullOrBlank()) {
+                valueExp.initializer = "ref(null)"
+              } else {
+                valueExp.initializer = "ref(${valueExp.initializer})"
+              }
+            }
+            valueList.add(valueExp)
+            it.delete()
+          }
+          if (valueList.size == returnObject.properties.size || returnObject.properties.isEmpty()) {
+            dataProperty.delete()
+          }
+        }
+      }
+    }
+    return valueList
+  }
+
+  private fun resolveWatchList(watchProperty: JSProperty?, propNames: List<String>,
+                               visitor: VueMethodRecursiveVisitor): List<WatchExpression> {
+    val result = arrayListOf<WatchExpression>()
+    if (watchProperty == null) {
+      return listOf()
+    }
+    if (watchProperty.value is JSObjectLiteralExpression) {
+      val properties = (watchProperty.value as JSObjectLiteralExpression).properties
+      properties.forEach { property ->
+        val we = WatchExpression()
+        we.comment = property.jsDocComment?.text ?: ""
+        val watchProp = property.name
+        if (watchProp in propNames) {
+          we.watchExpression = "${PROPS_PARAMETER_NAME}.$watchProp"
+        } else {
+          we.watchExpression = "$watchProp"
+        }
+        if (property is TypeScriptFunctionProperty) {
+          visitor.visitElement(property.block!!)
+        }
+        if (property is TypeScriptFunctionProperty) {
+          we.callbackExpression = " ${property.parameterList?.text ?: "()"} => ${property.block?.text}"
+        } else if (property.value is JSObjectLiteralExpression) {
+          val obj = property.value as JSObjectLiteralExpression
+          obj.properties.find { it.name == "handler" }.apply {
+            if (this is TypeScriptFunctionProperty) {
+              visitor.visitElement(this.block!!)
+              we.callbackExpression = " ${(this.value as TypeScriptFunctionExpression).parameterList?.text ?: "()"} => ${(this.value as TypeScriptFunctionExpression).block?.text}"
+              this.delete()
+            }
+          }
+          if (obj.properties.size > 1) {
+            we.optionsExpression = obj.text
+          }
+        }
+        property.delete()
+        result.add(we)
+      }
+    }
+    return result
+  }
+
+}

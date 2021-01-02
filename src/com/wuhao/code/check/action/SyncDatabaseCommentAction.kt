@@ -12,7 +12,6 @@ import com.intellij.openapi.vfs.newvfs.impl.VirtualDirectoryImpl
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiJavaFile
-import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.wuhao.code.check.cachedPosterity
 import com.wuhao.code.check.insertBefore
@@ -81,9 +80,6 @@ class SyncDatabaseCommentAction : AnAction() {
             val columns = findTableSchemas(fastJdbc, schema, tableName)
             if (columns!!.isNotEmpty()) {
               store[project.name] = listOf(url!!, username!!, password!!, schema!!)
-              columns.forEach {
-                println(it?.columnName + "/" + it?.columnComment)
-              }
               it.fields.forEach { field ->
                 val col = columns.find {
                   field.name.toLowerCase() == it!!.columnName!!.toLowerCase()

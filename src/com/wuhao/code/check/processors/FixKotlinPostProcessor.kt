@@ -9,6 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
@@ -273,8 +274,22 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
   }
 
   override fun visitProperty(property: KtProperty, data: Any?) {
+    // 顶级属性之间空1行
     if (property.isTopLevel && property.nextIgnoreWs is KtProperty) {
       property.setBlankLineAfter(BLANK_LINES_BETWEEN_TOP_LEVEL_PROPERTIES)
+    }
+    // 行注释改为java doc
+    val comment = property.getChildOfType<PsiComment>()
+    if (comment != null && comment !is KDoc) {
+      if (comment.text.startsWith("//")) {
+        val newComment = property.psiElementFactory.createDocCommentFromText("/** ${comment.text.drop(2).trim()} */")
+        newComment.insertBefore(property.firstChild)
+        comment.delete()
+      }
+    }
+    val colon = property.getChildrenOfType<PsiElement>().firstOrNull { it.text == ":" }
+    if (colon != null && colon.prevSibling is PsiWhiteSpace) {
+      colon.prevSibling.delete()
     }
     super.visitProperty(property, data)
   }

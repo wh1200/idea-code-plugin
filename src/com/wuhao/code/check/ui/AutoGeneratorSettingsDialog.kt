@@ -5,13 +5,8 @@ import com.intellij.database.model.DasDataSource
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.Messages
-import com.wuhao.code.check.inspection.fix.java.ColumnSchema
-import com.wuhao.code.check.inspection.fix.java.TableRowHandler
-import fastjdbc.FastJdbc
-import fastjdbc.NoPoolDataSource
-import fastjdbc.SimpleFastJdbc
-import java.awt.Label
-import javax.swing.*
+import javax.swing.JComponent
+import javax.swing.JRadioButton
 
 class AutoGeneratorSettingsDialog(
     val project: Project?,
@@ -19,8 +14,8 @@ class AutoGeneratorSettingsDialog(
     val databases: List<out DasDataSource>
 ) : DialogWrapper(project, true) {
 
-  private var radioButtons: ArrayList<JRadioButton>? = null
   private var databaseSettings: AegisPluginSettings
+  private var radioButtons: ArrayList<JRadioButton>? = null
 
   init {
     this.databaseSettings = AegisPluginSettings()
@@ -43,6 +38,5 @@ class AutoGeneratorSettingsDialog(
       Messages.showErrorDialog("没有选择数据源", "错误")
     }
   }
-
 
 }

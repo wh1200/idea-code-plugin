@@ -24,30 +24,30 @@ import org.jetbrains.vuejs.lang.html.VueLanguage
 class VueTemplateJSReferenceContributor : PsiReferenceContributor() {
 
   override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
-    registrar.registerReferenceProvider(PlatformPatterns.psiElement(
-        JSLiteralExpression::class.java
-    ).withParent(ES6ImportCall::class.java), object : PsiReferenceProvider() {
-
-      override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
-        element as JSLiteralExpression
-        val resolvedReferences = JSModuleReferenceContributor.getReferencesForStringLiteral(element, this, false)
-        val vueFile = resolvedReferences.map {
-          it.resolve()
-        }.firstOrNull { it is PsiFile && it.name.endsWith(".vue") }
-        if (vueFile is PsiFile) {
-          val tsClass = findTSClass(vueFile)
-          if (tsClass != null) {
-            val name = tsClass.name
-            val nameEl = tsClass.nameIdentifier
-            if (name != null && nameEl != null) {
-              return arrayOf(ResolvedReference(element, tsClass.parent, name, nameEl))
-            }
-          }
-        }
-        return element.references
-      }
-
-    })
+//    registrar.registerReferenceProvider(PlatformPatterns.psiElement(
+//        JSLiteralExpression::class.java
+//    ).withParent(ES6ImportCall::class.java), object : PsiReferenceProvider() {
+//
+//      override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
+//        element as JSLiteralExpression
+//        val resolvedReferences = JSModuleReferenceContributor.getReferencesForStringLiteral(element, this, false)
+//        val vueFile = resolvedReferences.map {
+//          it.resolve()
+//        }.firstOrNull { it is PsiFile && it.name.endsWith(".vue") }
+//        if (vueFile is PsiFile) {
+//          val tsClass = findTSClass(vueFile)
+//          if (tsClass != null) {
+//            val name = tsClass.name
+//            val nameEl = tsClass.nameIdentifier
+//            if (name != null && nameEl != null) {
+//              return arrayOf(ResolvedReference(element, tsClass.parent, name, nameEl))
+//            }
+//          }
+//        }
+//        return element.references
+//      }
+//
+//    })
     val provider = object : PsiReferenceProvider() {
 
       override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {

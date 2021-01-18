@@ -98,6 +98,10 @@ class Vue2ClassToVue3ClassFix : LocalQuickFix {
   }
 
   override fun getFamilyName(): String {
+    return "Vue"
+  }
+
+  override fun getName(): String {
     return "Vue2 Class 转 Vue3 Class"
   }
 

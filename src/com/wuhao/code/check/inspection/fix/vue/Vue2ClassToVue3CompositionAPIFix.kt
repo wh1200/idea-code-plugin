@@ -440,8 +440,12 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
 //    cls.delete()
   }
 
-  override fun getFamilyName(): String {
+  override fun getName(): String {
     return "Vue2 Class 转 Vue3 Composition API"
+  }
+
+  override fun getFamilyName(): String {
+    return "Vue"
   }
 
 }

@@ -8,6 +8,8 @@ import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.wuhao.code.check.ui.PluginSettings
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -20,12 +22,14 @@ class JavaBlockCommentFix : LocalQuickFix {
 
   companion object {
     const val BLOCK_COMMENT_END = "*/"
-    const val BLOCK_COMMENT_START = """/**
-*
-"""
-    const val BLOCK_COMMENT_STRING = BLOCK_COMMENT_START + BLOCK_COMMENT_END
-    val CLASS_COMMENT = "$BLOCK_COMMENT_START* @author ${PluginSettings.NULLABLE_INSTANCE?.user} \n* @since " +
-        "\n$BLOCK_COMMENT_END"
+    const val BLOCK_COMMENT_START = "/**"
+    const val BLOCK_COMMENT_STRING = "$BLOCK_COMMENT_START $BLOCK_COMMENT_END"
+    val CLASS_COMMENT = """$BLOCK_COMMENT_START
+* @author ${PluginSettings.NULLABLE_INSTANCE?.user}
+* @date ${Date().format("yyyy/MM/dd")}
+* @version 1.0 
+* @since 
+$BLOCK_COMMENT_END"""
   }
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
@@ -58,7 +62,7 @@ class JavaBlockCommentFix : LocalQuickFix {
   }
 
   private fun buildMethodComment(element: PsiMethod): String {
-    val commentBuilder = StringBuilder(BLOCK_COMMENT_START)
+    val commentBuilder = StringBuilder("$BLOCK_COMMENT_START\n*")
     element.parameterList.parameters.forEach {
       commentBuilder.append("* @param ${it.name}\n")
     }
@@ -69,5 +73,14 @@ class JavaBlockCommentFix : LocalQuickFix {
     return commentBuilder.toString()
   }
 
+}
+
+/**
+ * 格式化日期
+ * @param pattern 格式
+ * @return 格式化的日期字符串
+ */
+private fun Date.format(pattern: String): String {
+  return SimpleDateFormat(pattern).format(this)
 }
 

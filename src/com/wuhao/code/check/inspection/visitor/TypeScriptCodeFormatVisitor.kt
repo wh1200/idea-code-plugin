@@ -6,7 +6,6 @@ package com.wuhao.code.check.inspection.visitor
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemHighlightType.ERROR
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.database.util.match
 import com.intellij.lang.Language
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.javascript.dialects.TypeScriptJSXLanguageDialect

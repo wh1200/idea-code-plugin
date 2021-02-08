@@ -9,6 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.impl.PsiElementFactoryImpl
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
@@ -25,6 +26,7 @@ import org.jetbrains.kotlin.kdoc.psi.impl.KDocLink
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocTag
 import org.jetbrains.kotlin.lexer.KtTokens
+import org.jetbrains.kotlin.nj2k.postProcessing.resolve
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
@@ -88,7 +90,7 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
                 commentStringMap[text] = commentText
                 text
               }
-          val maxLength = texts.map { it.length }.max()!!
+          val maxLength = texts.map { it.length }.maxOrNull()!!
           val entries = texts.mapIndexed { index, it ->
             var text = it
             val comment = commentStringMap[text]!!
@@ -129,11 +131,11 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
         rBrace.clearBlankLineBeforeOrAfter(Before)
       } else {
         when {
-          lBrace.next == rBrace          -> lBrace.setBlankLineAfter()
-          rBrace.prev !is PsiWhiteSpace  -> lBrace.setBlankLineAfter(1)
+          lBrace.next == rBrace         -> lBrace.setBlankLineAfter()
+          rBrace.prev !is PsiWhiteSpace -> lBrace.setBlankLineAfter(1)
           rBrace.prevIgnoreWs == lBrace -> // 如果classBody没有内容的话，右括号保持换行，左右括号之间不留空行
             rBrace.setBlankLineBefore()
-          else                           -> {
+          else                          -> {
             // 如果classBody有内容，则左括号后和右括号前各留一个空行
             lBrace.setBlankLineAfter(1)
             rBrace.setBlankLineBefore(1)
@@ -153,7 +155,8 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
         && !section.isMultiLine()
         && section.allChildren.count() == 2
         && section.allChildren.first.hasElementType(KDocTokens.LEADING_ASTERISK)
-        && section.allChildren.last.hasElementType(KDocTokens.TEXT)) {
+        && section.allChildren.last.hasElementType(KDocTokens.TEXT)
+    ) {
       val comment = doc.ktPsiFactory.createComment("/** ${(section.allChildren.last as LeafPsiElement).text} */")
       doc.replaced(comment)
     }
@@ -221,14 +224,23 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
             .map { it.getLinkText() }
         function.valueParameters.forEach {
           if (!existsParams.contains(it.name)) {
-            section = section.replace(factory.createDocSection("""${section.text}
-            | * @param ${it.name}""".trimMargin())) as KDocSection
+            section = section.replace(
+                factory.createDocSection(
+                    """${section.text}
+            | * @param ${it.name}""".trimMargin()
+                )
+            ) as KDocSection
           }
         }
         if (function.getChildOfType<KtTypeReference>() != null
-            && !section.hasTag(KDocKnownTag.RETURN)) {
-          section = section.replace(factory.createDocSection("""${section.text}
-            | * @return """.trimMargin())) as KDocSection
+            && !section.hasTag(KDocKnownTag.RETURN)
+        ) {
+          section = section.replace(
+              factory.createDocSection(
+                  """${section.text}
+            | * @return """.trimMargin()
+              )
+          ) as KDocSection
         }
       }
     }
@@ -244,9 +256,40 @@ class KotlinFixVisitor(private val factory: KtPsiFactory) : KotlinRecursiveVisit
     super.visitPackageDirective(directive, data)
   }
 
+  override fun visitPostfixExpression(expression: KtPostfixExpression, data: Any?) {
+    // 使用 lateinit 修饰的成员不应该强制非空
+    val operationException = expression.operationReference
+    if (operationException.text == "!!") {
+      val exp = expression.baseExpression
+      if (exp is KtNameReferenceExpression) {
+        val declareExp = exp.resolve()
+        if (declareExp is KtProperty && declareExp.modifierList != null
+            && declareExp.modifierList!!.text.contains(" lateinit")
+        ) {
+          operationException.delete()
+        }
+      }
+    }
+    super.visitPostfixExpression(expression, data)
+  }
+
   override fun visitProperty(property: KtProperty, data: Any?) {
+    // 顶级属性之间空1行
     if (property.isTopLevel && property.nextIgnoreWs is KtProperty) {
       property.setBlankLineAfter(BLANK_LINES_BETWEEN_TOP_LEVEL_PROPERTIES)
+    }
+    // 行注释改为java doc
+    val comment = property.getChildOfType<PsiComment>()
+    if (comment != null && comment !is KDoc) {
+      if (comment.text.startsWith("//")) {
+        val newComment = property.psiElementFactory.createDocCommentFromText("/** ${comment.text.drop(2).trim()} */")
+        newComment.insertBefore(property.firstChild)
+        comment.delete()
+      }
+    }
+    val colon = property.getChildrenOfType<PsiElement>().firstOrNull { it.text == ":" }
+    if (colon != null && colon.prevSibling is PsiWhiteSpace) {
+      colon.prevSibling.delete()
     }
     super.visitProperty(property, data)
   }

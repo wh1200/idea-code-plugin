@@ -86,9 +86,6 @@ class SyncDatabaseComment : LocalQuickFix {
               val columns = findTableSchemas(fastJdbc, schema, tableName)
               if (columns!!.isNotEmpty()) {
                 store[project.name] = listOf(url!!, username!!, password!!, schema!!)
-                columns.forEach {
-                  println(it?.columnName + "/" + it?.columnComment)
-                }
                 WriteCommandAction.runWriteCommandAction(project) {
                   el.fields.forEach { field ->
                     val col = columns.find {

@@ -1,11 +1,11 @@
 <!--
-~ ©2009-2018 南京擎盾信息科技有限公司 All rights reserved.
+~ ©2009-2021 南京擎盾信息科技有限公司 All rights reserved.
 -->
 
 <idea-plugin>
   <id>com.wuhao.code.check</id>
-  <name>Aegis Code Check</name>
-  <version>1.4.15</version>
+  <name>Aegis Coding Assistant</name>
+  <version>1.4.16</version>
   <vendor email="wuhao@aegis-data.cn"/>
 
   <description><![CDATA[

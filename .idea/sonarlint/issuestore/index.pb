@@ -174,7 +174,7 @@ p
 r
 Bsrc/com/wuhao/code/check/inspection/fix/java/JavaElementNameFix.kt,e\e\eebcf718fdc92496a09aa3e1fea7cb923cc48277
 s
-Csrc/com/wuhao/code/check/inspection/fix/java/JavaBlockCommentFix.kt,f\d\fd87790970e4970d44b9f83e2dd9b693dbb493b3
+Csrc/com/wuhao/code/check/inspection/fix/java/JavaBlockCommentFix.kt,f/d/fd87790970e4970d44b9f83e2dd9b693dbb493b3
 s
 Csrc/com/wuhao/code/check/inspection/fix/java/JavaConsolePrintFix.kt,4\9\4972c78c8d91d4a19a80d325114c1247e229fc16
 t
@@ -184,7 +184,7 @@ o
 p
 @src/com/wuhao/code/check/inspection/fix/kotlin/KotlinCommaFix.kt,e\b\eb0cfcdf433dc8d0f3d65cf6af784206f904a34d
 w
-Gsrc/com/wuhao/code/check/inspection/fix/kotlin/KotlinCommentQuickFix.kt,e\6\e69c66e7b5f11102c3b6dabc0ee057fa87105611
+Gsrc/com/wuhao/code/check/inspection/fix/kotlin/KotlinCommentQuickFix.kt,e/6/e69c66e7b5f11102c3b6dabc0ee057fa87105611
 w
 Gsrc/com/wuhao/code/check/inspection/fix/kotlin/KotlinConsolePrintFix.kt,1\d\1d17b95ce046a3ee865f8b6e0afb8f1cf1dfea00
 ~
@@ -254,7 +254,7 @@ e
 Z
 *src/com/wuhao/code/injector/VueInjector.kt,8\e\8e043125fec9b1c47f4007f537c135f33bbcdbe9
 t
-Dsrc/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt,d\4\d49bb73b71b51b615ab13409fa343e8f21ded6ce
+Dsrc/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt,d/4/d49bb73b71b51b615ab13409fa343e8f21ded6ce
 {
 Ksrc/com/wuhao/code/check/style/arrangement/kotlin/KotlinRecursiveVisitor.kt,3\1\31a113990df8a598d974c4b197960cfbbc71e958
 z
@@ -337,3 +337,5 @@ l
 <src/com/wuhao/code/check/action/SyncDatabaseCommentAction.kt,b/7/b79a482470bc8f20b503bab24cf5b9874fa5da29
 w
 Gsrc/com/wuhao/code/check/inspection/fix/java/ConvertToClassComponent.kt,f/4/f453899575598fdae62bdd153c42317baf6aba8f
+S
+#src/com/wuhao/code/check/IdeaExt.kt,d/4/d4f59839dae949db4f1a3a273d2264ab6bbf49f7

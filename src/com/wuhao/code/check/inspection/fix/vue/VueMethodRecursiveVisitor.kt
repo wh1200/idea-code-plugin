@@ -22,7 +22,7 @@ class VueMethodRecursiveVisitor(private val propsNames: List<String>,
   val nameMap = mapOf(
       "this.${'$'}nextTick" to "nextTick",
       "this.${'$'}emit" to "emit",
-      "this.${'$'}props" to ConvertToVue3Component.PROPS_PARAMETER_NAME
+      "this.${'$'}props" to Vue2ClassToVue3CompositionAPIFix.PROPS_PARAMETER_NAME
   )
   val refs = hashSetOf<String>()
 
@@ -48,7 +48,7 @@ class VueMethodRecursiveVisitor(private val propsNames: List<String>,
           element.replaced(JSPsiElementFactory.createJSExpression(
               element.text.replace(
                   "this.",
-                  "${ConvertToVue3Component.PROPS_PARAMETER_NAME}."
+                  "${Vue2ClassToVue3CompositionAPIFix.PROPS_PARAMETER_NAME}."
               ), element
           ))
         } else if (name in computedNames || name in refValueNames) {

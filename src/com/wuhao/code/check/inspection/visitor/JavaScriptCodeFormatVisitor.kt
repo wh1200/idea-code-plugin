@@ -11,7 +11,7 @@ import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSFile
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.psi.PsiFile
-import com.wuhao.code.check.VUE_SCRIPT_TAG
+import com.wuhao.code.check.PsiPatterns2
 import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages.JS_FILE_NAME_INVALID
 import com.wuhao.code.check.constants.registerWarning
@@ -53,14 +53,16 @@ open class JavaScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
    */
   private fun checkFileName(element: PsiFile) {
     if (!JS_FILE_NAME_PATTERN.matches(element.name)) {
-      holder.registerWarning(element,
-          JS_FILE_NAME_INVALID, FileNameFix())
+      holder.registerWarning(
+          element,
+          JS_FILE_NAME_INVALID, FileNameFix()
+      )
     }
   }
 
   private fun remindReorderProperties(element: JSObjectLiteralExpression) {
     val ac = element.getAncestor(3)
-    if (VUE_SCRIPT_TAG.accepts(ac)) {
+    if (PsiPatterns2.vueScriptTag().accepts(ac)) {
       val sortedProperties = VueComponentPropertySortFix.sortVueComponentProperties(element.properties)
       if (element.properties.toList() != sortedProperties) {
         holder.registerWarning(element, "Vue组件属性排序", VueComponentPropertySortFix())

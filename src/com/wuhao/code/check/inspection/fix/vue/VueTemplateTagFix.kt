@@ -50,7 +50,7 @@ class VueTemplateTagFix(private val sortedAttributes: List<XmlAttribute>) : Loca
     private fun reorderAttributes(el: XmlTag, sortedAttributes: List<XmlAttribute>) {
       if (el.ancestors.any { it is XmlTag && it.name == "template" && it.parent is XmlDocument }) {
         sortedAttributes.forEach { it.delete() }
-        el.children.filter { it is PsiWhiteSpace }
+        el.children.filterIsInstance<PsiWhiteSpace>()
             .forEach { it.delete() }
         sortedAttributes
             .forEach { attr ->

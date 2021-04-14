@@ -2,6 +2,7 @@ package com.wuhao.code.check.inspection.fix.vue
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
+import com.intellij.javascript.nodejs.PackageJsonData
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.ecmascript6.psi.impl.ES6FieldStatementImpl
 import com.intellij.lang.javascript.TypeScriptJSXFileType
@@ -17,8 +18,9 @@ import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
 import com.intellij.lang.javascript.psi.impl.JSPsiElementFactory
 import com.intellij.lang.typescript.psi.impl.ES6DecoratorImpl
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.guessProjectDir
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.hasDecorator
 import com.wuhao.code.check.insertElementsBefore
@@ -36,7 +38,8 @@ fun createCompositionApiCode(
     optionsDecoratorContent: String,
     propsText: String,
     otherSetupExpressions: List<String>,
-    renderFnString: String
+    renderFnString: String,
+    majorVueVersion: Int?
 ): String {
   val valueString = format(valueList)
   val watchString = format(watchList)
@@ -57,14 +60,38 @@ ${propsText.lines().joinToString("\n") { "      $it" }}
         }"""
     )
   }
+  val secondParamProperties = arrayListOf("emit", "slots", "attrs")
+  if (majorVueVersion == 2) {
+    secondParamProperties.add("root")
+  }
   componentProps.add(
-      """setup(props, {emit, slots}) {
-$valueString
-$watchString
-$computedString
-$functionString
-$lifecycleString
-${otherSetupExpressions.joinToString(";\n")}
+      """setup(props, {${secondParamProperties.joinToString(", ")}}) {
+${
+        when {
+          valueString.isBlank() -> ""
+          else                  -> valueString + "\n"
+        }
+      }${
+        when {
+          watchString.isBlank() -> ""
+          else                  -> watchString + "\n"
+        }
+      }${
+        when {
+          computedString.isBlank() -> ""
+          else                     -> computedString + "\n"
+        }
+      }${
+        when {
+          functionString.isBlank() -> ""
+          else                     -> functionString + "\n"
+        }
+      }${
+        when {
+          lifecycleString.isBlank() -> ""
+          else                      -> lifecycleString + "\n"
+        }
+      }${otherSetupExpressions.joinToString(";\n")}
           return {
              ${returnList.joinToString(",  \n")}
           };
@@ -119,10 +146,18 @@ class FunctionExpression : VueCompositionExpresion() {
 
   var argumentsExpression = ""
   var bodyExpression = ""
+  var isAsync: Boolean = false
   var name: String = ""
 
   override fun getText(): String {
-    return format("const ${name} = ${argumentsExpression} => $bodyExpression")
+    return format(
+        "const $name = ${
+          when {
+            isAsync -> "async "
+            else    -> ""
+          }
+        }$argumentsExpression => $bodyExpression"
+    )
   }
 
 }
@@ -215,10 +250,26 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
 
   companion object {
     const val PROPS_PARAMETER_NAME = "props"
+    fun getVueVersion(el: PsiElement): Int? {
+      val projectDir = el.project.guessProjectDir()
+      val packageJsonFile = projectDir!!.children.find { it.name == "package.json" }
+      if (packageJsonFile != null) {
+        val packageJsonData = PackageJsonData.getOrCreate(packageJsonFile)
+        val dependency = packageJsonData.allDependencyEntries.values.find { it.name == "vue" }
+        if (dependency != null) {
+          val ver = dependency.parseVersion()
+          if (ver != null) {
+            return ver.major
+          }
+        }
+      }
+      return null
+    }
   }
 
   override fun applyFix(project: Project, problem: ProblemDescriptor) {
     val cls = problem.psiElement as TypeScriptClass
+    val majorVueVersion = getVueVersion(cls)
     val isExportDefault = cls.parent is ES6ExportDefaultAssignment
     val decorator = (if (isExportDefault) {
       (cls.parent as ES6ExportDefaultAssignment)
@@ -340,7 +391,8 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
           if (tsField.initializer != null) {
             val methodVisitor = VueMethodRecursiveVisitor(
                 propNames,
-                refValueNames, methodNames, computedNames, reactiveValueNames
+                refValueNames, methodNames, computedNames, reactiveValueNames,
+                majorVueVersion, injectionNames
             )
             methodVisitor.visitElement(tsField.initializer!!)
           }
@@ -405,17 +457,25 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
           }
           VueMethodRecursiveVisitor(
               propNames,
-              refValueNames, methodNames, computedNames, reactiveValueNames
+              refValueNames, methodNames, computedNames, reactiveValueNames,
+              majorVueVersion,
+              injectionNames
           ).visitElement(valueArg!!)
-          val watchProp = unwrap(valueArg?.text)
+          val watchProp = unwrap(valueArg.text)
           if (watchProp in propNames) {
             we.watchExpression = "props.$watchProp"
+          } else if (watchProp in refValueNames + computedNames) {
+            we.watchExpression = "${watchProp}.value"
+          } else if (watchProp in reactiveValueNames) {
+            we.watchExpression = "$watchProp"
           } else {
             we.watchExpression = "this.$watchProp"
           }
           val methodVisitor = VueMethodRecursiveVisitor(
               propNames,
-              refValueNames, methodNames, computedNames, reactiveValueNames
+              refValueNames, methodNames, computedNames, reactiveValueNames,
+              majorVueVersion,
+              injectionNames
           )
           methodVisitor.visitElement(func.block!!)
           we.callbackExpression = " ${func.parameterList?.text ?: "()"} => ${func.block?.text}"
@@ -432,7 +492,9 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
           computed.name = func.name ?: ""
           val methodVisitor = VueMethodRecursiveVisitor(
               propNames,
-              refValueNames, methodNames, computedNames, reactiveValueNames
+              refValueNames, methodNames, computedNames, reactiveValueNames,
+              majorVueVersion,
+              injectionNames
           )
           methodVisitor.visitElement(func.block!!)
           computed.expression = func.block?.text ?: "{}"
@@ -440,6 +502,7 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
         } else {
           // methods
           val fn = FunctionExpression()
+          fn.isAsync = func.isAsync
           fn.comment = comment?.text ?: ""
           fn.name = func.name ?: ""
           fn.argumentsExpression = func.parameterList?.text ?: "()"
@@ -454,7 +517,9 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
           } else {
             val methodVisitor = VueMethodRecursiveVisitor(
                 propNames,
-                refValueNames, methodNames, computedNames, reactiveValueNames
+                refValueNames, methodNames, computedNames, reactiveValueNames,
+                majorVueVersion,
+                injectionNames
             )
             methodVisitor.visitElement(func.block!!)
             if (methodVisitor.refs.isNotEmpty()) {
@@ -495,7 +560,8 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
       else            -> "\n"
     }) + createCompositionApiCode(
         valueList, watchList, computedList, functionList, lifeCycleExpressions,
-        componentProps, optionsDecoratorContent, propsText, otherSetupExpressions, renderFnString
+        componentProps, optionsDecoratorContent, propsText, otherSetupExpressions, renderFnString,
+        majorVueVersion
     )
     val dummy = PsiFileFactory.getInstance(project).createFileFromText(
         "Dummy", TypeScriptJSXFileType.INSTANCE, text
@@ -514,7 +580,13 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
     vueImportSpecifics.add("nextTick")
     vueImportSpecifics.addAll(listOf("PropType", "defineComponent"))
     val importStatement = JSPsiElementFactory.createJSSourceElement(
-        "import {${vueImportSpecifics.joinToString(", ")}} from 'vue';", cls
+        "import {${vueImportSpecifics.joinToString(", ")}} from '${
+          when (majorVueVersion) {
+            2    -> "@vue/composition-api"
+            else -> "vue"
+          }
+        }';",
+        cls
     )
     if (isExportDefault) {
       cls.parent.insertElementsBefore(importStatement)

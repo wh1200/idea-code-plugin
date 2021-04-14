@@ -81,8 +81,9 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
           comment.psiElementFactory.createCommentFromText("/* ${commentDataList.first().text.trim()} */", comment)
         } else if (commentDataList.size > 1) {
           comment.psiElementFactory.createCommentFromText(
-              "/* \n*${commentDataList.map { it.text.trim() }.joinToString("\n* ")} "
-                  + "\n*/", comment
+              """/* 
+*${commentDataList.map { it.text.trim() }.joinToString("\n* ")} 
+*/""", comment
           )
         } else {
           null

@@ -41,7 +41,7 @@ fun buildComment(element: PsiElement): PsiComment {
  * @return
  */
 private fun buildFunctionComment(element: KtFunction): String {
-  val commentBuilder = StringBuilder("$BLOCK_COMMENT_START\n*")
+  val commentBuilder = StringBuilder("$BLOCK_COMMENT_START\n")
   element.valueParameterList?.parameters?.forEach {
     commentBuilder.append("* @param ${it.name}\n")
   }

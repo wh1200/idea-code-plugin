@@ -62,7 +62,7 @@ $BLOCK_COMMENT_END"""
   }
 
   private fun buildMethodComment(element: PsiMethod): String {
-    val commentBuilder = StringBuilder("$BLOCK_COMMENT_START\n*")
+    val commentBuilder = StringBuilder("$BLOCK_COMMENT_START\n")
     element.parameterList.parameters.forEach {
       commentBuilder.append("* @param ${it.name}\n")
     }

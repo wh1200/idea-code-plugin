@@ -19,12 +19,7 @@ import com.intellij.openapi.util.IconLoader
 import com.intellij.psi.PsiElement
 import com.intellij.psi.html.HtmlTag
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.wuhao.code.check.NEW_VUE_PATTERN
-import com.wuhao.code.check.VUE_LANG_PATTERN
-import com.wuhao.code.check.getAncestor
-import com.wuhao.code.check.getChildByType
-import com.wuhao.code.check.id
-import com.wuhao.code.check.posterity
+import com.wuhao.code.check.*
 import icons.VuejsIcons
 import javax.swing.Icon
 
@@ -40,15 +35,18 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
     val LIFETIME_FUNCTIONS = listOf(
         "beforeCreate", "created", "beforeMount", "mounted",
         "beforeUpdate", "updated", "activated", "deactivated", "beforeDestroy",
-        "destroyed", "errorCaptured", "beforeRouteEnter", "beforeRouteUpdate", "beforeRouteLeave")
+        "destroyed", "errorCaptured", "beforeRouteEnter", "beforeRouteUpdate", "beforeRouteLeave"
+    )
     val LIFETIME_ICON_FILE = IconLoader.getIcon("/icons/vue-lifetime.png")
     val PROP_ICON_FILE = IconLoader.getIcon("/icons/in.png")
     val WATCH_ICON_FILE = IconLoader.getIcon("/icons/eye.png")
   }
 
-  override fun collectNavigationMarkers(el: PsiElement,
-                                        result: MutableCollection<in RelatedItemLineMarkerInfo<*>>) {
-    if (NEW_VUE_PATTERN.accepts(el)) {
+  override fun collectNavigationMarkers(
+      el: PsiElement,
+      result: MutableCollection<in RelatedItemLineMarkerInfo<*>>
+  ) {
+    if (PsiPatterns2.newVuePattern().accepts(el)) {
       if (el is JSNewExpression) {
         val targets = arrayListOf<PsiElement>()
         if (el.arguments.size == 1) {
@@ -66,12 +64,13 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
         }
         result.add(createLineMarkerInfo(el, VuejsIcons.Vue, targets))
       }
-    } else if (VUE_LANG_PATTERN.accepts(el)) {
+    } else if (PsiPatterns2.vueLangPattern().accepts(el)) {
       val maybeFunctionIdentifier = el.getAncestor(2) is TypeScriptClassExpression
       val maybePropertyIdentifier = el.getAncestor(3) is TypeScriptClassExpression
       if ((el is LeafPsiElement
               && el.elementType == JSTokenTypes.IDENTIFIER
-              && (maybeFunctionIdentifier || maybePropertyIdentifier))) {
+              && (maybeFunctionIdentifier || maybePropertyIdentifier))
+      ) {
         if (maybeFunctionIdentifier && el.parent is TypeScriptFunction) {
           if (hasAnnotationDecorator(el.getAncestor(2) as TypeScriptClassExpression)) {
             if (el.text in LIFETIME_FUNCTIONS) {
@@ -87,15 +86,18 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
           }
         } else if (maybePropertyIdentifier && el.parent is TypeScriptField
             && hasAnnotationDecorator(el.getAncestor(3) as TypeScriptClassExpression)
-            && hasAnnotation(el.parent, "@Prop")) {
+            && hasAnnotation(el.parent, "@Prop")
+        ) {
           result.add(createLineMarkerInfo(el, PROP_ICON_FILE))
         }
       }
     }
   }
 
-  private fun createLineMarkerInfo(source: PsiElement, file: Icon,
-                                   targets: List<PsiElement> = listOf()): RelatedItemLineMarkerInfo<*> {
+  private fun createLineMarkerInfo(
+      source: PsiElement, file: Icon,
+      targets: List<PsiElement> = listOf()
+  ): RelatedItemLineMarkerInfo<*> {
     return NavigationGutterIconBuilder.create(file).setTargets(targets).createLineMarkerInfo(source)
   }
 
@@ -104,7 +106,7 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
       return hasAnnotation(el.parent, annotation)
     }
     return el.getChildByType<JSAttributeList>()?.getChildByType<ES6Decorator>()?.text?.startsWith(annotation)
-        ?: false
+      ?: false
   }
 
   private fun hasAnnotationDecorator(ancestor: TypeScriptClassExpression): Boolean {
@@ -117,7 +119,7 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
   private fun hasAttribute(el: PsiElement, annotation: String): Boolean {
     return el.getChildByType<JSAttributeList>()?.text?.startsWith(annotation)
-        ?: false
+      ?: false
   }
 
 }

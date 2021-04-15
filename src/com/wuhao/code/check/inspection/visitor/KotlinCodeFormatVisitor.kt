@@ -52,7 +52,7 @@ class KotlinCodeFormatVisitor(val holder: ProblemsHolder) : KtVisitor<Any, Any>(
 
   override fun visitElement(element: PsiElement) {
     if (element.typeMatch(IDENTIFIER) && element.textLength <= 1 && psiElement().withAncestor(2, typePattern(FOR))
-            .andNot(leaf()).accepts(element)) {
+            .andNot(PsiPatterns2.leaf()).accepts(element)) {
   holder.registerWarning(element, Messages.NAME_MUST_NOT_LESS_THAN2_CHARS, KotlinCommaFix())
 }
     when (element) {

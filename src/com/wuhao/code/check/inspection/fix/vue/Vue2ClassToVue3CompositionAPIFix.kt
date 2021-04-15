@@ -2,6 +2,8 @@ package com.wuhao.code.check.inspection.fix.vue
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
+import com.intellij.javascript.nodejs.PackageJsonData
+import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.ecmascript6.psi.impl.ES6FieldStatementImpl
 import com.intellij.lang.javascript.TypeScriptJSXFileType
 import com.intellij.lang.javascript.psi.JSArgumentList
@@ -16,6 +18,8 @@ import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
 import com.intellij.lang.javascript.psi.impl.JSPsiElementFactory
 import com.intellij.lang.typescript.psi.impl.ES6DecoratorImpl
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.guessProjectDir
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.hasDecorator
@@ -23,6 +27,83 @@ import com.wuhao.code.check.insertElementsBefore
 import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix.Companion.VUE2_LIFE_CYCLE_METHODS
 import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix.Companion.VUE3_LIFE_CYCLE_METHOD_MAP
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
+
+fun createCompositionApiCode(
+    valueList: List<ValueExpression>,
+    watchList: List<WatchExpression>,
+    computedList: List<ComputedExpression>,
+    functionList: List<FunctionExpression>,
+    lifeCycleExpressions: List<LifecycleExpression>,
+    componentProps: ArrayList<String>,
+    optionsDecoratorContent: String,
+    propsText: String,
+    otherSetupExpressions: List<String>,
+    renderFnString: String,
+    majorVueVersion: Int?
+): String {
+  val valueString = format(valueList)
+  val watchString = format(watchList)
+  val computedString = format(computedList)
+  val functionString = format(functionList)
+  val lifecycleString = format(lifeCycleExpressions)
+  val returnList = arrayListOf<String>()
+  returnList.addAll(valueList.map { it.name })
+  returnList.addAll(computedList.map { it.name })
+  returnList.addAll(functionList.map { it.name })
+  if (optionsDecoratorContent.isNotBlank()) {
+    componentProps.add(optionsDecoratorContent)
+  }
+  if (propsText.isNotEmpty()) {
+    componentProps.add(
+        """props: {
+${propsText.lines().joinToString("\n") { "      $it" }}
+        }"""
+    )
+  }
+  val secondParamProperties = arrayListOf("emit", "slots", "attrs")
+  if (majorVueVersion == 2) {
+    secondParamProperties.add("root")
+  }
+  componentProps.add(
+      """setup(props, {${secondParamProperties.joinToString(", ")}}) {
+${
+        when {
+          valueString.isBlank() -> ""
+          else                  -> valueString + "\n"
+        }
+      }${
+        when {
+          watchString.isBlank() -> ""
+          else                  -> watchString + "\n"
+        }
+      }${
+        when {
+          computedString.isBlank() -> ""
+          else                     -> computedString + "\n"
+        }
+      }${
+        when {
+          functionString.isBlank() -> ""
+          else                     -> functionString + "\n"
+        }
+      }${
+        when {
+          lifecycleString.isBlank() -> ""
+          else                      -> lifecycleString + "\n"
+        }
+      }${otherSetupExpressions.joinToString(";\n")}
+          return {
+             ${returnList.joinToString(",  \n")}
+          };
+        }"""
+  )
+  if (renderFnString.isNotBlank()) {
+    componentProps.add(renderFnString)
+  }
+  return """defineComponent({
+    ${componentProps.joinToString(",    \n")}
+  });""".trimIndent()
+}
 
 /**
  * 去掉字符串前后的引号或括号
@@ -34,6 +115,10 @@ fun unwrap(text: String?): String? {
     return null
   }
   return text.trim().drop(1).dropLast(1)
+}
+
+private fun format(valueList: List<out VueCompositionExpresion>): String {
+  return valueList.joinToString("\n") { it.getText() }.lines().joinToString("\n") { "      $it" }
 }
 
 /**
@@ -61,10 +146,18 @@ class FunctionExpression : VueCompositionExpresion() {
 
   var argumentsExpression = ""
   var bodyExpression = ""
+  var isAsync: Boolean = false
   var name: String = ""
 
   override fun getText(): String {
-    return format("const ${name} = ${argumentsExpression} => $bodyExpression")
+    return format(
+        "const $name = ${
+          when {
+            isAsync -> "async "
+            else    -> ""
+          }
+        }$argumentsExpression => $bodyExpression"
+    )
   }
 
 }
@@ -155,9 +248,34 @@ class ValueExpression : VueCompositionExpresion() {
  */
 class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
 
+  companion object {
+    const val PROPS_PARAMETER_NAME = "props"
+    fun getVueVersion(el: PsiElement): Int? {
+      val projectDir = el.project.guessProjectDir()
+      val packageJsonFile = projectDir!!.children.find { it.name == "package.json" }
+      if (packageJsonFile != null) {
+        val packageJsonData = PackageJsonData.getOrCreate(packageJsonFile)
+        val dependency = packageJsonData.allDependencyEntries.values.find { it.name == "vue" }
+        if (dependency != null) {
+          val ver = dependency.parseVersion()
+          if (ver != null) {
+            return ver.major
+          }
+        }
+      }
+      return null
+    }
+  }
+
   override fun applyFix(project: Project, problem: ProblemDescriptor) {
     val cls = problem.psiElement as TypeScriptClass
-    val decorator = cls.attributeList!!.decorators.find { it.decoratorName == "Component" }
+    val majorVueVersion = getVueVersion(cls)
+    val isExportDefault = cls.parent is ES6ExportDefaultAssignment
+    val decorator = (if (isExportDefault) {
+      (cls.parent as ES6ExportDefaultAssignment)
+    } else {
+      cls
+    }).attributeList!!.decorators.find { it.decoratorName == "Component" }
         as ES6DecoratorImpl
     val argList = decorator.expression!!.getChildByType<JSArgumentList>()
     val valueList: ArrayList<ValueExpression> = arrayListOf()
@@ -190,7 +308,8 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
               propNames.add(tsField.name!!)
             } else {
               if (!field.attributeList!!.text.contains("static")
-                  && !field.hasDecorator("Provide")) {
+                  && !field.hasDecorator("Provide")
+              ) {
                 if (field.hasDecorator("Inject")) {
                   injectionNames.add(tsField.name!!)
                 } else {
@@ -270,14 +389,17 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
           valueExp.name = tsField.name!!
           valueExp.type = tsField.typeElement?.text
           if (tsField.initializer != null) {
-            val methodVisitor = VueMethodRecursiveVisitor(propNames,
-                refValueNames, methodNames, computedNames, reactiveValueNames
+            val methodVisitor = VueMethodRecursiveVisitor(
+                propNames,
+                refValueNames, methodNames, computedNames, reactiveValueNames,
+                majorVueVersion, injectionNames
             )
             methodVisitor.visitElement(tsField.initializer!!)
           }
           valueExp.initializer = tsField.initializer?.text
           if (field.hasDecorator("Provide")) {
-            val provideName = field.attributeList!!.decorators[0].expression!!.getChildOfType<JSArgumentList>()!!.arguments[0]
+            val provideName =
+                field.attributeList!!.decorators[0].expression!!.getChildOfType<JSArgumentList>()!!.arguments[0]
             otherSetupExpressions.add("provide(${provideName.text}, ${tsField.initializer?.text})")
           } else if (field.hasDecorator("Inject")) {
             val arg = field.attributeList!!.decorators[0].expression!!.getChildOfType<JSArgumentList>()!!
@@ -333,17 +455,27 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
           } else {
             null
           }
-          VueMethodRecursiveVisitor(propNames,
-              refValueNames, methodNames, computedNames, reactiveValueNames
+          VueMethodRecursiveVisitor(
+              propNames,
+              refValueNames, methodNames, computedNames, reactiveValueNames,
+              majorVueVersion,
+              injectionNames
           ).visitElement(valueArg!!)
-          val watchProp = unwrap(valueArg?.text)
+          val watchProp = unwrap(valueArg.text)
           if (watchProp in propNames) {
             we.watchExpression = "props.$watchProp"
+          } else if (watchProp in refValueNames + computedNames) {
+            we.watchExpression = "${watchProp}.value"
+          } else if (watchProp in reactiveValueNames) {
+            we.watchExpression = "$watchProp"
           } else {
             we.watchExpression = "this.$watchProp"
           }
-          val methodVisitor = VueMethodRecursiveVisitor(propNames,
-              refValueNames, methodNames, computedNames, reactiveValueNames
+          val methodVisitor = VueMethodRecursiveVisitor(
+              propNames,
+              refValueNames, methodNames, computedNames, reactiveValueNames,
+              majorVueVersion,
+              injectionNames
           )
           methodVisitor.visitElement(func.block!!)
           we.callbackExpression = " ${func.parameterList?.text ?: "()"} => ${func.block?.text}"
@@ -358,8 +490,11 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
           val computed = ComputedExpression()
           computed.comment = comment?.text ?: ""
           computed.name = func.name ?: ""
-          val methodVisitor = VueMethodRecursiveVisitor(propNames,
-              refValueNames, methodNames, computedNames, reactiveValueNames
+          val methodVisitor = VueMethodRecursiveVisitor(
+              propNames,
+              refValueNames, methodNames, computedNames, reactiveValueNames,
+              majorVueVersion,
+              injectionNames
           )
           methodVisitor.visitElement(func.block!!)
           computed.expression = func.block?.text ?: "{}"
@@ -367,6 +502,7 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
         } else {
           // methods
           val fn = FunctionExpression()
+          fn.isAsync = func.isAsync
           fn.comment = comment?.text ?: ""
           fn.name = func.name ?: ""
           fn.argumentsExpression = func.parameterList?.text ?: "()"
@@ -379,17 +515,21 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
               "render${fn.argumentsExpression} ${fn.bodyExpression}"
             }
           } else {
-            val methodVisitor = VueMethodRecursiveVisitor(propNames,
-                refValueNames, methodNames, computedNames, reactiveValueNames
+            val methodVisitor = VueMethodRecursiveVisitor(
+                propNames,
+                refValueNames, methodNames, computedNames, reactiveValueNames,
+                majorVueVersion,
+                injectionNames
             )
             methodVisitor.visitElement(func.block!!)
             if (methodVisitor.refs.isNotEmpty()) {
               methodVisitor.refs.forEach {
-                if (valueList.none { it.name == "${it}Ref"})
-                valueList.add(ValueExpression().apply {
-                  name = "${it}Ref"
-                  initializer = "ref(null)"
-                })
+                if (valueList.none { it.name == "${it}Ref" }) {
+                  valueList.add(ValueExpression().apply {
+                    name = "${it}Ref"
+                    initializer = "ref(null)"
+                  })
+                }
               }
             }
             fn.bodyExpression = func.block?.text ?: "{}"
@@ -409,13 +549,20 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
         }
       }
     }
-    val optionsDecoratorContent = argList?.getChildOfType<JSObjectLiteralExpression>()?.text?.drop(1)?.dropLast(1)?.trim()
-        ?: ""
+    val optionsDecoratorContent =
+        argList?.getChildOfType<JSObjectLiteralExpression>()?.text?.drop(1)?.dropLast(1)?.trim()
+          ?: ""
     val propsText = propsList.map {
       it.getText()
     }.joinToString(",\n")
-    val text = createCompositionApiCode(valueList, watchList, computedList, functionList, lifeCycleExpressions,
-        componentProps, optionsDecoratorContent, propsText, otherSetupExpressions, renderFnString)
+    val text = (when {
+      isExportDefault -> ""
+      else            -> "\n"
+    }) + createCompositionApiCode(
+        valueList, watchList, computedList, functionList, lifeCycleExpressions,
+        componentProps, optionsDecoratorContent, propsText, otherSetupExpressions, renderFnString,
+        majorVueVersion
+    )
     val dummy = PsiFileFactory.getInstance(project).createFileFromText(
         "Dummy", TypeScriptJSXFileType.INSTANCE, text
     )
@@ -433,11 +580,24 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
     vueImportSpecifics.add("nextTick")
     vueImportSpecifics.addAll(listOf("PropType", "defineComponent"))
     val importStatement = JSPsiElementFactory.createJSSourceElement(
-        "import {${vueImportSpecifics.joinToString(", ")}} from 'vue';", cls
+        "import {${vueImportSpecifics.joinToString(", ")}} from '${
+          when (majorVueVersion) {
+            2    -> "@vue/composition-api"
+            else -> "vue"
+          }
+        }';",
+        cls
     )
-    cls.containingFile.firstChild.insertElementsBefore(importStatement)
+    if (isExportDefault) {
+      cls.parent.insertElementsBefore(importStatement)
+    } else {
+      cls.containingFile.firstChild.insertElementsBefore(importStatement)
+    }
     cls.insertElementsBefore(*dummy.children)
-//    cls.delete()
+    cls.delete()
+    if (isExportDefault) {
+      decorator.delete()
+    }
   }
 
   override fun getName(): String {
@@ -448,58 +608,6 @@ class Vue2ClassToVue3CompositionAPIFix : LocalQuickFix {
     return "Vue"
   }
 
-}
-
-private fun format(valueList: List<out VueCompositionExpresion>): String {
-  return valueList.joinToString("\n") { it.getText() }.lines().joinToString("\n") { "      $it" }
-}
-
-fun createCompositionApiCode(valueList: List<ValueExpression>,
-                                     watchList: List<WatchExpression>,
-                                     computedList: List<ComputedExpression>,
-                                     functionList: List<FunctionExpression>,
-                                     lifeCycleExpressions: List<LifecycleExpression>,
-                                     componentProps: ArrayList<String>,
-                                     optionsDecoratorContent: String,
-                                     propsText: String,
-                                     otherSetupExpressions: List<String>,
-                                     renderFnString: String): String {
-  val valueString = format(valueList)
-  val watchString = format(watchList)
-  val computedString = format(computedList)
-  val functionString = format(functionList)
-  val lifecycleString = format(lifeCycleExpressions)
-  val returnList = arrayListOf<String>()
-  returnList.addAll(valueList.map { it.name })
-  returnList.addAll(computedList.map { it.name })
-  returnList.addAll(functionList.map { it.name })
-  if (optionsDecoratorContent.isNotBlank()) {
-    componentProps.add(optionsDecoratorContent)
-  }
-  if (propsText.isNotEmpty()) {
-    componentProps.add("""props: {
-${propsText.lines().joinToString("\n") { "      $it" }}
-        }""")
-  }
-  componentProps.add("""setup(props, {emit, slots}) {
-$valueString
-$watchString
-$computedString
-$functionString
-$lifecycleString
-${otherSetupExpressions.joinToString(";\n")}
-          return {
-             ${returnList.joinToString(",  \n")}
-          };
-        }""")
-  if (renderFnString.isNotBlank()) {
-    componentProps.add(renderFnString)
-  }
-  val text = """
-  defineComponent({
-    ${componentProps.joinToString(",    \n")}
-  });""".trimIndent()
-  return text
 }
 
 /**

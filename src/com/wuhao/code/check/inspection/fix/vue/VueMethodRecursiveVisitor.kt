@@ -13,16 +13,20 @@ import org.jetbrains.kotlin.idea.core.replaced
  * @author 吴昊
  * @since 0.1.15
  */
-class VueMethodRecursiveVisitor(private val propsNames: List<String>,
-                                val refValueNames: List<String> = listOf(),
-                                val methodNames: List<String> = listOf(),
-                                val computedNames: List<String> = listOf(),
-                                val reactiveValueNames: List<String> = listOf()) : JSElementVisitor() {
+class VueMethodRecursiveVisitor(
+    private val propsNames: List<String>,
+    private val refValueNames: List<String> = listOf(),
+    private val methodNames: List<String> = listOf(),
+    private val computedNames: List<String> = listOf(),
+    private val reactiveValueNames: List<String> = listOf(),
+    private val vueVersion: Int?,
+    private val injectionNames: ArrayList<String>
+) : JSElementVisitor() {
 
   val nameMap = mapOf(
       "this.${'$'}nextTick" to "nextTick",
       "this.${'$'}emit" to "emit",
-      "this.${'$'}props" to ConvertToVue3Component.PROPS_PARAMETER_NAME
+      "this.${'$'}props" to Vue2ClassToVue3CompositionAPIFix.PROPS_PARAMETER_NAME
   )
   val refs = hashSetOf<String>()
 
@@ -37,34 +41,62 @@ class VueMethodRecursiveVisitor(private val propsNames: List<String>,
         val name = element.text.replace("this.${'$'}refs.", "")
         if (!name.contains(".")) {
           refs.add(name)
-          element.replaced(JSPsiElementFactory.createJSExpression(
-              "${name}Ref.value", element
-          ))
+          element.replaced(
+              JSPsiElementFactory.createJSExpression(
+                  "${name}Ref.value", element
+              )
+          )
         }
       }
       if (element.text.startsWith("this.")) {
         val name = element.text.replace("this.", "")
         if (name in propsNames) {
-          element.replaced(JSPsiElementFactory.createJSExpression(
-              element.text.replace(
-                  "this.",
-                  "${ConvertToVue3Component.PROPS_PARAMETER_NAME}."
-              ), element
-          ))
+          if (vueVersion == 2) {
+            element.replaced(
+                JSPsiElementFactory.createJSExpression(
+                    "(" + element.text.replace(
+                        "this.",
+                        "${Vue2ClassToVue3CompositionAPIFix.PROPS_PARAMETER_NAME}."
+                    ) + " as any)", element
+                )
+            )
+          } else {
+            element.replaced(
+                JSPsiElementFactory.createJSExpression(
+                    element.text.replace(
+                        "this.",
+                        "${Vue2ClassToVue3CompositionAPIFix.PROPS_PARAMETER_NAME}."
+                    ), element
+                )
+            )
+          }
         } else if (name in computedNames || name in refValueNames) {
-          element.replaced(JSPsiElementFactory.createJSExpression(
-              element.text.replace(
-                  "this.$name",
-                  "$name.value"
-              ), element
-          ))
-        } else if (name in methodNames || name in reactiveValueNames) {
-          element.replaced(JSPsiElementFactory.createJSExpression(
-              element.text.replace(
-                  "this.",
-                  ""
-              ), element
-          ))
+          element.replaced(
+              JSPsiElementFactory.createJSExpression(
+                  element.text.replace(
+                      "this.$name",
+                      "$name.value"
+                  ), element
+              )
+          )
+        } else if (name in methodNames || name in reactiveValueNames || name in injectionNames) {
+          element.replaced(
+              JSPsiElementFactory.createJSExpression(
+                  element.text.replace(
+                      "this.",
+                      ""
+                  ), element
+              )
+          )
+        } else if (name.startsWith("$") && vueVersion == 2) {
+          element.replaced(
+              JSPsiElementFactory.createJSExpression(
+                  element.text.replace(
+                      "this.",
+                      "root."
+                  ), element
+              )
+          )
         }
       }
     } else if (element is XmlAttribute) {
@@ -72,9 +104,11 @@ class VueMethodRecursiveVisitor(private val propsNames: List<String>,
         refs.add(element.value!!)
         element.replaced(
             XmlElementFactory.getInstance(element.project)
-                .createXmlAttribute("ref", """{(el) => {
+                .createXmlAttribute(
+                    "ref", """{(el) => {
               | ${element.value}Ref.value = el;
-              |}}""".trimMargin())
+              |}}""".trimMargin()
+                )
         )
       }
     }

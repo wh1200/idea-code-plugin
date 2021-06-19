@@ -15,7 +15,8 @@ import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClass
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptObjectType
-import com.intellij.psi.PsiElement
+import com.intellij.lang.javascript.psi.ecma6.TypeScriptVariable
+import com.intellij.lang.javascript.psi.impl.JSChangeUtil
 import com.intellij.psi.PsiFile
 import com.intellij.psi.html.HtmlTag
 import com.wuhao.code.check.constants.LanguageNames
@@ -24,10 +25,10 @@ import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.getAncestor
 import com.wuhao.code.check.hasDecorator
 import com.wuhao.code.check.inspection.fix.JsPropertySortFix
+import com.wuhao.code.check.inspection.fix.SchemaFormFieldsTypeFix
 import com.wuhao.code.check.inspection.fix.vue.ConvertToClassComponent
 import com.wuhao.code.check.inspection.fix.vue.ReactToVueFix
 import com.wuhao.code.check.inspection.fix.vue.Vue2ClassToVue3CompositionAPIFix
-import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix
 import org.jetbrains.vuejs.lang.expr.VueJSLanguage
 import org.jetbrains.vuejs.lang.html.VueLanguage
 
@@ -61,38 +62,24 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
   }
 
   override fun visitJSObjectLiteralExpression(element: JSObjectLiteralExpression) {
-    if (element.findProperty("name") != null) {
-      holder.registerProblem(
-          element, Messages.CONVERT_TO_CLASS_COMPONENT, ProblemHighlightType.INFORMATION,
-          ConvertToClassComponent()
-      )
-    }
-    if (!isRootVueComponentObject(element)) {
-      val sortedProperties = element.properties.sortedBy { it.name }
-      if (element.properties.isNotEmpty() && element.properties.toList() != sortedProperties) {
-        holder.registerProblem(element, "对象属性排序", ProblemHighlightType.INFORMATION, JsPropertySortFix())
+    if (element.properties.isNotEmpty()) {
+      if (element.findProperty("name") != null) {
+        holder.registerProblem(
+            element, Messages.CONVERT_TO_CLASS_COMPONENT, ProblemHighlightType.INFORMATION,
+            ConvertToClassComponent()
+        )
+      }
+      if (isSchemaFormObject(element)) {
+        holder.registerProblem(element, "转为数组属性", ProblemHighlightType.INFORMATION, SchemaFormFieldsTypeFix())
+      }
+      if (!isRootVueComponentObject(element)) {
+        val sortedProperties = element.properties.sortedBy { it.name }
+        if (element.properties.isNotEmpty() && element.properties.toList() != sortedProperties) {
+          holder.registerProblem(element, "对象属性排序", ProblemHighlightType.INFORMATION, JsPropertySortFix())
+        }
       }
     }
     super.visitJSObjectLiteralExpression(element)
-  }
-
-  private fun isRootVueComponentObject(element: JSObjectLiteralExpression): Boolean {
-    val bc = element.getAncestor(2)
-    val isVue3ComponentObject = bc is JSCallExpression && bc.methodExpression?.text in listOf(
-        "defineComponent",
-        "defineAsyncComponent"
-    )
-    if (isVue3ComponentObject) {
-      return true
-    }
-    val ac = when (element.parent) {
-      is TypeScriptAsExpression -> element.getAncestor(4)
-      else                    -> element.getAncestor(3)
-    }
-    if (element.containingFile.language in listOf(VueLanguage.INSTANCE, VueJSLanguage.INSTANCE)) {
-      return ac is HtmlTag
-    }
-    return false
   }
 
   override fun visitTypeScriptClass(cls: TypeScriptClass) {
@@ -129,6 +116,36 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
 
   override fun visitTypeScriptObjectType(objectType: TypeScriptObjectType?) {
     super.visitTypeScriptObjectType(objectType)
+  }
+
+  private fun isRootVueComponentObject(element: JSObjectLiteralExpression): Boolean {
+    val bc = element.getAncestor(2)
+    val isVue3ComponentObject = bc is JSCallExpression && bc.methodExpression?.text in listOf(
+        "defineComponent",
+        "defineAsyncComponent"
+    )
+    if (isVue3ComponentObject) {
+      return true
+    }
+    val ac = when (element.parent) {
+      is TypeScriptAsExpression -> element.getAncestor(4)
+      else                      -> element.getAncestor(3)
+    }
+    if (element.containingFile.language in listOf(VueLanguage.INSTANCE, VueJSLanguage.INSTANCE)) {
+      return ac is HtmlTag
+    }
+    return false
+  }
+
+  private fun isSchemaFormObject(element: JSObjectLiteralExpression): Boolean {
+    val parent = element.parent
+    if (parent is TypeScriptAsExpression && parent.type?.text == "SchemaFormField") {
+      return true
+    }
+    if (parent is TypeScriptVariable && parent.typeElement?.text == "SchemaFormField") {
+      return true
+    }
+    return false
   }
 
 }

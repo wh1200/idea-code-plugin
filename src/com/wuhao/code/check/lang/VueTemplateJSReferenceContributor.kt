@@ -1,9 +1,6 @@
 package com.wuhao.code.check.lang
 
-import com.intellij.lang.ecmascript6.psi.ES6ImportCall
-import com.intellij.lang.javascript.psi.JSLiteralExpression
 import com.intellij.lang.javascript.psi.JSReferenceExpression
-import com.intellij.lang.javascript.psi.resolve.JSModuleReferenceContributor
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import com.intellij.util.ProcessingContext
@@ -65,12 +62,16 @@ class VueTemplateJSReferenceContributor : PsiReferenceContributor() {
       }
 
     }
-    registrar.registerReferenceProvider(PlatformPatterns.psiElement(
-        JSReferenceExpression::class.java
-    ).inFile(PlatformPatterns.psiFile().withLanguage(VueLanguage.INSTANCE)), provider)
-    registrar.registerReferenceProvider(PlatformPatterns.psiElement(
-        JSReferenceExpression::class.java
-    ).inFile(PlatformPatterns.psiFile().withLanguage(VueJSLanguage.INSTANCE)), provider)
+    registrar.registerReferenceProvider(
+        PlatformPatterns.psiElement(
+            JSReferenceExpression::class.java
+        ).inFile(PlatformPatterns.psiFile().withLanguage(VueLanguage.INSTANCE)), provider
+    )
+    registrar.registerReferenceProvider(
+        PlatformPatterns.psiElement(
+            JSReferenceExpression::class.java
+        ).inFile(PlatformPatterns.psiFile().withLanguage(VueJSLanguage.INSTANCE)), provider
+    )
   }
 
 }

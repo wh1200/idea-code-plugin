@@ -20,7 +20,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.html.HtmlTag
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
-import icons.VuejsIcons
+import org.jetbrains.vuejs.VuejsIcons
 import javax.swing.Icon
 
 /**

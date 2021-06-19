@@ -14,7 +14,7 @@ import com.intellij.psi.html.HtmlTag
 import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.id
 import com.wuhao.code.check.posterity
-import icons.VuejsIcons
+import org.jetbrains.vuejs.VuejsIcons
 import javax.swing.Icon
 
 /**
@@ -24,8 +24,10 @@ import javax.swing.Icon
  */
 class HtmlLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
-  override fun collectNavigationMarkers(el: PsiElement,
-                                        result: MutableCollection<in RelatedItemLineMarkerInfo<*>>) {
+  override fun collectNavigationMarkers(
+      el: PsiElement,
+      result: MutableCollection<in RelatedItemLineMarkerInfo<*>>
+  ) {
     if (el is HtmlTag && !el.id.isNullOrBlank()) {
       val newVueExpressions = el.containingFile.posterity.filterIsInstance<JSNewExpression>().filter {
         it.getChildByType<JSReferenceExpression>()?.text == "Vue"
@@ -45,8 +47,10 @@ class HtmlLineMarkerProvider : RelatedItemLineMarkerProvider() {
     }
   }
 
-  private fun createLineMarkerInfo(source: PsiElement, file: Icon,
-                                   targets: List<PsiElement> = listOf()): RelatedItemLineMarkerInfo<*> {
+  private fun createLineMarkerInfo(
+      source: PsiElement, file: Icon,
+      targets: List<PsiElement> = listOf()
+  ): RelatedItemLineMarkerInfo<*> {
     return NavigationGutterIconBuilder.create(file).setTargets(targets).createLineMarkerInfo(source)
   }
 

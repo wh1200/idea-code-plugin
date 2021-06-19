@@ -38,13 +38,18 @@ class LessRearranger : Rearranger<ArrangementEntry> {
     return settingsSerializer
   }
 
-  override fun parse(root: PsiElement, document: Document?, ranges: MutableCollection<TextRange>, settings: ArrangementSettings): List<ArrangementEntry> {
+  override fun parse(root: PsiElement, document: Document?,
+                     ranges: MutableCollection<out TextRange>, settings:
+  ArrangementSettings): List<ArrangementEntry> {
     val parseInfo = LessArrangementParseInfo()
     root.accept(LessArrangementVisitor(parseInfo, ranges))
     return parseInfo.entries
   }
 
-  override fun parseWithNew(root: PsiElement, document: Document?, ranges: MutableCollection<TextRange>, element: PsiElement, settings: ArrangementSettings): Pair<ArrangementEntry, List<ArrangementEntry>>? {
+  override fun parseWithNew(root: PsiElement, document: Document?,
+                            ranges: MutableCollection<out TextRange>,
+                            element: PsiElement,
+                            settings: ArrangementSettings): Pair<ArrangementEntry, List<ArrangementEntry>>? {
     val existingEntriesInfo = LessArrangementParseInfo()
     root.accept(LessArrangementVisitor(existingEntriesInfo, ranges))
     val newEntryInfo = LessArrangementParseInfo()

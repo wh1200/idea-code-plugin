@@ -11,8 +11,8 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.wuhao.code.check.hasDecorator
 import com.wuhao.code.check.posterity
 import com.wuhao.code.check.toPsiFile
-import icons.VuejsIcons
 import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
+import org.jetbrains.vuejs.VuejsIcons
 import javax.swing.Icon
 
 /**

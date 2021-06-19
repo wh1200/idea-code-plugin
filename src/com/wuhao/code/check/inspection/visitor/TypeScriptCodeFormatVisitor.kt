@@ -9,13 +9,14 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.Language
 import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
 import com.intellij.lang.javascript.dialects.TypeScriptJSXLanguageDialect
+import com.intellij.lang.javascript.psi.JSCallExpression
 import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClass
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptObjectType
 import com.intellij.psi.PsiFile
-import com.wuhao.code.check.PsiPatterns2
+import com.intellij.psi.html.HtmlTag
 import com.wuhao.code.check.constants.LanguageNames
 import com.wuhao.code.check.constants.Messages
 import com.wuhao.code.check.constants.registerWarning
@@ -26,6 +27,8 @@ import com.wuhao.code.check.inspection.fix.vue.ConvertToClassComponent
 import com.wuhao.code.check.inspection.fix.vue.ReactToVueFix
 import com.wuhao.code.check.inspection.fix.vue.Vue2ClassToVue3CompositionAPIFix
 import com.wuhao.code.check.inspection.fix.vue.VueComponentPropertySortFix
+import org.jetbrains.vuejs.lang.expr.VueJSLanguage
+import org.jetbrains.vuejs.lang.html.VueLanguage
 
 /**
  * Created by 吴昊 on 2018/4/28.
@@ -67,14 +70,20 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
           ConvertToClassComponent()
       )
     }
-    if (PsiPatterns2.vueLangPattern().accepts(element) && PsiPatterns2.vueScriptTag().accepts(ac)) {
+    val bc = element.getAncestor(2)
+    if (element.containingFile.language in listOf(VueLanguage.INSTANCE, VueJSLanguage.INSTANCE)
+        && (ac is HtmlTag || (bc is JSCallExpression && bc.methodExpression?.text in listOf(
+            "defineComponent",
+            "defineAsyncComponent"
+        )))
+    ) {
       val sortedProperties = VueComponentPropertySortFix.sortVueComponentProperties(element.properties)
       if (element.properties.toList() != sortedProperties) {
         holder.registerWarning(element, "Vue组件属性排序", VueComponentPropertySortFix())
       }
     } else {
       val sortedProperties = element.properties.sortedBy { it.name }
-      if (element.properties.toList() != sortedProperties) {
+      if (element.properties.isNotEmpty() && element.properties.toList() != sortedProperties) {
         holder.registerProblem(element, "对象属性排序", ProblemHighlightType.INFORMATION, JsPropertySortFix())
       }
     }

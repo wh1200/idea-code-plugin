@@ -67,12 +67,7 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
           ConvertToClassComponent()
       )
     }
-    if (isRootVueComponentObject(element)) {
-      val sortedProperties = VueComponentPropertySortFix.sortVueComponentProperties(element.properties)
-      if (element.properties.toList() != sortedProperties) {
-        holder.registerWarning(element, "Vue组件属性排序", VueComponentPropertySortFix())
-      }
-    } else {
+    if (!isRootVueComponentObject(element)) {
       val sortedProperties = element.properties.sortedBy { it.name }
       if (element.properties.isNotEmpty() && element.properties.toList() != sortedProperties) {
         holder.registerProblem(element, "对象属性排序", ProblemHighlightType.INFORMATION, JsPropertySortFix())

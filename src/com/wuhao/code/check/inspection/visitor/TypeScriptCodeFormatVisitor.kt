@@ -15,6 +15,7 @@ import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClass
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptObjectType
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.html.HtmlTag
 import com.wuhao.code.check.constants.LanguageNames
@@ -60,23 +61,13 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
   }
 
   override fun visitJSObjectLiteralExpression(element: JSObjectLiteralExpression) {
-    val ac = when {
-      element.parent is TypeScriptAsExpression -> element.getAncestor(4)
-      else                                     -> element.getAncestor(3)
-    }
     if (element.findProperty("name") != null) {
       holder.registerProblem(
           element, Messages.CONVERT_TO_CLASS_COMPONENT, ProblemHighlightType.INFORMATION,
           ConvertToClassComponent()
       )
     }
-    val bc = element.getAncestor(2)
-    if (element.containingFile.language in listOf(VueLanguage.INSTANCE, VueJSLanguage.INSTANCE)
-        && (ac is HtmlTag || (bc is JSCallExpression && bc.methodExpression?.text in listOf(
-            "defineComponent",
-            "defineAsyncComponent"
-        )))
-    ) {
+    if (isRootVueComponentObject(element)) {
       val sortedProperties = VueComponentPropertySortFix.sortVueComponentProperties(element.properties)
       if (element.properties.toList() != sortedProperties) {
         holder.registerWarning(element, "Vue组件属性排序", VueComponentPropertySortFix())
@@ -88,6 +79,25 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
       }
     }
     super.visitJSObjectLiteralExpression(element)
+  }
+
+  private fun isRootVueComponentObject(element: JSObjectLiteralExpression): Boolean {
+    val bc = element.getAncestor(2)
+    val isVue3ComponentObject = bc is JSCallExpression && bc.methodExpression?.text in listOf(
+        "defineComponent",
+        "defineAsyncComponent"
+    )
+    if (isVue3ComponentObject) {
+      return true
+    }
+    val ac = when (element.parent) {
+      is TypeScriptAsExpression -> element.getAncestor(4)
+      else                    -> element.getAncestor(3)
+    }
+    if (element.containingFile.language in listOf(VueLanguage.INSTANCE, VueJSLanguage.INSTANCE)) {
+      return ac is HtmlTag
+    }
+    return false
   }
 
   override fun visitTypeScriptClass(cls: TypeScriptClass) {

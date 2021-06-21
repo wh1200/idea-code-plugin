@@ -59,6 +59,7 @@ class VueRearranger : Rearranger<ArrangementEntry> {
     return settingsSerializer
   }
 
+
   override fun parse(root: PsiElement, document: Document?,
                      ranges: MutableCollection<out TextRange>,
                      settings: ArrangementSettings): List<ArrangementEntry> {
@@ -108,6 +109,7 @@ class VueRearranger : Rearranger<ArrangementEntry> {
       }
     }
   }
+
 
 }
 

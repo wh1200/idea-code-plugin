@@ -51,7 +51,7 @@ class CreateVueProjectAction : CreateProjectAction() {
 
   private fun modifyPackageJson(newProjectRoot: File, newProjectName: String?) {
     val packageJsonFile = File(newProjectRoot.absolutePath + File.separator + "package.json")
-    val el = JsonParser().parse(packageJsonFile.readText())
+    val el = JsonParser.parseString(packageJsonFile.readText())
     el.asJsonObject.addProperty("name", newProjectName)
     val gson = GsonBuilder().setPrettyPrinting().create()
     packageJsonFile.writeText(gson.toJson(el))

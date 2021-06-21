@@ -1,21 +1,0 @@
-
-squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¡ÑÙŞıÿÿÿÿ
-Bsquid:S1172"+Remove this unused method parameter "text".(Òİ¼Ÿ
-Rsquid:S1854";Remove this useless assignment to local variable "content".(ªÍ´ô
-Msquid:S1751"6Remove this "return" statement or make it conditional.(ûÁİ…
-dsquid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(É…úÿÿÿÿ
-dsquid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(É…úÿÿÿÿ
-dsquid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(É…úÿÿÿÿ
-dsquid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(É…úÿÿÿÿ
-dsquid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(É…úÿÿÿÿ
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(š”Êö
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(š”Êö
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(š”Êö
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(š”Êö
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(š”Êö
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(š”Êö
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(š”Êö
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ªÍ´ô
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ªÍ´ô
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ªÍ´ô
-_squid:S5361"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ªÍ´ô

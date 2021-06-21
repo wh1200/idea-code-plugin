@@ -28,7 +28,7 @@ class PropertyDependenciesManager(private val myFieldDependencies: HashMap<ES6Fi
 
   val roots: List<VueArrangementEntryDependencyInfo>
     get() {
-      val list = ContainerUtil.newArrayList<VueArrangementEntryDependencyInfo>()
+      val list = ArrayList<VueArrangementEntryDependencyInfo>()
 
       for ((key, value) in myFieldDependencies) {
         val currentInfo = myFieldInfosMap[key]
@@ -40,12 +40,12 @@ class PropertyDependenciesManager(private val myFieldDependencies: HashMap<ES6Fi
           }
         }
 
-        list.add(currentInfo)
+        list.add(currentInfo!!)
       }
 
       return list
     }
-  private val myFieldInfosMap = ContainerUtil.newHashMap<ES6FieldStatementImpl, VueArrangementEntryDependencyInfo>()
+  private val myFieldInfosMap = HashMap<ES6FieldStatementImpl, VueArrangementEntryDependencyInfo>()
 
   init {
     for (field in fields.keys) {

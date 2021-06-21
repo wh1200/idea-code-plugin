@@ -16,7 +16,6 @@ object InspectionNames {
   val JAVA_FORMAT = NameData("Java代码格式检查", "aegis.code.check.validation.java.format")
   val KOTLIN_COMMENT = NameData("Kotlin注释检查", "aegis.code.check.validation.kotlin")
   val KOTLIN_FORMAT = NameData("Kotlin代码格式检查", "aegis.code.check.validation.kotlin.format")
-  val PROPERTY_CLASS = NameData("属性名称对象", "aegis.code.check.validation.name.object")
   val COMPANION_CLASS_TO_OBJECT = NameData("只包含伴随对象的类转成object", "aegis.code.check.validation.companion.to.object")
   val JAVA_PROPERTY_CLASS = NameData("Java属性名称类", "aegis.code.check.validation.name.java.object")
   val TYPESCRIPT_FORMAT = NameData("Typescript代码格式检查", "aegis.code.check.validation.typescript.format")

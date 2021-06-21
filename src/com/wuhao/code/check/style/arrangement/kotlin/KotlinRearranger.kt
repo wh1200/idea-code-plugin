@@ -81,7 +81,7 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
   }
 
   override fun parse(root: PsiElement, document: Document?,
-                     ranges: MutableCollection<TextRange>,
+                     ranges: MutableCollection<out TextRange>,
                      settings: ArrangementSettings): List<ArrangementEntry> {
     // Following entries are subject to arrangement: class, property, function, interface.
     val parseInfo = KotlinArrangementParseInfo()
@@ -95,7 +95,7 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
 
   override fun parseWithNew(
       root: PsiElement, document: Document?,
-      ranges: MutableCollection<TextRange>, element: PsiElement,
+      ranges: MutableCollection<out TextRange>, element: PsiElement,
       settings: ArrangementSettings): Pair<ArrangementEntry, List<ArrangementEntry>>? {
     val existingEntriesInfo = KotlinArrangementParseInfo()
     root.accept(KotlinArrangementVisitor(existingEntriesInfo, document, ranges, settings))
@@ -104,7 +104,7 @@ class KotlinRearranger : Rearranger<ArrangementEntry> {
     return if (newEntryInfo.entries.size != 1) {
       null
     } else {
-      Pair.create<ArrangementEntry, List<ArrangementEntry>>(newEntryInfo
+      Pair.create(newEntryInfo
           .entries[0], existingEntriesInfo.entries)
     }
   }

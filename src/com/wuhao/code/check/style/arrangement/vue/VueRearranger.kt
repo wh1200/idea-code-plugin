@@ -60,7 +60,7 @@ class VueRearranger : Rearranger<ArrangementEntry> {
   }
 
   override fun parse(root: PsiElement, document: Document?,
-                     ranges: MutableCollection<TextRange>,
+                     ranges: MutableCollection<out TextRange>,
                      settings: ArrangementSettings): List<ArrangementEntry> {
     val parseInfo = VueArrangementParseInfo()
     root.accept(VueArrangementVisitor(parseInfo, ranges))
@@ -73,7 +73,7 @@ class VueRearranger : Rearranger<ArrangementEntry> {
 
   override fun parseWithNew(
       root: PsiElement, document: Document?,
-      ranges: MutableCollection<TextRange>, element: PsiElement,
+      ranges: MutableCollection<out TextRange>, element: PsiElement,
       settings: ArrangementSettings): Pair<ArrangementEntry, List<ArrangementEntry>>? {
     val existingEntriesInfo = VueArrangementParseInfo()
     root.accept(VueArrangementVisitor(existingEntriesInfo, ranges))

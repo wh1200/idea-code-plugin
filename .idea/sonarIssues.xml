@@ -8,6 +8,11 @@
             <set />
           </value>
         </entry>
+        <entry key="/GridCellEditorTextField">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="/a.sql">
           <value>
             <set />
@@ -28,6 +33,31 @@
             <set />
           </value>
         </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/java/lib/java-api.jar!/com/intellij/psi/JVMElementFactory.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/java/lib/java-api.jar!/com/intellij/psi/PsiElementFactory.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/java/lib/java-api.jar!/com/intellij/psi/PsiJavaParserFacade.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/java/lib/java-api.jar!/com/intellij/psi/PsiModifier.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$MAVEN_REPOSITORY$/com/aegis/freeswitch-esl/1.0.1/freeswitch-esl-1.0.1.jar!/com/aegis/freeswitch/esl/InboundClient.class">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$APPLICATION_CONFIG_DIR$/consoles/db/11e1c8e5-c529-4341-bb92-d12f97f25fb6/console.sql">
           <value>
             <set />
@@ -38,57 +68,607 @@
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/service/MysqlToElasticsearchService.java">
+        <entry key="$APPLICATION_CONFIG_DIR$/consoles/db/83bb1124-6986-4f8c-b08a-0fbd2c20b39c/console.sql">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/service/MysqlToElasticsearchService.kt">
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/POIExtend.kt">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/apps/quality/QualityFilterController.java">
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/AppAccessToken.kt">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-app/src/main/resources/static/js/UKeFu-SoftPhone.js">
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/BaseData.kt">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-core/src/main/java/com/ukefu/webim/service/cache/CacheBean.java">
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/CellHeader.kt">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-core/src/main/java/com/ukefu/webim/service/cache/hazelcast/AbstractCacheBean.java">
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/ConversationUpdateInfo.kt">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/highCourt/WorkOrdersConsult.java">
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/TaskCard.kt">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-elasticsearch/src/main/java/com/ukefu/webim/service/es/OnlineUserESRepository.java">
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/TextCard.kt">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-im/REAMDE.md">
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/Token.kt">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-im/src/main/java/com/aegis/webim/service/server/handler/AgentEventHandler.kt">
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/WeChatDepartment.kt">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="D:/workspace/aegis/customer-service-system/customer-service-system-service/src/main/java/com/ukefu/webim/util/QualityDataUtils.java">
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/WeChatUser.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/annotation/WechatServiceAnnotation.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/conversation/ConversationMessage.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/ApprovalInfo.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/AsynchronousMissionComplete.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/BaseBean.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/BatchJob.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/EnterAgent.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/ExamineAndApproveStatusNotice.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/ReportGeographicalPosition.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/UserSubscribeOrUnsubscribe.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/WeChatDataChangedEvent.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/addressbook/ExtraItem.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/event/addressbook/UserEvent.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/ApprovalRequestForm.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/CheckInDataRequestForm.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/CheckInDataResult.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/RequestForm.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/RuleRequestForm.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/result/ApprovalData.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/result/BaseHttpResult.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/result/Comm.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/result/CreateCompanyAppResult.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/result/Expense.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/result/GetAppsProfileResult.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/result/GetConversationResult.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/result/GetDepartmentResult.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/http/result/Item.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/bean/vo/UserUpdateVO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/config/CustomDecoder.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/config/JustDebugConfig.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/config/WeChatMessageHelper.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/constant/CacheKey.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/constant/Common.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/constant/Constants.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/controller/CallbackAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/controller/MessageAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/dao/CheckInRuleDAO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/dao/CorpWeChatEventLogDAO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/dao/CorpWechatUserDAO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/dao/SecretDAO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/dao/impl/CheckInDataDAO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/clients/AppService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/clients/ApprovalDataClient.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/clients/BatchTaskService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/clients/CheckInClient.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/clients/ConversationClient.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/clients/DepartmentClient.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/clients/MessageService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/clients/UserClient.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/impl/CheckInServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/impl/DepartmentCacheService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/impl/DepartmentChatServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/impl/DepartmentServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/inter/CheckInService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/inter/TokenService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/mybatis/ApprovalDataHandler.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/aegis/wechat/service/task/ApprovalDataSyncScheduleTask.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/qq/weixin/AesException.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/qq/weixin/ByteGroup.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/qq/weixin/ByteGroup.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/qq/weixin/PKCS7Encoder.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/qq/weixin/SHA1.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/qq/weixin/WxbizMsgCrypt.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/main/java/com/qq/weixin/XMLParse.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/ConfluenceAPITest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/Test.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/Test2.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/bean/request/AttendanceStatisticsConfigTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/controller/WeChatConversationControllerTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/controller/WeChatCreateCompanyAppControllerTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/controller/WeChatDepartmentControllerTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/service/impl/ApprovalEventTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/service/impl/CheckInServiceImplTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/service/inter/BaseDAOTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/service/inter/CostServiceTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/app/src/test/java/com/aegis/wechat/service/inter/DepartmentServiceTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/AttendanceStatisticsConfig.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/checkin/CheckInDescription.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/checkin/UserAttendanceData.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/checkin/UserStatistics.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/entity/CheckInDate.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/entity/CheckInRule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/entity/CheckInTime.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/enums/CheckInException.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/enums/CheckInType.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/enums/LeaveType.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/AttendanceStatistics.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/CheckInData.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/CheckInDateVO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/CheckInGroupVO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/CheckInRuleGroup.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/CheckInRuleVO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/CheckInSchedule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/CheckInTimeVO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/LocInfo.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/UserCheckInItem.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/UserCheckInStatistics.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/OtWorkingdayRestinfo.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/Otcheckinfo.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/Reporter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/Reporterinfo.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/Schedulelist.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/SpeOffday.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/SpeWorkday.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/TimeSection.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/Timerule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/WifimacInfo.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/corp/wechat/attendace/vo/corprule/a.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/main/java/com/aegis/kotlin/DateTimeExtend.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../WeChatService/attendance/src/test/java/Test.kt">
           <value>
             <set />
           </value>
@@ -258,6 +838,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/service/MysqlToElasticsearchService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/service/MysqlToElasticsearchService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/LoginController.java">
           <value>
             <set />
@@ -293,6 +883,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/apps/quality/QualityFilterController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/java/com/ukefu/webim/web/handler/rest/court/callcenter/NewSoftPhoneController.java">
           <value>
             <set />
@@ -309,6 +904,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/resources/application-bjlocal.yml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-app/src/main/resources/static/js/UKeFu-SoftPhone.js">
           <value>
             <set />
           </value>
@@ -354,6 +954,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-core/src/main/java/com/ukefu/util/DateTools.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-core/src/main/java/com/ukefu/webim/service/cache/CacheBean.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-core/src/main/java/com/ukefu/webim/service/cache/hazelcast/AbstractCacheBean.java">
           <value>
             <set />
           </value>
@@ -438,6 +1048,31 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-domain/src/main/java/com/ukefu/webim/web/model/highCourt/WorkOrdersConsult.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-elasticsearch/src/main/java/com/ukefu/webim/service/es/OnlineUserESRepository.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-im/REAMDE.md">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-im/src/main/java/com/aegis/webim/service/server/handler/AgentEventHandler.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis/customer-service-system/customer-service-system-service/src/main/java/com/ukefu/webim/util/QualityDataUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/.gitignore">
           <value>
             <set />
@@ -448,7 +1083,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/aegis-code-plugin.iml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/resources/META-INF/plugin.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/IdeaExt.kt">
           <value>
             <set />
           </value>
@@ -473,7 +1118,27 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/action/CreateVueProjectAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/completion/PropValueCompletion.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/constants/InspectionNames.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/constants/Messages.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/enums/NamingMethod.kt">
           <value>
             <set />
           </value>
@@ -518,12 +1183,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/inspections/PropertyClassCreateInspection.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/CommonCodeFormatVisitor.kt">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaCodeFormatVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/visitor/JavaCommentVisitor.kt">
           <value>
             <set />
           </value>
@@ -553,6 +1228,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/lang/VueBasedTsFileIconPatcher.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/HtmlLineMarkerProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/linemarker/VueLineMarkerProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixJavaBlankLinePostProcessor.kt">
           <value>
             <set />
@@ -568,6 +1258,26 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/KotlinModifier.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementParseInfo.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinArrangementVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinElementArrangementEntry.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/KotlinRearranger.kt">
           <value>
             <set />
@@ -578,7 +1288,47 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/kotlin/PropertyDependenciesManager.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/less/LessRearranger.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/PropertyDependenciesManager.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementParseInfo.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueArrangementVisitor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/style/arrangement/vue/VueRearranger.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/ui/AegisPluginSettings.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/ui/AutoGeneratorSettingsDialog.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/fastjdbc/entity/EntityField.kt">
           <value>
             <set />
           </value>
@@ -603,12 +1353,562 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/testData/src/error/java/FILEName.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/tests/com/wuhao/BaseLightInspectionTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/tests/com/wuhao/LightInspectionTest.kt">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/tests/com/wuhao/Test.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/admin/src/main/java/com/aegis/oa/admin/web/controller/BusinessEntityViewDataAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/OaApplication.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/bean/entity/Product.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/config/XxlJobConfig.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/schedule/TAPDScheduledTask.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/service/impl/ApprovalProcessServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/service/impl/CostCenterServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/service/impl/CostSheetExportService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/service/impl/DataServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/service/impl/FormDataServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/service/impl/FormServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/service/impl/WorkingHoursServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/service/impl/tapd/TapdServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/service/impl/tapd/TapdSyncServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/service/inter/DataService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/web/controller/FormAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/java/com/aegis/oa/web/controller/TeamAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/resources/application-mac.yml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/resources/application.yml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/resources/logback-dev.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/main/resources/logback.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/test/java/test/ExportTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/test/resources/projects.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/app/src/test/resources/projects.json2">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/business-entity/src/main/java/com/aegis/business/entity/domain/po/BusinessWorkflow.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/business-entity/src/main/java/com/aegis/business/entity/domain/vo/EntityPageData.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/business-entity/src/main/java/com/aegis/business/entity/service/DataResolver.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/business-entity/src/main/java/com/aegis/business/entity/service/impl/BusinessEntityDataSearchServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/business-entity/src/main/java/com/aegis/business/entity/service/impl/BusinessEntityServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/business-entity/src/main/java/com/aegis/business/entity/service/inter/ExportDataService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/common/src/main/java/com/aegis/oa/common/domain/entity/TeamRole.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/core/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/core/src/main/java/com/aegis/oa/core/config/ApplicationProperties.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/core/src/main/java/com/aegis/oa/core/service/ExportDataResolver.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/core/src/main/java/com/aegis/oa/core/service/ImportDataResolver.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/core/src/main/java/com/aegis/oa/core/service/aop/SaveOrUpdateAspect.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/core/src/main/java/com/aegis/oa/core/service/impl/ExportDataServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/core/src/main/java/com/aegis/oa/core/service/inter/ImportDataValueResolver.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/core/src/main/java/com/aegis/oa/core/web/TeamRoleAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/corpwechat/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/client/CrmCustomerClient.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/client/CrmObjectClient.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/config/CrmClientConfiguration.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/domain/client/Request4ProductCategory.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/domain/do1/Do1CommercialOpportunityRequestData.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/domain/do1/Do1FormDynamicRequestData.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/domain/do1/Do1PageRequestData.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/service/impl/CommercialOpportunityServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/service/impl/CorpWechatUserServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/service/impl/CrmCustomerServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/web/controller/Do1CommercialOpportunityAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/main/java/com/aegis/crm/web/controller/Do1CustomerAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/test/java/com/aegis/crm/AuthTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/test/java/com/aegis/crm/client/BaseFeignTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/test/java/com/aegis/crm/controller/Do1CommercialActionTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/crm/src/test/java/com/aegis/crm/controller/Do1CustomerActionTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/do1/src/main/java/com/aegis/oa/do1/service/client/UserClient.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/form/src/main/java/com/aegis/oa/form/domain/form/ExternalOptionsProperties.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/form/src/main/java/com/aegis/oa/form/domain/form/FormFieldProps.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/form/src/main/java/com/aegis/oa/form/service/inter/FormService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/hr/src/main/java/com/aegis/oa/hr/service/inter/UserService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/config/MyJobStore.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/config/ScheduleConfig.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/config/ScheduleConfig.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/config/ScheduleConstants.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/controller/SysJobAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/controller/SysJobController.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/controller/SysJobLogAction.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/controller/SysJobLogController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/controller/SysJobLogController.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/domain/ScheduleJob.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/domain/ScheduleJobLog.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/domain/SysJob.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/domain/SysJob.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/domain/SysJobLog.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/domain/TaskException.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/mapper/ScheduleJobDAO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/mapper/ScheduleJobLogDAO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/mapper/ScheduleJobLogMapper.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/mapper/ScheduleJobMapper.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/mapper/SysJobLogMapper.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/mapper/SysJobMapper.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/service/ISysJobLogService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/service/ISysJobService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/service/impl/SysJobLogServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/service/impl/SysJobServiceImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/service/impl/SysJobServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/util/AbstractQuartzJob.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/util/AbstractQuartzJob.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/util/CronUtils.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/util/JobInvokeUtil.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/util/QuartzDisallowConcurrentExecution.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/util/QuartzJobExecution.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/quartz/src/main/java/com/aegis/quartz/util/ScheduleUtils.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/tapd/src/main/java/com/aegis/oa/tapd/domain/dao/TapdWorkspaceDAO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa/tapd/src/main/java/com/aegis/oa/tapd/domain/entity/TapdCategory.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/package.json">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/public/index.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/src/constants.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/src/router/admin/index.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/src/types/api.d.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/src/views/admin/settings/job/index.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/src/views/admin/settings/job/log.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/src/views/form/submit/index.vue">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/src/views/test/flow.vue">
           <value>
             <set />
           </value>

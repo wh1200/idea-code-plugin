@@ -52,7 +52,7 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
         val psiDocComment = clazz.firstChild
         if (psiDocComment.children.none { it is PsiDocToken && it.tokenType == DOC_COMMENT_DATA }
             || psiDocComment.getChildrenOfType<PsiDocToken>().all { it.text.isNullOrBlank() }) {
-          holder.registerWarning(psiDocComment, Messages.DESCRIPTION_COMMENT_MISSING)
+//          holder.registerWarning(psiDocComment, Messages.DESCRIPTION_COMMENT_MISSING)
         }
         val docTags = psiDocComment.getChildrenOfType<PsiDocTag>()
         val sinceTag = docTags.find { it.name == "since" }
@@ -92,27 +92,12 @@ class JavaCommentVisitor(val holder: ProblemsHolder) :
     } else {
       method
     }
-
     if (elClass != null && elClass.isInterface && method.firstChild !is PsiDocComment) {
       holder.registerWarning(elementToRegisterProblem,
           Messages.INTERFACE_METHOD_COMMENT_REQUIRED, JavaBlockCommentFix())
     } else {
-//      if (method.docComment != null) {
-//        if (method.parameters.size != method.docComment!!.findTagsByName("Param").size) {
-//          holder.registerWarning(method.parameterList, Messages.PARAMETER_COMMENT_MISSING, JavaBlockCommentFix())
-//        }
-//        val docTagList = method.docComment!!.findTagsByName("param")
-//        val parameterList = method.parameterList.parameters
-//        for (i in parameterList.indices) {
-//          if (docTagList.get(i) != null && parameterList.get(i) != null) {
-//            if (docTagList.get(i).text != parameterList.get(i).text) {
-//              holder.registerWarning(parameterList[i], Messages.PARAMETER_COMMENT_MISSING, JavaBlockCommentFix())
-//            }
-//          }
-//        }
-
-      if (method.docComment != null && method.docComment!!.findTagsByName("description").isEmpty()) {
-        holder.registerWarning(elementToRegisterProblem, Messages.DESCRIPTION_COMMENT_MISSING, JavaBlockCommentFix())
+      if (method.docComment != null && method.parameterList.parametersCount != method.docComment!!.findTagsByName("param").size) {
+        holder.registerWarning(method.parameterList, Messages.PARAMETER_COMMENT_MISSING, JavaBlockCommentFix())
       }
     }
   }

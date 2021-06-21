@@ -14,7 +14,7 @@ import com.intellij.psi.impl.source.html.HtmlFileImpl
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlTag
 import com.wuhao.code.check.constants.LanguageNames
-import com.wuhao.code.check.createWhiteSpace
+import com.wuhao.code.check.createJsWhiteSpace
 import com.wuhao.code.check.endOffset
 import com.wuhao.code.check.insertElementAfter
 import com.wuhao.code.check.insertElementBefore
@@ -68,21 +68,21 @@ class JSExpressionVisitor : RecursiveVisitor() {
             "&&", "&", "|")) {
       if (element.text == ",") {
         if (element.nextSibling !is PsiWhiteSpace) {
-          element.insertElementAfter(element.createWhiteSpace(" "))
+          element.insertElementAfter(element.createJsWhiteSpace(" "))
         }
       } else {
         if (element.prevSibling !is PsiWhiteSpace) {
-          element.insertElementBefore(element.createWhiteSpace(" "))
+          element.insertElementBefore(element.createJsWhiteSpace(" "))
         }
         if (element.nextSibling !is PsiWhiteSpace) {
-          element.insertElementAfter(element.createWhiteSpace(" "))
+          element.insertElementAfter(element.createJsWhiteSpace(" "))
         }
       }
 
     }
     if (element.text in listOf(",")) {
       if (element.nextSibling !is PsiWhiteSpace) {
-        element.insertElementAfter(element.createWhiteSpace(" "))
+        element.insertElementAfter(element.createJsWhiteSpace(" "))
       }
     }
   }

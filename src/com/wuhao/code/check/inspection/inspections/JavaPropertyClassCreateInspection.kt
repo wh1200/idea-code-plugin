@@ -40,7 +40,6 @@ class JavaPropertyClassCreateInspection : BaseInspection(JAVA_PROPERTY_CLASS) {
         if ((aClass.hasAnnotation(JavaCommentVisitor.ENTITY_CLASS)
                 || aClass.hasAnnotation(JavaCommentVisitor.TABLE_CLASS)
                 || aClass.hasAnnotation(JavaCommentVisitor.SPRING_DOCUMENT_CLASS)) && aClass.containingFile.containingDirectory.findFile("Q${aClass.name}.java") == null) {
-          holder.registerProblem(aClass.containingFile, "创建属性名称对象", myQuickFix)
           holder.registerProblem(aClass, Messages.SYNC_DATABASE_COMMENT, ProblemHighlightType.INFORMATION,
               SyncDatabaseComment()
           )

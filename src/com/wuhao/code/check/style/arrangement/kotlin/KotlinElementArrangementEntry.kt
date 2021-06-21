@@ -7,7 +7,6 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.codeStyle.arrangement.*
 import com.intellij.psi.codeStyle.arrangement.std.ArrangementSettingsToken
-import com.intellij.util.containers.ContainerUtilRt
 
 /**
  * Not thread-safe.
@@ -26,7 +25,7 @@ open class KotlinElementArrangementEntry(parent: ArrangementEntry?,
     NameAwareArrangementEntry,
     ModifierAwareArrangementEntry {
 
-  private val myModifiers = ContainerUtilRt.newHashSet<ArrangementSettingsToken>()
+  private val myModifiers = HashSet<ArrangementSettingsToken>()
   private val myTypes = hashSetOf(type)
 
   constructor(parent: ArrangementEntry?,
@@ -60,4 +59,3 @@ open class KotlinElementArrangementEntry(parent: ArrangementEntry?,
   }
 
 }
-

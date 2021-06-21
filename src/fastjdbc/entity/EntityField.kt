@@ -17,8 +17,8 @@ class EntityField : Comparable<EntityField> {
   var readMethod: Method? = null
   var writeMethod: Method? = null
 
-  override fun compareTo(o: EntityField): Int {
-    return Integer.compare(order, o.order)
+  override fun compareTo(other: EntityField): Int {
+    return order.compareTo(other.order)
   }
 
 }

@@ -17,13 +17,40 @@ import com.intellij.testFramework.fixtures.CodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
 import java.io.File
 
+fun Collection<ProblemDescriptorBase>.assertNoProblem(file: String) {
+  if (this.any { it.psiElement.containingFile.name == file }) {
+    throw IllegalStateException("File $file should not has any problems")
+  }
+}
+
+fun Collection<ProblemDescriptorBase>.assertProblem(file: String, description: String) {
+  val problems = this.filter { it.psiElement.containingFile.name == file }
+      .map { it.descriptionTemplate }
+  if (!problems.contains(description)) {
+    for (problem in this) {
+      println(buildProblemMessage(problem))
+    }
+    throw IllegalStateException("Missing problem $description in file $file")
+  }
+}
+
+fun buildProblemMessage(problem: ProblemDescriptorBase): String {
+  return """------------------------------
+| 文件: ${problem.psiElement.containingFile.name}
+| 路径: ${problem.psiElement.containingFile.virtualFile.path}
+| 元素: ${problem.psiElement.text}
+| 行号: ${problem.lineNumber}
+| 描述: ${problem.descriptionTemplate}
+| 类型: ${problem.highlightType}
+------------------------------""".trimIndent()
+}
+
 /**
  *
  * @author 吴昊
  * @since 1.2.6
  */
 open class BaseLightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBuilder<*>>() {
-
 
   protected fun applySingleQuickFix(quickFixName: String) {
     myFixture.project
@@ -36,15 +63,10 @@ open class BaseLightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBui
     }
   }
 
-
   protected fun doInspectionTest(path: String, inspector: LocalInspectionTool) {
     myFixture.configureByFile(resolvePath(path))
     myFixture.enableInspections(inspector)
     myFixture.testHighlighting(true, false, true)
-  }
-
-  protected fun resolvePath(path: String): String {
-    return (basePath + path).replace("/", "\\\\")
   }
 
   protected fun doTestGlobalInspection(path: String, inspection: LocalInspectionTool): Collection<ProblemDescriptorBase> {
@@ -58,7 +80,7 @@ open class BaseLightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBui
 
   protected fun getGlobalInspectionResults(path: String, inspection: LocalInspectionTool): Collection<CommonProblemDescriptor> {
     val toolWrapper = LocalInspectionToolWrapper(inspection)
-    myFixture.testDataPath = File("").absolutePath +  "/testData"
+    myFixture.testDataPath = File("").absolutePath + "/testData"
     val file = File(myFixture.testDataPath + File.separator + path)
     println("File: ${file.absolutePath}")
     val sourceDir = if (file.isFile) {
@@ -81,28 +103,8 @@ open class BaseLightInspectionTest : CodeInsightFixtureTestCase<ModuleFixtureBui
     return globalContext.getPresentation(toolWrapper).problemDescriptors
   }
 
-}
-
-fun Collection<ProblemDescriptorBase>.assertProblem(file: String, description: String) {
-  val problems = this.filter { it.psiElement.containingFile.name == file }
-      .map { it.descriptionTemplate }
-  if (!problems.contains(description)) {
-    for (problem in this) {
-      println(buildProblemMessage(problem))
-    }
-    throw IllegalStateException("Missing problem $description in file $file")
+  protected fun resolvePath(path: String): String {
+    return (basePath + path).replace("/", "\\\\")
   }
-}
 
-
-fun buildProblemMessage(problem: ProblemDescriptorBase): String {
-
-  return """------------------------------
-| 文件: ${problem.psiElement.containingFile.name}
-| 路径: ${problem.psiElement.containingFile.virtualFile.path}
-| 元素: ${problem.psiElement.text}
-| 行号: ${problem.lineNumber}
-| 描述: ${problem.descriptionTemplate}
-| 类型: ${problem.highlightType}
-------------------------------""".trimIndent()
 }

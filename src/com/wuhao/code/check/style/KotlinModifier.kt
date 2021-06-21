@@ -36,7 +36,7 @@ object KotlinModifier {
   private fun compositeToken(id: String,
                              type: StdArrangementTokenType,
                              vararg alternativeTokens: ArrangementSettingsToken): StdArrangementSettingsToken {
-    val result = CompositeArrangementToken.create(id, type, *alternativeTokens)
+    val result = CompositeArrangementToken.create(id, "function modifiers", type, *alternativeTokens)
     TOKENS_BY_ID[id] = result
     return result
   }

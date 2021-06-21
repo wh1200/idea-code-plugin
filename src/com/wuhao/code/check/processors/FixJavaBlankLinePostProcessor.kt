@@ -65,6 +65,19 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
    */
   private class JavaVisitor : JavaRecursiveElementVisitor() {
 
+    val MODIFIER_LIST = listOf(
+        "public",
+        "protected",
+        "private",
+        "abstract",
+        "static",
+        "final",
+        "transient",
+        "volatile",
+        "synchronized",
+        "native"
+    )
+
     override fun visitClass(aClass: PsiClass) {
       if (aClass !is PsiTypeParameter
           && aClass !is PsiAnonymousClass
@@ -145,22 +158,29 @@ class FixJavaBlankLinePostProcessor : PostFormatProcessor {
           }
         }
       }
-      val nextMethod = method.getNextSiblingIgnoringWhitespace()
       val prevMethod = method.getPrevSiblingIgnoringWhitespaceAndComments()
       if (prevMethod !is PsiMethod) {
         method.setBlankLineBefore(1)
       }
-      if (nextMethod is PsiMethod) {
-        // 两个方法的修饰符相同时中间保留1个空行，否则保留2个空行
-        if (method.modifierList.isEquivalentTo(nextMethod.modifierList)) {
-          method.setBlankLineAfter(1)
-        } else {
-          method.setBlankLineAfter(1)
-        }
-      } else {
-        method.setBlankLineAfter(1)
-      }
+      method.setBlankLineAfter(1)
       super.visitMethod(method)
+    }
+
+    override fun visitModifierList(list: PsiModifierList) {
+      val annotations = list.getChildrenOfType<PsiAnnotation>()
+      val modifiers = list.getChildrenOfType<PsiKeyword>().map { it.text }.sortedWith { o1, o2 ->
+        MODIFIER_LIST.indexOf(o1) - MODIFIER_LIST.indexOf(o2)
+      }
+      if (modifiers.isNotEmpty()) {
+        var str = ""
+        if (annotations.isNotEmpty()) {
+          str += "${annotations.joinToString("\n") { it.text }}\n"
+        }
+        str += "${modifiers.joinToString(" ")} String test;"
+        val tmpMethod = list.psiElementFactory.createFieldFromText(str, null)
+        list.replaced(tmpMethod.modifierList!!)
+      }
+      super.visitModifierList(list)
     }
 
     override fun visitPackageStatement(statement: PsiPackageStatement) {

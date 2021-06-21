@@ -69,8 +69,8 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     } else {
       myStack.peek()
     }
-  private val myCachedClassProperties = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
-  private val myCachedCompanionClassProperties = ContainerUtil.newHashMap<KtClass, Set<KtProperty>>()
+  private val myCachedClassProperties = HashMap<KtClass, Set<KtProperty>>()
+  private val myCachedCompanionClassProperties = HashMap<KtClass, Set<KtProperty>>()
   private val myEntries = HashMap<PsiElement, KotlinElementArrangementEntry>()
   private val mySectionDetector: ArrangementSectionDetector = ArrangementSectionDetector(myDocument, settings) { data ->
     val range = data.textRange
@@ -79,7 +79,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
   }
   private val myMethodBodyProcessor: MethodBodyProcessor = MethodBodyProcessor()
   private val myObjectBodyProcessor: ObjectBodyProcessor = ObjectBodyProcessor()
-  private val myProcessedSectionsComments = ContainerUtil.newHashSet<PsiComment>()
+  private val myProcessedSectionsComments = HashSet<PsiComment>()
   private val myStack = Stack<KotlinElementArrangementEntry>()
 
   companion object {
@@ -90,7 +90,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
     private val KOTLIN_MODIFIERS = listOf(KtTokens.PROTECTED_KEYWORD,
         KtTokens.PRIVATE_KEYWORD, KtTokens.OPEN_KEYWORD)
 
-    private val MODIFIERS = ContainerUtilRt.newHashMap<KtModifierKeywordToken, ArrangementSettingsToken>().apply {
+    private val MODIFIERS = HashMap<KtModifierKeywordToken, ArrangementSettingsToken>().apply {
       put(KtTokens.PROTECTED_KEYWORD, PROTECTED)
       put(KtTokens.PRIVATE_KEYWORD, PRIVATE)
       put(KtTokens.OPEN_KEYWORD, OPEN)
@@ -111,7 +111,7 @@ class KotlinArrangementVisitor(private val myInfo: KotlinArrangementParseInfo,
 
     private fun getComments(element: PsiElement): List<PsiComment> {
       val children = element.children
-      val comments = ContainerUtil.newArrayList<PsiComment>()
+      val comments = ArrayList<PsiComment>()
       for (e in children) {
         if (e is PsiComment) {
           comments.add(e)

@@ -24,7 +24,7 @@ enum class NamingMethod(val zhName: String, private val regex: Regex) {
   /**
    * 帕斯卡命名法，所有单词首字母大写,例如 MyName
    */
-  Pascal("帕斯卡", "[A-Z][a-z0-9]+([A-Z]{1,}[a-z0-9]{0,}){0,}".toRegex()),
+  Pascal("帕斯卡", "[A-Z]+[a-z0-9]+([A-Z]{1,}[a-z0-9]{0,}){0,}".toRegex()),
   /**
    * 下划线命名，单词全部小写，由下划线（_）连接，例如 my_name
    */

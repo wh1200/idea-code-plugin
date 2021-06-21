@@ -6,6 +6,7 @@
 package com.wuhao.code.check
 
 import com.intellij.ide.DataManager
+import com.intellij.lang.java.JavaLanguage
 import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.lang.javascript.psi.ecma6.ES6Decorator
 import com.intellij.lang.javascript.psi.ecmal4.JSAttributeList
@@ -190,7 +191,7 @@ val PsiElement.psiElementFactory: PsiElementFactory
 val Project.psiElementFactory: PsiElementFactory
   get() {
     if (PSI_ELEMENT_FACTORY_CACHE[this] == null) {
-      PSI_ELEMENT_FACTORY_CACHE[this] = PsiElementFactory.SERVICE.getInstance(this)
+      PSI_ELEMENT_FACTORY_CACHE[this] = PsiElementFactory.getInstance(this)
     }
     return PSI_ELEMENT_FACTORY_CACHE[this]!!
   }
@@ -287,7 +288,7 @@ fun KtPsiFactory.createDocTag(tag: String, content: String): KDocTag {
  * 获取空行元素
  */
 fun Project.createNewLine(n: Int = 1): PsiWhiteSpace {
-  return createWhiteSpace("\n".repeat(n))
+  return createJsWhiteSpace("\n".repeat(n))
 }
 
 /**
@@ -302,18 +303,25 @@ fun PsiElement.createNewLine(count: Int = 1): PsiWhiteSpace {
 /**
  * 获取空白元素
  */
-fun Project.createWhiteSpace(str: String): PsiWhiteSpace {
+fun Project.createJsWhiteSpace(str: String): PsiWhiteSpace {
   return PsiFileFactory.getInstance(this)
       .createFileFromText(JavascriptLanguage.INSTANCE, str).children.first() as PsiWhiteSpace
 }
 
 /**
+ * 获取空白元素
+ */
+fun Project.createJavaWhiteSpace(str: String): PsiWhiteSpace {
+  return PsiFileFactory.getInstance(this)
+      .createFileFromText(JavaLanguage.INSTANCE, str).children.first() as PsiWhiteSpace
+}
+/**
  *
  * @param str
  * @return
  */
-fun PsiElement.createWhiteSpace(str: String = " "): PsiWhiteSpace {
-  return project.createWhiteSpace(str)
+fun PsiElement.createJsWhiteSpace(str: String = " "): PsiWhiteSpace {
+  return project.createJsWhiteSpace(str)
 }
 
 /**

@@ -62,7 +62,7 @@ class PropValueCompletion : CompletionContributor() {
                         )
                         .withTypeText(
                             if (it is TypeScriptField) {
-                              it.type?.typeText
+                              it.jsType?.typeText
                             } else {
                               null
                             }

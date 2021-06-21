@@ -24,6 +24,7 @@ import com.intellij.lang.javascript.JavaScriptFileType
 import com.intellij.lang.javascript.JavascriptLanguage
 import com.intellij.lang.javascript.TypeScriptFileType
 import com.intellij.lang.javascript.formatter.JSCodeStyleSettings
+import com.intellij.lang.javascript.formatter.JSCodeStyleSettings.TrailingCommaOption.Remove
 import com.intellij.lang.typescript.formatter.TypeScriptCodeStyleSettings
 import com.intellij.openapi.editor.colors.CodeInsightColors
 import com.intellij.openapi.editor.markup.TextAttributes
@@ -61,7 +62,6 @@ import com.wuhao.code.check.constants.InspectionNames.JAVA_PROPERTY_CLASS
 import com.wuhao.code.check.constants.InspectionNames.KOTLIN_COMMENT
 import com.wuhao.code.check.constants.InspectionNames.KOTLIN_FORMAT
 import com.wuhao.code.check.constants.InspectionNames.MYBATIS
-import com.wuhao.code.check.constants.InspectionNames.PROPERTY_CLASS
 import com.wuhao.code.check.http.HttpRequest
 import com.wuhao.code.check.style.KotlinModifier.LATEINIT
 import com.wuhao.code.check.style.KotlinModifier.OPEN
@@ -77,6 +77,7 @@ import org.jetbrains.plugins.less.LESSFileType
 import org.jetbrains.plugins.less.LESSLanguage
 import org.jetbrains.vuejs.lang.html.VueFileType
 import org.jetbrains.vuejs.lang.html.VueLanguage
+import org.jetbrains.vuejs.lang.html.psi.formatter.VueCodeStyleSettings
 import org.jetbrains.yaml.YAMLFileType
 import org.jetbrains.yaml.YAMLLanguage
 import sun.awt.OSInfo
@@ -237,17 +238,9 @@ class PluginStart : StartupActivity {
       setSqlDefault(settings)
       setKotlinDefaults(settings)
     }
-    val jsSettings = settings.getCustomSettings(JSCodeStyleSettings::class.java)
-    jsSettings.apply {
-      IMPORT_SORT_MEMBERS = true
-      ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
-      USE_SEMICOLON_AFTER_STATEMENT = true
-      FORCE_SEMICOLON_STYLE = true
-      FORCE_QUOTE_STYlE = true
-      USE_DOUBLE_QUOTES = false
-      SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
-    }
+    setJavaScriptDefaults(settings)
     setTypeScriptDefaults(settings)
+    setVueDefaults(settings)
   }
 
   private fun setIndent(settings: CodeStyleSettings) {
@@ -299,6 +292,23 @@ class PluginStart : StartupActivity {
       if (language != null) {
         setIndent(fileType, language, settings)
       }
+    }
+  }
+
+  private fun setJavaScriptDefaults(settings: CodeStyleSettings) {
+    try {
+      val jsSettings = settings.getCustomSettings(JSCodeStyleSettings::class.java)
+      jsSettings.apply {
+        IMPORT_SORT_MEMBERS = true
+        ENFORCE_TRAILING_COMMA = Remove
+        USE_SEMICOLON_AFTER_STATEMENT = true
+        FORCE_SEMICOLON_STYLE = true
+        FORCE_QUOTE_STYlE = true
+        USE_DOUBLE_QUOTES = false
+        SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
+      }
+    } catch (e: Exception) {
+      // do nothing
     }
   }
 
@@ -416,7 +426,7 @@ class PluginStart : StartupActivity {
     val inspectionNames = inspectionProfile.getAllEnabledInspectionTools(project).map { it.shortName }
     InspectionNames.values().forEach {
       if ((isIdea || it !in listOf(CODE_FORMAT, JAVA_COMMENT, JAVA_FORMAT, KOTLIN_COMMENT,
-              KOTLIN_FORMAT, PROPERTY_CLASS, JAVA_PROPERTY_CLASS, MYBATIS)) && it.shortName in inspectionNames) {
+              KOTLIN_FORMAT, JAVA_PROPERTY_CLASS, MYBATIS)) && it.shortName in inspectionNames) {
         inspectionProfile.enableTool(it.shortName, project)
         val tools = inspectionProfile.getTools(it.shortName, project)
         tools.level = HighlightDisplayLevel(severity!!)
@@ -462,46 +472,59 @@ class PluginStart : StartupActivity {
   }
 
   private fun setTypeScriptDefaults(settings: CodeStyleSettings) {
-    val typescriptSettings = settings.getCustomSettings(TypeScriptCodeStyleSettings::class.java)
+    try {
+      val typescriptSettings = settings.getCustomSettings(TypeScriptCodeStyleSettings::class.java)
 
-    typescriptSettings.apply {
-      val fields = typescriptSettings.javaClass.fields.map { it.name }
-      if (fields.contains("JSDOC_INCLUDE_TYPES")) {
-        this.JSDOC_INCLUDE_TYPES = true
+      typescriptSettings.apply {
+        val fields = typescriptSettings.javaClass.fields.map { it.name }
+        if (fields.contains("JSDOC_INCLUDE_TYPES")) {
+          this.JSDOC_INCLUDE_TYPES = true
+        }
+        if (fields.contains("FUNCTION_EXPRESSION_BRACE_STYLE")) {
+          this.FUNCTION_EXPRESSION_BRACE_STYLE = 1
+        }
+        if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
+          this.SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
+        }
+        if (fields.contains("IMPORT_SORT_MEMBERS")) {
+          IMPORT_SORT_MEMBERS = true
+        }
+        if (fields.contains("ENFORCE_TRAILING_COMMA")) {
+          ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
+        }
+        if (fields.contains("USE_SEMICOLON_AFTER_STATEMENT")) {
+          USE_SEMICOLON_AFTER_STATEMENT = true
+        }
+        if (fields.contains("FORCE_SEMICOLON_STYLE")) {
+          FORCE_SEMICOLON_STYLE = true
+        }
+        if (fields.contains("FORCE_QUOTE_STYlE")) {
+          FORCE_QUOTE_STYlE = true
+        }
+        if (fields.contains("USE_DOUBLE_QUOTES")) {
+          USE_DOUBLE_QUOTES = false
+        }
+        if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
+          SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
+        }
+        if (fields.contains("IMPORT_SORT_MODULE_NAME")) {
+          this.IMPORT_SORT_MODULE_NAME = true
+        }
+        if (fields.contains("IMPORT_MERGE_MEMBERS")) {
+          this.IMPORT_MERGE_MEMBERS = JSCodeStyleSettings.BooleanWithGlobalOption.TRUE
+        }
       }
-      if (fields.contains("FUNCTION_EXPRESSION_BRACE_STYLE")) {
-        this.FUNCTION_EXPRESSION_BRACE_STYLE = 1
-      }
-      if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
-        this.SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
-      }
-      if (fields.contains("IMPORT_SORT_MEMBERS")) {
-        IMPORT_SORT_MEMBERS = true
-      }
-      if (fields.contains("ENFORCE_TRAILING_COMMA")) {
-        ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
-      }
-      if (fields.contains("USE_SEMICOLON_AFTER_STATEMENT")) {
-        USE_SEMICOLON_AFTER_STATEMENT = true
-      }
-      if (fields.contains("FORCE_SEMICOLON_STYLE")) {
-        FORCE_SEMICOLON_STYLE = true
-      }
-      if (fields.contains("FORCE_QUOTE_STYlE")) {
-        FORCE_QUOTE_STYlE = true
-      }
-      if (fields.contains("USE_DOUBLE_QUOTES")) {
-        USE_DOUBLE_QUOTES = false
-      }
-      if (fields.contains("SPACE_BEFORE_FUNCTION_LEFT_PARENTH")) {
-        SPACE_BEFORE_FUNCTION_LEFT_PARENTH = false
-      }
-      if (fields.contains("IMPORT_SORT_MODULE_NAME")) {
-        this.IMPORT_SORT_MODULE_NAME = true
-      }
-      if (fields.contains("IMPORT_MERGE_MEMBERS")) {
-        this.IMPORT_MERGE_MEMBERS = JSCodeStyleSettings.BooleanWithGlobalOption.TRUE
-      }
+    } catch (e: Exception) {
+      // nothing to do
+    }
+  }
+
+  private fun setVueDefaults(settings: CodeStyleSettings) {
+    try {
+      // todo
+      val vueCodeStyleSettings = settings.getCustomSettings(VueCodeStyleSettings::class.java)
+    } catch (e: Exception) {
+      // nothing to do
     }
   }
 

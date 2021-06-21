@@ -18,7 +18,7 @@ class VueArrangementParseInfo {
     get() = myEntries
   private val myEntries = ArrayList<VueElementArrangementEntry>()
   private val myProperties = LinkedHashMap<ES6FieldStatementImpl, VueElementArrangementEntry>()
-  private val myPropertyDependencies = ContainerUtil.newHashMap<ES6FieldStatementImpl, HashSet<ES6FieldStatementImpl>>()
+  private val myPropertyDependencies = HashMap<ES6FieldStatementImpl, HashSet<ES6FieldStatementImpl>>()
 
   fun addEntry(entry: VueElementArrangementEntry) {
     myEntries.add(entry)
@@ -35,7 +35,7 @@ class VueArrangementParseInfo {
   fun registerPropertyInitializationDependency(property: ES6FieldStatementImpl, referencedProperty: ES6FieldStatementImpl) {
     var properties: MutableSet<ES6FieldStatementImpl>? = myPropertyDependencies[property]
     if (properties == null) {
-      properties = ContainerUtil.newHashSet()
+      properties = HashSet()
       myPropertyDependencies[property] = properties
     }
     properties.add(referencedProperty)

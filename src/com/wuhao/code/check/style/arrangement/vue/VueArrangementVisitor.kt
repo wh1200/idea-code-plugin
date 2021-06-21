@@ -44,8 +44,7 @@ class VueArrangementVisitor(
     private val myRanges: Collection<TextRange>
 ) : VueRecursiveVisitor() {
 
-  private val myCachedClassProperties =
-      ContainerUtil.newHashMap<TypeScriptClassExpression, Set<ES6FieldStatementImpl>>()
+  private val myCachedClassProperties = HashMap<TypeScriptClassExpression, Set<ES6FieldStatementImpl>>()
   private val myStack = Stack<VueElementArrangementEntry>()
 
   companion object {

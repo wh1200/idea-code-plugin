@@ -20,7 +20,7 @@ class KotlinArrangementParseInfo {
   private val myEntries = ArrayList<KotlinElementArrangementEntry>()
   private val myFunctionEntriesMap = HashMap<KtNamedFunction, KotlinElementArrangementEntry>()
   private val myProperties = LinkedHashMap<KtProperty, KotlinElementArrangementEntry>()
-  private val myPropertyDependencies = ContainerUtil.newHashMap<KtProperty, HashSet<KtProperty>>()
+  private val myPropertyDependencies = HashMap<KtProperty, HashSet<KtProperty>>()
 
   fun addEntry(entry: KotlinElementArrangementEntry) {
     myEntries.add(entry)
@@ -41,7 +41,7 @@ class KotlinArrangementParseInfo {
   fun registerPropertyInitializationDependency(property: KtProperty, referencedProperty: KtProperty) {
     var properties: MutableSet<KtProperty>? = myPropertyDependencies[property]
     if (properties == null) {
-      properties = ContainerUtil.newHashSet()
+      properties = HashSet()
       myPropertyDependencies[property] = properties
     }
     properties.add(referencedProperty)

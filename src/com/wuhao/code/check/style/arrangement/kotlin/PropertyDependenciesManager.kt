@@ -27,7 +27,7 @@ class PropertyDependenciesManager(private val myFieldDependencies: Map<KtPropert
 
   val roots: List<KotlinArrangementEntryDependencyInfo>
     get() {
-      val list = ContainerUtil.newArrayList<KotlinArrangementEntryDependencyInfo>()
+      val list = ArrayList<KotlinArrangementEntryDependencyInfo>()
 
       for ((key, value) in myFieldDependencies) {
         val currentInfo = myFieldInfosMap[key]
@@ -39,12 +39,12 @@ class PropertyDependenciesManager(private val myFieldDependencies: Map<KtPropert
           }
         }
 
-        list.add(currentInfo)
+        list.add(currentInfo!!)
       }
 
       return list
     }
-  private val myFieldInfosMap = ContainerUtil.newHashMap<KtProperty, KotlinArrangementEntryDependencyInfo>()
+  private val myFieldInfosMap = HashMap<KtProperty, KotlinArrangementEntryDependencyInfo>()
 
   init {
     for (field in fields.keys) {

@@ -20,6 +20,7 @@ class LightInspectionTest : BaseLightInspectionTest() {
 
   fun testAllJava() {
     val problems = doTestGlobalInspection("src", JavaFormatInspection())
+    problems.assertNoProblem("FILEName.java")
     problems.assertProblem("JavaExample.java", USE_LOG_INSTEAD_OF_PRINT)
     problems.assertProblem("ExampleController.java", MISSING_REQUEST_MAPPING_ANNOTATION)
     problems.assertProblem("ExampleController2.java", MISSING_REQUEST_MAPPING_ANNOTATION)

@@ -11,7 +11,7 @@ import javax.swing.JRadioButton
 class AutoGeneratorSettingsDialog(
     val project: Project?,
     val tableName: String,
-    val databases: List<out DasDataSource>
+    val databases: List<DasDataSource>
 ) : DialogWrapper(project, true) {
 
   private var databaseSettings: AegisPluginSettings

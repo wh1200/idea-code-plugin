@@ -14,7 +14,7 @@ import com.intellij.psi.html.HtmlTag
 import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.id
 import com.wuhao.code.check.posterity
-import icons.VuejsIcons
+import org.jetbrains.vuejs.VuejsIcons
 import javax.swing.Icon
 
 /**

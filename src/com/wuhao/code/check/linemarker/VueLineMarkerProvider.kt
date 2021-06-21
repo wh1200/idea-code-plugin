@@ -20,7 +20,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.html.HtmlTag
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.wuhao.code.check.*
-import icons.VuejsIcons
+import org.jetbrains.vuejs.VuejsIcons
 import javax.swing.Icon
 
 /**
@@ -55,8 +55,7 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
             val properties = arg.properties.filter { (it.name in listOf("el", "template")) }
             properties.forEach { property ->
               targets.addAll(el.containingFile.posterity.filter {
-                it is HtmlTag && property.value?.text ==
-                    "'#${it.id}'"
+                it is HtmlTag && property.value?.text == "'#${it.id}'"
               })
             }
 
@@ -106,7 +105,7 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
       return hasAnnotation(el.parent, annotation)
     }
     return el.getChildByType<JSAttributeList>()?.getChildByType<ES6Decorator>()?.text?.startsWith(annotation)
-      ?: false
+        ?: false
   }
 
   private fun hasAnnotationDecorator(ancestor: TypeScriptClassExpression): Boolean {
@@ -119,7 +118,7 @@ class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
   private fun hasAttribute(el: PsiElement, annotation: String): Boolean {
     return el.getChildByType<JSAttributeList>()?.text?.startsWith(annotation)
-      ?: false
+        ?: false
   }
 
 }

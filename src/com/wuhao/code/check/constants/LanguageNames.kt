@@ -10,7 +10,8 @@ object LanguageNames {
 
   const val ECMA6 = "ECMAScript 6"
   const val TYPESCRIPT = "TypeScript"
-  const val VUE = "Vue"
+  const val VUE = "VueJS"
+  const val VUE_TEMPLATE = "Vue template"
 
 }
 

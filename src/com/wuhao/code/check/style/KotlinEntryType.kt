@@ -44,7 +44,8 @@ internal val TOKENS_BY_ID = HashMap<String, StdArrangementSettingsToken>()
  * @return
  */
 fun invertible(id: String, type: StdArrangementTokenType): StdArrangementSettingsToken {
-  val result = StdInvertibleArrangementSettingsToken.invertibleTokenById(id, type)
+  val result = StdInvertibleArrangementSettingsToken.invertibleToken(id,
+      type.toString(), type.toString(), type)
   TOKENS_BY_ID[id] = result
   return result
 }

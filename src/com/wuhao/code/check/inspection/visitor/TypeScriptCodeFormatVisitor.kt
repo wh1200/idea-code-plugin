@@ -12,11 +12,13 @@ import com.intellij.lang.javascript.dialects.TypeScriptJSXLanguageDialect
 import com.intellij.lang.javascript.psi.JSCallExpression
 import com.intellij.lang.javascript.psi.JSElementVisitor
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
+import com.intellij.lang.javascript.psi.JSReferenceExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptAsExpression
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptClass
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptObjectType
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptVariable
 import com.intellij.lang.javascript.psi.impl.JSChangeUtil
+import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiFile
 import com.intellij.psi.html.HtmlTag
 import com.wuhao.code.check.constants.LanguageNames
@@ -29,6 +31,7 @@ import com.wuhao.code.check.inspection.fix.SchemaFormFieldsTypeFix
 import com.wuhao.code.check.inspection.fix.vue.ConvertToClassComponent
 import com.wuhao.code.check.inspection.fix.vue.ReactToVueFix
 import com.wuhao.code.check.inspection.fix.vue.Vue2ClassToVue3CompositionAPIFix
+import org.jetbrains.kotlin.idea.completion.or
 import org.jetbrains.vuejs.lang.expr.VueJSLanguage
 import org.jetbrains.vuejs.lang.html.VueLanguage
 
@@ -41,6 +44,25 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
 
   companion object {
     val TS_FILE_NAME_PATTERN = "^[a-z-_0-9]+.ts(x)?\$".toRegex()
+
+    fun isRootVueComponentObject(element: JSObjectLiteralExpression): Boolean {
+      val bc = element.getAncestor(2)
+      val isVue3ComponentObject = bc is JSCallExpression && bc.methodExpression?.text in listOf(
+          "defineComponent",
+          "defineAsyncComponent"
+      )
+      if (isVue3ComponentObject) {
+        return true
+      }
+      val ac = when (element.parent) {
+        is TypeScriptAsExpression -> element.getAncestor(4)
+        else                      -> element.getAncestor(3)
+      }
+      if (element.containingFile.language in listOf(VueLanguage.INSTANCE, VueJSLanguage.INSTANCE)) {
+        return ac is HtmlTag
+      }
+      return false
+    }
   }
 
   override fun support(language: Language): Boolean {
@@ -118,24 +140,6 @@ open class TypeScriptCodeFormatVisitor(val holder: ProblemsHolder) : JSElementVi
     super.visitTypeScriptObjectType(objectType)
   }
 
-  private fun isRootVueComponentObject(element: JSObjectLiteralExpression): Boolean {
-    val bc = element.getAncestor(2)
-    val isVue3ComponentObject = bc is JSCallExpression && bc.methodExpression?.text in listOf(
-        "defineComponent",
-        "defineAsyncComponent"
-    )
-    if (isVue3ComponentObject) {
-      return true
-    }
-    val ac = when (element.parent) {
-      is TypeScriptAsExpression -> element.getAncestor(4)
-      else                      -> element.getAncestor(3)
-    }
-    if (element.containingFile.language in listOf(VueLanguage.INSTANCE, VueJSLanguage.INSTANCE)) {
-      return ac is HtmlTag
-    }
-    return false
-  }
 
   private fun isSchemaFormObject(element: JSObjectLiteralExpression): Boolean {
     val parent = element.parent

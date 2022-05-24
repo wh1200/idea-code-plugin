@@ -13,7 +13,17 @@
             <set />
           </value>
         </entry>
+        <entry key="/a.dummy">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="/a.sql">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/dummy.js">
           <value>
             <set />
           </value>
@@ -29,6 +39,16 @@
           </value>
         </entry>
         <entry key="/fragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/lib/platform-api.jar!/com/intellij/patterns/TreeElementPattern.class">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/javascript-openapi.jar!/com/intellij/lang/javascript/psi/JSReturnStatement.class">
           <value>
             <set />
           </value>
@@ -698,6 +718,31 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../aegis-commons/README.md">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis-commons/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis-commons/src/main/java/com/aegis/spring/StringToDateConverter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis-commons/src/test/java/com/aegis/spring/StringToDateConverterTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../aegis-commons/src/test/java/com/aegis/spring/StringToDateConverterTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../aegis/OperationSystemService/src/main/java/com/aegis/os/constants/Messages.kt">
           <value>
             <set />
@@ -1163,6 +1208,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/JsPropertySortFix.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/inspection/fix/java/ConvertToClassComponent.kt">
           <value>
             <set />
@@ -1259,6 +1309,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixKotlinPreProcessor.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/com/wuhao/code/check/processors/FixTypeScriptPostProcessor.kt">
           <value>
             <set />
           </value>
@@ -1873,6 +1928,111 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../oa2/app/src/main/java/com/aegis/oa/service/aspect/MyVariableTableParameterNameDiscoverer.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/business-entity/src/main/java/com/aegis/business/entity/domain/common/ExportStyle.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/business-entity/src/main/java/com/aegis/business/entity/domain/enums/EntityFieldDataType.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/business-entity/src/main/java/com/aegis/business/entity/domain/vo/BusinessEntityPropertyVO.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/business-entity/src/main/java/com/aegis/business/entity/service/impl/BusinessEntityDataModifyServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/business-entity/src/main/java/com/aegis/business/entity/service/impl/BusinessEntityDataServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/business-entity/src/main/java/com/aegis/business/entity/service/impl/BusinessEntityPropertyServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/business-entity/src/main/java/com/aegis/business/entity/util/BusinessEntityDataUtils.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/common/src/main/java/com/aegis/oa/common/domain/model/ExportTask.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/common/src/main/java/com/aegis/oa/utils/CollectionUtil.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/core/src/main/java/com/aegis/oa/core/service/DefaultValueResolver.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/core/src/main/java/com/aegis/oa/core/service/ImportDataResolver.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/core/src/main/java/com/aegis/oa/core/service/aop/MyVariableTableParameterNameDiscoverer.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/core/src/main/java/com/aegis/oa/core/service/impl/ExportDataServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/core/src/main/java/com/aegis/oa/core/service/impl/ImportDataServiceImpl.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/core/src/main/java/com/aegis/oa/core/service/inter/ImportDataService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/core/src/main/java/com/aegis/oa/core/service/inter/ImportDataValueResolver.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/core/src/test/java/com/aegis/oa/core/service/impl/ImportDataServiceImplTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/dic/src/main/java/com/aegis/dic/domain/NsArea.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/hr/src/main/java/com/aegis/oa/domain/bean/entity/Staff.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../oa2/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/package.json">
           <value>
             <set />
@@ -1894,6 +2054,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/src/types/api.d.ts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../workspace_web/OaPage/src/views/admin/develop/entity/detail.vue">
           <value>
             <set />
           </value>

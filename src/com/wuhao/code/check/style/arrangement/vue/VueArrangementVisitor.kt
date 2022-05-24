@@ -23,7 +23,6 @@ import com.intellij.psi.impl.source.html.HtmlDocumentImpl
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
-import com.intellij.util.containers.ContainerUtil
 import com.intellij.util.containers.Stack
 import com.intellij.xml.util.HtmlUtil.SCRIPT_TAG_NAME
 import com.wuhao.code.check.getChildByType

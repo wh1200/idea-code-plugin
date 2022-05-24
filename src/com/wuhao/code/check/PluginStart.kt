@@ -71,8 +71,8 @@ import com.wuhao.code.check.template.KotlinTemplates
 import com.wuhao.code.check.ui.PluginSettings
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.idea.compiler.configuration.KotlinPluginLayout
 import org.jetbrains.kotlin.idea.core.formatter.KotlinCodeStyleSettings
-import org.jetbrains.kotlin.idea.versions.bundledRuntimeVersion
 import org.jetbrains.plugins.less.LESSFileType
 import org.jetbrains.plugins.less.LESSLanguage
 import org.jetbrains.vuejs.lang.html.VueFileType
@@ -80,7 +80,6 @@ import org.jetbrains.vuejs.lang.html.VueLanguage
 import org.jetbrains.vuejs.lang.html.psi.formatter.VueCodeStyleSettings
 import org.jetbrains.yaml.YAMLFileType
 import org.jetbrains.yaml.YAMLLanguage
-import sun.awt.OSInfo
 import java.awt.Color
 import java.util.*
 
@@ -204,7 +203,7 @@ class PluginStart : StartupActivity {
     var ideVersion = ""
     if (isIdea) {
       version = project.getVersion() ?: ""
-      ideVersion = bundledRuntimeVersion()
+      ideVersion = KotlinPluginLayout.instance.ideCompilerVersion
     }
     Timer().schedule(object : TimerTask() {
 
@@ -218,7 +217,6 @@ class PluginStart : StartupActivity {
             .withParam("pluginVersion", "1.4.12")
             .withParam("ideVersion", ideVersion)
             .withParam("platform", PlatformUtils.getPlatformPrefix())
-            .withParam("os", OSInfo.getOSType())
             .withParam("user", PluginSettings.INSTANCE.user.let {
               if (it.isEmpty()) {
                 System.getProperty("user.name")
@@ -379,6 +377,7 @@ class PluginStart : StartupActivity {
         }
       }
     } catch (e: Exception) {
+      // do nothing
     }
   }
 
@@ -490,7 +489,7 @@ class PluginStart : StartupActivity {
           IMPORT_SORT_MEMBERS = true
         }
         if (fields.contains("ENFORCE_TRAILING_COMMA")) {
-          ENFORCE_TRAILING_COMMA = JSCodeStyleSettings.TrailingCommaOption.Remove
+          ENFORCE_TRAILING_COMMA = Remove
         }
         if (fields.contains("USE_SEMICOLON_AFTER_STATEMENT")) {
           USE_SEMICOLON_AFTER_STATEMENT = true

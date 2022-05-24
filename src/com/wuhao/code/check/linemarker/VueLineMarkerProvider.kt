@@ -31,15 +31,15 @@ import javax.swing.Icon
 class VueLineMarkerProvider : RelatedItemLineMarkerProvider() {
 
   companion object {
-    val COMPUTED_ICON_FILE = IconLoader.getIcon("/icons/calculator.png")
+    val COMPUTED_ICON_FILE = IconLoader.getIcon("/icons/calculator.png", Icon::class.java)
     val LIFETIME_FUNCTIONS = listOf(
         "beforeCreate", "created", "beforeMount", "mounted",
         "beforeUpdate", "updated", "activated", "deactivated", "beforeDestroy",
         "destroyed", "errorCaptured", "beforeRouteEnter", "beforeRouteUpdate", "beforeRouteLeave"
     )
-    val LIFETIME_ICON_FILE = IconLoader.getIcon("/icons/vue-lifetime.png")
-    val PROP_ICON_FILE = IconLoader.getIcon("/icons/in.png")
-    val WATCH_ICON_FILE = IconLoader.getIcon("/icons/eye.png")
+    val LIFETIME_ICON_FILE = IconLoader.getIcon("/icons/vue-lifetime.png", Icon::class.java)
+    val PROP_ICON_FILE = IconLoader.getIcon("/icons/in.png", Icon::class.java)
+    val WATCH_ICON_FILE = IconLoader.getIcon("/icons/eye.png", Icon::class.java)
   }
 
   override fun collectNavigationMarkers(

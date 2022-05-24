@@ -206,7 +206,7 @@ val PsiElement.startOffset: Int
 val vueEnabled: Boolean
   get() {
     return try {
-      Class.forName("org.jetbrains.vuejs.VueLanguage")
+      Class.forName("org.jetbrains.vuejs.lang.html.VueLanguage")
       true
     } catch (e: Exception) {
       false

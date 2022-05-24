@@ -1,6 +1,16 @@
 
-hkotlin:S3776"RRefactor this method to reduce its Cognitive Complexity from 41 to the 15 allowed.(Ÿ¼œÌ
-mkotlin:S3776"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(–Œ°Õüÿÿÿÿ
-ckotlin:S1192"HDefine a constant instead of duplicating this literal "public " 4 times.(ôáàáşÿÿÿÿ
-mkotlin:S3776"RRefactor this method to reduce its Cognitive Complexity from 42 to the 15 allowed.(—˜úşÿÿÿÿ
-gkotlin:S3776"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(¬àû
+lkotlin:S1192i"HDefine a constant instead of duplicating this literal "public " 4 times.(ôáàáşÿÿÿÿ8•Óü´Ş/
+qkotlin:S3776$"RRefactor this method to reduce its Cognitive Complexity from 41 to the 15 allowed.(Ÿ¼œÌ8£Óü´Ş/
+wkotlin:S3776’"RRefactor this method to reduce its Cognitive Complexity from 42 to the 15 allowed.(—˜úşÿÿÿÿ8¥Óü´Ş/
+wkotlin:S3776»"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(–Œ°Õüÿÿÿÿ8¦Óü´Ş/
+qkotlin:S3776ó"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(¬àû8§Óü´Ş/
+ekotlin:S1192i"HDefine a constant instead of duplicating this literal "public " 4 times.(ôáàáşÿÿÿÿ
+lkotlin:S1192i"HDefine a constant instead of duplicating this literal "public " 4 times.(ôáàáşÿÿÿÿ8Ò´„µŞ/
+jkotlin:S3776$"RRefactor this method to reduce its Cognitive Complexity from 41 to the 15 allowed.(Ÿ¼œÌ
+qkotlin:S3776$"RRefactor this method to reduce its Cognitive Complexity from 41 to the 15 allowed.(Ÿ¼œÌ8×´„µŞ/
+pkotlin:S3776’"RRefactor this method to reduce its Cognitive Complexity from 42 to the 15 allowed.(—˜úşÿÿÿÿ
+wkotlin:S3776’"RRefactor this method to reduce its Cognitive Complexity from 42 to the 15 allowed.(—˜úşÿÿÿÿ8Ø´„µŞ/
+pkotlin:S3776»"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(–Œ°Õüÿÿÿÿ
+wkotlin:S3776»"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(–Œ°Õüÿÿÿÿ8Ø´„µŞ/
+jkotlin:S3776ó"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(¬àû
+qkotlin:S3776ó"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(¬àû8Ù´„µŞ/

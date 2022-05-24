@@ -18,7 +18,11 @@ import com.intellij.lang.javascript.psi.ecma6.TypeScriptField
 import com.intellij.lang.javascript.psi.ecma6.TypeScriptFunctionSignature
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.XmlElementFactory
+import com.intellij.psi.html.HtmlTag
+import com.intellij.psi.impl.source.html.HtmlDocumentImpl
+import com.intellij.psi.util.childrenOfType
 import com.intellij.psi.xml.XmlAttribute
 import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlDocument
@@ -32,6 +36,7 @@ import com.wuhao.code.check.depth
 import com.wuhao.code.check.getChildByType
 import com.wuhao.code.check.getLineCount
 import com.wuhao.code.check.inspection.fix.vue.ComplexExpToComputedPropertyFix
+import com.wuhao.code.check.inspection.fix.vue.CreateNameScript
 import com.wuhao.code.check.inspection.fix.vue.VueComponentNameFix
 import com.wuhao.code.check.inspection.fix.vue.VueShortAttrFix
 import com.wuhao.code.check.lang.javascript.psi.JSRecursiveElementVisitor
@@ -60,7 +65,11 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
   }
 
   override fun support(language: Language): Boolean {
-    return language.displayName == LanguageNames.VUE
+    return language.displayName == LanguageNames.VUE || language.displayName == LanguageNames.VUE_TEMPLATE
+  }
+
+  override fun visitFile(file: PsiFile) {
+    super.visitFile(file)
   }
 
   override fun visitXmlAttribute(attribute: XmlAttribute) {
@@ -172,11 +181,27 @@ open class VueCodeFormatVisitor(val holder: ProblemsHolder) : VueFileVisitor(), 
           }
         }
         SCRIPT_TAG_NAME -> {
+          checkSetup(tag)
           tag.getChildByType<JSEmbeddedContent>()?.accept(VueJsVisitor())
         }
       }
     }
     super.visitXmlTag(tag)
+  }
+
+  private fun checkSetup(tag: XmlTag) {
+    if (!tag.attributes.map { it.name }.contains("setup")) {
+      return
+    }
+    val root = tag.parent
+    if (root !is HtmlDocumentImpl) {
+      return
+    }
+    val scriptTags = root.childrenOfType<HtmlTag>().filter { it.name == SCRIPT_TAG_NAME }
+    if (scriptTags.size == 1) {
+      holder.registerProblem(tag, "添加组件名称声明",
+      ProblemHighlightType.GENERIC_ERROR, CreateNameScript())
+    }
   }
 
   private fun keyAttrOnChild(parent: XmlTag): XmlAttribute? {

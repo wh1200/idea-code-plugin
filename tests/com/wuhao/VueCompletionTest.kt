@@ -11,7 +11,6 @@ import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture
 import junit.framework.TestCase
 import org.jdom.input.SAXBuilder
-import org.jetbrains.vuejs.model.webtypes.registry.VueWebTypesRegistry
 import java.io.StringReader
 
 private val VUETIFY_UNRESOLVED_COMPONENTS = setOf(
@@ -1057,23 +1056,6 @@ export default {
           assertDoesntContain(myFixture.lookupElementStrings!!, notExpected)
         }
   }
-
-  fun testWebTypesIndirect() {
-    VueWebTypesRegistry.instance.loadState(SAXBuilder().build(StringReader("""
-      <root>
-        <enabled>
-          <package name="@foo/bar"/>
-          <package name="foo"/>
-        </enabled>
-      </root>
-    """)).rootElement)
-    myFixture.copyDirectoryToProject("web-types-indirect", ".")
-    myFixture.configureFromTempProjectFile("root.vue")
-    myFixture.completeBasic()
-    assertContainsElements(myFixture.lookupElementStrings!!, "foo3", "foo", "foo-bar")
-    assertDoesntContain(myFixture.lookupElementStrings!!, "foo2", "foo-foo", "foo2-bar", "foo2-foo")
-  }
-
   fun testWrongPropsNotInCompletion() {
     myFixture.configureByText("WrongPropsNotInCompletion.vue", """
 <template>

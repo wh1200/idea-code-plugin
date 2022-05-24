@@ -6,6 +6,7 @@ package com.wuhao.code.check.inspection.fix
 import com.intellij.codeInsight.actions.ReformatCodeProcessor
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
+import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.impl.JSObjectLiteralExpressionImpl
 import com.intellij.openapi.project.Project
 
@@ -16,14 +17,21 @@ import com.intellij.openapi.project.Project
  */
 class JsPropertySortFix : LocalQuickFix {
 
-  override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-    val element = descriptor.psiElement as JSObjectLiteralExpressionImpl
-    val sortedProperties = element.properties.sortedBy { it.name }
-    element.properties.forEachIndexed { index, jsProperty ->
-      jsProperty.replace(sortedProperties[index])
+  companion object {
+    fun fix(element: JSObjectLiteralExpression, format: Boolean) {
+      val sortedProperties = element.properties.sortedBy { it.name }
+      element.properties.forEachIndexed { index, jsProperty ->
+        jsProperty.replace(sortedProperties[index])
+      }
+      if (format) {
+        ReformatCodeProcessor(element.containingFile, true).run()
+      }
     }
-    ReformatCodeProcessor(descriptor.psiElement.containingFile, true)
-        .run()
+  }
+
+  override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+    val element = descriptor.psiElement as JSObjectLiteralExpression
+    fix(element, true)
   }
 
   override fun getFamilyName(): String {
@@ -31,4 +39,3 @@ class JsPropertySortFix : LocalQuickFix {
   }
 
 }
-

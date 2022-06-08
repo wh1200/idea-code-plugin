@@ -160,7 +160,7 @@
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
   <idea-version since-build="202.6397.94"
-                until-build="221.5080.210"/>
+                until-build="223.5080.210"/>
   <extensions defaultExtensionNs="com.intellij">
     <postStartupActivity implementation="com.wuhao.code.check.PluginStart"/>
     <lang.rearranger language="LESS"
@@ -270,10 +270,7 @@
     </action>
   </actions>
   <depends>com.intellij.modules.platform</depends>
-  <depends>org.jetbrains.kotlin</depends>
   <depends>com.intellij.modules.json</depends>
-  <!--  <depends optional="true" config-file="">com.intellij.spring</depends>-->
-  <!--  <depends optional="true" config-file="">com.intellij.spring.boot</depends>-->
   <depends>org.jetbrains.plugins.vue</depends>
   <depends>org.jetbrains.plugins.less</depends>
   <depends>com.intellij.database</depends>

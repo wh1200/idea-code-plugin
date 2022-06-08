@@ -46,6 +46,42 @@
       <option name="IGNORE_POINT_TO_ITSELF" value="false" />
       <option name="myAdditionalJavadocTags" value="return,date" />
     </inspection_tool>
+    <inspection_tool class="JavadocDeclaration" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ADDITIONAL_TAGS" value="return,date" />
+    </inspection_tool>
+    <inspection_tool class="MissingJavadoc" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="PACKAGE_SETTINGS">
+        <Options>
+          <option name="ENABLED" value="false" />
+        </Options>
+      </option>
+      <option name="MODULE_SETTINGS">
+        <Options>
+          <option name="ENABLED" value="false" />
+        </Options>
+      </option>
+      <option name="TOP_LEVEL_CLASS_SETTINGS">
+        <Options>
+          <option name="ENABLED" value="false" />
+        </Options>
+      </option>
+      <option name="INNER_CLASS_SETTINGS">
+        <Options>
+          <option name="ENABLED" value="false" />
+        </Options>
+      </option>
+      <option name="METHOD_SETTINGS">
+        <Options>
+          <option name="REQUIRED_TAGS" value="@return@param@throws or @exception" />
+          <option name="ENABLED" value="false" />
+        </Options>
+      </option>
+      <option name="FIELD_SETTINGS">
+        <Options>
+          <option name="ENABLED" value="false" />
+        </Options>
+      </option>
+    </inspection_tool>
     <inspection_tool class="SingleStatementInBlock" enabled="false" level="INFORMATION" enabled_by_default="false" />
     <inspection_tool class="SpringAutowiredFieldsWarningInspection" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="SpringJavaAutowiringInspection" enabled="false" level="ERROR" enabled_by_default="false" />
@@ -55,9 +91,11 @@
     <inspection_tool class="aegis.code.check.validation.java.format" enabled="true" level="Code Format" enabled_by_default="true" />
     <inspection_tool class="aegis.code.check.validation.javascript.format" enabled="true" level="Code Format" enabled_by_default="true" />
     <inspection_tool class="aegis.code.check.validation.kotlin" enabled="true" level="Code Format" enabled_by_default="true" />
+    <inspection_tool class="aegis.code.check.validation.kotlin.format" enabled="true" level="Code Format" enabled_by_default="true" />
     <inspection_tool class="aegis.code.check.validation.name.java.object" enabled="true" level="Code Format" enabled_by_default="true" />
     <inspection_tool class="aegis.code.check.validation.name.object" enabled="true" level="Code Format" enabled_by_default="true" />
     <inspection_tool class="aegis.code.check.validation.typescript.format" enabled="true" level="Code Format" enabled_by_default="true" />
+    <inspection_tool class="aegis.code.check.validation.vue.format" enabled="true" level="Code Format" enabled_by_default="true" />
     <inspection_tool class="aegis.code.check.validation.xml.mybatis" enabled="true" level="Code Format" enabled_by_default="true" />
   </profile>
 </component>

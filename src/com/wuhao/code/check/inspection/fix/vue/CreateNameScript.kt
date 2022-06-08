@@ -2,10 +2,7 @@ package com.wuhao.code.check.inspection.fix.vue
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
-import com.intellij.lang.ecmascript6.psi.ES6ExportDefaultAssignment
-import com.intellij.lang.javascript.TypeScriptJSXFileType
 import com.intellij.lang.javascript.dialects.TypeScriptJSXLanguageDialect
-import com.intellij.lang.javascript.psi.JSEmbeddedContent
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.JSReferenceExpression
 import com.intellij.lang.javascript.psi.JSThisExpression
@@ -19,15 +16,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.XmlElementFactory
 import com.intellij.psi.html.HtmlTag
-import com.intellij.psi.xml.XmlDocument
-import com.intellij.psi.xml.XmlTag
-import com.intellij.xml.util.HtmlUtil.SCRIPT_TAG_NAME
 import com.wuhao.code.check.*
 import com.wuhao.code.check.constants.PROPERTY_NAME_PLACEHOLDER
 import com.wuhao.code.check.inspection.visitor.VueCodeFormatVisitor.Companion.COMPUTED_ATTRIBUTE
-import com.wuhao.code.check.lang.vue.VueDirectives.FOR
-import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
-import org.jetbrains.vuejs.lang.expr.psi.VueJSVForExpression
 import java.util.*
 
 /**
@@ -52,8 +43,9 @@ class CreateNameScript : LocalQuickFix {
             """<script lang="$lang">
   export default {
     name: '${componentName}'
-  } 
-</script>""")
+  }; 
+</script>"""
+        )
     newTag.insertBefore(el)
   }
 

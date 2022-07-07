@@ -203,7 +203,7 @@ class PluginStart : StartupActivity {
     var ideVersion = ""
     if (isIdea) {
       version = project.getVersion() ?: ""
-      ideVersion = KotlinPluginLayout.instance.ideCompilerVersion
+      ideVersion = KotlinPluginLayout.instance.ideCompilerVersion.baseVersion
     }
     Timer().schedule(object : TimerTask() {
 

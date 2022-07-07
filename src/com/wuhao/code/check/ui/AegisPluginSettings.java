@@ -25,6 +25,10 @@ public class AegisPluginSettings {
   private JLabel     userLabel;
   private JTextField vueTemplateUrlInput;
   private JLabel     vueTemplateUrlLabel;
+  private JTextField tapdAccountInput;
+  private JTextField tapdTokenInput;
+  private JLabel     tapdAccountLabel;
+  private JLabel tapdTokenLabel;
 
   public AegisPluginSettings() {
     int width = 200;
@@ -46,6 +50,12 @@ public class AegisPluginSettings {
     }
     if (emailLabel != null) {
       emailLabel.setPreferredSize(size);
+    }
+    if (tapdAccountLabel != null) {
+      tapdAccountLabel.setPreferredSize(size);
+    }
+    if (tapdTokenLabel != null) {
+      tapdTokenLabel.setPreferredSize(size);
     }
   }
 
@@ -77,4 +87,11 @@ public class AegisPluginSettings {
     return vueTemplateUrlInput;
   }
 
+  public JTextField getTapdAccountInput() {
+    return tapdAccountInput;
+  }
+
+  public JTextField getTapdTokenInput() {
+    return tapdTokenInput;
+  }
 }

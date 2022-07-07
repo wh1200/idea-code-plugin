@@ -26,6 +26,8 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
       settings.vueTemplateUrl = it.vueTemplateUrlInput.text
       settings.user = it.userInput.text
       settings.email = it.emailInput.text
+      settings.tapdAccount = it.tapdAccountInput.text
+      settings.tapdToken = it.tapdTokenInput.text
     }
   }
 
@@ -40,6 +42,8 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
       it.javaKotlinTemplateUrlInput.text = settings.javaKotlinTemplateUrl
       it.userInput.text = settings.user
       it.emailInput.text = settings.email
+      it.tapdTokenInput.text = settings.tapdToken
+      it.tapdAccountInput.text = settings.tapdAccount
     }
     return aegisPluginSettings?.mainPanel
   }
@@ -56,7 +60,9 @@ class AegisPluginSettingsConfigurable : SearchableConfigurable {
     return settings.vueTemplateUrl != aegisPluginSettings?.gitPrivateTokenInput?.text
         || settings.reactTemplateUrl != aegisPluginSettings?.reactTemplateUrlInput?.text
 //        || settings.gitPrivateToken != aegisPluginSettings?.gitPrivateTokenInput?.text
-        || settings.user == aegisPluginSettings?.userInput?.text
+        || settings.user != aegisPluginSettings?.userInput?.text
+        || settings.tapdAccount != aegisPluginSettings?.tapdAccountInput?.text
+        || settings.tapdToken != aegisPluginSettings?.tapdTokenInput?.text
         || settings.javaKotlinTemplateUrl != aegisPluginSettings?.javaKotlinTemplateUrlInput?.text
   }
 

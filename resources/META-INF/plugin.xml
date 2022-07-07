@@ -159,7 +159,7 @@
   </change-notes>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="202.6397.94"
+  <idea-version since-build="213.4631.20"
                 until-build="223.5080.210"/>
   <extensions defaultExtensionNs="com.intellij">
     <postStartupActivity implementation="com.wuhao.code.check.PluginStart"/>
@@ -273,7 +273,5 @@
   <depends>com.intellij.modules.json</depends>
   <depends>org.jetbrains.plugins.vue</depends>
   <depends>org.jetbrains.plugins.less</depends>
-  <depends>com.intellij.database</depends>
-  <depends>com.intellij.modules.database</depends>
 </idea-plugin>
 

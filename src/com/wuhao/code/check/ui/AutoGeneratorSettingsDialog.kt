@@ -32,9 +32,7 @@ class AutoGeneratorSettingsDialog(
     val dataSource: LocalDataSource? = this.databases.find {
       it.name == button?.name
     } as LocalDataSource?
-    if (dataSource != null) {
-
-    } else {
+    if (dataSource == null) {
       Messages.showErrorDialog("没有选择数据源", "错误")
     }
   }

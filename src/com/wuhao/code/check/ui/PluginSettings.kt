@@ -25,6 +25,8 @@ import kotlin.reflect.jvm.javaField
 class PluginSettings : PersistentStateComponent<Element> {
 
   var email: String = ""
+  var tapdAccount: String = ""
+  var tapdToken: String = ""
   var gitPrivateToken: String = ""
   var javaKotlinTemplateUrl: String = ""
     get() {
@@ -38,10 +40,8 @@ class PluginSettings : PersistentStateComponent<Element> {
   var user: String = ""
   var vueTemplateUrl: String = ""
     get() {
-      return if (field.isEmpty()) {
+      return field.ifEmpty {
         DEFAULT_VUE_TEMPLATE_URL
-      } else {
-        field
       }
     }
 
@@ -53,7 +53,7 @@ class PluginSettings : PersistentStateComponent<Element> {
       get() = ServiceManager.getService(PluginSettings::class.java)
   }
 
-  override fun getState(): Element? {
+  override fun getState(): Element {
     val element = Element(CONFIG_NAME)
     PluginSettings::class.memberProperties.forEach { property ->
       element.setAttribute(property.name, property.get(this) as String)

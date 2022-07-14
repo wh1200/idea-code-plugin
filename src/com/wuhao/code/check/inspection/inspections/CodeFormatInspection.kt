@@ -6,6 +6,7 @@ package com.wuhao.code.check.inspection.inspections
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
 import com.wuhao.code.check.constants.InspectionNames.CODE_FORMAT
+import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.inspection.visitor.CodeFormatVisitor
 import com.wuhao.code.check.inspection.visitor.CommonCodeFormatVisitor
 

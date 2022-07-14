@@ -17,6 +17,10 @@ import com.wuhao.code.check.constants.registerWarning
 import com.wuhao.code.check.inspection.fix.java.JavaBlockCommentFix
 import org.jetbrains.kotlin.psi.psiUtil.getChildrenOfType
 
+
+
+
+
 /**
  * Java代码格式检查访问器
  * Created by 吴昊 on 18-4-26.

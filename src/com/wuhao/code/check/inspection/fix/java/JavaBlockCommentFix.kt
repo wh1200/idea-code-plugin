@@ -40,11 +40,7 @@ $BLOCK_COMMENT_END"""
       element
     }
     val commentElement = buildComment(measureElement, element)
-    if (element is PsiIdentifier) {
-      element.parent.addBefore(commentElement, element.parent.firstChild)
-    } else {
-      element.addBefore(commentElement, element.firstChild)
-    }
+    measureElement.addBefore(commentElement, measureElement.firstChild)
   }
 
   private fun buildComment(measureElement: PsiElement, element: PsiElement): PsiElement {
